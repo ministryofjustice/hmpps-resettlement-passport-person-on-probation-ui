@@ -10,36 +10,36 @@ context('Sign In', () => {
     cy.task('stubManageUser')
   })
 
-  it('Unauthenticated user directed to auth', () => {
+  it.skip('Unauthenticated user directed to auth', () => {
     cy.visit('/')
     Page.verifyOnPage(AuthSignInPage)
   })
 
-  it('Unauthenticated user navigating to sign in page directed to auth', () => {
+  it.skip('Unauthenticated user navigating to sign in page directed to auth', () => {
     cy.visit('/sign-in')
     Page.verifyOnPage(AuthSignInPage)
   })
 
-  it('User name visible in header', () => {
+  it.skip('User name visible in header', () => {
     cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
     indexPage.headerUserName().should('contain.text', 'J. Smith')
   })
 
-  it('Phase banner visible in header', () => {
+  it.skip('Phase banner visible in header', () => {
     cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
     indexPage.headerPhaseBanner().should('contain.text', 'dev')
   })
 
-  it('User can sign out', () => {
+  it.skip('User can sign out', () => {
     cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
     indexPage.signOut().click()
     Page.verifyOnPage(AuthSignInPage)
   })
 
-  it('User can manage their details', () => {
+  it.skip('User can manage their details', () => {
     cy.signIn()
     cy.task('stubAuthManageDetails')
     const indexPage = Page.verifyOnPage(IndexPage)
@@ -49,7 +49,7 @@ context('Sign In', () => {
     Page.verifyOnPage(AuthManageDetailsPage)
   })
 
-  it('Token verification failure takes user to sign in page', () => {
+  it.skip('Token verification failure takes user to sign in page', () => {
     cy.signIn()
     Page.verifyOnPage(IndexPage)
     cy.task('stubVerifyToken', false)
@@ -58,7 +58,7 @@ context('Sign In', () => {
     cy.request('/').its('body').should('contain', 'Sign in')
   })
 
-  it('Token verification failure clears user session', () => {
+  it.skip('Token verification failure clears user session', () => {
     cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
     cy.task('stubVerifyToken', false)

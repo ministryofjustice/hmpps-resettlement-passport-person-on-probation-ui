@@ -20,9 +20,11 @@ export type AuthenticationMiddleware = (tokenVerifier: TokenVerifier) => Request
 
 const authenticationMiddleware: AuthenticationMiddleware = verifyToken => {
   return async (req, res, next) => {
-    if (req.isAuthenticated() && (await verifyToken(req))) {
+    // TODO: replace with GOV UK OneLogin req.isAuthenticated()
+    if (true && (await verifyToken(req))) {
       return next()
     }
+
     req.session.returnTo = req.originalUrl
     return res.redirect('/sign-in')
   }
@@ -31,10 +33,10 @@ const authenticationMiddleware: AuthenticationMiddleware = verifyToken => {
 function init(): void {
   const strategy = new Strategy(
     {
-      authorizationURL: `${config.apis.hmppsAuth.externalUrl}/oauth/authorize`,
-      tokenURL: `${config.apis.hmppsAuth.url}/oauth/token`,
-      clientID: config.apis.hmppsAuth.apiClientId,
-      clientSecret: config.apis.hmppsAuth.apiClientSecret,
+      authorizationURL: '',
+      tokenURL: '',
+      clientID: '',
+      clientSecret: '',
       callbackURL: `${config.domain}/sign-in/callback`,
       state: true,
       customHeaders: { Authorization: generateOauthClientToken() },

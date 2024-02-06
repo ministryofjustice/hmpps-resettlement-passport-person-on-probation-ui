@@ -2,7 +2,6 @@ import type { Router } from 'express'
 import express from 'express'
 import passport from 'passport'
 import flash from 'connect-flash'
-import config from '../config'
 import auth from '../authentication/auth'
 
 const router = express.Router()
@@ -28,8 +27,8 @@ export default function setUpAuth(): Router {
     })(req, res, next),
   )
 
-  const authUrl = config.apis.hmppsAuth.externalUrl
-  const authSignOutUrl = `${authUrl}/sign-out?client_id=${config.apis.hmppsAuth.apiClientId}&redirect_uri=${config.domain}`
+  const authUrl = ''
+  const authSignOutUrl = ''
 
   router.use('/sign-out', (req, res, next) => {
     if (req.user) {
