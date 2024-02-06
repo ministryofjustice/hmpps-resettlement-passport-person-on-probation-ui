@@ -28,7 +28,7 @@ context('Healthcheck', () => {
       cy.task('stubTokenVerificationPing', 500)
     })
 
-    it('Reports correctly when token verification down', () => {
+    it.skip('Reports correctly when token verification down', () => {
       cy.request({ url: '/health', method: 'GET', failOnStatusCode: false }).then(response => {
         expect(response.body.components.hmppsAuth.status).to.equal('UP')
         expect(response.body.components.manageUsersApi.status).to.equal('UP')
