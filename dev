@@ -1,1 +1,4 @@
-docker-compose up -d && npm run start:dev
+#!/usr/bin/env bash
+docker compose -f docker-compose-test.yml down
+docker-compose up -d
+npm run start:dev

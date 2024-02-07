@@ -57,6 +57,12 @@ Or run tests with the cypress UI:
 
 `npm run int-test-ui`
 
+## Dev Scripts
+For simplicity you can run the following scripts:
+
+- './dev' run the app in DEV mode with the required dependencies
+- './int-test' run the app in test mode, wiremock, cypress specs
+
 ## Change log
 
 A changelog for the service is available [here](./CHANGELOG.md)
