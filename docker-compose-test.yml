@@ -6,7 +6,7 @@ services:
     networks:
     - hmpps_int
     container_name: wiremock
-    restart: always
+    restart: no
     ports:
       - "9091:8080"
 

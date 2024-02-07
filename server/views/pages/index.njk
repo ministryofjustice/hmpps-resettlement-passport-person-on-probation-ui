@@ -1,11 +1,37 @@
-{% extends "../partials/layout.njk" %}
-
-{% set pageTitle = applicationName + " - Home" %}
-{% set mainClasses = "app-container govuk-body" %}
+{% extends "../partials/layout_unbranded.njk" %}
 
 {% block content %}
+  {% set hidemenu = "yes" %}
+  {% include "partials/masthead.njk" %}
 
-  <h1>This site is under construction...</h1>
-  <p>Please check back later when there is content to view.</p>
+  <div class="govuk-grid-row govuk-!-padding-bottom-8">
+    <div class="govuk-grid-column-full">
+
+      <h2 class="govuk-heading-m">
+            Create a GOV.UK One Login or sign in
+        </h2>
+
+      <p>You'll need a GOV.UK One Login to use this service. If you do not have a GOV.UK One Login, you can create one.
+        </p>
+
+      <p class="govuk-body">You’ll need:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>an email address</li>
+        <li>a way to get security codes - this can be a mobile phone number or an authenticator app</li>
+      </ul>
+
+    </div>
+  </div>
+
+  <div class="govuk-grid-row govuk-!-padding-bottom-8">
+    <div class="govuk-grid-column-full center">
+      <p class="govuk-!-margin-bottom-8">
+        <a href="#" class="app_button">Sign in</a>
+      </p>
+      <p>
+        <a href="#" class="app_button">Create a GOV.UK One Login</a>
+      </p>
+    </div>
+  </div>
 
 {% endblock %}
