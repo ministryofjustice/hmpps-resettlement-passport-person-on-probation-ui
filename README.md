@@ -15,7 +15,7 @@ The easiest way to run the app is to use docker compose to create the service an
 ### Dependencies
 The app requires: 
 * GOVUK One Login - authentication (TODO)
-* redis - session store and token caching
+* redis - session store and token caching (maybe)
 
 ### Running the app for development
 
