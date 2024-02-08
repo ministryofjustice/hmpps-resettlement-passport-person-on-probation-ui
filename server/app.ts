@@ -15,7 +15,8 @@ import setUpStaticResources from './middleware/setUpStaticResources'
 import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import setUpWebSecurity from './middleware/setUpWebSecurity'
 import setUpWebSession from './middleware/setUpWebSession'
-
+import GotenbergClient from './data/gotenbergClient'
+import pdfRenderer from './utils/pdfRenderer'
 import routes from './routes'
 import type { Services } from './services'
 
@@ -39,6 +40,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
 
+  app.use(pdfRenderer(new GotenbergClient('http://localhost:3005')))
   app.use(routes(services))
 
   app.use((req, res, next) => next(createError(404, 'Not found')))
