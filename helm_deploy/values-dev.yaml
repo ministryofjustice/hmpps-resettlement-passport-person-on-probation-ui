@@ -5,10 +5,10 @@ generic-service:
   replicaCount: 2
 
   ingress:
-    host: hmpps-resettlement-passport-person-on-probation-ui-dev.hmpps.service.justice.gov.uk
+    host: person-on-probation-user-ui-dev.hmpps.service.justice.gov.uk
 
   env:
-    INGRESS_URL: "https://hmpps-resettlement-passport-person-on-probation-ui-dev.hmpps.service.justice.gov.uk"
+    INGRESS_URL: "https://person-on-probation-user-ui-dev.hmpps.service.justice.gov.uk"
     MANAGE_USERS_API_URL: "https://manage-users-api-dev.hmpps.service.justice.gov.uk"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
     ENVIRONMENT_NAME: DEV
