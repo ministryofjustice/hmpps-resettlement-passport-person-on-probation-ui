@@ -1,12 +1,11 @@
 version: '3.1'
 services:
 
-  wiremock:
+  wiremock-leaver-tool-ui:
     image: wiremock/wiremock
     networks:
     - hmpps_int
-    container_name: wiremock
-    restart: always
+    restart: on-failure
     ports:
       - "9091:8080"
 

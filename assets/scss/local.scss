@@ -1,3 +1,181 @@
 .govuk-main-wrapper {
   min-height: 600px;
 }
+.center {
+  text-align: center;
+}
+$color_1: #0a101e;
+$color_2: #025EA5;
+$color_3: #fff;
+$color_4: white;
+$font-family_1: 'Poppins', verdana;
+
+body {
+	background: #fff !important;
+	color: $color_1 !important;
+	min-height: 100vh;
+}
+a {
+	font-family: $font-family_1;
+	color: $color_2 !important;
+}
+p {
+	font-family: $font-family_1;
+	color: $color_1 !important;
+}
+.govuk-body {
+	font-family: $font-family_1;
+	color: $color_1 !important;
+}
+.govuk-body-m {
+	font-family: $font-family_1;
+	color: $color_1 !important;
+}
+.govuk-body-s {
+	font-family: $font-family_1;
+	color: $color_1 !important;
+}
+.govuk-label {
+	font-family: $font-family_1;
+	color: $color_1 !important;
+}
+.govuk-table {
+	font-family: $font-family_1;
+	color: $color_1 !important;
+}
+.govuk-list {
+	font-family: $font-family_1;
+	color: $color_1 !important;
+}
+.govuk-caption-l {
+	font-family: $font-family_1;
+	color: $color_1 !important;
+}
+.govuk-caption-m {
+	font-family: $font-family_1;
+	color: $color_1 !important;
+}
+.govuk-heading-xl {
+	font-family: $font-family_1;
+	font-weight: 600;
+	color: $color_1 !important;
+}
+.govuk-heading-l {
+	font-family: $font-family_1;
+	font-weight: 600;
+	color: $color_1 !important;
+}
+.govuk-heading-m {
+	font-family: $font-family_1;
+	font-weight: 600;
+	color: $color_1 !important;
+}
+.govuk-heading-s {
+	font-family: $font-family_1;
+	font-weight: 600;
+	color: $color_1 !important;
+}
+.govuk-caption-s {
+	font-family: $font-family_1;
+	font-weight: 300;
+	font-size: 14px;
+	display: block;
+}
+.govuk-grid-row {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+.app_button {
+	padding: 10px;
+	border-radius: 5px;
+	color: $color_3 !important;
+	text-decoration: none;
+	background: #009688;
+	&:hover {
+		color: $color_4;
+		background: #00695C;
+		transition: 0.5s;
+	}
+}
+.apppanel {
+	background: #EAEDEF;
+	padding: 20px 20px 40px 20px;
+	margin-bottom: 20px;
+	border-radius: 5px;
+}
+.appsubpanel {
+	background: #fff;
+	padding: 10px 0px;
+	border-radius: 5px;
+	-webkit-box-shadow: 10px 10px 6px -6px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 10px 10px 6px -6px rgba(0, 0, 0, 0.1);
+	box-shadow: 10px 10px 6px -6px rgba(0, 0, 0, 0.1);
+}
+.padded {
+	padding: 20px;
+}
+.map-responsive {
+	overflow: hidden;
+	padding-bottom: 56.25%;
+	position: relative;
+	height: 0;
+	iframe {
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		position: absolute;
+	}
+}
+img {
+	width: 100%;
+}
+.logo {
+	max-height: 40px;
+	max-width: 40px;
+}
+.nobutton {
+	border: 0px;
+	background: transparent;
+}
+.events-summary {
+	>* {
+		&:first-child {
+			background-image: url("/public/images/icons/icon-calendar.svg");
+			background-repeat: no-repeat;
+			min-height: 35px;
+		}
+	}
+	h2 {
+		padding-left: 50px;
+	}
+	#no-events-text {
+		padding-left: 50px;
+	}
+	#view-timetable-link {
+		padding-left: 50px;
+	}
+}
+@media (max-width: 44.0625em) {
+	.app_button {
+		width: 100% !important;
+	}
+}
+@media (max-width: 1000px) {
+	#dashboard-updates {
+		overflow: scroll;
+		max-height: 66vh;
+	}
+	#dashboard-appointments {
+		overflow: scroll;
+		max-height: 66vh;
+	}
+	#dashboard-to-do {
+		overflow: scroll;
+		max-height: 66vh;
+	}
+	#appointments {
+		overflow: scroll;
+		height: 50vh;
+	}
+}
