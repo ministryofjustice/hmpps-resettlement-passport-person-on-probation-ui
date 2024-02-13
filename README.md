@@ -62,6 +62,7 @@ For simplicity you can run the following scripts:
 
 - './dev' run the app in DEV mode with the required dependencies
 - './int-test' run the app in test mode, wiremock, cypress specs
+- 'npm run format' run prettier auto formatting on .ts files only
 
 ## Change log
 
