@@ -10,15 +10,12 @@ const applicationInfo = applicationInfoSupplier()
 initialiseAppInsights()
 buildAppInsightsClient(applicationInfo)
 
-import ManageUsersApiClient from './manageUsersApiClient'
-
 type RestClientBuilder<T> = (token: string) => T
 
 export const dataAccess = () => ({
   applicationInfo,
-  manageUsersApiClient: new ManageUsersApiClient(),
 })
 
 export type DataAccess = ReturnType<typeof dataAccess>
 
-export { RestClientBuilder, ManageUsersApiClient }
+export { RestClientBuilder }
