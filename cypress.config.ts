@@ -1,5 +1,6 @@
 import { defineConfig } from 'cypress'
 import { resetStubs } from './integration_tests/mockApis/wiremock'
+import govukOneLogin from './integration_tests/mockApis/govukOneLogin'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -15,6 +16,7 @@ export default defineConfig({
     setupNodeEvents(on) {
       on('task', {
         reset: resetStubs,
+        ...govukOneLogin,
       })
     },
     baseUrl: 'http://localhost:3007',

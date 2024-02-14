@@ -14,7 +14,7 @@ The easiest way to run the app is to use docker compose to create the service an
 
 ### Dependencies
 The app requires: 
-* GOVUK One Login - authentication (TODO)
+* GOVUK One Login - authentication
 * redis - session store and token caching
 
 ### Running the app for development
@@ -26,6 +26,14 @@ To start the main services excluding the example typescript template app:
 Install dependencies using `npm install`, ensuring you are using `node v18.x` and `npm v9.x`
 
 Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm)), run `nvm install --latest-npm` within the repository folder to use the correct version of node, and the latest version of npm. This matches the `engines` config in `package.json` and the CircleCI build config.
+
+```
+GOVUK_ONE_LOGIN_URL=https://oidc.integration.account.gov.uk
+GOVUK_ONE_LOGIN_CLIENT_ID="<govuk_one_login_client_id>"
+GOVUK_ONE_LOGIN_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----
+<private key contents>
+-----END PRIVATE KEY-----"
+```
 
 And then, to build the assets and start the app with nodemon:
 
