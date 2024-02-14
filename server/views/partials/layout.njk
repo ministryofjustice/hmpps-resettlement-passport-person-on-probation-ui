@@ -1,4 +1,5 @@
 {% extends "govuk/template.njk" %}
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 
 {% block head %}
   <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>
@@ -11,6 +12,15 @@
 {% endblock %}
 
 {% block bodyStart %}
+{% endblock %}
+
+
+{% block beforeContent %}
+  <aside role="complementary">
+    {% include "./phaseBanner.njk" %}
+    {% block aside %}{% endblock %}
+  </aside>
+  <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
 {% endblock %}
 
 {% block bodyEnd %}
