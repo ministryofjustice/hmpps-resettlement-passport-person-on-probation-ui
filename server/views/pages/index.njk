@@ -1,18 +1,18 @@
-{% extends "../partials/layout_unbranded.njk" %}
+{% extends "../partials/layout.njk" %}
 
 {% block content %}
-  {% set hidemenu = "yes" %}
-  {% include "partials/masthead.njk" %}
+  {% set showsignout="true" %}
 
-  <div class="govuk-grid-row govuk-!-padding-bottom-8">
+  <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-full">
 
-      <h2 class="govuk-heading-m">
+      <h1 class="govuk-heading-m">
             Create a GOV.UK One Login or sign in
-        </h2>
+      </h1>
 
-      <p>You'll need a GOV.UK One Login to use this service. If you do not have a GOV.UK One Login, you can create one.
-        </p>
+      <div class="govuk-inset-text">
+        You'll need a GOV.UK One Login to use this service. If you do not have a GOV.UK One Login, you can create one.
+      </div>
 
       <p class="govuk-body">You’ll need:</p>
       <ul class="govuk-list govuk-list--bullet">
@@ -23,13 +23,17 @@
     </div>
   </div>
 
-  <div class="govuk-grid-row govuk-!-padding-bottom-8">
+  <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-full center">
-      <p class="govuk-!-margin-bottom-8">
-        <a href="#" class="app_button">Sign in</a>
+      <p class="govuk-!-margin-bottom-2">
+        <a href="/sign-in" class="govuk-button" data-module="govuk-button">
+          Sign in
+        </a>
       </p>
       <p>
-        <a href="#" class="app_button">Create a GOV.UK One Login</a>
+      <a href="/sign-up" class="govuk-button" data-module="govuk-button">
+          Create a GOV.UK One Login
+      </a>
       </p>
     </div>
   </div>
