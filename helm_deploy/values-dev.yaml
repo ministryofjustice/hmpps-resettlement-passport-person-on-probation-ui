@@ -13,7 +13,5 @@ generic-service:
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
     ENVIRONMENT_NAME: DEV
 
-  allowlist: null
-
 generic-prometheus-alerts:
   alertSeverity: resettlement_passport_alerts_non_prod
