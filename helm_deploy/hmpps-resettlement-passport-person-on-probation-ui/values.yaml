@@ -49,9 +49,7 @@ generic-service:
       REDIS_HOST: "primary_endpoint_address"
       REDIS_AUTH_TOKEN: "auth_token"
 
-  allowlist:
-    groups:
-      - internal
+  allowlist: null
 
 generic-prometheus-alerts:
   targetApplication: hmpps-resettlement-passport-person-on-probation-ui
