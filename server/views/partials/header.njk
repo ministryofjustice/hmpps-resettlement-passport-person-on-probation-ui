@@ -11,7 +11,7 @@
         HMPPS
       </a>
 
-      <a class="hmpps-header__link hmpps-header__title__service-name" href="/">{{ applicationName }}</a>
+      <a class="hmpps-header__link hmpps-header__title__service-name govuk-!-margin-right-1" href="/">{{ applicationName }}</a>
 
       {% if environmentName %}
         <div class="govuk-phase-banner">
@@ -35,9 +35,11 @@
           </li>
         {% endif %}
 
-        <li class="hmpps-header__navigation__item">
-          <a data-qa="signOut" class="hmpps-header__link" href="/sign-out">Sign out</a>
-        </li>
+        {% if showsignout == "true" %}
+          <li class="hmpps-header__navigation__item">
+            <a data-qa="signOut" class="hmpps-header__link" href="/sign-out">Sign out</a>
+          </li>
+        {% endif %}
       </ul>
     </nav>
   </div>
