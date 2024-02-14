@@ -1,4 +1,5 @@
 import HomePage from '../pages/home'
+import OtpPage from '../pages/otp'
 import GovukOneLoginPage from '../pages/govukOneLogin'
 import Page from '../pages/page'
 
@@ -28,20 +29,16 @@ context('Sign in with GOV.UK One Login', () => {
     Page.verifyOnPage(GovukOneLoginPage)
   })
 
-  it('User can sign in and view home page', () => {
-    cy.signIn()
-    Page.verifyOnPage(HomePage)
-
-    // just testing sample data dumped to the page for now
-    cy.contains('"sub": "user1"')
-    cy.contains('"phone_number": "+440123456789"')
-    cy.contains('"email": "user1@example.com"')
-  })
-
   it('User sent to auth error page if sign in fails', () => {
     // setting an invalid nonce value should cause ID token validation to fail
     cy.signIn({ failOnStatusCode: false, nonce: 'INVALID_NONCE' })
     cy.get('h1').contains('Authorisation Error')
+  })
+
+
+  it('User can sign in and view callback page', () => {
+    cy.signIn()
+    Page.verifyOnPage(OtpPage)
   })
 
   it('User can log out', () => {

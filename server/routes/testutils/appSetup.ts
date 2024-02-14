@@ -17,9 +17,13 @@ const testAppInfo: ApplicationInfo = {
 }
 
 export const user: Express.User = {
-  token: '',
-  authSource: '',
+  sub: 'user1',
+  phone_number_verified: true,
+  phone_number: '+440123456789',
+  email_verified: true,
+  email: 'user1@example.com',
 }
+
 
 export const flashProvider = jest.fn()
 
