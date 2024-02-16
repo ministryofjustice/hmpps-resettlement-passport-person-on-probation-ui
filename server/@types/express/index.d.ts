@@ -1,5 +1,3 @@
-import type { UserDetails } from '../../services/userService'
-
 export default {}
 
 declare module 'express-session' {

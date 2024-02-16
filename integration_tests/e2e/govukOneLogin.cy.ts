@@ -1,4 +1,3 @@
-import HomePage from '../pages/home'
 import OtpPage from '../pages/otp'
 import GovukOneLoginPage from '../pages/govukOneLogin'
 import Page from '../pages/page'
