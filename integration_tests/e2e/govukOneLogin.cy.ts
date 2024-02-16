@@ -10,7 +10,7 @@ context('Sign in with GOV.UK One Login', () => {
   })
 
   it('Unauthenticated user redirected to GOV.UK One Login - home page', () => {
-    cy.visit('/')
+    cy.visit('/otp')
     Page.verifyOnPage(GovukOneLoginPage)
   })
 
@@ -35,7 +35,6 @@ context('Sign in with GOV.UK One Login', () => {
     cy.get('h1').contains('Authorisation Error')
   })
 
-
   it('User can sign in and view callback page', () => {
     cy.signIn()
     Page.verifyOnPage(OtpPage)
@@ -43,8 +42,8 @@ context('Sign in with GOV.UK One Login', () => {
 
   it('User can log out', () => {
     cy.signIn()
-    const homePage = Page.verifyOnPage(HomePage)
-    homePage.signOut().click()
+    const page = Page.verifyOnPage(OtpPage)
+    page.signOut().click()
     Page.verifyOnPage(GovukOneLoginPage)
     cy.contains('You have been logged out.')
   })

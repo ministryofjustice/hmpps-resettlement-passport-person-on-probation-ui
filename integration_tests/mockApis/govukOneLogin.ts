@@ -35,14 +35,14 @@ const redirect = () =>
       method: 'GET',
       urlPath: '/govukOneLogin/authorize',
       queryParameters: {
-        response_type: { matches: '.*' },
-        scope: { matches: '.*' },
-        client_id: { matches: '.*' },
+        response_type: { equalTo: 'code' },
+        scope: { equalTo: 'openid email phone' },
+        client_id: { equalTo: 'clientId' },
         state: { matches: '.*' },
         redirect_uri: { matches: '.*' },
         nonce: { matches: '.*' },
         vtr: { matches: '.*' },
-        ui_locales: { matches: '.*' },
+        ui_locales: { equalTo: 'en' },
       },
     },
     response: {
@@ -71,7 +71,7 @@ const createIdToken = (nonce: string) => {
   const nowTimestamp = new Date().getTime()
 
   const payload = {
-    sub: 'user1',
+    sub: 'urn:fdc:gov.uk:2022:user1',
     iss: 'http://localhost:9091/govukOneLogin/',
     nonce,
     aud: 'clientId',
@@ -96,7 +96,7 @@ const token = (nonce: string) =>
       formParameters: {
         grant_type: { equalTo: 'authorization_code' },
         code: { equalTo: 'AUTHORIZATION_CODE' },
-        redirect_uri: { equalTo: 'http://localhost:3007/auth/callback' },
+        redirect_uri: { matches: '.*' },
         client_assertion_type: { equalTo: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer' },
         client_assertion: { matches: '.*' },
       },
@@ -146,7 +146,7 @@ const stubUserInfo = () =>
         'Content-Type': 'application/json',
       },
       jsonBody: {
-        sub: 'user1',
+        sub: 'urn:fdc:gov.uk:2022:user1',
         phone_number_verified: true,
         phone_number: '+440123456789',
         email_verified: true,

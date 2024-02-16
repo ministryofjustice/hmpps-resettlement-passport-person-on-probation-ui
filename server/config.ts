@@ -54,6 +54,7 @@ export default {
       url: get('GOVUK_ONE_LOGIN_URL', 'http://localhost:9091/govukOneLogin', requiredInProduction),
       clientId: get('GOVUK_ONE_LOGIN_CLIENT_ID', 'clientId', requiredInProduction),
       privateKey: get('GOVUK_ONE_LOGIN_PRIVATE_KEY', 'privateKey', requiredInProduction),
+      vtr: process.env.GOVUK_ONE_LOGIN_VTR === 'LOW' ? '["Cl"]' : '["Cl.Cm"]',
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),

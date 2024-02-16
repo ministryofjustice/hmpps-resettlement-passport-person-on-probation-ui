@@ -2,6 +2,6 @@ import { RequestHandler } from 'express'
 
 export default class HomeController {
   index: RequestHandler = async (req, res) => {
-    res.render('pages/otp')
+    res.render('pages/otp', { user: req.user })
   }
 }

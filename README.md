@@ -29,11 +29,14 @@ Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm)), run `nvm install --
 
 ```
 GOVUK_ONE_LOGIN_URL=https://oidc.integration.account.gov.uk
+GOVUK_ONE_LOGIN_VTR=LOW # LOW will skip the OTP verification during sign-in
 GOVUK_ONE_LOGIN_CLIENT_ID="<govuk_one_login_client_id>"
 GOVUK_ONE_LOGIN_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----
 <private key contents>
 -----END PRIVATE KEY-----"
 ```
+
+If the credentials above are lost, you can re-enroll the service here https://admin.sign-in.service.gov.uk
 
 And then, to build the assets and start the app with nodemon:
 
