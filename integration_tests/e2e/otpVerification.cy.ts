@@ -31,5 +31,4 @@ context('OTP verification', () => {
     cy.get('.govuk-button').click()
     Page.verifyOnPage(DashboardPage)
   })
-
 })
