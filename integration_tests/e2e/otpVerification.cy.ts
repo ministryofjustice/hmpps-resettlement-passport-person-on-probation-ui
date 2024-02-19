@@ -25,7 +25,7 @@ context('OTP verification', () => {
   it('Should continue to Dashboard after validating OTP (valid)', () => {
     cy.visit('/otp') // replace with stubbing user verification
     Page.verifyOnPage(OtpPage)
-    
+
     cy.get('#otp').type('123456')
     cy.get('.govuk-button').click()
     Page.verifyOnPage(DashboardPage)
