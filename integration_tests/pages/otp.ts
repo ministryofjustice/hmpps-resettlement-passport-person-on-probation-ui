@@ -1,7 +1,7 @@
 import Page from './page'
 
-export default class HomePage extends Page {
+export default class OtpPage extends Page {
   constructor() {
-    super('Enter the OTP')
+    super('Check your Plan your future pack')
   }
 }
