@@ -56,6 +56,15 @@ export default {
       privateKey: get('GOVUK_ONE_LOGIN_PRIVATE_KEY', 'privateKey', requiredInProduction),
       vtr: process.env.GOVUK_ONE_LOGIN_VTR === 'LOW' ? '["Cl"]' : '["Cl.Cm"]',
     },
+    personOnProbationUserApi: {
+      url: get('PERSON_ON_PROBATION_USER_API_URL', 'http://localhost:8080', requiredInProduction),
+      timeout: {
+        response: Number(get('PERSON_ON_PROBATION_USER_API_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('PERSON_ON_PROBATION_USER_API_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('PERSON_ON_PROBATION_USER_API_TIMEOUT_RESPONSE', 5000))),
+      enabled: get('PERSON_ON_PROBATION_USER_API_ENABLED', 'true') === 'true',
+    },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   environmentName: get('ENVIRONMENT_NAME', ''),

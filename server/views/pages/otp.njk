@@ -3,12 +3,12 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% block content %}
-  {% if error === true %}
+  {% if error %}
     {{ govukErrorSummary({
     titleText: "There is a problem",
     errorList: [
       {
-        text: "Enter the 6-digit security code we sent you",
+        text: error.message,
         href: "#otp"
       }
     ]
@@ -31,9 +31,11 @@
             label: {
               text: "This is the 6-digit security code we gave you in the information pack"
             },
+            inputmode: "numeric",
+            spellcheck: false,
             errorMessage: {
-              text: "Enter the 6-digit security code"
-            } if error === true,
+              text: error.message
+            } if error,
             classes: "govuk-input--width-5",
             name: "otp",
             id: "otp"
@@ -53,7 +55,7 @@
           <div class="govuk-details__text">
 
             <p class="govuk-body">
-              Contact your probation officer to get a new code.
+              Call 000000 or contact your probation officer to get a new code.
             </p>
           </div>
         </details>
