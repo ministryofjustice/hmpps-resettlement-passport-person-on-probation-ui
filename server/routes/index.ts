@@ -9,7 +9,7 @@ import dashboardRoutes from './dashboard'
 export default function routes(service: Services): Router {
   const router = Router()
   homeRoutes(router)
-  otpRoutes(router)
+  otpRoutes(router, service)
   dashboardRoutes(router, service)
   return router
 }

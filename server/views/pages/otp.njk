@@ -1,26 +1,63 @@
 {% extends "../partials/layout.njk" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% block content %}
-  {% set showsignout="true" %}
+  {% if error === true %}
+    {{ govukErrorSummary({
+    titleText: "There is a problem",
+    errorList: [
+      {
+        text: "Enter the 6-digit security code we sent you",
+        href: "#otp"
+      }
+    ]
+  }) }}
+  {% endif %}
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-full">
 
-      <h1 class="govuk-heading-xl">
-        Enter the OTP
-      </h1>
+      <form class="form" action="/otp/verify" method="post">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+        <h1 class="govuk-heading-l">Check your Plan your future pack</h1>
 
-      <div class="govuk-inset-text">
-        TEMP
-      </div>
+        <div class="govuk-inset-text">
+          You can find your security code in the “Plan your future” pack your probation officer gave you.
+        </div>
 
-      <p>
-        <a href="/dashboard" class="govuk-button" data-module="govuk-button">
-         Continue
-        </a>
-      </p>
+        <div class="govuk-form-group">
+          {{ govukInput({
+            label: {
+              text: "This is the 6-digit security code we gave you in the information pack"
+            },
+            errorMessage: {
+              text: "Enter the 6-digit security code"
+            } if error === true,
+            classes: "govuk-input--width-5",
+            name: "otp",
+            id: "otp"
+          }) }}
+        </div>
 
+        <button type="submit" class="govuk-button" data-module="govuk-button">
+          Continue
+        </button>
 
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Problems with the code?
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+
+            <p class="govuk-body">
+              Contact your probation officer to get a new code.
+            </p>
+          </div>
+        </details>
+      </form>
     </div>
   </div>
 

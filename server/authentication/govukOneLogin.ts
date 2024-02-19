@@ -6,7 +6,6 @@ import { createPrivateKey } from 'crypto'
 import config from '../config'
 import logger from '../../logger'
 
-
 const excludedRoutes = ['/']
 
 passport.serializeUser((user, done) => {

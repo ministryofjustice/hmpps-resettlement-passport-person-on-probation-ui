@@ -13,6 +13,14 @@
 {% block bodyStart %}
 {% endblock %}
 
+{% block beforeContent %}
+  <aside role="complementary">
+    {% include "./phasebanner.njk" %}
+    {% block aside %}{% endblock %}
+  </aside>
+  <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
+{% endblock %}
+
 {% block bodyEnd %}
   <script type="module" src="/assets/govukFrontendInit.js"></script>
   <script src="/assets/moj/all.js"></script>
