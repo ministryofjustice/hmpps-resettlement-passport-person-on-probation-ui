@@ -6,6 +6,9 @@ import { createPrivateKey } from 'crypto'
 import config from '../config'
 import logger from '../../logger'
 
+
+const excludedRoutes = ['/']
+
 passport.serializeUser((user, done) => {
   // Not used but required for Passport
   done(null, user)
@@ -18,7 +21,7 @@ passport.deserializeUser((user, done) => {
 
 const authenticationMiddleware = (): RequestHandler => {
   return async (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() || excludedRoutes.includes(req.path)) {
       return next()
     }
 

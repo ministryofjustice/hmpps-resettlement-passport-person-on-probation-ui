@@ -1,6 +1,7 @@
 import OtpPage from '../pages/otp'
 import GovukOneLoginPage from '../pages/govukOneLogin'
 import Page from '../pages/page'
+import HomePage from '../pages/home'
 
 context('Sign in with GOV.UK One Login', () => {
   beforeEach(() => {
@@ -8,7 +9,12 @@ context('Sign in with GOV.UK One Login', () => {
     cy.task('stubSignIn')
   })
 
-  it('Unauthenticated user redirected to GOV.UK One Login - home page', () => {
+  it('Unauthenticated user not redirected - home page', () => {
+    cy.visit('/')
+    Page.verifyOnPage(HomePage)
+  })
+
+  it('Unauthenticated user redirected to GOV.UK One Login - OTP', () => {
     cy.visit('/otp')
     Page.verifyOnPage(GovukOneLoginPage)
   })
