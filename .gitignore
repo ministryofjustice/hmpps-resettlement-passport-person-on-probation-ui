@@ -116,6 +116,9 @@ dist
 .pnp.*
 
 
+client-id.txt
+private_key.pem
+
 
 assets/stylesheets/*.css
 .idea
