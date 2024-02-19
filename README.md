@@ -4,36 +4,46 @@
 
 Template github repo used for new Typescript based projects.
 
-
-## Running the app
-The easiest way to run the app is to use docker compose to create the service and all dependencies. 
-
-`docker compose pull`
-
-`docker compose up`
-
-### Dependencies
-The app requires: 
-* GOVUK One Login - authentication (TODO)
-* redis - session store and token caching
-
-### Running the app for development
-
-To start the main services excluding the example typescript template app: 
-
-`docker compose up --scale=app=0`
+### Dev setup
 
 Install dependencies using `npm install`, ensuring you are using `node v18.x` and `npm v9.x`
 
 Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm)), run `nvm install --latest-npm` within the repository folder to use the correct version of node, and the latest version of npm. This matches the `engines` config in `package.json` and the CircleCI build config.
 
+```
+GOVUK_ONE_LOGIN_URL=https://oidc.integration.account.gov.uk
+GOVUK_ONE_LOGIN_VTR=LOW # LOW will skip the OTP verification during sign-in
+GOVUK_ONE_LOGIN_CLIENT_ID="<govuk_one_login_client_id>"
+GOVUK_ONE_LOGIN_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----
+<private key contents>
+-----END PRIVATE KEY-----"
+```
+You can grab these values from the namespace like so
+`kubectl -n <your-namespace> get secrets govuk-one-login -o json | jq '.data | map_values(@base64d)'`
+
+If the credentials above are lost, you can re-enroll the service here https://admin.sign-in.service.gov.uk
+Recreate the secret in the k8s namespace:
+`kubectl -n <your-namespace> create secret generic govuk-one-login --from-file=GOVUK_ONE_LOGIN_CLIENT_ID=client-id.txt --from-file=GOVUK_ONE_LOGIN_PRIVATE_KEY=private_key.pem`
+
+### Running the app for development
+To start the main services excluding the example typescript template app: 
+
+`docker compose up --scale=app=0`
+
 And then, to build the assets and start the app with nodemon:
 
 `npm run start:dev`
 
+Simplified: `./dev`
+
 ### Run linter
 
 `npm run lint`
+
+### Run prettier format
+
+`npm run format`
+
 
 ### Run tests
 
@@ -57,12 +67,7 @@ Or run tests with the cypress UI:
 
 `npm run int-test-ui`
 
-## Dev Scripts
-For simplicity you can run the following scripts:
-
-- './dev' run the app in DEV mode with the required dependencies
-- './int-test' run the app in test mode, wiremock, cypress specs
-- 'npm run format' run prettier auto formatting on .ts files only
+Simplified: `./int-test`
 
 ## Change log
 

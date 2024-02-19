@@ -4,10 +4,9 @@ import createError from 'http-errors'
 
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
-// import authorisationMiddleware from './middleware/authorisationMiddleware'
 import { metricsMiddleware } from './monitoring/metricsApp'
 
-// import setUpAuthentication from './middleware/setUpAuthentication'
+import setupGovukOneLogin from './middleware/setupGovukOneLogin'
 import setUpCsrf from './middleware/setUpCsrf'
 import setUpHealthChecks from './middleware/setUpHealthChecks'
 import setUpStaticResources from './middleware/setUpStaticResources'
@@ -32,9 +31,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
   nunjucksSetup(app, services.applicationInfo)
-  // TODO: replace with GOV UK OneLogin
-  // app.use(setUpAuthentication())
-  // app.use(authorisationMiddleware())
+  app.use(setupGovukOneLogin())
   app.use(setUpCsrf())
 
   app.use(routes(services))

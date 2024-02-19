@@ -18,7 +18,7 @@ describe('GET /', () => {
       .get('/')
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).toContain('Create a GOV.UK One Login or sign in')
+        expect(res.text).toContain('Plan Your Future')
       })
   })
 })

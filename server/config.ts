@@ -24,11 +24,7 @@ export class AgentConfig {
 export interface ApiConfig {
   url: string
   timeout: {
-    // sets maximum time to wait for the first byte to arrive from the server, but it does not limit how long the
-    // entire download can take.
     response: number
-    // sets a deadline for the entire request (including all uploads, redirects, server processing time) to complete.
-    // If the response isn't fully downloaded within that time, the request will be aborted.
     deadline: number
   }
   agent: AgentConfig
@@ -51,9 +47,16 @@ export default {
   },
   session: {
     secret: get('SESSION_SECRET', 'app-insecure-default-session', requiredInProduction),
-    expiryMinutes: Number(get('WEB_SESSION_TIMEOUT_IN_MINUTES', 120)),
+    expiryMinutes: Number(get('WEB_SESSION_TIMEOUT_IN_MINUTES', 20)),
   },
-  apis: {},
+  apis: {
+    govukOneLogin: {
+      url: get('GOVUK_ONE_LOGIN_URL', 'http://localhost:9091/govukOneLogin', requiredInProduction),
+      clientId: get('GOVUK_ONE_LOGIN_CLIENT_ID', 'clientId', requiredInProduction),
+      privateKey: get('GOVUK_ONE_LOGIN_PRIVATE_KEY', 'privateKey', requiredInProduction),
+      vtr: process.env.GOVUK_ONE_LOGIN_VTR === 'LOW' ? '["Cl"]' : '["Cl.Cm"]',
+    },
+  },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   environmentName: get('ENVIRONMENT_NAME', ''),
 }
