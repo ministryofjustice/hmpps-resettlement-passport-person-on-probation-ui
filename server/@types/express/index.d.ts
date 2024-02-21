@@ -17,6 +17,7 @@ export declare global {
       email_verified?: boolean
       phone_number?: string
       phone_number_verified?: boolean
+      token?: string
     }
 
     interface Request {

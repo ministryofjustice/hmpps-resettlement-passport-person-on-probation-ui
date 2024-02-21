@@ -50,6 +50,17 @@ export default {
     expiryMinutes: Number(get('WEB_SESSION_TIMEOUT_IN_MINUTES', 20)),
   },
   apis: {
+    hmppsAuth: {
+      url: get('HMPPS_AUTH_URL', 'http://localhost:9090/auth', requiredInProduction),
+      externalUrl: get('HMPPS_AUTH_EXTERNAL_URL', get('HMPPS_AUTH_URL', 'http://localhost:9090/auth')),
+      timeout: {
+        response: Number(get('HMPPS_AUTH_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('HMPPS_AUTH_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('HMPPS_AUTH_TIMEOUT_RESPONSE', 10000))),
+      apiClientId: get('USER_API_CLIENT_ID', 'clientid', requiredInProduction),
+      apiClientSecret: get('USER_API_CLIENT_SECRET', 'clientsecret', requiredInProduction),
+    },
     govukOneLogin: {
       url: get('GOVUK_ONE_LOGIN_URL', 'http://localhost:9091/govukOneLogin', requiredInProduction),
       clientId: get('GOVUK_ONE_LOGIN_CLIENT_ID', 'clientId', requiredInProduction),
@@ -57,13 +68,22 @@ export default {
       vtr: process.env.GOVUK_ONE_LOGIN_VTR === 'LOW' ? '["Cl"]' : '["Cl.Cm"]',
     },
     personOnProbationUserApi: {
-      url: get('PERSON_ON_PROBATION_USER_API_URL', 'http://localhost:8080', requiredInProduction),
+      url: get('POP_API_URL', 'http://localhost:8080', requiredInProduction),
       timeout: {
-        response: Number(get('PERSON_ON_PROBATION_USER_API_TIMEOUT_RESPONSE', 10000)),
-        deadline: Number(get('PERSON_ON_PROBATION_USER_API_TIMEOUT_DEADLINE', 10000)),
+        response: Number(get('POP_API_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('POP_API_TIMEOUT_DEADLINE', 10000)),
       },
       agent: new AgentConfig(Number(get('PERSON_ON_PROBATION_USER_API_TIMEOUT_RESPONSE', 5000))),
-      enabled: get('PERSON_ON_PROBATION_USER_API_ENABLED', 'true') === 'true',
+      enabled: get('POP_API_ENABLED', 'true') === 'true',
+    },
+    resettlementPassportApi: {
+      url: get('PSFR_API_URL', 'http://localhost:8080', requiredInProduction),
+      timeout: {
+        response: Number(get('PSFR_API_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('PSFR_API_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('PERSON_ON_PROBATION_USER_API_TIMEOUT_RESPONSE', 5000))),
+      enabled: get('PSFR_API_ENABLED', 'true') === 'true',
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),

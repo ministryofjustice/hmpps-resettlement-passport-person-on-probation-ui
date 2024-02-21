@@ -8,6 +8,7 @@ import sanitiseError from '../sanitisedError'
 import type { ApiConfig } from '../config'
 import type { UnsanitisedError } from '../sanitisedError'
 import { restClientMetricsMiddleware } from './restClientMetricsMiddleware'
+import getHmppsAuthToken from './hmppsAuthClient'
 
 interface Request {
   path: string
@@ -33,18 +34,17 @@ export default class RestClient {
 
   constructor(
     private readonly name: string,
-    private readonly config: ApiConfig,
-    private readonly token: string,
+    private readonly apiConfig: ApiConfig,
   ) {
-    this.agent = config.url.startsWith('https') ? new HttpsAgent(config.agent) : new Agent(config.agent)
+    this.agent = apiConfig.url.startsWith('https') ? new HttpsAgent(apiConfig.agent) : new Agent(apiConfig.agent)
   }
 
   private apiUrl() {
-    return this.config.url
+    return this.apiConfig.url
   }
 
   private timeoutConfig() {
-    return this.config.timeout
+    return this.apiConfig.timeout
   }
 
   async get<Response = unknown>({
@@ -56,6 +56,8 @@ export default class RestClient {
   }: Request): Promise<Response> {
     logger.info(`${this.name} GET: ${path}`)
     try {
+      const token = await getHmppsAuthToken()
+
       const result = await superagent
         .get(`${this.apiUrl()}${path}`)
         .query(query)
@@ -65,7 +67,7 @@ export default class RestClient {
           if (err) logger.info(`Retry handler found ${this.name} API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
-        .auth(this.token, { type: 'bearer' })
+        .auth(token, { type: 'bearer' })
         .set(headers)
         .responseType(responseType)
         .timeout(this.timeoutConfig())
@@ -84,6 +86,7 @@ export default class RestClient {
   ): Promise<Response> {
     logger.info(`${this.name} ${method.toUpperCase()}: ${path}`)
     try {
+      const token = await getHmppsAuthToken()
       const result = await superagent[method](`${this.apiUrl()}${path}`)
         .query(query)
         .send(data)
@@ -96,7 +99,7 @@ export default class RestClient {
           if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
-        .auth(this.token, { type: 'bearer' })
+        .auth(token, { type: 'bearer' })
         .set(headers)
         .responseType(responseType)
         .timeout(this.timeoutConfig())
@@ -130,6 +133,7 @@ export default class RestClient {
   }: Request): Promise<Response> {
     logger.info(`${this.name} DELETE: ${path}`)
     try {
+      const token = await getHmppsAuthToken()
       const result = await superagent
         .delete(`${this.apiUrl()}${path}`)
         .query(query)
@@ -139,7 +143,7 @@ export default class RestClient {
           if (err) logger.info(`Retry handler found ${this.name} API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
-        .auth(this.token, { type: 'bearer' })
+        .auth(token, { type: 'bearer' })
         .set(headers)
         .responseType(responseType)
         .timeout(this.timeoutConfig())
@@ -154,11 +158,13 @@ export default class RestClient {
 
   async stream({ path = null, headers = {} }: StreamRequest = {}): Promise<Readable> {
     logger.info(`${this.name} streaming: ${path}`)
+
+    const token = await getHmppsAuthToken()
     return new Promise((resolve, reject) => {
       superagent
         .get(`${this.apiUrl()}${path}`)
         .agent(this.agent)
-        .auth(this.token, { type: 'bearer' })
+        .auth(token, { type: 'bearer' })
         .use(restClientMetricsMiddleware)
         .retry(2, (err, res) => {
           if (err) logger.info(`Retry handler found ${this.name} API error with ${err.code} ${err.message}`)

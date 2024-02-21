@@ -1,6 +1,8 @@
 import { defineConfig } from 'cypress'
 import { resetStubs } from './integration_tests/mockApis/wiremock'
 import govukOneLogin from './integration_tests/mockApis/govukOneLogin'
+import psfrApi from './integration_tests/mockApis/psfrApi'
+import hmppsAuth from './integration_tests/mockApis/hmppsAuth'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -16,7 +18,10 @@ export default defineConfig({
     setupNodeEvents(on) {
       on('task', {
         reset: resetStubs,
+        // Add all the mock apis below
+        ...hmppsAuth,
         ...govukOneLogin,
+        ...psfrApi,
       })
     },
     baseUrl: 'http://localhost:3007',

@@ -5,6 +5,7 @@
  */
 import { initialiseAppInsights, buildAppInsightsClient } from '../utils/azureAppInsights'
 import applicationInfoSupplier from '../applicationInfo'
+import ResettlementPassportApiClient from './resettlementPassportApiClient'
 
 const applicationInfo = applicationInfoSupplier()
 initialiseAppInsights()
@@ -14,6 +15,7 @@ type RestClientBuilder<T> = (token: string) => T
 
 export const dataAccess = () => ({
   applicationInfo,
+  resettlementPassportApiClient: new ResettlementPassportApiClient(),
 })
 
 export type DataAccess = ReturnType<typeof dataAccess>

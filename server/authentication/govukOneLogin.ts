@@ -52,7 +52,8 @@ async function init(): Promise<Client> {
   )
 
   const verify: StrategyVerifyCallbackUserInfo<UserinfoResponse> = (tokenSet, userInfo, done) => {
-    logger.info(`GOV.UK One Login user verified, sub: ${userInfo.sub}`)
+    // logger.info(`GOV.UK One Login user tokenSet: ${JSON.stringify(tokenSet)}`)
+    // logger.info(`GOV.UK One Login user sub: ${JSON.stringify(userInfo)}`)
     return done(null, userInfo)
   }
 

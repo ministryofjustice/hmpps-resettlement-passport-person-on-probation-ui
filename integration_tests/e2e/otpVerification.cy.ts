@@ -1,5 +1,4 @@
 import OtpPage from '../pages/otp'
-import GovukOneLoginPage from '../pages/govukOneLogin'
 import Page from '../pages/page'
 import DashboardPage from '../pages/dashboard'
 
@@ -7,13 +6,13 @@ context('OTP verification', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
-    cy.visit('/otp')
-    Page.verifyOnPage(GovukOneLoginPage)
-    cy.signIn()
+    cy.task('stubGetPopUserOtp', 'G4161UF')
+    cy.task('stubHmppsToken')
   })
 
   it('Should not continue to Dashboard after validating OTP (invalid)', () => {
-    cy.visit('/otp') // replace with stubbing user verification
+    cy.signIn()
+    cy.visit('/otp')
     Page.verifyOnPage(OtpPage)
 
     cy.get('#otp').type('abcqwe')
@@ -23,7 +22,8 @@ context('OTP verification', () => {
   })
 
   it('Should continue to Dashboard after validating OTP (valid)', () => {
-    cy.visit('/otp') // replace with stubbing user verification
+    cy.signIn()
+    cy.visit('/otp')
     Page.verifyOnPage(OtpPage)
 
     cy.get('#otp').type('123456')
