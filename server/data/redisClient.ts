@@ -10,6 +10,12 @@ const url =
     ? `rediss://${config.redis.host}:${config.redis.port}`
     : `redis://${config.redis.host}:${config.redis.port}`
 
+export const ensureConnected = async (redisClient: RedisClient) => {
+  if (!redisClient.isOpen) {
+    await redisClient.connect()
+  }
+}
+
 export const createRedisClient = (): RedisClient => {
   const client = createClient({
     url,

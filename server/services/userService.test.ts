@@ -1,12 +1,24 @@
 import UserService from './userService'
 import logger from '../../logger'
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
-import PersonOnProbationUserApiclient from '../data/personOnProbationApiClient'
+import PersonOnProbationUserApiClient from '../data/personOnProbationApiClient'
+import { createRedisClient, RedisClient } from '../data/redisClient'
+import config from '../config'
 
 jest.mock('../../logger')
 jest.mock('../data/resettlementPassportApiClient')
+jest.mock('../data/personOnProbationApiClient')
+jest.mock('../data/redisClient')
 
-const mockedResponse = {
+const redisClient = {
+  get: jest.fn(),
+  set: jest.fn(),
+  on: jest.fn(),
+  connect: jest.fn(),
+  isOpen: true,
+} as unknown as jest.Mocked<RedisClient>
+
+const mockedOtpResponse = {
   id: 3,
   prisoner: {
     id: 2,
@@ -21,21 +33,35 @@ const mockedResponse = {
   otp: 123456,
 }
 
+const oneLoginTestUrn = 'fdc:gov.uk:2022:asdasdasd-asdasdasd'
+
+const mockedUserResponse = {
+  id: 1,
+  crn: 'U123331',
+  cprId: 'NA',
+  email: 'test@example.com',
+  verified: true,
+  nomsId: 'A1111UD',
+  oneLoginUrn: oneLoginTestUrn,
+}
+
 describe('UserService', () => {
   let resettlementPassportApiClient: jest.Mocked<ResettlementPassportApiClient>
-  let personOnProbationUserApiclient: jest.Mocked<PersonOnProbationUserApiclient>
-
+  let personOnProbationUserApiClient: jest.Mocked<PersonOnProbationUserApiClient>
   let userService: UserService
   const loggerSpy = jest.spyOn(logger, 'info')
 
   beforeEach(() => {
+    config.redis.enabled = true
+    jest.mocked(createRedisClient).mockReturnValue(redisClient)
     resettlementPassportApiClient = new ResettlementPassportApiClient() as jest.Mocked<ResettlementPassportApiClient>
-    personOnProbationUserApiclient = new PersonOnProbationUserApiclient() as jest.Mocked<PersonOnProbationUserApiclient>
-    userService = new UserService(resettlementPassportApiClient, personOnProbationUserApiclient)
+    personOnProbationUserApiClient = new PersonOnProbationUserApiClient() as jest.Mocked<PersonOnProbationUserApiClient>
+    userService = new UserService(resettlementPassportApiClient, personOnProbationUserApiClient)
   })
 
   afterEach(() => {
     jest.restoreAllMocks()
+    config.redis.enabled = false
   })
 
   test.each([
@@ -44,15 +70,17 @@ describe('UserService', () => {
     ['test@example.com', 'abc123', false],
     ['test@example.com', '', false],
   ])('should validate an OTP code', async (email: string, code: string, expectedValid: boolean) => {
-    resettlementPassportApiClient.getPopUserOtp.mockResolvedValue(mockedResponse)
+    resettlementPassportApiClient.getPopUserOtp.mockResolvedValue(mockedOtpResponse)
     const result = await userService.checkOtp(email, code)
     expect(result).toBe(expectedValid)
     expect(loggerSpy).toHaveBeenCalledWith(`OTP verification for: ${email} and code: ${code}`)
   })
 
   it('should check an email is verified', async () => {
-    const result = await userService.isVerified('test@gmail.com')
+    personOnProbationUserApiClient.getUserByUrn.mockResolvedValue(mockedUserResponse)
+    const result = await userService.isVerified(oneLoginTestUrn)
     expect(result).toBe(true)
-    expect(loggerSpy).toHaveBeenCalledWith('User verification: test@gmail.com')
+    expect(loggerSpy).toHaveBeenCalledWith(`User verification: ${oneLoginTestUrn}`)
+    expect(redisClient.get).toHaveBeenCalledWith(`${oneLoginTestUrn}-popuser-data`)
   })
 })

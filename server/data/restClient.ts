@@ -9,7 +9,7 @@ import type { ApiConfig } from '../config'
 import type { UnsanitisedError } from '../sanitisedError'
 import { restClientMetricsMiddleware } from './restClientMetricsMiddleware'
 import getHmppsAuthToken from './hmppsAuthClient'
-import { RedisClient, createRedisClient } from './redisClient'
+import { RedisClient, createRedisClient, ensureConnected } from './redisClient'
 import config from '../config'
 
 interface Request {
@@ -44,12 +44,6 @@ export default class RestClient {
     this.redisClient = createRedisClient()
   }
 
-  private async ensureConnected() {
-    if (!this.redisClient.isOpen) {
-      await this.redisClient.connect()
-    }
-  }
-
   private apiUrl() {
     return this.apiConfig.url
   }
@@ -61,7 +55,7 @@ export default class RestClient {
   private async getCachedTokenOrRefresh(): Promise<string> {
     if (config.redis.enabled) {
       const key = `hmppsAuthToken`
-      await this.ensureConnected()
+      await ensureConnected(this.redisClient)
       const cachedToken = await this.redisClient.get(key)
 
       if (cachedToken) {

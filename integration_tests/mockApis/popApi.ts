@@ -14,16 +14,31 @@ const mockedResponse = {
 }
 
 export default {
-  stubGetPopUserByUrn: (urn: string): SuperAgentRequest =>
+  stubGetPopUserByUrn: (): SuperAgentRequest =>
     stubFor({
       request: {
         method: 'GET',
-        url: `/popApi/onelogin/user/${urn}`,
+        url: `/popApi/onelogin/user/${oneLoginUrn}`,
       },
       response: {
         status: 200,
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
         jsonBody: mockedResponse,
+      },
+    }),
+  stubGetPopUserByUrnUnverified: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/popApi/onelogin/user/${oneLoginUrn}`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: {
+          ...mockedResponse,
+          verified: false,
+        },
       },
     }),
 }
