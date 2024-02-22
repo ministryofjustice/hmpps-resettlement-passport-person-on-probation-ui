@@ -2,8 +2,9 @@ import superagent from 'superagent'
 import logger from '../../logger'
 import config from '../config'
 
-interface AccessTokenResponse {
+export interface AccessTokenResponse {
   access_token: string
+  expires_in: number
 }
 
 const getHmppsAuthToken = async () => {
@@ -15,8 +16,7 @@ const getHmppsAuthToken = async () => {
       .post(`${url}/oauth/token?grant_type=client_credentials`)
       .set('Content-Type', 'application/json')
       .set('Authorization', `Basic ${basicAuth}`)
-    const token = response.body as AccessTokenResponse
-    return token.access_token
+    return response.body as AccessTokenResponse
   } catch (error) {
     logger.error('Error while fetching hmpps auth token:', error)
     throw error

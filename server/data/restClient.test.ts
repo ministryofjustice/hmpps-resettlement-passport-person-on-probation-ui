@@ -3,24 +3,37 @@ import nock from 'nock'
 import { AgentConfig } from '../config'
 import RestClient from './restClient'
 import getHmppsAuthToken from './hmppsAuthClient'
+import { createRedisClient, RedisClient } from './redisClient'
 
 jest.mock('./hmppsAuthClient')
+jest.mock('./redisClient')
 
-const restClient = new RestClient('api-name', {
-  url: 'http://localhost:8080/api',
-  timeout: {
-    response: 1000,
-    deadline: 1000,
-  },
-  agent: new AgentConfig(1000),
-})
+const redisClient = {
+  get: jest.fn(),
+  set: jest.fn(),
+  on: jest.fn(),
+  connect: jest.fn(),
+  isOpen: true,
+} as unknown as jest.Mocked<RedisClient>
 
 describe('RestClient', () => {
+  let restClient: RestClient
+
   beforeEach(() => {
-    jest.mocked(getHmppsAuthToken).mockResolvedValue('token-1')
+    jest.mocked(createRedisClient).mockReturnValue(redisClient)
+    jest.mocked(getHmppsAuthToken).mockResolvedValue({ access_token: 'token-1', expires_in: 1200 })
+    restClient = new RestClient('api-name', {
+      url: 'http://localhost:8080/api',
+      timeout: {
+        response: 1000,
+        deadline: 1000,
+      },
+      agent: new AgentConfig(1000),
+    })
   })
 
   afterEach(() => {
+    expect(redisClient.get).toHaveBeenCalledWith('hmppsAuthToken')
     jest.clearAllMocks()
   })
 

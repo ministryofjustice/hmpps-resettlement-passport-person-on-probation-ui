@@ -9,6 +9,7 @@ import type { ApiConfig } from '../config'
 import type { UnsanitisedError } from '../sanitisedError'
 import { restClientMetricsMiddleware } from './restClientMetricsMiddleware'
 import getHmppsAuthToken from './hmppsAuthClient'
+import { RedisClient, createRedisClient } from './redisClient'
 
 interface Request {
   path: string
@@ -32,11 +33,20 @@ interface StreamRequest {
 export default class RestClient {
   agent: Agent
 
+  redisClient: RedisClient
+
   constructor(
     private readonly name: string,
     private readonly apiConfig: ApiConfig,
   ) {
     this.agent = apiConfig.url.startsWith('https') ? new HttpsAgent(apiConfig.agent) : new Agent(apiConfig.agent)
+    this.redisClient = createRedisClient()
+  }
+
+  private async ensureConnected() {
+    if (!this.redisClient.isOpen) {
+      await this.redisClient.connect()
+    }
   }
 
   private apiUrl() {
@@ -45,6 +55,25 @@ export default class RestClient {
 
   private timeoutConfig() {
     return this.apiConfig.timeout
+  }
+
+  private async getCachedTokenOrRefresh(): Promise<string> {
+    const key = `hmppsAuthToken`
+    await this.ensureConnected()
+    const cachedToken = await this.redisClient.get(key)
+
+    if (cachedToken) {
+      logger.info('Auth token found in cache')
+      return Promise.resolve(cachedToken)
+    }
+
+    const token = await getHmppsAuthToken()
+    await this.redisClient.set(key, token.access_token, {
+      EX: token.expires_in,
+    })
+
+    logger.info(`Auth token fetched from Api, expires in ${token.expires_in}`)
+    return token.access_token
   }
 
   async get<Response = unknown>({
@@ -56,8 +85,7 @@ export default class RestClient {
   }: Request): Promise<Response> {
     logger.info(`${this.name} GET: ${path}`)
     try {
-      const token = await getHmppsAuthToken()
-
+      const token = await this.getCachedTokenOrRefresh()
       const result = await superagent
         .get(`${this.apiUrl()}${path}`)
         .query(query)
@@ -86,7 +114,7 @@ export default class RestClient {
   ): Promise<Response> {
     logger.info(`${this.name} ${method.toUpperCase()}: ${path}`)
     try {
-      const token = await getHmppsAuthToken()
+      const token = await this.getCachedTokenOrRefresh()
       const result = await superagent[method](`${this.apiUrl()}${path}`)
         .query(query)
         .send(data)
@@ -133,7 +161,7 @@ export default class RestClient {
   }: Request): Promise<Response> {
     logger.info(`${this.name} DELETE: ${path}`)
     try {
-      const token = await getHmppsAuthToken()
+      const token = await this.getCachedTokenOrRefresh()
       const result = await superagent
         .delete(`${this.apiUrl()}${path}`)
         .query(query)
@@ -159,7 +187,7 @@ export default class RestClient {
   async stream({ path = null, headers = {} }: StreamRequest = {}): Promise<Readable> {
     logger.info(`${this.name} streaming: ${path}`)
 
-    const token = await getHmppsAuthToken()
+    const token = await this.getCachedTokenOrRefresh()
     return new Promise((resolve, reject) => {
       superagent
         .get(`${this.apiUrl()}${path}`)
