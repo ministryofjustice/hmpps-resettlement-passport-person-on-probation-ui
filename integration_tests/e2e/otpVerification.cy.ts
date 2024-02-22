@@ -3,7 +3,6 @@ import Page from '../pages/page'
 import DashboardPage from '../pages/dashboard'
 
 context('OTP verification', () => {
-
   const enterValidOtp = () => {
     cy.get('#otp').type('123456')
     cy.get('.govuk-button').click()

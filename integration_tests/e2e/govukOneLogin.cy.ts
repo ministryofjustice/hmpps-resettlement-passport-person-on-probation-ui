@@ -1,7 +1,6 @@
 import GovukOneLoginPage from '../pages/govukOneLogin'
 import Page from '../pages/page'
 import HomePage from '../pages/home'
-import DashboardPage from '../pages/dashboard'
 import OtpPage from '../pages/otp'
 
 context('Sign in with GOV.UK One Login', () => {
