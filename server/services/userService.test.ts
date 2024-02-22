@@ -1,6 +1,7 @@
 import UserService from './userService'
 import logger from '../../logger'
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
+import PersonOnProbationUserApiclient from '../data/personOnProbationApiClient'
 
 jest.mock('../../logger')
 jest.mock('../data/resettlementPassportApiClient')
@@ -22,13 +23,15 @@ const mockedResponse = {
 
 describe('UserService', () => {
   let resettlementPassportApiClient: jest.Mocked<ResettlementPassportApiClient>
+  let personOnProbationUserApiclient: jest.Mocked<PersonOnProbationUserApiclient>
 
   let userService: UserService
   const loggerSpy = jest.spyOn(logger, 'info')
 
   beforeEach(() => {
     resettlementPassportApiClient = new ResettlementPassportApiClient() as jest.Mocked<ResettlementPassportApiClient>
-    userService = new UserService(resettlementPassportApiClient)
+    personOnProbationUserApiclient = new PersonOnProbationUserApiclient() as jest.Mocked<PersonOnProbationUserApiclient>
+    userService = new UserService(resettlementPassportApiClient, personOnProbationUserApiclient)
   })
 
   afterEach(() => {

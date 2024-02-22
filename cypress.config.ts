@@ -2,6 +2,7 @@ import { defineConfig } from 'cypress'
 import { resetStubs } from './integration_tests/mockApis/wiremock'
 import govukOneLogin from './integration_tests/mockApis/govukOneLogin'
 import psfrApi from './integration_tests/mockApis/psfrApi'
+import popApi from './integration_tests/mockApis/popApi'
 import hmppsAuth from './integration_tests/mockApis/hmppsAuth'
 
 export default defineConfig({
@@ -22,6 +23,7 @@ export default defineConfig({
         ...hmppsAuth,
         ...govukOneLogin,
         ...psfrApi,
+        ...popApi,
       })
     },
     baseUrl: 'http://localhost:3007',

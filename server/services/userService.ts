@@ -1,8 +1,12 @@
 import logger from '../../logger'
+import PersonOnProbationUserApiclient from '../data/personOnProbationApiClient'
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
 
 export default class UserService {
-  constructor(private readonly resettlementPassportClient: ResettlementPassportApiClient) {}
+  constructor(
+    private readonly resettlementPassportClient: ResettlementPassportApiClient,
+    private readonly personOnProbationUserApiclient: PersonOnProbationUserApiclient,
+  ) {}
 
   async checkOtp(email: string, otp: string): Promise<boolean> {
     logger.info(`OTP verification for: ${email} and code: ${otp}`)

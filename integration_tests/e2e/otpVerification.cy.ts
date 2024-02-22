@@ -8,6 +8,7 @@ context('OTP verification', () => {
     cy.task('stubSignIn')
     cy.task('stubGetPopUserOtp', 'G4161UF')
     cy.task('stubHmppsToken')
+    cy.task('stubGetPopUserByUrn')
   })
 
   it('Should not continue to Dashboard after validating OTP (invalid)', () => {

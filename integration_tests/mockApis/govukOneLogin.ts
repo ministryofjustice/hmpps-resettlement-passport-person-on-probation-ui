@@ -4,6 +4,8 @@ import { Response } from 'superagent'
 import { createPublicKey } from 'crypto'
 import { getMatchingRequests, stubFor } from './wiremock'
 
+export const oneLoginUrn = 'urn:fdc:gov.uk:2022:user1'
+
 const oidcConfig = JSON.parse(
   fs.readFileSync('integration_tests/mockApis/mappings/openid-configuration.json').toString(),
 )
@@ -146,7 +148,7 @@ const stubUserInfo = () =>
         'Content-Type': 'application/json',
       },
       jsonBody: {
-        sub: 'urn:fdc:gov.uk:2022:user1',
+        sub: oneLoginUrn,
         phone_number_verified: true,
         phone_number: '+440123456789',
         email_verified: true,

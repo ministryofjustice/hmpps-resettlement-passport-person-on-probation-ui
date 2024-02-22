@@ -10,6 +10,7 @@ import type { UnsanitisedError } from '../sanitisedError'
 import { restClientMetricsMiddleware } from './restClientMetricsMiddleware'
 import getHmppsAuthToken from './hmppsAuthClient'
 import { RedisClient, createRedisClient } from './redisClient'
+import config from '../config'
 
 interface Request {
   path: string
@@ -58,21 +59,26 @@ export default class RestClient {
   }
 
   private async getCachedTokenOrRefresh(): Promise<string> {
-    const key = `hmppsAuthToken`
-    await this.ensureConnected()
-    const cachedToken = await this.redisClient.get(key)
+    if (config.redis.enabled) {
+      const key = `hmppsAuthToken`
+      await this.ensureConnected()
+      const cachedToken = await this.redisClient.get(key)
 
-    if (cachedToken) {
-      logger.info('Auth token found in cache')
-      return Promise.resolve(cachedToken)
+      if (cachedToken) {
+        logger.info('Auth token found in cache')
+        return Promise.resolve(cachedToken)
+      }
+
+      const token = await getHmppsAuthToken()
+      await this.redisClient.set(key, token.access_token, {
+        EX: token.expires_in,
+      })
+
+      logger.info(`Auth token fetched from Api, expires in ${token.expires_in}`)
+      return token.access_token
     }
-
+    logger.info('Redis is disabled - fetching Auth token from Api')
     const token = await getHmppsAuthToken()
-    await this.redisClient.set(key, token.access_token, {
-      EX: token.expires_in,
-    })
-
-    logger.info(`Auth token fetched from Api, expires in ${token.expires_in}`)
     return token.access_token
   }
 

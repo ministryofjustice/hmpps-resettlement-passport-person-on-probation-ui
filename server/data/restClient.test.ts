@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-import { AgentConfig } from '../config'
+import config, { AgentConfig } from '../config'
 import RestClient from './restClient'
 import getHmppsAuthToken from './hmppsAuthClient'
 import { createRedisClient, RedisClient } from './redisClient'
@@ -20,6 +20,7 @@ describe('RestClient', () => {
   let restClient: RestClient
 
   beforeEach(() => {
+    config.redis.enabled = true
     jest.mocked(createRedisClient).mockReturnValue(redisClient)
     jest.mocked(getHmppsAuthToken).mockResolvedValue({ access_token: 'token-1', expires_in: 1200 })
     restClient = new RestClient('api-name', {
@@ -35,6 +36,7 @@ describe('RestClient', () => {
   afterEach(() => {
     expect(redisClient.get).toHaveBeenCalledWith('hmppsAuthToken')
     jest.clearAllMocks()
+    config.redis.enabled = false
   })
 
   describe.each(['get', 'patch', 'post', 'put', 'delete'] as const)('Method: %s', method => {
