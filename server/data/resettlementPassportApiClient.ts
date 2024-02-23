@@ -24,8 +24,7 @@ export default class ResettlementPassportApiClient {
     this.restClient = new RestClient('Resettlement Passport Api Client', config.apis.resettlementPassportApi)
   }
 
-  // Temporary endpoint to verify integration with backend
-  async getPopUserOtp(popUser: string): Promise<OtpDetailsResponse> {
+  async submitUserOtp(popUser: string): Promise<OtpDetailsResponse> {
     return this.restClient.get<OtpDetailsResponse>({ path: `/popUser/${popUser}/otp` })
   }
 }

@@ -14,10 +14,9 @@ export default class UserService {
     this.redisClient = createRedisClient()
   }
 
-  // This is temporary the endpoint will change
   async checkOtp(email: string, otp: string): Promise<boolean> {
     logger.info(`OTP verification for: ${email} and code: ${otp}`)
-    const optData = await this.resettlementPassportClient.getPopUserOtp('G4161UF')
+    const optData = await this.resettlementPassportClient.submitUserOtp(otp)
     return optData.otp.toString() === otp
   }
 
