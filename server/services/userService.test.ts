@@ -45,6 +45,17 @@ const mockedUserResponse = {
   oneLoginUrn: oneLoginTestUrn,
 }
 
+const mockedUserDetailsResponse = {
+  personalDetails: {
+    prisonerNumber: '123123',
+    prisonId: '33',
+    firstName: 'John',
+    middleNames: 'Paul',
+    lastName: 'Smith',
+    age: 44,
+  },
+}
+
 describe('UserService', () => {
   let resettlementPassportApiClient: jest.Mocked<ResettlementPassportApiClient>
   let personOnProbationUserApiClient: jest.Mocked<PersonOnProbationUserApiClient>
@@ -80,7 +91,15 @@ describe('UserService', () => {
     personOnProbationUserApiClient.getUserByUrn.mockResolvedValue(mockedUserResponse)
     const result = await userService.isVerified(oneLoginTestUrn)
     expect(result).toBe(mockedUserResponse)
-    expect(loggerSpy).toHaveBeenCalledWith(`User verification: ${oneLoginTestUrn}`)
+    expect(loggerSpy).toHaveBeenCalledWith(`User verification`)
     expect(redisClient.get).toHaveBeenCalledWith(`${oneLoginTestUrn}-popuser-data`)
+  })
+
+  it('should fetch the user personal details', async () => {
+    resettlementPassportApiClient.getByNomsId.mockResolvedValue(mockedUserDetailsResponse)
+    const result = await userService.getByNomsId(mockedUserResponse.nomsId)
+    expect(result).toBe(mockedUserDetailsResponse)
+    expect(loggerSpy).toHaveBeenCalledWith(`Get personal details by nomsId`)
+    expect(redisClient.get).toHaveBeenCalledWith(`${mockedUserResponse.nomsId}-popuserdetails-data`)
   })
 })

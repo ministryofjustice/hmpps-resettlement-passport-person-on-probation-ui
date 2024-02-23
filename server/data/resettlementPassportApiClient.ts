@@ -26,26 +26,26 @@ export interface OtpRequest {
 
 export interface PersonalDetails {
   personalDetails: {
-    prisonerNumber: string
-    prisonId: string
+    prisonerNumber?: string
+    prisonId?: string
     firstName: string
-    middleNames: string
+    middleNames?: string
     lastName: string
-    releaseDate: Date
-    releaseType: string
-    dateOfBirth: Date
-    age: number
-    location: string
-    facialImageId: string
+    releaseDate?: string
+    releaseType?: string
+    dateOfBirth?: string
+    age?: number
+    location?: string
+    facialImageId?: string
   }
-  pathways: [
+  pathways?: [
     {
-      pathway: string
-      status: string
-      lastDateChange: Date
+      pathway?: string
+      status?: string
+      lastDateChange?: string
     },
   ]
-  assessmentRequired: true
+  assessmentRequired?: true
 }
 
 export default class ResettlementPassportApiClient {

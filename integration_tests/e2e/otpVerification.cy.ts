@@ -1,6 +1,5 @@
 import OtpPage from '../pages/otp'
 import Page from '../pages/page'
-import DashboardPage from '../pages/dashboard'
 
 context('OTP verification', () => {
   const enterValidOtp = () => {
@@ -11,7 +10,8 @@ context('OTP verification', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
-    cy.task('stubGetPopUserOtp', 'G4161UF')
+    cy.task('stubGetPopUserOtp')
+    cy.task('stubGetPopUserDetails')
     cy.task('stubHmppsToken')
   })
 
@@ -34,7 +34,7 @@ context('OTP verification', () => {
     Page.verifyOnPage(OtpPage)
 
     enterValidOtp()
-    Page.verifyOnPage(DashboardPage)
+    cy.contains('John Smith')
   })
 
   it('Should redirect to OTP when user is not verified', () => {
@@ -45,5 +45,18 @@ context('OTP verification', () => {
 
     enterValidOtp()
     Page.verifyOnPage(OtpPage)
+  })
+
+  it('User can log out', () => {
+    cy.task('stubGetPopUserByUrn')
+    cy.signIn()
+    cy.visit('/otp')
+    Page.verifyOnPage(OtpPage)
+
+    enterValidOtp()
+    cy.contains('John Smith')
+
+    cy.get('a.moj-sub-navigation__link[data-qa="signOut"]').click()
+    cy.contains('You have been logged out.')
   })
 })
