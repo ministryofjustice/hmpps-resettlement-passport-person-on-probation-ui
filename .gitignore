@@ -131,3 +131,6 @@ integration_tests/screenshots/
 **/Chart.lock
 
 .DS_Store
+
+# scripts
+token

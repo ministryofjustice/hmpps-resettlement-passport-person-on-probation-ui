@@ -3,12 +3,12 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% block content %}
-  {% if error === true %}
+  {% if error %}
     {{ govukErrorSummary({
     titleText: "There is a problem",
     errorList: [
       {
-        text: "Enter the 6-digit security code we sent you",
+        text: error.message,
         href: "#otp"
       }
     ]
@@ -20,10 +20,10 @@
 
       <form class="form" action="/otp/verify" method="post">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
-        <h1 class="govuk-heading-xl">Check your Plan your future pack</h1>
+        <h1 class="govuk-heading-xl">Enter the 6 digit security code</h1>
 
         <div class="govuk-inset-text">
-          You can find your security code in the “Plan your future” pack your probation officer gave you.
+          You can find your security code in the Plan your future pack your probation officer gave you.
         </div>
 
         <div class="govuk-form-group">
@@ -31,9 +31,11 @@
             label: {
               text: "This is the 6-digit security code we gave you in the information pack"
             },
+            inputmode: "numeric",
+            spellcheck: false,
             errorMessage: {
-              text: "Enter the 6-digit security code"
-            } if error === true,
+              text: error.message
+            } if error,
             classes: "govuk-input--width-5",
             name: "otp",
             id: "otp"
@@ -53,7 +55,7 @@
           <div class="govuk-details__text">
 
             <p class="govuk-body">
-              Contact your probation officer to get a new code.
+              Call 000000 or contact your probation officer to get a new code.
             </p>
           </div>
         </details>

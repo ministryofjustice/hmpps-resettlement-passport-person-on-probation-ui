@@ -1,7 +1,7 @@
 import GovukOneLoginPage from '../pages/govukOneLogin'
 import Page from '../pages/page'
 import HomePage from '../pages/home'
-import DashboardPage from '../pages/dashboard'
+import OtpPage from '../pages/otp'
 
 context('Sign in with GOV.UK One Login', () => {
   beforeEach(() => {
@@ -42,12 +42,12 @@ context('Sign in with GOV.UK One Login', () => {
 
   it('User can sign in and view callback page', () => {
     cy.signIn()
-    Page.verifyOnPage(DashboardPage)
+    Page.verifyOnPage(OtpPage)
   })
 
   it('User can log out', () => {
     cy.signIn()
-    const page = Page.verifyOnPage(DashboardPage)
+    const page = Page.verifyOnPage(OtpPage)
     page.signOut().click()
     Page.verifyOnPage(GovukOneLoginPage)
     cy.contains('You have been logged out.')

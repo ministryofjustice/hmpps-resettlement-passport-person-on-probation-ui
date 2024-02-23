@@ -1,19 +1,24 @@
 import OtpPage from '../pages/otp'
-import GovukOneLoginPage from '../pages/govukOneLogin'
 import Page from '../pages/page'
 import DashboardPage from '../pages/dashboard'
 
 context('OTP verification', () => {
+  const enterValidOtp = () => {
+    cy.get('#otp').type('123456')
+    cy.get('.govuk-button').click()
+  }
+
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
-    cy.visit('/otp')
-    Page.verifyOnPage(GovukOneLoginPage)
-    cy.signIn()
+    cy.task('stubGetPopUserOtp', 'G4161UF')
+    cy.task('stubHmppsToken')
   })
 
   it('Should not continue to Dashboard after validating OTP (invalid)', () => {
-    cy.visit('/otp') // replace with stubbing user verification
+    cy.task('stubGetPopUserByUrn')
+    cy.signIn()
+    cy.visit('/otp')
     Page.verifyOnPage(OtpPage)
 
     cy.get('#otp').type('abcqwe')
@@ -23,11 +28,22 @@ context('OTP verification', () => {
   })
 
   it('Should continue to Dashboard after validating OTP (valid)', () => {
-    cy.visit('/otp') // replace with stubbing user verification
+    cy.task('stubGetPopUserByUrn')
+    cy.signIn()
+    cy.visit('/otp')
     Page.verifyOnPage(OtpPage)
 
-    cy.get('#otp').type('123456')
-    cy.get('.govuk-button').click()
+    enterValidOtp()
     Page.verifyOnPage(DashboardPage)
+  })
+
+  it('Should redirect to OTP when user is not verified', () => {
+    cy.task('stubGetPopUserByUrnUnverified')
+    cy.signIn()
+    cy.visit('/dashboard')
+    Page.verifyOnPage(OtpPage)
+
+    enterValidOtp()
+    Page.verifyOnPage(OtpPage)
   })
 })

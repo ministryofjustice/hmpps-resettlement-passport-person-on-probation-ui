@@ -13,6 +13,9 @@ generic-service:
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
     ENVIRONMENT_NAME: DEV
     GOVUK_ONE_LOGIN_URL: "https://oidc.integration.account.gov.uk"
+    HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
+    PSFR_API_URL: "https://resettlement-passport-api-dev.hmpps.service.justice.gov.uk/resettlement-passport"
+    POP_API_URL: "https://person-on-probation-user-api-dev.hmpps.service.justice.gov.uk/person-on-probation-user"
 
 generic-prometheus-alerts:
   alertSeverity: resettlement_passport_alerts_non_prod

@@ -11,10 +11,16 @@ export default class HomeController {
   create: RequestHandler = async (req, res) => {
     const { otp } = req.body
 
-    const isValid = await this.userService.checkOtp(req.user.email, otp)
+    const isValid = await this.userService.checkOtp(req.user.email, otp, req.user.sub)
     if (isValid) {
+      req.session.isUserVerified = true
       return res.redirect('/dashboard')
     }
-    return res.render('pages/otp', { user: req.user, error: true })
+    return res.render('pages/otp', {
+      user: req.user,
+      error: {
+        message: 'Enter a correct security code',
+      },
+    })
   }
 }

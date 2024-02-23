@@ -8,6 +8,9 @@ import sanitiseError from '../sanitisedError'
 import type { ApiConfig } from '../config'
 import type { UnsanitisedError } from '../sanitisedError'
 import { restClientMetricsMiddleware } from './restClientMetricsMiddleware'
+import getHmppsAuthToken from './hmppsAuthClient'
+import { RedisClient, createRedisClient, ensureConnected } from './redisClient'
+import config from '../config'
 
 interface Request {
   path: string
@@ -22,6 +25,15 @@ interface RequestWithBody extends Request {
   retry?: boolean
 }
 
+interface PostRequest {
+  path?: string
+  headers?: Record<string, string>
+  responseType?: string
+  data?: object | string[]
+  raw?: boolean
+  query?: string
+}
+
 interface StreamRequest {
   path?: string
   headers?: Record<string, string>
@@ -31,20 +43,46 @@ interface StreamRequest {
 export default class RestClient {
   agent: Agent
 
+  redisClient: RedisClient
+
   constructor(
     private readonly name: string,
-    private readonly config: ApiConfig,
-    private readonly token: string,
+    private readonly apiConfig: ApiConfig,
   ) {
-    this.agent = config.url.startsWith('https') ? new HttpsAgent(config.agent) : new Agent(config.agent)
+    this.agent = apiConfig.url.startsWith('https') ? new HttpsAgent(apiConfig.agent) : new Agent(apiConfig.agent)
+    this.redisClient = createRedisClient()
   }
 
   private apiUrl() {
-    return this.config.url
+    return this.apiConfig.url
   }
 
   private timeoutConfig() {
-    return this.config.timeout
+    return this.apiConfig.timeout
+  }
+
+  private async getCachedTokenOrRefresh(): Promise<string> {
+    if (config.redis.enabled) {
+      const key = `hmppsAuthToken`
+      await ensureConnected(this.redisClient)
+      const cachedToken = await this.redisClient.get(key)
+
+      if (cachedToken) {
+        logger.info('Auth token found in cache')
+        return Promise.resolve(cachedToken)
+      }
+
+      const token = await getHmppsAuthToken()
+      await this.redisClient.set(key, token.access_token, {
+        EX: token.expires_in,
+      })
+
+      logger.info(`Auth token fetched from Api, expires in ${token.expires_in}`)
+      return token.access_token
+    }
+    logger.info('Redis is disabled - fetching Auth token from Api')
+    const token = await getHmppsAuthToken()
+    return token.access_token
   }
 
   async get<Response = unknown>({
@@ -56,6 +94,7 @@ export default class RestClient {
   }: Request): Promise<Response> {
     logger.info(`${this.name} GET: ${path}`)
     try {
+      const token = await this.getCachedTokenOrRefresh()
       const result = await superagent
         .get(`${this.apiUrl()}${path}`)
         .query(query)
@@ -65,7 +104,7 @@ export default class RestClient {
           if (err) logger.info(`Retry handler found ${this.name} API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
-        .auth(this.token, { type: 'bearer' })
+        .auth(token, { type: 'bearer' })
         .set(headers)
         .responseType(responseType)
         .timeout(this.timeoutConfig())
@@ -78,12 +117,48 @@ export default class RestClient {
     }
   }
 
+  async post<T>({
+    path = null,
+    query = '',
+    headers = {},
+    responseType = '',
+    data = {},
+    raw = false,
+  }: PostRequest = {}): Promise<T> {
+    logger.info(`Post using user credentials: calling ${this.name}: ${path}`)
+    const endpoint = `${this.apiUrl()}${path}`
+    try {
+      const token = await this.getCachedTokenOrRefresh()
+      const result = await superagent
+        .post(endpoint)
+        .send(data)
+        .agent(this.agent)
+        .query(query)
+        .use(restClientMetricsMiddleware)
+        .retry(2, (err, res) => {
+          if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
+          return undefined // retry handler only for logging retries, not to influence retry logic
+        })
+        .auth(token, { type: 'bearer' })
+        .set(headers)
+        .responseType(responseType)
+        .timeout(this.timeoutConfig())
+
+      return raw ? result : result.body
+    } catch (error) {
+      const sanitisedError = sanitiseError(error)
+      logger.warn({ ...sanitisedError }, `Error calling ${this.name}, path: '${path}', verb: 'DELETE'`)
+      throw sanitisedError
+    }
+  }
+
   private async requestWithBody<Response = unknown>(
     method: 'patch' | 'post' | 'put',
     { path, query = {}, headers = {}, responseType = '', data = {}, raw = false, retry = false }: RequestWithBody,
   ): Promise<Response> {
     logger.info(`${this.name} ${method.toUpperCase()}: ${path}`)
     try {
+      const token = await this.getCachedTokenOrRefresh()
       const result = await superagent[method](`${this.apiUrl()}${path}`)
         .query(query)
         .send(data)
@@ -96,7 +171,7 @@ export default class RestClient {
           if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
-        .auth(this.token, { type: 'bearer' })
+        .auth(token, { type: 'bearer' })
         .set(headers)
         .responseType(responseType)
         .timeout(this.timeoutConfig())
@@ -113,10 +188,6 @@ export default class RestClient {
     return this.requestWithBody('patch', request)
   }
 
-  async post<Response = unknown>(request: RequestWithBody): Promise<Response> {
-    return this.requestWithBody('post', request)
-  }
-
   async put<Response = unknown>(request: RequestWithBody): Promise<Response> {
     return this.requestWithBody('put', request)
   }
@@ -130,6 +201,7 @@ export default class RestClient {
   }: Request): Promise<Response> {
     logger.info(`${this.name} DELETE: ${path}`)
     try {
+      const token = await this.getCachedTokenOrRefresh()
       const result = await superagent
         .delete(`${this.apiUrl()}${path}`)
         .query(query)
@@ -139,7 +211,7 @@ export default class RestClient {
           if (err) logger.info(`Retry handler found ${this.name} API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
-        .auth(this.token, { type: 'bearer' })
+        .auth(token, { type: 'bearer' })
         .set(headers)
         .responseType(responseType)
         .timeout(this.timeoutConfig())
@@ -154,11 +226,13 @@ export default class RestClient {
 
   async stream({ path = null, headers = {} }: StreamRequest = {}): Promise<Readable> {
     logger.info(`${this.name} streaming: ${path}`)
+
+    const token = await this.getCachedTokenOrRefresh()
     return new Promise((resolve, reject) => {
       superagent
         .get(`${this.apiUrl()}${path}`)
         .agent(this.agent)
-        .auth(this.token, { type: 'bearer' })
+        .auth(token, { type: 'bearer' })
         .use(restClientMetricsMiddleware)
         .retry(2, (err, res) => {
           if (err) logger.info(`Retry handler found ${this.name} API error with ${err.code} ${err.message}`)
