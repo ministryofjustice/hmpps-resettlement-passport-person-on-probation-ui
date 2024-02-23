@@ -17,11 +17,11 @@ const mockedResponse = {
 }
 
 export default {
-  stubGetPopUserOtp: (userId: string): SuperAgentRequest =>
+  stubGetPopUserOtp: (): SuperAgentRequest =>
     stubFor({
       request: {
-        method: 'GET',
-        url: `/rpApi/popUser/${userId}/otp`,
+        method: 'POST',
+        url: `/rpApi/popUser/onelogin/verify`,
       },
       response: {
         status: 200,

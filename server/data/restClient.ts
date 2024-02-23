@@ -25,6 +25,15 @@ interface RequestWithBody extends Request {
   retry?: boolean
 }
 
+interface PostRequest {
+  path?: string
+  headers?: Record<string, string>
+  responseType?: string
+  data?: object | string[]
+  raw?: boolean
+  query?: string
+}
+
 interface StreamRequest {
   path?: string
   headers?: Record<string, string>
@@ -108,6 +117,41 @@ export default class RestClient {
     }
   }
 
+  async post<T>({
+    path = null,
+    query = '',
+    headers = {},
+    responseType = '',
+    data = {},
+    raw = false,
+  }: PostRequest = {}): Promise<T> {
+    logger.info(`Post using user credentials: calling ${this.name}: ${path}`)
+    const endpoint = `${this.apiUrl()}${path}`
+    try {
+      const token = await this.getCachedTokenOrRefresh()
+      const result = await superagent
+        .post(endpoint)
+        .send(data)
+        .agent(this.agent)
+        .query(query)
+        .use(restClientMetricsMiddleware)
+        .retry(2, (err, res) => {
+          if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
+          return undefined // retry handler only for logging retries, not to influence retry logic
+        })
+        .auth(token, { type: 'bearer' })
+        .set(headers)
+        .responseType(responseType)
+        .timeout(this.timeoutConfig())
+
+      return raw ? result : result.body
+    } catch (error) {
+      const sanitisedError = sanitiseError(error)
+      logger.warn({ ...sanitisedError }, `Error calling ${this.name}, path: '${path}', verb: 'DELETE'`)
+      throw sanitisedError
+    }
+  }
+
   private async requestWithBody<Response = unknown>(
     method: 'patch' | 'post' | 'put',
     { path, query = {}, headers = {}, responseType = '', data = {}, raw = false, retry = false }: RequestWithBody,
@@ -142,10 +186,6 @@ export default class RestClient {
 
   async patch<Response = unknown>(request: RequestWithBody): Promise<Response> {
     return this.requestWithBody('patch', request)
-  }
-
-  async post<Response = unknown>(request: RequestWithBody): Promise<Response> {
-    return this.requestWithBody('post', request)
   }
 
   async put<Response = unknown>(request: RequestWithBody): Promise<Response> {

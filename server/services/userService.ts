@@ -2,7 +2,7 @@ import logger from '../../logger'
 import config from '../config'
 import PersonOnProbationUserApiClient, { UserDetailsResponse } from '../data/personOnProbationApiClient'
 import { RedisClient, createRedisClient, ensureConnected } from '../data/redisClient'
-import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
+import ResettlementPassportApiClient, { OtpRequest } from '../data/resettlementPassportApiClient'
 
 export default class UserService {
   redisClient: RedisClient
@@ -14,10 +14,14 @@ export default class UserService {
     this.redisClient = createRedisClient()
   }
 
-  async checkOtp(email: string, otp: string): Promise<boolean> {
+  async checkOtp(email: string, otp: string, urn: string): Promise<boolean> {
     logger.info(`OTP verification for: ${email} and code: ${otp}`)
-    const optData = await this.resettlementPassportClient.submitUserOtp(otp)
-    return optData.otp.toString() === otp
+    const optData = await this.resettlementPassportClient.submitUserOtp({
+      otp,
+      urn,
+      email,
+    } as OtpRequest)
+    return optData && optData?.otp?.toString() === otp
   }
 
   async isVerified(urn: string): Promise<boolean> {

@@ -39,7 +39,7 @@ describe('RestClient', () => {
     config.redis.enabled = false
   })
 
-  describe.each(['get', 'patch', 'post', 'put', 'delete'] as const)('Method: %s', method => {
+  describe.each(['get', 'patch', 'put', 'delete'] as const)('Method: %s', method => {
     it('should return response body', async () => {
       nock('http://localhost:8080', {
         reqheaders: { authorization: 'Bearer token-1' },

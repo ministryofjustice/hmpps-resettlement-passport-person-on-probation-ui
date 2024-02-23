@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import RestClient from './restClient'
 import config from '../config'
+import logger from '../../logger'
 
-interface OtpDetailsResponse {
+export interface OtpDetailsResponse {
   id: number
   prisoner: {
     id: number
@@ -17,6 +18,12 @@ interface OtpDetailsResponse {
   otp: number
 }
 
+export interface OtpRequest {
+  urn: string
+  otp: string
+  email: string
+}
+
 export default class ResettlementPassportApiClient {
   restClient: RestClient
 
@@ -24,7 +31,16 @@ export default class ResettlementPassportApiClient {
     this.restClient = new RestClient('Resettlement Passport Api Client', config.apis.resettlementPassportApi)
   }
 
-  async submitUserOtp(popUser: string): Promise<OtpDetailsResponse> {
-    return this.restClient.get<OtpDetailsResponse>({ path: `/popUser/${popUser}/otp` })
+  async submitUserOtp(otpRequest: OtpRequest): Promise<OtpDetailsResponse> {
+    try {
+      const response = await this.restClient.post<OtpDetailsResponse>({
+        path: `/popUser/onelogin/verify`,
+        data: otpRequest,
+      })
+      return response
+    } catch (error) {
+      logger.debug('OTP not found')
+    }
+    return null
   }
 }

@@ -71,7 +71,7 @@ describe('UserService', () => {
     ['test@example.com', '', false],
   ])('should validate an OTP code', async (email: string, code: string, expectedValid: boolean) => {
     resettlementPassportApiClient.submitUserOtp.mockResolvedValue(mockedOtpResponse)
-    const result = await userService.checkOtp(email, code)
+    const result = await userService.checkOtp(email, code, 'urn:aaa:bbb')
     expect(result).toBe(expectedValid)
     expect(loggerSpy).toHaveBeenCalledWith(`OTP verification for: ${email} and code: ${code}`)
   })
