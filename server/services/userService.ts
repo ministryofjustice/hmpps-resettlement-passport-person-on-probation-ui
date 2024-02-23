@@ -2,7 +2,7 @@ import logger from '../../logger'
 import config from '../config'
 import PersonOnProbationUserApiClient, { UserDetailsResponse } from '../data/personOnProbationApiClient'
 import { RedisClient, createRedisClient, ensureConnected } from '../data/redisClient'
-import ResettlementPassportApiClient, { OtpRequest } from '../data/resettlementPassportApiClient'
+import ResettlementPassportApiClient, { OtpRequest, PersonalDetails } from '../data/resettlementPassportApiClient'
 
 export default class UserService {
   redisClient: RedisClient
@@ -24,7 +24,13 @@ export default class UserService {
     return optData && optData?.otp?.toString() === otp
   }
 
-  async isVerified(urn: string): Promise<boolean> {
+  async getByNomsId(nomsId: string): Promise<PersonalDetails> {
+    logger.info(`Get prisoner by nomsId: ${nomsId}`)
+    const data = await this.resettlementPassportClient.getByNomsId(nomsId)
+    return data
+  }
+
+  async isVerified(urn: string): Promise<UserDetailsResponse> {
     logger.info(`User verification: ${urn}`)
     const key = `${urn}-popuser-data`
     if (config.redis.enabled) {
@@ -32,9 +38,9 @@ export default class UserService {
       await ensureConnected(this.redisClient)
       const cachedUserString = await this.redisClient.get(key)
       if (cachedUserString) {
-        logger.info('Pop user data found in cache')
+        logger.info('Pop user data found in cache', cachedUserString)
         const cachedUser = JSON.parse(cachedUserString) as UserDetailsResponse
-        return Promise.resolve(cachedUser?.verified === true)
+        return Promise.resolve(cachedUser)
       }
     }
 
@@ -47,6 +53,6 @@ export default class UserService {
       })
     }
 
-    return Promise.resolve(fetchedUser?.verified === true)
+    return Promise.resolve(fetchedUser)
   }
 }
