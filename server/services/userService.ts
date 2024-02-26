@@ -24,9 +24,9 @@ export default class UserService {
     return optData && optData.id != null
   }
 
-  async getByNomsId(nomsId: string): Promise<PersonalDetails> {
+  async getByNomsId(nomsId: string, urn: string): Promise<PersonalDetails> {
     logger.info(`Get personal details by nomsId`)
-    const key = `${nomsId}-popuserdetails-data`
+    const key = `${urn}-${nomsId}-popuserdetails-data`
     if (config.redis.enabled) {
       // read from cache
       await ensureConnected(this.redisClient)

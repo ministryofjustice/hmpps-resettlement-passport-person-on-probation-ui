@@ -91,9 +91,9 @@ describe('UserService', () => {
 
   it('should fetch the user personal details', async () => {
     resettlementPassportApiClient.getByNomsId.mockResolvedValue(mockedUserDetailsResponse)
-    const result = await userService.getByNomsId(mockedUserResponse.nomsId)
+    const result = await userService.getByNomsId(mockedUserResponse.nomsId, 'urn')
     expect(result).toBe(mockedUserDetailsResponse)
     expect(loggerSpy).toHaveBeenCalledWith(`Get personal details by nomsId`)
-    expect(redisClient.get).toHaveBeenCalledWith(`${mockedUserResponse.nomsId}-popuserdetails-data`)
+    expect(redisClient.get).toHaveBeenCalledWith(`urn-${mockedUserResponse.nomsId}-popuserdetails-data`)
   })
 })
