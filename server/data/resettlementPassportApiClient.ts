@@ -5,17 +5,14 @@ import logger from '../../logger'
 
 export interface OtpDetailsResponse {
   id: number
-  prisoner: {
-    id: number
-    nomsId: string
-    creationDate: string
-    crn: string
-    prisonId: string
-    releaseDate: string
-  }
-  creationDate: string
-  expiryDate: string
-  otp: number
+  crn?: string
+  cprId?: string
+  email?: string
+  verified?: boolean
+  creationDate?: string
+  modifiedDate?: string
+  nomsId?: string
+  oneLoginUrn?: string
 }
 
 export interface OtpRequest {

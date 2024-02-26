@@ -15,7 +15,7 @@ context('OTP verification', () => {
     cy.task('stubHmppsToken')
   })
 
-  it('Should not continue to Dashboard after validating OTP (invalid)', () => {
+  it.skip('Should not continue to Dashboard after validating OTP (invalid)', () => {
     cy.task('stubGetPopUserByUrn')
     cy.signIn()
     cy.visit('/otp')

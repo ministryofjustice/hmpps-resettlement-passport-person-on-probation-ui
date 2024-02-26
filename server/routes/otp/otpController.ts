@@ -13,7 +13,6 @@ export default class HomeController {
 
     const isValid = await this.userService.checkOtp(req.user.email, otp, req.user.sub)
     if (isValid) {
-      req.session.isUserVerified = true
       return res.redirect('/dashboard')
     }
     return res.render('pages/otp', {

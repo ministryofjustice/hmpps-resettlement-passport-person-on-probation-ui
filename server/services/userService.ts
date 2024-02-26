@@ -21,7 +21,7 @@ export default class UserService {
       urn,
       email,
     } as OtpRequest)
-    return optData && optData?.otp?.toString() === otp
+    return optData && optData.id != null
   }
 
   async getByNomsId(nomsId: string): Promise<PersonalDetails> {
