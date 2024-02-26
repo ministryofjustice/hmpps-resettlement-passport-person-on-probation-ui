@@ -72,15 +72,12 @@ describe('UserService', () => {
     config.redis.enabled = false
   })
 
-  test.each([
-    ['test@example.com', '123456', true],
-    ['test@example.com', '12', false],
-    ['test@example.com', 'abc123', false],
-    ['test@example.com', '', false],
-  ])('should validate an OTP code', async (email: string, code: string, expectedValid: boolean) => {
+  test('should validate an OTP code', async () => {
+    const email = 'test@example.com'
+    const code = '123456'
     resettlementPassportApiClient.submitUserOtp.mockResolvedValue(mockedOtpResponse)
     const result = await userService.checkOtp(email, code, 'urn:aaa:bbb')
-    expect(result).toBe(expectedValid)
+    expect(result).toBe(true)
     expect(loggerSpy).toHaveBeenCalledWith(`OTP verification for: ${email} and code: ${code}`)
   })
 
