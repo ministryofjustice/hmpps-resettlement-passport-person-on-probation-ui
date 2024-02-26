@@ -15,12 +15,12 @@
   }) }}
   {% endif %}
 
-  <div class="govuk-grid-row govuk-!-padding-bottom-4">
+  <div class="govuk-grid-row govuk-!-padding-bottom-6">
     <div class="govuk-grid-column-full">
 
       <form class="form" action="/otp/verify" method="post">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
-        <h1 class="govuk-heading-xl">Enter the 6 digit security code</h1>
+        <h1 class="govuk-heading-xl govuk-!-padding-top-4">Enter the 6 digit security code</h1>
 
         <div class="govuk-inset-text">
           You can find your security code in the Plan your future pack your probation officer gave you.
