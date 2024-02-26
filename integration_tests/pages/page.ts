@@ -33,6 +33,4 @@ export default abstract class Page {
       false, // skipFailures
     )
   }
-
-  signOut = (): PageElement => cy.get('[data-qa=signOut]')
 }

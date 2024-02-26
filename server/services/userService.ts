@@ -2,7 +2,7 @@ import logger from '../../logger'
 import config from '../config'
 import PersonOnProbationUserApiClient, { UserDetailsResponse } from '../data/personOnProbationApiClient'
 import { RedisClient, createRedisClient, ensureConnected } from '../data/redisClient'
-import ResettlementPassportApiClient, { OtpRequest } from '../data/resettlementPassportApiClient'
+import ResettlementPassportApiClient, { OtpRequest, PersonalDetails } from '../data/resettlementPassportApiClient'
 
 export default class UserService {
   redisClient: RedisClient
@@ -24,8 +24,33 @@ export default class UserService {
     return optData && optData?.otp?.toString() === otp
   }
 
-  async isVerified(urn: string): Promise<boolean> {
-    logger.info(`User verification: ${urn}`)
+  async getByNomsId(nomsId: string): Promise<PersonalDetails> {
+    logger.info(`Get personal details by nomsId`)
+    const key = `${nomsId}-popuserdetails-data`
+    if (config.redis.enabled) {
+      // read from cache
+      await ensureConnected(this.redisClient)
+      const personalDetailsString = await this.redisClient.get(key)
+      if (personalDetailsString) {
+        logger.info('Personal details found in cache')
+        const personalDetails = JSON.parse(personalDetailsString) as PersonalDetails
+        return Promise.resolve(personalDetails)
+      }
+    }
+
+    logger.info('Fetching data from Api')
+    const fetchedPersonalDetails = await this.resettlementPassportClient.getByNomsId(nomsId)
+    if (fetchedPersonalDetails && config.redis.enabled) {
+      // store to cache
+      await this.redisClient.set(key, JSON.stringify(fetchedPersonalDetails), {
+        EX: config.session.expiryMinutes * 60,
+      })
+    }
+    return Promise.resolve(fetchedPersonalDetails)
+  }
+
+  async isVerified(urn: string): Promise<UserDetailsResponse> {
+    logger.info(`User verification`)
     const key = `${urn}-popuser-data`
     if (config.redis.enabled) {
       // read from cache
@@ -34,7 +59,7 @@ export default class UserService {
       if (cachedUserString) {
         logger.info('Pop user data found in cache')
         const cachedUser = JSON.parse(cachedUserString) as UserDetailsResponse
-        return Promise.resolve(cachedUser?.verified === true)
+        return Promise.resolve(cachedUser)
       }
     }
 
@@ -47,6 +72,6 @@ export default class UserService {
       })
     }
 
-    return Promise.resolve(fetchedUser?.verified === true)
+    return Promise.resolve(fetchedUser)
   }
 }

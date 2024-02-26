@@ -6,10 +6,11 @@ export default class DashboardController {
 
   index: RequestHandler = async (req, res) => {
     // const testSub = 'fdc:gov.uk:2022:T5fYp6sYl3DdYNF0tDfZtF-c4ZKewWRLw8YGcy6oEj8'
-    const isVerified = await this.userService.isVerified(req.user.sub)
-    if (!isVerified) {
+    const verificationData = await this.userService.isVerified(req.user.sub)
+    if (!verificationData?.verified === true) {
       return res.redirect('/otp')
     }
-    return res.render('pages/dashboard', { user: req.user })
+    const personalData = await this.userService.getByNomsId(verificationData.nomsId)
+    return res.render('pages/dashboard', { user: req.user, personalData })
   }
 }

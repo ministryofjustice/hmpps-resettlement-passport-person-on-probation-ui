@@ -2,6 +2,6 @@ import Page from './page'
 
 export default class DashboardPage extends Page {
   constructor() {
-    super('Dashboard')
+    super('Plan your future')
   }
 }

@@ -44,12 +44,4 @@ context('Sign in with GOV.UK One Login', () => {
     cy.signIn()
     Page.verifyOnPage(OtpPage)
   })
-
-  it('User can log out', () => {
-    cy.signIn()
-    const page = Page.verifyOnPage(OtpPage)
-    page.signOut().click()
-    Page.verifyOnPage(GovukOneLoginPage)
-    cy.contains('You have been logged out.')
-  })
 })

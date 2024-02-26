@@ -16,6 +16,17 @@ const mockedResponse = {
   otp: 123456,
 }
 
+const mockedUserDetailsResponse = {
+  personalDetails: {
+    prisonerNumber: '123123',
+    prisonId: '33',
+    firstName: 'John',
+    middleNames: 'Paul',
+    lastName: 'Smith',
+    age: 44,
+  },
+}
+
 export default {
   stubGetPopUserOtp: (): SuperAgentRequest =>
     stubFor({
@@ -27,6 +38,18 @@ export default {
         status: 200,
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
         jsonBody: mockedResponse,
+      },
+    }),
+  stubGetPopUserDetails: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: mockedUserDetailsResponse,
       },
     }),
 }
