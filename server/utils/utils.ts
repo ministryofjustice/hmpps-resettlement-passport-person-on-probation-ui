@@ -66,7 +66,8 @@ export function formatAppointmentLocation(input: AppointmentLocation): string {
 export const isFuture = (d1: string): boolean => {
   const date1 = new Date(d1)
   const today = new Date()
-  if (date1 > today || date1 === today) {
+
+  if (date1 > today || date1.toISOString() === today.toISOString()) {
     return true
   }
   return false

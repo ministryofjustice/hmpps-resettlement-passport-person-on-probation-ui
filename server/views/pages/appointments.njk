@@ -16,7 +16,7 @@
 
   <div class="govuk-grid-row govuk-!-padding-bottom-8">
     <div class="govuk-grid-column-full">
-      <h3 class="govuk-heading-m">Your appointments</h3>
+      <h2 class="govuk-heading-m">Your appointments</h2>
     </div>
 
     <!-- Next appointments Begin -->
@@ -64,7 +64,7 @@
     <div class="govuk-grid-column-full govuk-!-padding-top-8">
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">View older appointments</span>
+          <span class="govuk-details__summary-text" data-qa="view-older-appointments" >View older appointments</span>
         </summary>
 
         {% for oldItem in oldAppointments %}
