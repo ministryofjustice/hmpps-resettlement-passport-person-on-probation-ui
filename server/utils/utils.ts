@@ -67,7 +67,7 @@ export const isFuture = (d1: string): boolean => {
   const date1 = new Date(d1)
   const today = new Date()
 
-  if (date1 > today || date1.toISOString() === today.toISOString()) {
+  if (date1 > today || date1.getTime() === today.getTime()) {
     return true
   }
   return false
