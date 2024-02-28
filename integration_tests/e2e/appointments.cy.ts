@@ -11,7 +11,7 @@ context('Appointments', () => {
     cy.task('stubHmppsToken')
   })
 
-  it('Should continue to Appointments after login', () => {
+  it('Should be able to see future and past Appointments', () => {
     cy.task('stubGetPopUserByUrn')
     cy.signIn()
     cy.contains('John Smith')
