@@ -1,0 +1,24 @@
+  {{ mojSubNavigation({
+    label: 'Sub navigation',
+    items: [{
+      text: 'Home',
+      href: '/dashboard',
+      active: activePage == 'dashboard'
+    }, {
+      text: 'Appointments',
+      href: '/appointments',
+      active: activePage == 'appointments'
+    }, {
+      text: 'Licence conditions',
+      href: '#',
+      active: activePage == 'licence-conditions'
+    }, {
+      text: 'Profile',
+      href: '#',
+      active: activePage == 'profile'
+    }, {
+      text: 'Sign out',
+      href: '/sign-out',
+      attributes: {'data-qa': "signOut"}
+    }]
+  }) }}

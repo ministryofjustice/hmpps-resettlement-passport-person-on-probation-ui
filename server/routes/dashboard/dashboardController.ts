@@ -5,7 +5,10 @@ export default class DashboardController {
   constructor(private readonly userService: UserService) {}
 
   index: RequestHandler = async (req, res) => {
-    const urn = req.user.sub
+    const urn = req.user?.sub
+    if (!urn) {
+      return res.redirect('/')
+    }
     const verificationData = await this.userService.isVerified(urn)
     if (!verificationData?.verified === true) {
       return res.redirect('/otp')
