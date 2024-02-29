@@ -3,6 +3,30 @@ import RestClient from './restClient'
 import config from '../config'
 import logger from '../../logger'
 
+export interface AppointmentLocation {
+  buildingName?: string
+  buildingNumber?: string
+  streetName?: string
+  district?: string
+  town?: string
+  county?: string
+  postcode?: string
+  description?: string
+}
+
+export interface Appointment {
+  title?: string
+  contact?: string
+  date?: string
+  time?: string
+  location?: AppointmentLocation
+  note?: string
+}
+
+export interface AppointmentData {
+  results: Appointment[]
+}
+
 export interface OtpDetailsResponse {
   id: number
   crn?: string
@@ -60,6 +84,18 @@ export default class ResettlementPassportApiClient {
       return response
     } catch (error) {
       logger.debug('Prisoner not found')
+    }
+    return null
+  }
+
+  async getAppointments(nomsId: string): Promise<AppointmentData> {
+    try {
+      const response = await this.restClient.get<AppointmentData>({
+        path: `/prisoner/${nomsId}/appointments`,
+      })
+      return response
+    } catch (error) {
+      logger.debug('Prisoner appointments not found')
     }
     return null
   }

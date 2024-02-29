@@ -1,3 +1,5 @@
+import { AppointmentLocation } from '../data/resettlementPassportApiClient'
+
 const properCase = (word: string): string =>
   word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
 
@@ -20,4 +22,53 @@ export const initialiseName = (fullName?: string): string | null => {
 
   const array = fullName.split(' ')
   return `${array[0][0]}. ${array.reverse()[0]}`
+}
+
+export const formatDate = (dateString: string, monthStyle: 'short' | 'long' = 'long'): string => {
+  if (!dateString || dateString?.length < 1) return null
+  const date = new Date(dateString)
+  const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: monthStyle, year: 'numeric' }
+  return date.toLocaleDateString('en-GB', options)
+}
+
+export function formatTime(inputTime: string): string {
+  if (!inputTime || inputTime?.length < 1) return null
+  // Split the input time string by ':' to extract hours and minutes
+  const [hour, minute] = inputTime.split(':')
+
+  // Convert hours and minutes to integers
+  const hourInt = parseInt(hour, 10)
+  const minuteInt = parseInt(minute, 10)
+
+  // Ensure the minutes are formatted with leading zeros
+  const hourStr = hourInt.toString()
+  const minuteStr = minuteInt.toString().padStart(2, '0')
+
+  // Create the formatted time string in 24-hour format
+  return `${hourStr}:${minuteStr}`
+}
+
+export function formatAppointmentLocation(input: AppointmentLocation): string {
+  if (!input) return null
+  return [
+    input?.buildingName,
+    input?.buildingNumber,
+    input?.streetName,
+    input?.district,
+    input?.town,
+    input?.county,
+    input?.postcode,
+  ]
+    .filter(x => x?.length > 0)
+    .join(', ')
+}
+
+export const isFuture = (d1: string): boolean => {
+  const date1 = new Date(d1)
+  const today = new Date()
+
+  if (date1 > today || date1.getTime() === today.getTime()) {
+    return true
+  }
+  return false
 }

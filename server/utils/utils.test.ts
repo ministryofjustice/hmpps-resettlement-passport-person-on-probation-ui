@@ -1,4 +1,12 @@
-import { convertToTitleCase, initialiseName } from './utils'
+import { AppointmentLocation } from '../data/resettlementPassportApiClient'
+import {
+  convertToTitleCase,
+  formatTime,
+  initialiseName,
+  formatDate,
+  formatAppointmentLocation,
+  isFuture,
+} from './utils'
 
 describe('convert to title case', () => {
   it.each([
@@ -26,5 +34,86 @@ describe('initialise name', () => {
     ['Double barrelled', 'Robert-John Smith-Jones-Wilson', 'R. Smith-Jones-Wilson'],
   ])('%s initialiseName(%s, %s)', (_: string, a: string, expected: string) => {
     expect(initialiseName(a)).toEqual(expected)
+  })
+})
+
+describe('formatTime', () => {
+  it.each([
+    ['14:00:00', '14:00'],
+    ['14:1', '14:01'],
+    [null, null],
+    ['', null],
+  ])('formatTime(%s)', (input: string, expected: string) => {
+    expect(formatTime(input)).toEqual(expected)
+  })
+})
+
+describe('formatDate', () => {
+  it.each([
+    ['2023-09-02', '2 September 2023'],
+    ['2023-1-1', '1 January 2023'],
+    [null, null],
+    ['', null],
+  ])('formatDate(%s)', (input: string, expected: string) => {
+    expect(formatDate(input)).toEqual(expected)
+  })
+})
+
+describe('formatAppointmentLocation', () => {
+  it.each([
+    [
+      {
+        buildingName: null,
+        buildingNumber: null,
+        streetName: null,
+        district: null,
+        town: null,
+        county: null,
+        postcode: null,
+        description: 'CRS Provider Location',
+      },
+      '',
+    ],
+    [
+      {
+        buildingName: 'The health centre',
+        buildingNumber: '123',
+        streetName: 'Main Street',
+        district: 'Headingley',
+        town: 'Leeds',
+        county: 'West Yorkshire',
+        postcode: 'LS1 2AB',
+        description: null,
+      },
+      'The health centre, 123, Main Street, Headingley, Leeds, West Yorkshire, LS1 2AB',
+    ],
+    [
+      {
+        postcode: 'LS1 2AB',
+      },
+      'LS1 2AB',
+    ],
+    [null, null],
+  ])('formatAppointmentLocation(%s)', (input: AppointmentLocation, expected: string) => {
+    expect(formatAppointmentLocation(input)).toEqual(expected)
+  })
+})
+
+describe('isFuture', () => {
+  beforeAll(() => {
+    jest.useFakeTimers({ advanceTimers: true })
+    jest.setSystemTime(new Date(2023, 8, 2))
+  })
+  afterAll(() => {
+    jest.useRealTimers()
+  })
+  it.each([
+    ['2023-09-01', false], // yesterday
+    ['2023-09-02', true], // today
+    ['2023-09-03', true], // tomorrow
+    [null, false],
+    ['', false],
+  ])('isFuture(%s)', (input: string, expected: boolean) => {
+    expect(isFuture(input)).toBe(expected)
   })
 })

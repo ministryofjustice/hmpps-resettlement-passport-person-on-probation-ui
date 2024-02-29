@@ -3,27 +3,8 @@
 
 {% block content %}
 
-  {{ mojSubNavigation({
-    label: 'Sub navigation',
-    items: [{
-      text: 'Home',
-      href: '/dashboard',
-      active: true
-    }, {
-      text: 'Appointments',
-      href: '#'
-    }, {
-      text: 'Licence conditions',
-      href: '#'
-    }, {
-      text: 'Profile',
-      href: '#'
-    }, {
-      text: 'Sign out',
-      href: '/sign-out',
-      attributes: {'data-qa': "signOut"}
-    }]
-  }) }}
+  {% set activePage = 'dashboard' %}
+  {% include "../partials/subnavigation.njk" %}
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-full">

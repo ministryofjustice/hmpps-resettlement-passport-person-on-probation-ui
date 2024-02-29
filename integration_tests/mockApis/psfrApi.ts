@@ -1,6 +1,70 @@
 import { SuperAgentRequest } from 'superagent'
 import { stubFor } from './wiremock'
 
+const getTomorrowsDate = () => {
+  const tomorrow = new Date()
+  tomorrow.setDate(new Date().getDate() + 1)
+  return tomorrow
+}
+
+const mockedAppointmentsResponse = (apptDate: Date) => {
+  return {
+    results: [
+      {
+        title: 'This is a future appointment',
+        contact: 'Unallocated Staff',
+        date: apptDate,
+        time: '14:05:00',
+        location: {
+          buildingName: null,
+          buildingNumber: null,
+          streetName: null,
+          district: null,
+          town: null,
+          county: null,
+          postcode: null,
+          description: 'CRS Provider Location',
+        },
+        note: null,
+      },
+      {
+        title: 'This is a past appointment',
+        contact: 'Unallocated Staff',
+        date: '2020-09-18',
+        time: '14:46:00',
+        location: {
+          buildingName: null,
+          buildingNumber: null,
+          streetName: null,
+          district: null,
+          town: null,
+          county: null,
+          postcode: null,
+          description: 'CRS Provider Location',
+        },
+        note: null,
+      },
+      {
+        title: 'This is another past appointment',
+        contact: 'Dr X',
+        date: '2020-01-23',
+        time: '10:45:00',
+        location: {
+          buildingName: 'Dave Smith Wing',
+          buildingNumber: null,
+          streetName: 'Big Street',
+          district: null,
+          town: 'Sheffield',
+          county: 'South Yorks',
+          postcode: 'S2 44e',
+          description: null,
+        },
+        note: '',
+      },
+    ],
+  }
+}
+
 const mockedOtpResponse = {
   id: 9,
   crn: 'U416100',
@@ -47,6 +111,18 @@ export default {
         status: 200,
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
         jsonBody: mockedUserDetailsResponse,
+      },
+    }),
+  stubGetAppointments: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/appointments`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: mockedAppointmentsResponse(getTomorrowsDate()),
       },
     }),
 }
