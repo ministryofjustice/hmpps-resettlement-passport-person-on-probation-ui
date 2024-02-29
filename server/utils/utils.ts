@@ -42,7 +42,7 @@ export function formatTime(inputTime: string): string {
   let hourInt = parseInt(hour, 10)
   const minuteInt = parseInt(minute, 10)
   if (hourInt > 12) {
-    hourInt = hourInt -12
+    hourInt -= 12
     suffix = 'PM'
   }
   // Ensure the minutes are formatted with leading zeros
