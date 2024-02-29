@@ -32,20 +32,25 @@ export const formatDate = (dateString: string, monthStyle: 'short' | 'long' = 'l
 }
 
 export function formatTime(inputTime: string): string {
+  let suffix = 'AM'
+
   if (!inputTime || inputTime?.length < 1) return null
   // Split the input time string by ':' to extract hours and minutes
   const [hour, minute] = inputTime.split(':')
 
   // Convert hours and minutes to integers
-  const hourInt = parseInt(hour, 10)
+  let hourInt = parseInt(hour, 10)
   const minuteInt = parseInt(minute, 10)
-
+  if (hourInt > 12) {
+    hourInt = hourInt -12
+    suffix = 'PM'
+  }
   // Ensure the minutes are formatted with leading zeros
   const hourStr = hourInt.toString()
   const minuteStr = minuteInt.toString().padStart(2, '0')
 
   // Create the formatted time string in 24-hour format
-  return `${hourStr}:${minuteStr}`
+  return `${hourStr}:${minuteStr} ${suffix}`
 }
 
 export function formatAppointmentLocation(input: AppointmentLocation): string {

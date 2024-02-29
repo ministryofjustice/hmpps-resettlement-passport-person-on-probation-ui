@@ -3,18 +3,13 @@ import nock from 'nock'
 import config, { AgentConfig } from '../config'
 import RestClient from './restClient'
 import getHmppsAuthToken from './hmppsAuthClient'
-import { createRedisClient, RedisClient } from './redisClient'
+import { createRedisClient } from './redisClient'
+import mockRedisClient from '../testutils/mockRedisClient'
 
 jest.mock('./hmppsAuthClient')
 jest.mock('./redisClient')
 
-const redisClient = {
-  get: jest.fn(),
-  set: jest.fn(),
-  on: jest.fn(),
-  connect: jest.fn(),
-  isOpen: true,
-} as unknown as jest.Mocked<RedisClient>
+const redisClient = mockRedisClient()
 
 describe('RestClient', () => {
   let restClient: RestClient

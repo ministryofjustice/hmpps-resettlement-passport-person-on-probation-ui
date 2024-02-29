@@ -1,4 +1,4 @@
-{%- from "moj/components/sub-navigation/macro.njk" import mojSubNavigation -%}
+
 {% extends "../partials/layout.njk" %}
 
 {% block content %}
@@ -78,7 +78,7 @@
                 {% if oldItem.location | formatAppointmentLocation %}
                   <span class="govuk-body-s"> {{ oldItem.location | formatAppointmentLocation }}</span>
                 {% else %}
-                  <span>No location available</span>
+                  <span class="govuk-body-s">No location available</span>
                 {% endif %}
               </p>
             </div>

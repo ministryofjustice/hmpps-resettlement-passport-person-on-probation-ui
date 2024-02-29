@@ -2,21 +2,16 @@ import UserService from './userService'
 import logger from '../../logger'
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
 import PersonOnProbationUserApiClient from '../data/personOnProbationApiClient'
-import { createRedisClient, RedisClient } from '../data/redisClient'
+import { createRedisClient } from '../data/redisClient'
 import config from '../config'
+import mockRedisClient from '../testutils/mockRedisClient'
 
 jest.mock('../../logger')
 jest.mock('../data/resettlementPassportApiClient')
 jest.mock('../data/personOnProbationApiClient')
 jest.mock('../data/redisClient')
 
-const redisClient = {
-  get: jest.fn(),
-  set: jest.fn(),
-  on: jest.fn(),
-  connect: jest.fn(),
-  isOpen: true,
-} as unknown as jest.Mocked<RedisClient>
+const redisClient = mockRedisClient()
 
 const mockedOtpResponse = {
   id: 9,
