@@ -27,19 +27,17 @@
 
           <p class="govuk-body-s">Next appointment:</p>
 
-          <span class="govuk-body-s">
-            <b> {{nextAppointment.date | formatDate }}</b><br> {{nextAppointment.time | formatTime }}
-          </span><br>
-          <span class="govuk-heading-s">
-            {{nextAppointment.title}}
-          </span>
+          <p class="govuk-body-s govuk-!-margin-0"><b>{{nextAppointment.date | formatDate }}</b></p>
+          <p class="govuk-body-s govuk-!-margin-0">{{nextAppointment.time | formatTime }}</p> 
+          <p class="govuk-heading-s govuk-!-margin-0">{{nextAppointment.title}}</p>
+       
           <span class="govuk-body-s">
           {% if nextAppointment.location | formatAppointmentLocation %}
             {{ nextAppointment.location | formatAppointmentLocation }}
           {% else %}
             No location available
           {% endif %}
-          </span><br><br>
+          </span>
          </div>
       </div>
 
