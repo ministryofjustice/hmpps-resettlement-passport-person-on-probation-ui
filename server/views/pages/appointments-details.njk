@@ -1,0 +1,54 @@
+
+{% extends "../partials/layout.njk" %}
+
+{% block content %}
+
+  {% set activePage = 'appointments' %}
+  {% include "../partials/subnavigation.njk" %}
+
+    <!-- Hiding page for now, coming up next -->
+
+    <!-- appointments details begin -->
+
+    {% if appointmentDetails %}
+      <div class="govuk-grid-column-full" data-qa="appointment-empty-box">
+        <p>Currently you have no future appointments</p>
+      </div>
+    {% endif %}
+    {% for item in appointments %}
+      <div class="govuk-grid-column-full" data-qa="appointment-box">
+        <div class="govuk-grid-row appsubpanel govuk-!-margin-bottom-4">
+          <div class="govuk-grid-column-full">
+            <section id="licence" class="app-summary-card govuk-!-margin-bottom-4">
+              <header class="app-summary-card__header">
+                <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0">{{appointmentDetails.date | formatDate}}
+                  <span class="govuk-caption-m">{{appointmentDetails.time | formatTime }}
+                  </span>
+                </h3>
+              </header>
+              <div class="app-summary-card__body govuk-!-padding-4">
+                <h3 class="govuk-heading-m">{{appointmentDetails.title}}</h3>
+                {% if appointmentDetails.location | formatAppointmentLocation %}
+                  <p>
+                    {{ appointmentDetails.location | formatAppointmentLocation }}</p>
+                  <p>
+                    <a href="#">
+                    View on Google maps</a>
+                  </p>
+                {% else %}
+                  <p>No location available</p>
+                {% endif %}
+
+                <h4 class="govuk-heading-s govuk-!-padding-top-2">Contact</h4>
+                <p>{{appointmentDetails.contact}}</p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+     <!-- Next appointments End -->
+
+  </div>
+
+{% endblock %}
