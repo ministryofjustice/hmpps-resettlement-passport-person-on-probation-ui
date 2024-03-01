@@ -14,8 +14,8 @@
   </div>
 
   <div class="govuk-grid-row govuk-!-padding-bottom-8">
-    <div class="govuk-grid-column-full govuk-!-margin-bottom-4">
-      <h2 class="govuk-heading-m ">Your appointments</h2>
+    <div class="govuk-grid-column-full">
+      <h2 class="govuk-heading-m">Your appointments</h2>
     </div>
 
     <!-- Next appointments Begin -->
@@ -27,38 +27,37 @@
     {% endif %}
     {% for item in appointments %}
       <div class="govuk-grid-column-full" data-qa="appointment-box">
-        <div class="govuk-grid-row govuk-!-margin-bottom-4">
+        <div class="govuk-grid-row appsubpanel govuk-!-margin-bottom-4">
           <div class="govuk-grid-column-full">
-            <section class="govuk-!-margin-bottom-4">
-              <header>
-                <h3 class="govuk-heading-m govuk-!-margin-bottom-0">{{item.date | formatDate}}
+            <section id="licence" class="app-summary-card govuk-!-margin-bottom-4">
+              <header class="app-summary-card__header">
+                <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0">{{item.date | formatDate}}
+                  <span class="govuk-caption-m">{{item.time | formatTime }}
+                  </span>
                 </h3>
               </header>
-              <div class="govuk-grid-row appsubpanel govuk-!-margin-bottom-4 govuk-!-margin-left-2">
-                <div class="govuk-grid-column-two-thirds govuk-!-margin-top-4">
-                  <span class="govuk-body-s">{{item.time | formatTime }}</span>
-                  <p >
-                    <b>{{item.title}}</b><br>
-                    <span class="govuk-body-s">
-                      {% if item.location | formatAppointmentLocation %}
-                        {{ item.location | formatAppointmentLocation }}
-                      {% else %}
-                  No location available
-                  {% endif %}
-                    </span>
+              <div class="app-summary-card__body govuk-!-padding-4">
+                <h3 class="govuk-heading-m">{{item.title}}</h3>
+                {% if item.location | formatAppointmentLocation %}
+                  <p>
+                    {{ item.location | formatAppointmentLocation }}</p>
+                  <p>
+                    <a href="#">
+                    View on Google maps</a>
                   </p>
-                  <p class="govuk-body-s">
-                    <a href="#">View details</a>
-                  </p>
-                  <hr class="govuk-section-break govuk-section-break--visible govuk-!-padding-top-4">
-                </div>
+                {% else %}
+                  <p>No location available</p>
+                {% endif %}
+
+                <h4 class="govuk-heading-s govuk-!-padding-top-2">Contact</h4>
+                <p>{{item.contact}}</p>
               </div>
             </section>
           </div>
         </div>
       </div>
     {% endfor %}
-    <!-- Next appointments End -->
+     <!-- Next appointments End -->
 
     <!-- Older appointments Begin -->
     <div class="govuk-grid-column-full govuk-!-padding-top-8">
@@ -68,25 +67,24 @@
         </summary>
 
         {% for oldItem in oldAppointments %}
-          <div class="govuk-details__text">
-            <h2 class="govuk-heading-m">{{oldItem.date | formatDate }}</h2>
-            <div class="govuk-grid-row appsubpanel govuk-!-margin-bottom-2">
-              <div class="govuk-grid-column-full">
-                <span class="govuk-body-m">{{oldItem.time | formatTime }}</span>
-                <p>
-                  <b>{{oldItem.title}}</b><br>
-                  {% if oldItem.location | formatAppointmentLocation %}
-                    <span class="govuk-body-s">
-                      {{ oldItem.location | formatAppointmentLocation }}</span>
-                  {% else %}
-                    <span class="govuk-body-s">No location available</span>
-                  {% endif %}
-                </p>
-              </div>
+        <div class="govuk-details__text">
+          <h2 class="govuk-heading-m">{{oldItem.date | formatDate }}</h2>
+          <div class="govuk-grid-row appsubpanel govuk-!-margin-bottom-2">
+            <div class="govuk-grid-column-full">
+              <span class="govuk-body-m">{{oldItem.time | formatTime }}</span>
+              <p>
+                <b>{{oldItem.title}}</b><br>
+                {% if oldItem.location | formatAppointmentLocation %}
+                  <span class="govuk-body-s"> {{ oldItem.location | formatAppointmentLocation }}</span>
+                {% else %}
+                  <span class="govuk-body-s">No location available</span>
+                {% endif %}
+              </p>
             </div>
-            <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-0 ">
           </div>
-        {% endfor %}
+          <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-0 ">
+        </div>
+       {% endfor %}
 
       </details>
     </div>
