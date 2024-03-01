@@ -77,3 +77,9 @@ export const isFuture = (d1: string): boolean => {
   }
   return false
 }
+
+export const sortByDate = (a: string, b: string, order: 'asc' | 'desc'): number => {
+  const date1 = new Date(order === 'asc' ? a : b)
+  const date2 = new Date(order === 'asc' ? b : a)
+  return date1.getTime() - date2.getTime()
+}
