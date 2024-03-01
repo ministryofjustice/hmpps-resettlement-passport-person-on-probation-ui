@@ -39,8 +39,11 @@ describe('initialise name', () => {
 
 describe('formatTime', () => {
   it.each([
-    ['14:00:00', '14:00'],
-    ['14:1', '14:01'],
+    ['14:00:00', '2:00 PM'],
+    ['14:1', '2:01 PM'],
+    ['12:00:00', '12:00 AM'],
+    ['09:01:00', '9:01 AM'],
+    ['13:50:23', '1:50 PM'],
     [null, null],
     ['', null],
   ])('formatTime(%s)', (input: string, expected: string) => {

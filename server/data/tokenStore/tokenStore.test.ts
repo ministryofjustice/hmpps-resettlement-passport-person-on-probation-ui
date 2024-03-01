@@ -1,13 +1,8 @@
+import mockRedisClient from '../../testutils/mockRedisClient'
 import { RedisClient } from '../redisClient'
 import TokenStore from './tokenStore'
 
-const redisClient = {
-  get: jest.fn(),
-  set: jest.fn(),
-  on: jest.fn(),
-  connect: jest.fn(),
-  isOpen: true,
-} as unknown as jest.Mocked<RedisClient>
+const redisClient = mockRedisClient()
 
 describe('tokenStore', () => {
   let tokenStore: TokenStore
