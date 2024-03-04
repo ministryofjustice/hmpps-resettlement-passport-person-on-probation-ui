@@ -4,8 +4,6 @@ import UserService from '../../services/userService'
 import { isFuture, sortByDate } from '../../utils/utils'
 import requireUser from '../requireUser'
 
-const MAX_APPOINTMENTS_DISPLAY = 5
-
 export default class AppointmentController {
   constructor(
     private readonly appointmentService: AppointmentService,
@@ -21,11 +19,20 @@ export default class AppointmentController {
     const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId)
     const nextAppointments = appointments?.results
       .filter(x => isFuture(x.date))
-      .slice(0, MAX_APPOINTMENTS_DISPLAY)
       .sort((x, y) => sortByDate(x.date, y.date, 'asc'))
     const oldAppointments = appointments?.results
       .filter(x => !isFuture(x.date))
       .sort((x, y) => sortByDate(x.date, y.date, 'desc'))
     return res.render('pages/appointments', { user: req.user, appointments: nextAppointments, oldAppointments })
+  }
+
+  show: RequestHandler = async (req, res) => {
+    const verificationData = await requireUser(req.user?.sub, this.userService)
+    if (typeof verificationData === 'string') {
+      return res.redirect(verificationData)
+    }
+    const id = typeof req.params.id === 'string' ? req.params.id : ''
+    const appointment = await this.appointmentService.getOneByIdAndNomsId(id, verificationData.nomsId)
+    return res.render('pages/appointmentDetails', { user: req.user, appointment })
   }
 }

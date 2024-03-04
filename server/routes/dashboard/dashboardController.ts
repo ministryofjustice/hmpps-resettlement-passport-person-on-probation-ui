@@ -19,7 +19,7 @@ export default class DashboardController {
     const personalData = await this.userService.getByNomsId(verificationData.nomsId, urn)
 
     const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId)
-    const nextAppointment = appointments?.results.filter(x => isFuture(x.date))?.[0]
+    const nextAppointment = appointments?.results?.filter(x => isFuture(x.date))?.[0]
 
     return res.render('pages/dashboard', { user: req.user, personalData, nextAppointment })
   }

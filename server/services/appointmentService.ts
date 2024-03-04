@@ -1,7 +1,8 @@
+import crypto from 'crypto'
 import logger from '../../logger'
 import config from '../config'
 import { RedisClient, createRedisClient, ensureConnected } from '../data/redisClient'
-import ResettlementPassportApiClient, { AppointmentData } from '../data/resettlementPassportApiClient'
+import ResettlementPassportApiClient, { AppointmentData, Appointment } from '../data/resettlementPassportApiClient'
 
 const ONE_MINUTE = 60
 
@@ -10,6 +11,12 @@ export default class AppointmentService {
 
   constructor(private readonly resettlementPassportClient: ResettlementPassportApiClient) {
     this.redisClient = createRedisClient()
+  }
+
+  async getOneByIdAndNomsId(id: string, nomsId: string): Promise<Appointment> {
+    const appointments = await this.getAllByNomsId(nomsId)
+    const appointment = appointments.results.find(x => x.id === id)
+    return Promise.resolve(appointment)
   }
 
   async getAllByNomsId(nomsId: string): Promise<AppointmentData> {
@@ -28,12 +35,21 @@ export default class AppointmentService {
 
     logger.info('Fetching appointments from Api')
     const fetchedAppointments = await this.resettlementPassportClient.getAppointments(nomsId)
+    // add a unique id
+    const dataToCache = {
+      results: fetchedAppointments?.results?.map(x => {
+        // eslint-disable-next-line
+        x.id = crypto.randomUUID()
+        return x
+      }),
+    }
+
     if (fetchedAppointments && config.redis.enabled) {
       // store to cache only briefly
-      await this.redisClient.set(key, JSON.stringify(fetchedAppointments), {
+      await this.redisClient.set(key, JSON.stringify(dataToCache), {
         EX: ONE_MINUTE,
       })
     }
-    return Promise.resolve(fetchedAppointments)
+    return Promise.resolve(dataToCache)
   }
 }

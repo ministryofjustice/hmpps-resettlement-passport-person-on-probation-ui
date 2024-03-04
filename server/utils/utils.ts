@@ -83,3 +83,12 @@ export const sortByDate = (a: string, b: string, order: 'asc' | 'desc'): number 
   const date2 = new Date(order === 'asc' ? b : a)
   return date1.getTime() - date2.getTime()
 }
+
+export const formatAppointmentNote = (inputNote?: string): string => {
+  if (inputNote) {
+    const htmlRegex = /<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g
+    const sanitisedNotes = inputNote.replace(htmlRegex, '')
+    return sanitisedNotes
+  }
+  return inputNote
+}
