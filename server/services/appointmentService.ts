@@ -40,6 +40,7 @@ export default class AppointmentService {
       results: fetchedAppointments?.results?.map(x => {
         // eslint-disable-next-line
         x.id = crypto.randomUUID()
+
         return x
       }),
     }

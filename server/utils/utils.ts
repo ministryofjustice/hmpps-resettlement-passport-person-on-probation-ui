@@ -1,3 +1,4 @@
+import { addSeconds, format } from 'date-fns'
 import { AppointmentLocation } from '../data/resettlementPassportApiClient'
 
 const properCase = (word: string): string =>
@@ -31,26 +32,17 @@ export const formatDate = (dateString: string, monthStyle: 'short' | 'long' = 'l
   return date.toLocaleDateString('en-GB', options)
 }
 
-export function formatTime(inputTime: string): string {
-  let suffix = 'AM'
-
+export function formatTime(inputTime: string, duration: number = 0): string {
   if (!inputTime || inputTime?.length < 1) return null
-  // Split the input time string by ':' to extract hours and minutes
-  const [hour, minute] = inputTime.split(':')
+  const [hours, minutes, seconds] = inputTime.split(':').map(Number)
 
-  // Convert hours and minutes to integers
-  let hourInt = parseInt(hour, 10)
-  const minuteInt = parseInt(minute, 10)
-  if (hourInt > 12) {
-    hourInt -= 12
-    suffix = 'PM'
-  }
-  // Ensure the minutes are formatted with leading zeros
-  const hourStr = hourInt.toString()
-  const minuteStr = minuteInt.toString().padStart(2, '0')
+  const dateObj = new Date()
+  dateObj.setHours(hours || 0)
+  dateObj.setMinutes(minutes || 0)
+  dateObj.setSeconds(seconds || 0)
+  const updatedDate = addSeconds(dateObj, duration)
 
-  // Create the formatted time string in 24-hour format
-  return `${hourStr}:${minuteStr} ${suffix}`
+  return format(updatedDate, 'h:mm a')
 }
 
 export function formatAppointmentLocation(input: AppointmentLocation): string {

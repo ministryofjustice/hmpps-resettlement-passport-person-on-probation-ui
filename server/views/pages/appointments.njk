@@ -1,4 +1,5 @@
 {% extends "../partials/layout.njk" %}
+{% import "../partials/appointmentMacro.njk" as appointmentMacro %}
 
 {% block content %}
 
@@ -26,42 +27,12 @@
       </div>
     {% endif %}
     {% for item in appointments %}
-      <div class="govuk-grid-column-full" data-qa="appointment-box">
-        <div class="govuk-grid-row appsubpanel govuk-!-margin-bottom-4">
-          <div class="govuk-grid-column-full">
-            <section id="licence" class="app-summary-card govuk-!-margin-bottom-4">
-              <header class="app-summary-card__header">
-                <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0">{{item.date | formatDate}}
-                  <span class="govuk-caption-m">{{item.time | formatTime }}
-                  </span>
-                </h3>
-              </header>
-              <div class="app-summary-card__body govuk-!-padding-4">
-                <h3 class="govuk-heading-m">{{item.title}}</h3>
-                {% if item.location | formatAppointmentLocation %}
-                  <p>
-                    {{ item.location | formatAppointmentLocation }}</p>
-                  <p>
-                    <a href="#">
-                    View on Google maps</a>
-                  </p>
-                {% else %}
-                  <p>No location available</p>
-                {% endif %}
-
-                <h4 class="govuk-heading-s govuk-!-padding-top-2">Contact</h4>
-                <p>{{item.contact}}</p>
-
-                <a href="/appointments/{{item.id}}">View details</a>
-              </div>
-            </section>
-          </div>
-        </div>
-      </div>
+     {{ appointmentMacro.details(item, false) }}
     {% endfor %}
      <!-- Next appointments End -->
 
     <!-- Older appointments Begin -->
+    {% if oldAppointments | length > 0 %}
     <div class="govuk-grid-column-full govuk-!-padding-top-8">
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">
@@ -90,6 +61,7 @@
 
       </details>
     </div>
+    {% endif %}
     <!-- Older appointments End -->
   </div>
 
