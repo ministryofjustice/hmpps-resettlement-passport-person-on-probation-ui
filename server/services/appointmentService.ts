@@ -37,7 +37,7 @@ export default class AppointmentService {
     const fetchedAppointments = await this.resettlementPassportClient.getAppointments(nomsId)
     // add a unique id
     const dataToCache = {
-      results: fetchedAppointments.results.map(x => {
+      results: fetchedAppointments?.results?.map(x => {
         // eslint-disable-next-line
         x.id = crypto.randomUUID()
         return x
