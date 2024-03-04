@@ -13,7 +13,7 @@ context('Appointments', () => {
     cy.signIn()
   })
 
-  afterEach(()=>{
+  afterEach(() => {
     cy.get('a.moj-sub-navigation__link[data-qa="signOut"]').click()
     cy.contains('You have been logged out.')
   })
@@ -27,7 +27,6 @@ context('Appointments', () => {
     cy.get('[data-qa="appointment-box"]').should('exist')
     cy.contains('This is a future appointment')
 
-
     // past appointments should be visible when toggled
     cy.get('[data-qa="view-older-appointments"]').click()
     cy.contains('This is a past appointment')
@@ -36,7 +35,7 @@ context('Appointments', () => {
   it('Should be able to see the Appointments details', () => {
     // should be on the dashboard
     cy.contains('John Smith')
-    
+
     // appointment card should exist and clickable
     cy.get('.card-body').should('exist')
     cy.get('#next-appointment-link').contains('This is a future appointment')
