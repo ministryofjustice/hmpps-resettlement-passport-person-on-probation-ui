@@ -15,6 +15,7 @@ export interface AppointmentLocation {
 }
 
 export interface Appointment {
+  id: string
   title?: string
   contact?: string
   date?: string

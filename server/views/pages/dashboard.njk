@@ -29,7 +29,7 @@
 
           <p class="govuk-body-s govuk-!-margin-0"><b>{{nextAppointment.date | formatDate }}</b></p>
           <p class="govuk-body-s govuk-!-margin-0">{{nextAppointment.time | formatTime }}</p> 
-          <p class="govuk-heading-s govuk-!-margin-0">{{nextAppointment.title}}</p>
+          <p class="govuk-heading-s govuk-!-margin-0"><a href="/appointments/{{nextAppointment.id}}">{{nextAppointment.title}}</a></p>
        
           <span class="govuk-body-s">
           {% if nextAppointment.location | formatAppointmentLocation %}

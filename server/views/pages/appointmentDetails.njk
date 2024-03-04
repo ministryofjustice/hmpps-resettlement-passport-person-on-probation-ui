@@ -1,0 +1,68 @@
+{% extends "../partials/layout.njk" %}
+
+{% block content %}
+
+  {% set activePage = '' %}
+  {% include "../partials/subnavigation.njk" %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-8">Appointment details</h1>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row govuk-!-padding-bottom-8">
+    <div class="govuk-grid-column-full govuk-!-padding-bottom-6">
+        <a href="/appointments">Back</a>
+    </div>
+
+    <!-- Appointment details Begin -->
+    {% if appointment %}
+      <div class="govuk-grid-column-full" data-qa="appointment-box">
+        <div class="govuk-grid-row appsubpanel govuk-!-margin-bottom-4">
+          <div class="govuk-grid-column-full">
+            <section id="licence" class="app-summary-card govuk-!-margin-bottom-4">
+              <header class="app-summary-card__header">
+                <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0">{{appointment.date | formatDate}}
+                  <span class="govuk-caption-m">{{appointment.time | formatTime }}
+                  </span>
+                </h3>
+              </header>
+              <div class="app-summary-card__body govuk-!-padding-4">
+                <h3 class="govuk-heading-m">{{appointment.title}}</h3>
+                {% if appointment.location | formatAppointmentLocation %}
+                  <p>
+                    {{ appointment.location | formatAppointmentLocation }}</p>
+                  <p>
+                    <a href="#">
+                    View on Google maps</a>
+                  </p>
+                {% else %}
+                  <p>No location available</p>
+                {% endif %}
+
+                <h4 class="govuk-heading-s govuk-!-padding-top-2">Contact</h4>
+                <p>{{appointment.contact}}</p>
+
+                <h4 class="govuk-heading-s govuk-!-padding-top-2">Notes</h4>
+                <p>
+                {% if appointment.note | formatAppointmentNote %}
+                  {{appointment.note}}
+                {% else %}
+                No notes available
+                {% endif %}
+                </p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="govuk-grid-column-full" data-qa="appointment-empty-box">
+        <p>Nothing to display. <a href="/appointments">Go back to appointments list</a></p>
+      </div>
+    {% endif %}
+    <!-- appointments details End -->
+  </div>
+
+{% endblock %}
