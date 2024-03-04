@@ -17,9 +17,10 @@
                 <h3 class="govuk-heading-m">{{appointment.title}}</h3>
                 {% if appointment.location | formatAppointmentLocation %}
                   <p>
-                    {{ appointment.location | formatAppointmentLocation }}</p>
+                    {{ appointment.location | formatAppointmentLocation }}
+                  </p>
                   <p>
-                    <a href="#">
+                    <a href="{{ appointment.location | mapsLinkFromAppointmentLocation }}">
                     View on Google maps</a>
                   </p>
                 {% else %}

@@ -60,6 +60,16 @@ export function formatAppointmentLocation(input: AppointmentLocation): string {
     .join(', ')
 }
 
+export function mapsLinkFromAppointmentLocation(input: AppointmentLocation): string {
+  if (!input) return null
+  const queryParams = [input?.buildingNumber, input?.streetName, input?.town, input?.postcode]
+    .filter(x => x?.length > 0)
+    .join('+')
+
+  if (queryParams?.length < 1) return null
+  return `https://www.google.com/maps/place/${queryParams}`
+}
+
 export const isFuture = (d1: string): boolean => {
   const date1 = new Date(d1)
   const today = new Date()
