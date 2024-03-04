@@ -50,11 +50,12 @@ describe('AppointmentService', () => {
     config.redis.enabled = false
   })
 
-  it('should fetch the appointment details', async () => {
+  it('should fetch the appointment details with a new identifier', async () => {
     const nomsId = 'A8731DY'
     resettlementPassportApiClient.getAppointments.mockResolvedValue(mockedAppointmentResponse)
-    const result = await appointmentService.getAllByNomsId(nomsId)
-    expect(result).toBe(mockedAppointmentResponse)
+    const appointments = await appointmentService.getAllByNomsId(nomsId)
+    expect(appointments.results.length).toBe(1)
+    expect(appointments.results[0].id).toBeTruthy()
     expect(loggerSpy).toHaveBeenCalledWith(`Get all appointments by nomsId`)
     expect(redisClient.get).toHaveBeenCalledWith(`${nomsId}-appointment-data`)
   })
