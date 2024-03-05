@@ -41,6 +41,8 @@
                   No notes available
                   {% endif %}
                   </p>
+                {% else %}
+                  <a id="next-appointment-link" href="/appointments/{{appointment.id}}">View details</a>
                 {% endif %}
               </div>
             </section>

@@ -11,6 +11,7 @@ const mockedAppointmentsResponse = (apptDate: Date) => {
   return {
     results: [
       {
+        id: 'abcba1de-a6e7-49be-a836-37388ce8a0bc',
         title: 'This is a future appointment',
         contact: 'Unallocated Staff',
         date: apptDate,
@@ -28,6 +29,25 @@ const mockedAppointmentsResponse = (apptDate: Date) => {
         note: null,
       },
       {
+        id: 'rbcbf2dq-a6e7-49be-b987-37388ce8a1fg',
+        title: 'This is another future appointment',
+        contact: 'Unallocated Staff',
+        date: apptDate,
+        time: '16:00:00',
+        location: {
+          buildingName: null,
+          buildingNumber: null,
+          streetName: null,
+          district: null,
+          town: null,
+          county: null,
+          postcode: null,
+          description: 'CRS Provider Location',
+        },
+        note: null,
+      },
+      {
+        id: '68ed096c-f953-42a9-a032-e3c6ffb59093',
         title: 'This is a past appointment',
         contact: 'Unallocated Staff',
         date: '2020-09-18',
@@ -45,6 +65,7 @@ const mockedAppointmentsResponse = (apptDate: Date) => {
         note: null,
       },
       {
+        id: '2ad42983-0185-48d4-ba09-155c8ead3944',
         title: 'This is another past appointment',
         contact: 'Dr X',
         date: '2020-01-23',

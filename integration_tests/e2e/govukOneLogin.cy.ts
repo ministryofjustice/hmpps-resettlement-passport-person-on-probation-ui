@@ -43,5 +43,7 @@ context('Sign in with GOV.UK One Login', () => {
   it('User can sign in and view callback page', () => {
     cy.signIn()
     Page.verifyOnPage(OtpPage)
+    cy.get('a.moj-sub-navigation__link[data-qa="signOut"]').click()
+    cy.contains('You have been logged out.')
   })
 })

@@ -2,7 +2,8 @@ import logger from '../../logger'
 import config from '../config'
 import PersonOnProbationUserApiClient, { UserDetailsResponse } from '../data/personOnProbationApiClient'
 import { RedisClient, createRedisClient, ensureConnected } from '../data/redisClient'
-import ResettlementPassportApiClient, { OtpRequest, PersonalDetails } from '../data/resettlementPassportApiClient'
+import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
+import type { OtpRequest, PersonalDetails } from '../data/resettlementPassportData'
 
 export default class UserService {
   redisClient: RedisClient
