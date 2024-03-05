@@ -62,12 +62,16 @@ export function formatAppointmentLocation(input: AppointmentLocation): string {
 
 export function mapsLinkFromAppointmentLocation(input: AppointmentLocation): string {
   if (!input) return null
-  const queryParams = [input?.buildingNumber, input?.streetName, input?.town, input?.postcode]
+  const validAddressInfo = [input?.buildingNumber, input?.streetName, input?.town, input?.postcode]
     .filter(x => x?.length > 0)
+  const queryParams = validAddressInfo
     .join('+')
 
-  if (queryParams?.length < 1) return null
-  return `https://www.google.com/maps/place/${queryParams}`
+  if (validAddressInfo?.length < 1) return null
+  if (validAddressInfo?.length === 4) {
+    return `https://www.google.com/maps/place/${queryParams}`
+  }
+  return `https://www.google.com/maps/?q=${queryParams}`
 }
 
 export const isFuture = (d1: string): boolean => {

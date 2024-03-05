@@ -148,7 +148,7 @@ describe('mapsLinkFromAppointmentLocation', () => {
       {
         postcode: 'LS1 2AB',
       },
-      'https://www.google.com/maps/place/LS1 2AB',
+      'https://www.google.com/maps/?q=LS1 2AB',
     ],
     [null, null],
   ])('mapsLinkFromAppointmentLocation(%s)', (input: AppointmentLocation, expected: string) => {
