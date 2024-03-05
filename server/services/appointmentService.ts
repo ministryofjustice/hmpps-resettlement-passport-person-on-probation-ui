@@ -35,11 +35,13 @@ export default class AppointmentService {
 
     logger.info('Fetching appointments from Api')
     const fetchedAppointments = await this.resettlementPassportClient.getAppointments(nomsId)
+
     // add a unique id
     const dataToCache = {
       results: fetchedAppointments?.results?.map(x => {
         // eslint-disable-next-line
         x.id = crypto.randomUUID()
+
         return x
       }),
     }

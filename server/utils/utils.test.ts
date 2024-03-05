@@ -7,6 +7,7 @@ import {
   formatAppointmentLocation,
   isFuture,
   sortByDate,
+  mapsLinkFromAppointmentLocation,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -41,14 +42,26 @@ describe('initialise name', () => {
 describe('formatTime', () => {
   it.each([
     ['14:00:00', '2:00 PM'],
-    ['14:1', '2:01 PM'],
-    ['12:00:00', '12:00 AM'],
+    ['14:01', '2:01 PM'],
+    ['12:00:00', '12:00 PM'],
     ['09:01:00', '9:01 AM'],
     ['13:50:23', '1:50 PM'],
     [null, null],
     ['', null],
   ])('formatTime(%s)', (input: string, expected: string) => {
     expect(formatTime(input)).toEqual(expected)
+  })
+
+  it.each([
+    ['14:00:00', '2:50 PM'],
+    ['14:01', '2:51 PM'],
+    ['12:00:00', '12:50 PM'],
+    ['09:01:00', '9:51 AM'],
+    ['13:50:23', '2:40 PM'],
+    [null, null],
+    ['', null],
+  ])('it should add 3000 seconds to formatTime(%s)', (input: string, expected: string) => {
+    expect(formatTime(input, 3000)).toEqual(expected)
   })
 })
 
@@ -100,6 +113,46 @@ describe('formatAppointmentLocation', () => {
     [null, null],
   ])('formatAppointmentLocation(%s)', (input: AppointmentLocation, expected: string) => {
     expect(formatAppointmentLocation(input)).toEqual(expected)
+  })
+})
+
+describe('mapsLinkFromAppointmentLocation', () => {
+  it.each([
+    [
+      {
+        buildingName: null,
+        buildingNumber: null,
+        streetName: null,
+        district: null,
+        town: null,
+        county: null,
+        postcode: null,
+        description: 'CRS Provider Location',
+      },
+      null,
+    ],
+    [
+      {
+        buildingName: 'The health centre',
+        buildingNumber: '123',
+        streetName: 'Main Street',
+        district: 'Headingley',
+        town: 'Leeds',
+        county: 'West Yorkshire',
+        postcode: 'LS1 2AB',
+        description: null,
+      },
+      'https://www.google.com/maps/place/123+Main Street+Leeds+LS1 2AB',
+    ],
+    [
+      {
+        postcode: 'LS1 2AB',
+      },
+      'https://www.google.com/maps/?q=LS1 2AB',
+    ],
+    [null, null],
+  ])('mapsLinkFromAppointmentLocation(%s)', (input: AppointmentLocation, expected: string) => {
+    expect(mapsLinkFromAppointmentLocation(input)).toEqual(expected)
   })
 })
 

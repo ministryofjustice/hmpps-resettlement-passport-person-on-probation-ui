@@ -10,20 +10,23 @@ export default class AppointmentController {
     private readonly userService: UserService,
   ) {}
 
-  index: RequestHandler = async (req, res) => {
-    const verificationData = await requireUser(req.user?.sub, this.userService)
-    if (typeof verificationData === 'string') {
-      return res.redirect(verificationData)
-    }
+  index: RequestHandler = async (req, res, next) => {
+    try {
+      const verificationData = await requireUser(req.user?.sub, this.userService)
+      if (typeof verificationData === 'string') {
+        return res.redirect(verificationData)
+      }
 
-    const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId)
-    const nextAppointments = appointments?.results
-      .filter(x => isFuture(x.date))
-      .sort((x, y) => sortByDate(x.date, y.date, 'asc'))
-    const oldAppointments = appointments?.results
-      .filter(x => !isFuture(x.date))
-      .sort((x, y) => sortByDate(x.date, y.date, 'desc'))
-    return res.render('pages/appointments', { user: req.user, appointments: nextAppointments, oldAppointments })
+      const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId)
+      const results = appointments?.results || []
+      const nextAppointments = results.filter(x => isFuture(x.date)).sort((x, y) => sortByDate(x.date, y.date, 'asc'))
+      const oldAppointments = results
+        .filter(x => !isFuture(x?.date))
+        .sort((x, y) => sortByDate(x?.date, y?.date, 'desc'))
+      return res.render('pages/appointments', { user: req.user, appointments: nextAppointments, oldAppointments })
+    } catch (err) {
+      return next(err)
+    }
   }
 
   show: RequestHandler = async (req, res) => {

@@ -18,6 +18,8 @@ export interface Appointment {
   id?: string
   title?: string
   contact?: string
+  contactEmail?: string
+  duration?: number
   date?: string
   time?: string
   location?: AppointmentLocation
