@@ -62,10 +62,10 @@ export function formatAppointmentLocation(input: AppointmentLocation): string {
 
 export function mapsLinkFromAppointmentLocation(input: AppointmentLocation): string {
   if (!input) return null
-  const validAddressInfo = [input?.buildingNumber, input?.streetName, input?.town, input?.postcode]
-    .filter(x => x?.length > 0)
-  const queryParams = validAddressInfo
-    .join('+')
+  const validAddressInfo = [input?.buildingNumber, input?.streetName, input?.town, input?.postcode].filter(
+    x => x?.length > 0,
+  )
+  const queryParams = validAddressInfo.join('+')
 
   if (validAddressInfo?.length < 1) return null
   if (validAddressInfo?.length === 4) {
