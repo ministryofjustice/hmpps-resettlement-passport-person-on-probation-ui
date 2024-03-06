@@ -44,6 +44,10 @@ export default class AppointmentService {
           // eslint-disable-next-line
           x.id = crypto.randomUUID()
         }
+        if (x.contactEmail === 'null') {
+          // eslint-disable-next-line
+          x.contactEmail = null
+        }
         return x
       }),
     }

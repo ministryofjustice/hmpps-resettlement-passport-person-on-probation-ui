@@ -14,27 +14,26 @@
                 </h3>
               </header>
               <div class="app-summary-card__body govuk-!-padding-4">
-                <h3 class="govuk-heading-m">{{appointment.title}}</h3>
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-1">{{appointment.title}}</h3>
                 {% if appointment.location | formatAppointmentLocation %}
-                  <p>
+                  <p class="govuk-body-s">
                     {{ appointment.location | formatAppointmentLocation }}
                   </p>
-                  <p>
+                  <p class="govuk-body-s">
                     <a href="{{ appointment.location | mapsLinkFromAppointmentLocation }}" target="_blank">
                     View on Google maps</a>
                   </p>
                 {% else %}
-                  <p>No location available</p>
+                  <p class="govuk-body-s">No location available</p>
                 {% endif %}
 
-                <h4 class="govuk-heading-s govuk-!-padding-top-2">Contact</h4>
-                <p>{{appointment.contact}}
+                <p class="govuk-body-s">Contact: {{appointment.contact}}
                 {% if appointment.contactEmail %}
-                ({{appointment.contactEmail}})
+                (email: {{appointment.contactEmail}})
                 {% endif %}</p>
                 {% if showNotes == true %}
                   <h4 class="govuk-heading-s govuk-!-padding-top-2">Notes</h4>
-                  <p>
+                  <p class="govuk-body-s">
                   {% if appointment.note | formatAppointmentNote %}
                     {{appointment.note}}
                   {% else %}
