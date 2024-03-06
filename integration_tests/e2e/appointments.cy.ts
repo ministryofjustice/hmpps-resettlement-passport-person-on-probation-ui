@@ -7,10 +7,8 @@ context('Appointments', () => {
     cy.task('stubSignIn')
     cy.task('stubGetPopUserOtp')
     cy.task('stubGetPopUserDetails')
-    cy.task('stubGetAppointments')
     cy.task('stubHmppsToken')
     cy.task('stubGetPopUserByUrn')
-    cy.signIn()
   })
 
   afterEach(() => {
@@ -18,7 +16,22 @@ context('Appointments', () => {
     cy.contains('You have been logged out.')
   })
 
+  it('Should render alert box for todays appointments', () => {
+    cy.task('stubGetAppointmentsToday')
+    cy.signIn()
+    cy.get('.govuk-notification-banner__heading').contains('You have 2 appointments today')
+  })
+
+  it('Should render alert box for tomorrows appointments', () => {
+    cy.task('stubGetAppointments')
+    cy.signIn()
+    cy.get('.govuk-notification-banner__heading').contains('You have 2 appointments tomorrow')
+  })
+
   it('Should be able to see future and past Appointments from the appointment list', () => {
+    cy.task('stubGetAppointments')
+    cy.signIn()
+
     // click sub navigation menu for appointments
     cy.get(':nth-child(2) > .moj-sub-navigation__link').click()
     Page.verifyOnPage(AppointmentsPage)
@@ -33,6 +46,9 @@ context('Appointments', () => {
   })
 
   it('Should be able to see the Appointments details', () => {
+    cy.task('stubGetAppointments')
+    cy.signIn()
+
     // should be on the dashboard
     cy.contains('John Smith')
 
