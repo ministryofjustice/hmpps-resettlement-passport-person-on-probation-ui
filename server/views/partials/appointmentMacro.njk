@@ -20,7 +20,7 @@
                     {{ appointment.location | formatAppointmentLocation }}
                   </p>
                   <p>
-                    <a href="{{ appointment.location | mapsLinkFromAppointmentLocation }}">
+                    <a href="{{ appointment.location | mapsLinkFromAppointmentLocation }}" target="_blank">
                     View on Google maps</a>
                   </p>
                 {% else %}
