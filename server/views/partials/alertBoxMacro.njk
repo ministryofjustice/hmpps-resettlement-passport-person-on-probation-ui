@@ -1,0 +1,36 @@
+ {% macro render(tomorrowAppointments, todayAppointments) %}
+        {% if todayAppointments | length > 0 %}
+           <div id="dashboard-alert-box-today" class="govuk-!-margin-bottom-4">
+                <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+                    <div class="govuk-notification-banner__header">
+                        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                            Important
+                        </h2>
+                    </div>
+                    <div class="govuk-notification-banner__content">
+                        <p class="govuk-notification-banner__heading">
+                            You have <a href="/appointments">{{todayAppointments.length}}</a>&nbsp;
+                            {{ todayAppointments | pluraliseAppointments}} today
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% elif tomorrowAppointments | length > 0 %}
+           <div id="dashboard-alert-box-tomorrow" class="govuk-!-margin-bottom-4">
+                <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+                    <div class="govuk-notification-banner__header">
+                        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                            Important
+                        </h2>
+                    </div>
+                    <div class="govuk-notification-banner__content">
+                        <p class="govuk-notification-banner__heading">
+                            You have <a href="/appointments">{{tomorrowAppointments.length}}</a>&nbsp;
+                            {{ tomorrowAppointments | pluraliseAppointments}} tomorrow
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+{% endmacro %}

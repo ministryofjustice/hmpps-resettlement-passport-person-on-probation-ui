@@ -1,5 +1,5 @@
 import { addSeconds, format } from 'date-fns'
-import type { AppointmentLocation } from '../data/resettlementPassportData'
+import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
 
 const properCase = (word: string): string =>
   word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
@@ -79,6 +79,11 @@ export const isFuture = (d1: string): boolean => {
     return true
   }
   return false
+}
+
+// TODO: take Locale into account for i18n in the future
+export function pluraliseAppointments(input: Appointment[]): string {
+  return input.length === 1 ? 'appointment' : 'appointments'
 }
 
 export const sortByDate = (a: string, b: string, order: 'asc' | 'desc'): number => {

@@ -8,6 +8,7 @@ import {
   isFuture,
   sortByDate,
   mapsLinkFromAppointmentLocation,
+  pluraliseAppointments,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -195,5 +196,39 @@ describe('sortByDate', () => {
     const date2 = '2024-03-01'
     expect(sortByDate(date1, date2, 'desc')).toBe(0)
     expect(sortByDate(date1, date2, 'asc')).toBe(0)
+  })
+})
+
+describe('pluraliseAppointments', () => {
+  it('should not pluralise', () => {
+    const appointment = {
+      results: [
+        {
+          id: 'abcba1de-a6e7-49be-a836-37388ce8a0bc',
+          title: 'This is a future appointment',
+          contact: 'Unallocated Staff',
+          time: '14:05:00',
+        },
+      ],
+    }
+    expect(pluraliseAppointments(appointment.results)).toEqual('appointment')
+  })
+
+  it('should pluralise appointments', () => {
+    const appointment = {
+      results: [
+        {
+          title: 'appointment 1',
+          contact: 'Unallocated Staff',
+          time: '09:00:00',
+        },
+        {
+          title: 'appointment 2',
+          contact: 'Unallocated Staff',
+          time: '14:05:00',
+        },
+      ],
+    }
+    expect(pluraliseAppointments(appointment.results)).toEqual('appointments')
   })
 })

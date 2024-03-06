@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express'
+import { isTomorrow, isToday } from 'date-fns'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
 import AppointmentService from '../../services/appointmentService'
@@ -21,6 +22,15 @@ export default class DashboardController {
     const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId)
     const nextAppointment = appointments?.results?.filter(x => isFuture(x.date))?.[0]
 
-    return res.render('pages/dashboard', { user: req.user, personalData, nextAppointment })
+    const tomorrowAppointments = appointments?.results?.filter(x => isTomorrow(new Date(x.date)))
+    const todayAppointments = appointments?.results?.filter(x => isToday(new Date(x.date)))
+
+    return res.render('pages/dashboard', {
+      user: req.user,
+      personalData,
+      nextAppointment,
+      tomorrowAppointments,
+      todayAppointments,
+    })
   }
 }

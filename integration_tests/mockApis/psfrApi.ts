@@ -6,6 +6,9 @@ const getTomorrowsDate = () => {
   tomorrow.setDate(new Date().getDate() + 1)
   return tomorrow
 }
+const getTodaysDate = () => {
+  return new Date()
+}
 
 const mockedAppointmentsResponse = (apptDate: Date) => {
   return {
@@ -144,6 +147,18 @@ export default {
         status: 200,
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
         jsonBody: mockedAppointmentsResponse(getTomorrowsDate()),
+      },
+    }),
+  stubGetAppointmentsToday: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/appointments`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: mockedAppointmentsResponse(getTodaysDate()),
       },
     }),
 }
