@@ -14,7 +14,7 @@ context('Appointments', () => {
   })
 
   afterEach(() => {
-    cy.get('a.moj-sub-navigation__link[data-qa="signOut"]').click()
+    cy.get('[data-qa="signOut"]').click()
     cy.contains('You have been logged out.')
   })
 
@@ -43,5 +43,18 @@ context('Appointments', () => {
 
     // appointment details page should be visible for the selected appointment
     cy.get('.govuk-heading-xl').contains('Appointment details')
+    cy.contains('This is a future appointment')
+
+    // appointment navigation should be present
+    cy.get('#all-navigation-link').should('exist')
+    cy.get('#previous-navigation-link').should('not.exist')
+    cy.get('#next-navigation-link').should('exist')
+
+    // next link takes me to another view
+    cy.get('#next-navigation-link').click()
+    cy.contains('This is another future appointment')
+    cy.get('#all-navigation-link').should('exist')
+    cy.get('#previous-navigation-link').should('exist')
+    cy.get('#next-navigation-link').should('not.exist')
   })
 })

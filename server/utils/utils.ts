@@ -1,5 +1,5 @@
 import { addSeconds, format } from 'date-fns'
-import { AppointmentLocation } from '../data/resettlementPassportApiClient'
+import type { AppointmentLocation } from '../data/resettlementPassportData'
 
 const properCase = (word: string): string =>
   word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
@@ -68,9 +68,6 @@ export function mapsLinkFromAppointmentLocation(input: AppointmentLocation): str
   const queryParams = validAddressInfo.join('+')
 
   if (validAddressInfo?.length < 1) return null
-  if (validAddressInfo?.length === 4) {
-    return `https://www.google.com/maps/place/${queryParams}`
-  }
   return `https://www.google.com/maps/?q=${queryParams}`
 }
 

@@ -15,6 +15,11 @@ context('OTP verification', () => {
     cy.task('stubHmppsToken')
   })
 
+  afterEach(() => {
+    cy.get('[data-qa="signOut"]').click()
+    cy.contains('You have been logged out.')
+  })
+
   it.skip('Should not continue to Dashboard after validating OTP (invalid)', () => {
     cy.task('stubGetPopUserByUrn')
     cy.signIn()
@@ -45,18 +50,5 @@ context('OTP verification', () => {
 
     enterValidOtp()
     Page.verifyOnPage(OtpPage)
-  })
-
-  it('User can log out', () => {
-    cy.task('stubGetPopUserByUrn')
-    cy.signIn()
-    cy.visit('/otp')
-    Page.verifyOnPage(OtpPage)
-
-    enterValidOtp()
-    cy.contains('John Smith')
-
-    cy.get('a.moj-sub-navigation__link[data-qa="signOut"]').click()
-    cy.contains('You have been logged out.')
   })
 })

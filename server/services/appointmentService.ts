@@ -2,9 +2,10 @@ import crypto from 'crypto'
 import logger from '../../logger'
 import config from '../config'
 import { RedisClient, createRedisClient, ensureConnected } from '../data/redisClient'
-import ResettlementPassportApiClient, { AppointmentData, Appointment } from '../data/resettlementPassportApiClient'
+import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
+import type { AppointmentData, Appointment } from '../data/resettlementPassportData'
 
-const ONE_MINUTE = 60
+const FIVE_MINUTES = 60 * 5
 
 export default class AppointmentService {
   redisClient: RedisClient
@@ -39,9 +40,10 @@ export default class AppointmentService {
     // add a unique id
     const dataToCache = {
       results: fetchedAppointments?.results?.map(x => {
-        // eslint-disable-next-line
-        x.id = crypto.randomUUID()
-
+        if (config.redis.enabled) {
+          // eslint-disable-next-line
+          x.id = crypto.randomUUID()
+        }
         return x
       }),
     }
@@ -49,7 +51,7 @@ export default class AppointmentService {
     if (fetchedAppointments && config.redis.enabled) {
       // store to cache only briefly
       await this.redisClient.set(key, JSON.stringify(dataToCache), {
-        EX: ONE_MINUTE,
+        EX: FIVE_MINUTES,
       })
     }
     return Promise.resolve(dataToCache)

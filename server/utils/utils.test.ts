@@ -1,4 +1,4 @@
-import { AppointmentLocation } from '../data/resettlementPassportApiClient'
+import type { AppointmentLocation } from '../data/resettlementPassportData'
 import {
   convertToTitleCase,
   formatTime,
@@ -142,7 +142,7 @@ describe('mapsLinkFromAppointmentLocation', () => {
         postcode: 'LS1 2AB',
         description: null,
       },
-      'https://www.google.com/maps/place/123+Main Street+Leeds+LS1 2AB',
+      'https://www.google.com/maps/?q=123+Main Street+Leeds+LS1 2AB',
     ],
     [
       {
