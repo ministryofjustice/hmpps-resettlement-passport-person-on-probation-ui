@@ -1,6 +1,7 @@
 import { addSeconds, format } from 'date-fns'
 import type { AppointmentLocation } from '../data/resettlementPassportData'
 
+
 const properCase = (word: string): string =>
   word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
 
@@ -68,8 +69,10 @@ export function mapsLinkFromAppointmentLocation(input: AppointmentLocation): str
   const queryParams = validAddressInfo.join('+')
 
   if (validAddressInfo?.length < 1) return null
-  return `https://www.google.com/maps/?q=${queryParams}`
-}
+  if (validAddressInfo?.length === 4) {
+    return `https://www.google.com/maps/place/${queryParams}`
+  }
+
 
 export const isFuture = (d1: string): boolean => {
   const date1 = new Date(d1)

@@ -2,7 +2,8 @@
 import RestClient from './restClient'
 import config from '../config'
 import logger from '../../logger'
-import { AppointmentData, OtpDetailsResponse, OtpRequest, PersonalDetails } from './resettlementPassportData'
+
+import type { AppointmentData, OtpDetailsResponse, OtpRequest, PersonalDetails } from './resettlementPassportData'
 
 export default class ResettlementPassportApiClient {
   restClient: RestClient
