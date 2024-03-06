@@ -5,10 +5,9 @@ import {
   initialiseName,
   formatDate,
   formatAppointmentLocation,
-  isFuture,
-  sortByDate,
   mapsLinkFromAppointmentLocation,
   pluraliseAppointments,
+  isFuture,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -173,29 +172,6 @@ describe('isFuture', () => {
     ['', false],
   ])('isFuture(%s)', (input: string, expected: boolean) => {
     expect(isFuture(input)).toBe(expected)
-  })
-})
-
-describe('sortByDate', () => {
-  test('should correctly sort dates in ascending order', () => {
-    const date1 = '2024-03-01'
-    const date2 = '2024-03-02'
-    const result = sortByDate(date1, date2, 'asc')
-    expect(result).toBeLessThan(0)
-  })
-
-  test('should correctly sort dates in descending order', () => {
-    const date1 = '2024-03-01'
-    const date2 = '2024-03-02'
-    const result = sortByDate(date1, date2, 'desc')
-    expect(result).toBeGreaterThan(0)
-  })
-
-  test('should not sort equal dates', () => {
-    const date1 = '2024-03-01'
-    const date2 = '2024-03-01'
-    expect(sortByDate(date1, date2, 'desc')).toBe(0)
-    expect(sortByDate(date1, date2, 'asc')).toBe(0)
   })
 })
 

@@ -1,4 +1,4 @@
-import { addSeconds, format } from 'date-fns'
+import { addSeconds, compareAsc, compareDesc, format } from 'date-fns'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
 
 const properCase = (word: string): string =>
@@ -18,7 +18,7 @@ export const convertToTitleCase = (sentence: string): string =>
   isBlank(sentence) ? '' : sentence.split(' ').map(properCaseName).join(' ')
 
 export const initialiseName = (fullName?: string): string | null => {
-  // this check is for the authError page
+  // this check is for the authError pageF
   if (!fullName) return null
 
   const array = fullName.split(' ')
@@ -75,7 +75,7 @@ export const isFuture = (d1: string): boolean => {
   const date1 = new Date(d1)
   const today = new Date()
 
-  if (date1 > today || date1.getTime() === today.getTime()) {
+  if (date1 > today || date1?.getTime() === today.getTime()) {
     return true
   }
   return false
@@ -84,12 +84,6 @@ export const isFuture = (d1: string): boolean => {
 // TODO: take Locale into account for i18n in the future
 export function pluraliseAppointments(input: Appointment[]): string {
   return input.length === 1 ? 'appointment' : 'appointments'
-}
-
-export const sortByDate = (a: string, b: string, order: 'asc' | 'desc'): number => {
-  const date1 = new Date(order === 'asc' ? a : b)
-  const date2 = new Date(order === 'asc' ? b : a)
-  return date1.getTime() - date2.getTime()
 }
 
 export const formatAppointmentNote = (inputNote?: string): string => {
