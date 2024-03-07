@@ -8,7 +8,7 @@ import { RedisClient, createRedisClient, ensureConnected } from '../data/redisCl
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
 import type { AppointmentData, Appointment } from '../data/resettlementPassportData'
 
-const CACHE_MINUTES = 1
+const CACHE_MINUTES = 60 * 1
 
 export default class AppointmentService {
   redisClient: RedisClient
@@ -45,15 +45,15 @@ export default class AppointmentService {
       results: fetchedAppointments?.results?.map(x => {
         if (config.redis.enabled) {
           x.id = crypto.randomUUID()
+          x.dateTime = new Date(x.date)
+          if (x.time) {
+            const [hours, minutes] = x.time.split(':').map(Number)
+            x.dateTime = addHours(x.dateTime, hours)
+            x.dateTime = addMinutes(x.dateTime, minutes)
+          }
         }
         if (x.contactEmail === 'null') {
           x.contactEmail = null
-        }
-        x.dateTime = new Date(x.date)
-        if (x.time) {
-          const [hours, minutes] = x.time.split(':').map(Number)
-          x.dateTime = addHours(x.dateTime, hours)
-          x.dateTime = addMinutes(x.dateTime, minutes)
         }
         return x
       }),

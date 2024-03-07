@@ -45,7 +45,7 @@ context('Appointments', () => {
     cy.contains('This is a past appointment')
   })
 
-  it('Should be able to see the Appointments details', () => {
+  it('Should be able to see the Appointments Card', () => {
     cy.task('stubGetAppointments')
     cy.signIn()
 
@@ -54,8 +54,19 @@ context('Appointments', () => {
 
     // appointment card should exist and clickable
     cy.get('.card-body').should('exist')
-    cy.get('#next-appointment-link').contains('This is a future appointment')
-    cy.get('#next-appointment-link').click()
+    cy.get('#next-appointment-title').contains('This is a future appointment')
+  })
+
+  it('Should be able to see the Appointments details', () => {
+    cy.task('stubGetAppointments')
+    cy.signIn()
+
+    // click sub navigation menu for appointments
+    cy.get(':nth-child(2) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(AppointmentsPage)
+
+    // future appointments should be visible
+    cy.get('#view-details-link').first().click()
 
     // appointment details page should be visible for the selected appointment
     cy.get('.govuk-heading-xl').contains('Appointment details')

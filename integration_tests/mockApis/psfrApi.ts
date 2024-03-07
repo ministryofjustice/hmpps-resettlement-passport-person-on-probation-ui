@@ -19,6 +19,7 @@ const mockedAppointmentsResponse = (apptDate: Date) => {
         contact: 'Unallocated Staff',
         date: apptDate,
         time: '14:05:00',
+        dateTime: new Date(apptDate),
         location: {
           buildingName: null,
           buildingNumber: null,
@@ -37,6 +38,7 @@ const mockedAppointmentsResponse = (apptDate: Date) => {
         contact: 'Unallocated Staff',
         date: apptDate,
         time: '16:00:00',
+        dateTime: new Date(apptDate),
         location: {
           buildingName: null,
           buildingNumber: null,
@@ -55,6 +57,7 @@ const mockedAppointmentsResponse = (apptDate: Date) => {
         contact: 'Unallocated Staff',
         date: '2020-09-18',
         time: '14:46:00',
+        dateTime: new Date('2020-09-18'),
         location: {
           buildingName: null,
           buildingNumber: null,
@@ -73,6 +76,7 @@ const mockedAppointmentsResponse = (apptDate: Date) => {
         contact: 'Dr X',
         date: '2020-01-23',
         time: '10:45:00',
+        dateTime: new Date('2020-01-23'),
         location: {
           buildingName: 'Dave Smith Wing',
           buildingNumber: null,
@@ -141,7 +145,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/appointments`,
+        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false`,
       },
       response: {
         status: 200,
@@ -153,7 +157,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/appointments`,
+        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false`,
       },
       response: {
         status: 200,
