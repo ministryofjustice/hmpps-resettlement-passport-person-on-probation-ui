@@ -21,7 +21,7 @@ const mockedLicenceConditions = {
       image: false,
       text: 'Be of good behaviour and not behave in a way which undermines the purpose of the licence period.',
       sequence: 0,
-    }
+    },
   ],
   otherLicenseConditions: [
     {
@@ -29,7 +29,7 @@ const mockedLicenceConditions = {
       image: true,
       text: 'Not to enter the area of Leeds City Centre, as defined by the attached map, without the prior approval of your supervising officer.',
       sequence: 7,
-    }
+    },
   ],
 }
 

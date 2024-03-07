@@ -18,7 +18,7 @@ export const convertToTitleCase = (sentence: string): string =>
   isBlank(sentence) ? '' : sentence.split(' ').map(properCaseName).join(' ')
 
 export const initialiseName = (fullName?: string): string | null => {
-  // this check is for the authError page
+  // this check is for the authError pageF
   if (!fullName) return null
 
   const array = fullName.split(' ')
@@ -26,6 +26,7 @@ export const initialiseName = (fullName?: string): string | null => {
 }
 
 export const formatLicenceDate = (dateString: string): string => {
+  if (!dateString || dateString?.length < 1) return null
   const date = parse(dateString, 'dd/MM/yyyy', new Date())
   const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' }
   return date.toLocaleDateString('en-GB', options)
@@ -48,7 +49,7 @@ export function formatTime(inputTime: string, duration: number = 0): string {
   dateObj.setSeconds(seconds || 0)
   const updatedDate = addSeconds(dateObj, duration)
 
-  return format(updatedDate, 'h:mm a')
+  return format(updatedDate, 'hh:mm a')
 }
 
 export function formatAppointmentLocation(input: AppointmentLocation): string {

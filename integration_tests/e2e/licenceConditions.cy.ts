@@ -1,4 +1,3 @@
-import AppointmentsPage from '../pages/appointment'
 import LicencePage from '../pages/licence'
 import Page from '../pages/page'
 
@@ -32,7 +31,8 @@ context('Licence conditions', () => {
     cy.contains('Be of good behaviour and not behave in a way which undermines the purpose of the licence period.')
 
     // additional conditions should be visible
-    cy.contains('Not to enter the area of Leeds City Centre, as defined by the attached map, without the prior approval of your supervising officer.')
+    cy.contains(
+      'Not to enter the area of Leeds City Centre, as defined by the attached map, without the prior approval of your supervising officer.',
+    )
   })
-
 })
