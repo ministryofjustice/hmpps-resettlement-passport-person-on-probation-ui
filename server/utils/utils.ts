@@ -1,4 +1,4 @@
-import { addSeconds, compareAsc, compareDesc, format } from 'date-fns'
+import { addSeconds, format } from 'date-fns'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
 
 const properCase = (word: string): string =>
@@ -42,7 +42,7 @@ export function formatTime(inputTime: string, duration: number = 0): string {
   dateObj.setSeconds(seconds || 0)
   const updatedDate = addSeconds(dateObj, duration)
 
-  return format(updatedDate, 'h:mm a')
+  return format(updatedDate, 'hh:mm a')
 }
 
 export function formatAppointmentLocation(input: AppointmentLocation): string {

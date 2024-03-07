@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import { compareAsc, compareDesc } from 'date-fns'
+import { compareAsc } from 'date-fns'
 import AppointmentService from '../../services/appointmentService'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
@@ -28,7 +28,8 @@ export default class AppointmentController {
       const nextAppointments = getFutureAppointments(results)
       const oldAppointments = results
         .filter(x => !isFuture(x.date))
-        .sort((x, y) => compareDesc(x?.dateTime, y?.dateTime))
+        .sort((x, y) => compareAsc(x?.dateTime, y?.dateTime))
+        .reverse()
       return res.render('pages/appointments', { user: req.user, appointments: nextAppointments, oldAppointments })
     } catch (err) {
       return next(err)
