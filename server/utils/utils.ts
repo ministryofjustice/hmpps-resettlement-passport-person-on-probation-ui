@@ -18,7 +18,7 @@ export const convertToTitleCase = (sentence: string): string =>
   isBlank(sentence) ? '' : sentence.split(' ').map(properCaseName).join(' ')
 
 export const initialiseName = (fullName?: string): string | null => {
-  // this check is for the authError pageF
+  // this check is for the authError page
   if (!fullName) return null
 
   const array = fullName.split(' ')
@@ -42,13 +42,13 @@ export function formatTime(inputTime: string, duration: number = 0): string {
   if (!inputTime || inputTime?.length < 1) return null
   const [hours, minutes, seconds] = inputTime.split(':').map(Number)
 
-  const dateObj = new Date(inputTime)
+  const dateObj = new Date()
   dateObj.setHours(hours || 0)
   dateObj.setMinutes(minutes || 0)
   dateObj.setSeconds(seconds || 0)
   const updatedDate = addSeconds(dateObj, duration)
 
-  return format(updatedDate, 'hh:mm a')
+  return format(updatedDate, 'h:mm a')
 }
 
 export function formatAppointmentLocation(input: AppointmentLocation): string {
