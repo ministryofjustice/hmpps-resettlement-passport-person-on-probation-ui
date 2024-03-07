@@ -8,7 +8,7 @@ import { RedisClient, createRedisClient, ensureConnected } from '../data/redisCl
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
 import type { AppointmentData, Appointment } from '../data/resettlementPassportData'
 
-const CACHE_MINUTES = 60 * 1
+const CACHE_MINUTES = 60 * 3
 
 export default class AppointmentService {
   redisClient: RedisClient
