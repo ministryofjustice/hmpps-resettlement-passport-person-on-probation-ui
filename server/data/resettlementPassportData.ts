@@ -69,3 +69,19 @@ export interface PersonalDetails {
   ]
   assessmentRequired?: true
 }
+
+export interface LicenceInfo {
+  id: number
+  image: boolean
+  text?: string
+  sequence: number
+}
+
+export interface LicenceConditionData {
+  licenceId?: number
+  status?: string
+  startDate?: string
+  expiryDate?: string
+  standardLicenceConditions?: LicenceInfo[]
+  otherLicenseConditions?: LicenceInfo[]
+}
