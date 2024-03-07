@@ -1,12 +1,13 @@
 import { RequestHandler } from 'express'
+import { compareAsc } from 'date-fns'
 import AppointmentService from '../../services/appointmentService'
 import UserService from '../../services/userService'
-import { isFuture, sortByDate } from '../../utils/utils'
 import requireUser from '../requireUser'
 import type { Appointment } from '../../data/resettlementPassportData'
+import { isFuture } from '../../utils/utils'
 
 const getFutureAppointments = (results: Appointment[]) => {
-  return results.filter(x => isFuture(x.date)).sort((x, y) => sortByDate(x.date, y.date, 'asc'))
+  return results.filter(x => isFuture(x.date)).sort((x, y) => compareAsc(x.dateTime, y.dateTime))
 }
 
 export default class AppointmentController {
@@ -26,8 +27,9 @@ export default class AppointmentController {
       const results = appointments?.results || []
       const nextAppointments = getFutureAppointments(results)
       const oldAppointments = results
-        .filter(x => !isFuture(x?.date))
-        .sort((x, y) => sortByDate(x?.date, y?.date, 'desc'))
+        .filter(x => !isFuture(x.date))
+        .sort((x, y) => compareAsc(x?.dateTime, y?.dateTime))
+        .reverse()
       return res.render('pages/appointments', { user: req.user, appointments: nextAppointments, oldAppointments })
     } catch (err) {
       return next(err)

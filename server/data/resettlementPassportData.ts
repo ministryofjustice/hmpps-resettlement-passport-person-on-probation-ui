@@ -18,6 +18,7 @@ export interface Appointment {
   contactEmail?: string
   duration?: number
   date?: string
+  dateTime?: Date
   time?: string
   location?: AppointmentLocation
   note?: string

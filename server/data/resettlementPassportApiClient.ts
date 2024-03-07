@@ -27,7 +27,7 @@ export default class ResettlementPassportApiClient {
   async getAppointments(nomsId: string): Promise<AppointmentData> {
     try {
       const response = await this.restClient.get<AppointmentData>({
-        path: `/prisoner/${nomsId}/appointments`,
+        path: `/prisoner/${nomsId}/appointments?futureOnly=false`,
       })
       return response
     } catch (error) {

@@ -1,11 +1,14 @@
+/* eslint-disable no-param-reassign */
+
 import crypto from 'crypto'
+import { addHours, addMinutes } from 'date-fns'
 import logger from '../../logger'
 import config from '../config'
 import { RedisClient, createRedisClient, ensureConnected } from '../data/redisClient'
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
 import type { AppointmentData, Appointment } from '../data/resettlementPassportData'
 
-const FIVE_MINUTES = 60 * 5
+const CACHE_MINUTES = 60 * 3
 
 export default class AppointmentService {
   redisClient: RedisClient
@@ -41,8 +44,16 @@ export default class AppointmentService {
     const dataToCache = {
       results: fetchedAppointments?.results?.map(x => {
         if (config.redis.enabled) {
-          // eslint-disable-next-line
           x.id = crypto.randomUUID()
+          x.dateTime = new Date(x.date)
+          if (x.time) {
+            const [hours, minutes] = x.time.split(':').map(Number)
+            x.dateTime = addHours(x.dateTime, hours)
+            x.dateTime = addMinutes(x.dateTime, minutes)
+          }
+        }
+        if (x.contactEmail === 'null') {
+          x.contactEmail = null
         }
         return x
       }),
@@ -51,7 +62,7 @@ export default class AppointmentService {
     if (fetchedAppointments && config.redis.enabled) {
       // store to cache only briefly
       await this.redisClient.set(key, JSON.stringify(dataToCache), {
-        EX: FIVE_MINUTES,
+        EX: CACHE_MINUTES,
       })
     }
     return Promise.resolve(dataToCache)

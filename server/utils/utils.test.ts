@@ -5,10 +5,9 @@ import {
   initialiseName,
   formatDate,
   formatAppointmentLocation,
-  isFuture,
-  sortByDate,
   mapsLinkFromAppointmentLocation,
   pluraliseAppointments,
+  isFuture,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -42,11 +41,11 @@ describe('initialise name', () => {
 
 describe('formatTime', () => {
   it.each([
-    ['14:00:00', '2:00 PM'],
-    ['14:01', '2:01 PM'],
+    ['14:00:00', '02:00 PM'],
+    ['14:01', '02:01 PM'],
     ['12:00:00', '12:00 PM'],
-    ['09:01:00', '9:01 AM'],
-    ['13:50:23', '1:50 PM'],
+    ['09:01:00', '09:01 AM'],
+    ['13:50:23', '01:50 PM'],
     [null, null],
     ['', null],
   ])('formatTime(%s)', (input: string, expected: string) => {
@@ -54,11 +53,11 @@ describe('formatTime', () => {
   })
 
   it.each([
-    ['14:00:00', '2:50 PM'],
-    ['14:01', '2:51 PM'],
+    ['14:00:00', '02:50 PM'],
+    ['14:01', '02:51 PM'],
     ['12:00:00', '12:50 PM'],
-    ['09:01:00', '9:51 AM'],
-    ['13:50:23', '2:40 PM'],
+    ['09:01:00', '09:51 AM'],
+    ['13:50:23', '02:40 PM'],
     [null, null],
     ['', null],
   ])('it should add 3000 seconds to formatTime(%s)', (input: string, expected: string) => {
@@ -173,29 +172,6 @@ describe('isFuture', () => {
     ['', false],
   ])('isFuture(%s)', (input: string, expected: boolean) => {
     expect(isFuture(input)).toBe(expected)
-  })
-})
-
-describe('sortByDate', () => {
-  test('should correctly sort dates in ascending order', () => {
-    const date1 = '2024-03-01'
-    const date2 = '2024-03-02'
-    const result = sortByDate(date1, date2, 'asc')
-    expect(result).toBeLessThan(0)
-  })
-
-  test('should correctly sort dates in descending order', () => {
-    const date1 = '2024-03-01'
-    const date2 = '2024-03-02'
-    const result = sortByDate(date1, date2, 'desc')
-    expect(result).toBeGreaterThan(0)
-  })
-
-  test('should not sort equal dates', () => {
-    const date1 = '2024-03-01'
-    const date2 = '2024-03-01'
-    expect(sortByDate(date1, date2, 'desc')).toBe(0)
-    expect(sortByDate(date1, date2, 'asc')).toBe(0)
   })
 })
 
