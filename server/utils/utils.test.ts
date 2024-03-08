@@ -61,8 +61,8 @@ describe('formatTime', () => {
     ['13:50:23', '02:40 PM'],
     [null, null],
     ['', null],
-  ])('it should add 3000 seconds to formatTime(%s)', (input: string, expected: string) => {
-    expect(formatTime(input, 3000)).toEqual(expected)
+  ])('it should add 50 minutes to formatTime(%s)', (input: string, expected: string) => {
+    expect(formatTime(input, 50)).toEqual(expected)
   })
 })
 
