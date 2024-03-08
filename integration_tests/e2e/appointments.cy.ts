@@ -45,15 +45,15 @@ context('Appointments', () => {
     cy.contains('This is a past appointment')
   })
 
-  it('Should be able to see the Appointments Card', () => {
+  it('Should be able to see the Appointments Tile', () => {
     cy.task('stubGetAppointments')
     cy.signIn()
 
     // should be on the dashboard
     cy.contains('John Smith')
 
-    // appointment card should exist and clickable
-    cy.get('.card-body').should('exist')
+    // appointment tile should exist and clickable
+    cy.get('#appointments-tile').should('exist')
     cy.get('#next-appointment-title').contains('This is a future appointment')
   })
 

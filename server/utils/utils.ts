@@ -1,4 +1,4 @@
-import { addSeconds, format, parse } from 'date-fns'
+import { addMinutes, format, parse } from 'date-fns'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
 
 const properCase = (word: string): string =>
@@ -47,7 +47,7 @@ export function formatTime(inputTime: string, duration: number = 0): string {
   dateObj.setHours(hours || 0)
   dateObj.setMinutes(minutes || 0)
   dateObj.setSeconds(seconds || 0)
-  const updatedDate = addSeconds(dateObj, duration)
+  const updatedDate = addMinutes(dateObj, duration)
 
   return format(updatedDate, 'hh:mm a')
 }
@@ -82,7 +82,7 @@ export const isFuture = (d1: string): boolean => {
   const date1 = new Date(d1)
   const today = new Date()
 
-  if (date1 > today || date1?.getTime() === today.getTime()) {
+  if (date1 > today || date1?.getDate() === today.getDate()) {
     return true
   }
   return false
