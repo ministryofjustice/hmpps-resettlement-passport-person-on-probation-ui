@@ -8,6 +8,7 @@ import {
   mapsLinkFromAppointmentLocation,
   pluraliseAppointments,
   isFuture,
+  formatLicenceDate,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -73,6 +74,17 @@ describe('formatDate', () => {
     ['', null],
   ])('formatDate(%s)', (input: string, expected: string) => {
     expect(formatDate(input)).toEqual(expected)
+  })
+})
+
+describe('formatLicenceDate', () => {
+  it.each([
+    ['20/08/2023', '20 August 2023'],
+    ['12/07/2023', '12 July 2023'],
+    [null, null],
+    ['', null],
+  ])('formatLicenceDate(%s)', (input: string, expected: string) => {
+    expect(formatLicenceDate(input)).toEqual(expected)
   })
 })
 

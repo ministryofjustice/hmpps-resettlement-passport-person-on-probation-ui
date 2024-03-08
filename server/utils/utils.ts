@@ -1,4 +1,4 @@
-import { addSeconds, format } from 'date-fns'
+import { addSeconds, format, parse } from 'date-fns'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
 
 const properCase = (word: string): string =>
@@ -23,6 +23,13 @@ export const initialiseName = (fullName?: string): string | null => {
 
   const array = fullName.split(' ')
   return `${array[0][0]}. ${array.reverse()[0]}`
+}
+
+export const formatLicenceDate = (dateString: string): string => {
+  if (!dateString || dateString?.length < 1) return null
+  const date = parse(dateString, 'dd/MM/yyyy', new Date())
+  const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' }
+  return date.toLocaleDateString('en-GB', options)
 }
 
 export const formatDate = (dateString: string, monthStyle: 'short' | 'long' = 'long'): string => {

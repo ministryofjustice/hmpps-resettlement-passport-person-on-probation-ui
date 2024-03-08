@@ -10,6 +10,29 @@ const getTodaysDate = () => {
   return new Date()
 }
 
+const mockedLicenceConditions = {
+  licenceId: 101,
+  status: 'ACTIVE',
+  startDate: '20/08/2023',
+  expiryDate: '12/07/2023',
+  standardLicenceConditions: [
+    {
+      id: 1001,
+      image: false,
+      text: 'Be of good behaviour and not behave in a way which undermines the purpose of the licence period.',
+      sequence: 0,
+    },
+  ],
+  otherLicenseConditions: [
+    {
+      id: 1008,
+      image: true,
+      text: 'Not to enter the area of Leeds City Centre, as defined by the attached map, without the prior approval of your supervising officer.',
+      sequence: 7,
+    },
+  ],
+}
+
 const mockedAppointmentsResponse = (apptDate: Date) => {
   return {
     results: [
@@ -163,6 +186,18 @@ export default {
         status: 200,
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
         jsonBody: mockedAppointmentsResponse(getTodaysDate()),
+      },
+    }),
+  stubGetLicenceConditions: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/licence-condition`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: mockedLicenceConditions,
       },
     }),
 }

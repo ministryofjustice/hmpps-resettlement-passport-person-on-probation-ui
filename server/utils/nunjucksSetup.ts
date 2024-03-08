@@ -10,6 +10,7 @@ import {
   formatAppointmentNote,
   mapsLinkFromAppointmentLocation,
   pluraliseAppointments,
+  formatLicenceDate,
 } from './utils'
 import { ApplicationInfo } from '../applicationInfo'
 import config from '../config'
@@ -52,6 +53,7 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
 
   njkEnv.addFilter('initialiseName', initialiseName)
   njkEnv.addFilter('formatDate', formatDate)
+  njkEnv.addFilter('formatLicenceDate', formatLicenceDate)
   njkEnv.addFilter('formatTime', formatTime)
   njkEnv.addFilter('formatAppointmentLocation', formatAppointmentLocation)
   njkEnv.addFilter('formatAppointmentNote', formatAppointmentNote)

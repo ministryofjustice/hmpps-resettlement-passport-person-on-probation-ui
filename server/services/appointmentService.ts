@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-
 import crypto from 'crypto'
 import { addHours, addMinutes } from 'date-fns'
 import logger from '../../logger'
@@ -8,13 +7,23 @@ import { RedisClient, createRedisClient, ensureConnected } from '../data/redisCl
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
 import type { AppointmentData, Appointment } from '../data/resettlementPassportData'
 
-const CACHE_MINUTES = 60 * 3
+const CACHE_MINUTES = 60 * 2
 
 export default class AppointmentService {
   redisClient: RedisClient
 
   constructor(private readonly resettlementPassportClient: ResettlementPassportApiClient) {
     this.redisClient = createRedisClient()
+  }
+
+  private ensureDateTime(x: Appointment): Appointment {
+    x.dateTime = new Date(x.date)
+    if (x.time) {
+      const [hours, minutes] = x.time.split(':').map(Number)
+      x.dateTime = addHours(x.dateTime, hours)
+      x.dateTime = addMinutes(x.dateTime, minutes)
+    }
+    return x
   }
 
   async getOneByIdAndNomsId(id: string, nomsId: string): Promise<Appointment> {
@@ -33,6 +42,7 @@ export default class AppointmentService {
       if (appointmentsString) {
         logger.info('Appointments found in cache')
         const appointments = JSON.parse(appointmentsString) as AppointmentData
+        appointments.results.map(x => this.ensureDateTime(x))
         return Promise.resolve(appointments)
       }
     }
@@ -45,13 +55,8 @@ export default class AppointmentService {
       results: fetchedAppointments?.results?.map(x => {
         if (config.redis.enabled) {
           x.id = crypto.randomUUID()
-          x.dateTime = new Date(x.date)
-          if (x.time) {
-            const [hours, minutes] = x.time.split(':').map(Number)
-            x.dateTime = addHours(x.dateTime, hours)
-            x.dateTime = addMinutes(x.dateTime, minutes)
-          }
         }
+        x = this.ensureDateTime(x)
         if (x.contactEmail === 'null') {
           x.contactEmail = null
         }
