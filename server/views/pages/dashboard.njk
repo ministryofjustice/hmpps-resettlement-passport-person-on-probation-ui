@@ -19,50 +19,51 @@
 
     <!-- appointment tile -->
     {% if nextAppointment %}
-    <div class="govuk-grid-column-one-third-from-desktop">
+      <div class="govuk-grid-column-one-third-from-desktop">
 
-      <div id="appointments" class="card">
-        <div class="card-body active">
-          <h3 class="govuk-heading-m card-heading govuk-!-padding-bottom-2">
-            <a href="/appointments">Appointments</a>
-          </h3>
+        <div id="appointments-tile" class="card">
+          <div class="card-body active govuk-!-padding-bottom-6">
+            <h3 class="govuk-heading-m card-heading govuk-!-padding-bottom-2">
+              <a href="/appointments">Appointments</a>
+            </h3>
 
-          <p class="govuk-body-s" id="next-appointment-heading">Next appointment:</p>
+            <p class="govuk-body-s" id="next-appointment-heading">Next appointment:</p>
 
-          <p class="govuk-body-s govuk-!-margin-0"><b>{{nextAppointment.date | formatDate }}</b></p>
-          <p class="govuk-body-s govuk-!-margin-0">{{nextAppointment.time | formatTime }}</p> 
-          <p id="next-appointment-title" class="govuk-heading-s govuk-!-margin-0">{{nextAppointment.title}}</p>
-       
-          <span class="govuk-body-s">
-          {% if nextAppointment.location | formatAppointmentLocation %}
-            {{ nextAppointment.location | formatAppointmentLocation }}
-          {% else %}
+            <p class="govuk-body-s govuk-!-margin-0">
+              <b>{{nextAppointment.date | formatDate }}</b>
+            </p>
+            <p class="govuk-body-s govuk-!-margin-0">{{nextAppointment.time | formatTime }}</p>
+            <p id="next-appointment-title" class="govuk-heading-s govuk-!-margin-0">{{nextAppointment.title}}</p>
+
+            <span class="govuk-body-s">
+              {% if nextAppointment.location | formatAppointmentLocation %}
+                {{ nextAppointment.location | formatAppointmentLocation }}
+              {% else %}
             No location available
           {% endif %}
-          </span>
-         </div>
-      </div>
+            </span>
+          </div>
+        </div>
 
-    </div>
+      </div>
     {% endif %}
 
-<!-- hidden content coming up next
-    <div class="govuk-grid-column-one-third-from-desktop">
-        <div class="card" id="licence-conditions">
-            <div class="card-body active">
-                <h3 class="govuk-heading-m card-heading  govuk-!-padding-bottom-4">
-                    <a class="govuk-link card-link" href="#ß">
-                        Licence conditions
-                    </a>
-                </h3>
-                <p class="govuk-body">Understand the rules and conditions you need to follow.</p>
-                <p>Your licence conditions expire on [DATE_UPCOMING].</p>
-                <br>
-            </div>
+    <!-- licence condition tile -->
+    {% if licenceExpiryDate %}
+      <div class="govuk-grid-column-one-third-from-desktop">
+        <div class="card" id="licence-conditions-tile">
+          <div id="licence-conditions-tile-body" class="card-body active govuk-!-padding-bottom-6">
+            <h3 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
+              <a class="govuk-link card-link" href="/licence-conditions">Licence conditions</a>
+            </h3>
+            <p class="govuk-body">Understand the rules and conditions you need to follow.</p>
+            <p>Your licence conditions expire on {{licenceExpiryDate | formatLicenceDate }}.</p>
+          </div>
         </div>
-    </div>
+      </div>
+    {% endif %}
 
-    
+    <!-- hidden coming up next
     <div class="govuk-grid-column-one-third-from-desktop">
         <div class="card" id="licence-conditions">
             <div class="card-body active">
