@@ -47,7 +47,11 @@
                   <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0">{{oldItem.date | formatDate}}</h3>
                 </header>
                 <div class="app-summary-card__body govuk-!-padding-4">
-                  <span class="govuk-body-m">{{oldItem.time | formatTime }}</span>
+                  <span class="govuk-body-m">{{oldItem.time | formatTime }}
+                  {% if appointment.duration %}
+                    - {{ appointment.time | formatTime(appointment.duration) }}
+                  {% endif %}
+                  </span>
                   <p>
                     <b>{{oldItem.title}}</b><br>
                     {% if oldItem.location | formatAppointmentLocation %}
