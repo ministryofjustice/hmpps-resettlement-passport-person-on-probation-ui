@@ -193,7 +193,6 @@ describe('pluraliseAppointments', () => {
     const appointment = {
       results: [
         {
-          id: 'abcba1de-a6e7-49be-a836-37388ce8a0bc',
           title: 'This is a future appointment',
           contact: 'Unallocated Staff',
           time: '14:05:00',

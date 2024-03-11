@@ -85,7 +85,7 @@ export const isFutureDate = (d1: string): boolean => {
 }
 
 export const getFutureAppointments = (results: Appointment[]) => {
-  return results.filter(x => isFutureDate(x.date)).sort((x, y) => compareAsc(x.dateTime, y.dateTime))
+  return results?.filter(x => isFutureDate(x.date)).sort((x, y) => compareAsc(x.dateTime, y.dateTime))
 }
 
 // TODO: take Locale into account for i18n in the future
