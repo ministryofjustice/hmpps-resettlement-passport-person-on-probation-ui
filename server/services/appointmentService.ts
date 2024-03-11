@@ -7,8 +7,6 @@ import { RedisClient, createRedisClient, ensureConnected } from '../data/redisCl
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
 import type { AppointmentData, Appointment } from '../data/resettlementPassportData'
 
-const CACHE_MINUTES = 60 * 2
-
 export default class AppointmentService {
   redisClient: RedisClient
 
@@ -77,7 +75,7 @@ export default class AppointmentService {
     if (fetchedAppointments && config.redis.enabled) {
       // store to cache only briefly
       await this.redisClient.set(key, JSON.stringify(dataToCache), {
-        EX: CACHE_MINUTES,
+        EX: config.session.appointmentsCacheMinutes,
       })
     }
     return Promise.resolve(dataToCache)
