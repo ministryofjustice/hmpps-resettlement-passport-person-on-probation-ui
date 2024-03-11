@@ -37,10 +37,10 @@ const mockedAppointmentsResponse = (apptDate: Date) => {
   return {
     results: [
       {
-        title: 'This is a future appointment',
+        title: 'This is another future appointment',
         contact: 'Unallocated Staff',
         date: apptDate,
-        time: '14:05:00',
+        time: '16:00:00',
         dateTime: new Date(apptDate),
         location: {
           buildingName: null,
@@ -55,10 +55,10 @@ const mockedAppointmentsResponse = (apptDate: Date) => {
         note: null,
       },
       {
-        title: 'This is another future appointment',
+        title: 'This is a future appointment',
         contact: 'Unallocated Staff',
         date: apptDate,
-        time: '16:00:00',
+        time: '14:05:00',
         dateTime: new Date(apptDate),
         location: {
           buildingName: null,

@@ -3,12 +3,7 @@ import { compareAsc } from 'date-fns'
 import AppointmentService from '../../services/appointmentService'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
-import type { Appointment } from '../../data/resettlementPassportData'
-import { isFuture } from '../../utils/utils'
-
-const getFutureAppointments = (results: Appointment[]) => {
-  return results.filter(x => isFuture(x.date)).sort((x, y) => compareAsc(x.dateTime, y.dateTime))
-}
+import { isFutureDate, getFutureAppointments } from '../../utils/utils'
 
 export default class AppointmentController {
   constructor(
@@ -27,7 +22,7 @@ export default class AppointmentController {
       const results = appointments?.results || []
       const nextAppointments = getFutureAppointments(results)
       const oldAppointments = results
-        .filter(x => !isFuture(x.date))
+        .filter(x => !isFutureDate(x.date))
         .sort((x, y) => compareAsc(x?.dateTime, y?.dateTime))
         .reverse()
       return res.render('pages/appointments', { user: req.user, appointments: nextAppointments, oldAppointments })

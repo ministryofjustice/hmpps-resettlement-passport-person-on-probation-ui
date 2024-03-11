@@ -7,7 +7,7 @@ import {
   formatAppointmentLocation,
   mapsLinkFromAppointmentLocation,
   pluraliseAppointments,
-  isFuture,
+  isFutureDate,
   formatLicenceDate,
 } from './utils'
 
@@ -168,7 +168,7 @@ describe('mapsLinkFromAppointmentLocation', () => {
   })
 })
 
-describe('isFuture', () => {
+describe('isFutureDate', () => {
   beforeAll(() => {
     jest.useFakeTimers({ advanceTimers: true })
     jest.setSystemTime(new Date(2023, 8, 2))
@@ -180,10 +180,11 @@ describe('isFuture', () => {
     ['2023-09-01', false], // yesterday
     ['2023-09-02', true], // today
     ['2023-09-03', true], // tomorrow
+    ['2023-07-11', false], // last year
     [null, false],
     ['', false],
-  ])('isFuture(%s)', (input: string, expected: boolean) => {
-    expect(isFuture(input)).toBe(expected)
+  ])('isFutureDate(%s)', (input: string, expected: boolean) => {
+    expect(isFutureDate(input)).toBe(expected)
   })
 })
 

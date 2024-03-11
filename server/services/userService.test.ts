@@ -71,7 +71,7 @@ describe('UserService', () => {
     const email = 'test@example.com'
     const code = '123456'
     resettlementPassportApiClient.submitUserOtp.mockResolvedValue(mockedOtpResponse)
-    const result = await userService.checkOtp(email, code, 'urn:aaa:bbb')
+    const result = await userService.checkOtp(email, code, new Date('2024-01-01'), 'urn:aaa:bbb')
     expect(result).toBe(true)
     expect(loggerSpy).toHaveBeenCalledWith(`OTP verification for: ${email} and code: ${code}`)
   })

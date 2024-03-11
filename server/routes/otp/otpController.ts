@@ -11,7 +11,7 @@ export default class HomeController {
 
   create: RequestHandler = async (req, res) => {
     const { otp, 'dob-dobDay': dobDay, 'dob-dobMonth': dobMonth, 'dob-dobYear': dobYear } = req.body
-    let errors: Array<Express.ValidationError> = []
+    const errors: Array<Express.ValidationError> = []
     const dobDate = getDobDate(dobDay, dobMonth, dobYear)
     if (!dobDate) {
       errors.push({
@@ -20,7 +20,7 @@ export default class HomeController {
       })
     }
 
-    const isValid = await this.userService.checkOtp(req.user.email, otp, req.user.sub)
+    const isValid = await this.userService.checkOtp(req.user.email, otp, dobDate, req.user.sub)
     if (isValid) {
       return res.redirect('/dashboard')
     }

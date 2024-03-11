@@ -27,14 +27,18 @@
         </div>
 
         <div class="govuk-!-margin-bottom-8">
-        <h2 class="govuk-heading-m">Enter the 6 digit security code</h1>
 
           <div>
             {{ govukInput({
               hint: {
-                text: "This is the 6-digit security code we gave you in the information pack"
+                text: "This is the 6-characters security code we gave you in the information pack"
               },
               inputmode: "numeric",
+              label: {
+                text: "Enter the 6 characters security code",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--m"
+              },
               spellcheck: false,
               errorMessage: {
                 text: otpError.message
