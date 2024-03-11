@@ -3,7 +3,7 @@ import { isTomorrow, isToday } from 'date-fns'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
 import AppointmentService from '../../services/appointmentService'
-import { isFuture } from '../../utils/utils'
+import { getFutureAppointments } from '../../utils/utils'
 import LicenceConditionsService from '../../services/licenceConditionsService'
 
 export default class DashboardController {
@@ -22,7 +22,7 @@ export default class DashboardController {
     const personalData = await this.userService.getByNomsId(verificationData.nomsId, urn)
 
     const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId)
-    const nextAppointment = appointments?.results?.filter(x => isFuture(x.date))?.[0]
+    const nextAppointment = getFutureAppointments(appointments.results)?.[0]
 
     const tomorrowAppointments = appointments?.results?.filter(x => isTomorrow(new Date(x.date)))
     const todayAppointments = appointments?.results?.filter(x => isToday(new Date(x.date)))

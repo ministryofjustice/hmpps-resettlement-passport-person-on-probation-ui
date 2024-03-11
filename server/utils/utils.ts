@@ -1,4 +1,4 @@
-import { addMinutes, format, parse } from 'date-fns'
+import { addMinutes, compareAsc, format, isFuture, isSameDay, parse } from 'date-fns'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
 
 const properCase = (word: string): string =>
@@ -78,14 +78,14 @@ export function mapsLinkFromAppointmentLocation(input: AppointmentLocation): str
   return `https://www.google.com/maps/?q=${queryParams}`
 }
 
-export const isFuture = (d1: string): boolean => {
+export const isFutureDate = (d1: string): boolean => {
   const date1 = new Date(d1)
   const today = new Date()
+  return isSameDay(date1, today) || isFuture(date1)
+}
 
-  if (date1 > today || date1?.getDate() === today.getDate()) {
-    return true
-  }
-  return false
+export const getFutureAppointments = (results: Appointment[]) => {
+  return results?.filter(x => isFutureDate(x.date)).sort((x, y) => compareAsc(x.dateTime, y.dateTime))
 }
 
 // TODO: take Locale into account for i18n in the future

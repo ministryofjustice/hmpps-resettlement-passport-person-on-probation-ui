@@ -12,6 +12,7 @@ context('OTP verification', () => {
     cy.task('stubSignIn')
     cy.task('stubGetPopUserOtp')
     cy.task('stubGetPopUserDetails')
+    cy.task('stubGetLicenceConditions')
     cy.task('stubHmppsToken')
   })
 
