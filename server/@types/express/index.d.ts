@@ -28,5 +28,10 @@ export declare global {
     interface Locals {
       user: Express.User
     }
+
+    interface ValidationError {
+      href: string
+      text: string
+    }
   }
 }

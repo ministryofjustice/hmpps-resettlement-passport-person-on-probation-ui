@@ -1,4 +1,4 @@
-import { addMinutes, format, parse } from 'date-fns'
+import { addMinutes, format, isValid, parse } from 'date-fns'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
 
 const properCase = (word: string): string =>
@@ -37,6 +37,16 @@ export const formatDate = (dateString: string, monthStyle: 'short' | 'long' = 'l
   const date = new Date(dateString)
   const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: monthStyle, year: 'numeric' }
   return date.toLocaleDateString('en-GB', options)
+}
+
+export function getDobDate(day?: string, month?: string, year?: string): Date {
+  if (!day || !month || !year) return null
+  const parsedDate = parse(`${day}/${month}/${year}`, 'dd/MM/yyyy', new Date())
+  const isValidDate = isValid(parsedDate)
+  if (!isValidDate) {
+    return null
+  }
+  return parsedDate
 }
 
 export function formatTime(inputTime: string, duration: number = 0): string {

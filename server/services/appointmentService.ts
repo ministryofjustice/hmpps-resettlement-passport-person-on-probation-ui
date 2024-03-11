@@ -16,6 +16,15 @@ export default class AppointmentService {
     this.redisClient = createRedisClient()
   }
 
+  /**
+   * Appointments don't have an identifier, we are creating one so that we can navigate to appointment details.
+   * We are hashing the fields to create a unique index effectively.
+   * @returns 
+   */
+  private createAppointmentId(x: Appointment): string {
+    return crypto.createHash('sha256').update(x.title + x.date + x.time + x.contact).digest('hex')
+  }
+
   private ensureDateTime(x: Appointment): Appointment {
     x.dateTime = new Date(x.date)
     if (x.time) {
@@ -53,9 +62,7 @@ export default class AppointmentService {
     // add a unique id
     const dataToCache = {
       results: fetchedAppointments?.results?.map(x => {
-        if (config.redis.enabled) {
-          x.id = crypto.randomUUID()
-        }
+        x.id = this.createAppointmentId(x)
         x = this.ensureDateTime(x)
         if (x.contactEmail === 'null') {
           x.contactEmail = null
