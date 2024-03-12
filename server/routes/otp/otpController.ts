@@ -20,7 +20,12 @@ export default class HomeController {
       })
     }
 
-    const isValid = await this.userService.checkOtp(req.user.email, otp, dobDate, req.user.sub)
+    const isValid = await this.userService.checkOtp(
+      req.user.email,
+      otp,
+      `${dobYear}-${dobMonth}-${dobDay}`,
+      req.user.sub,
+    )
     if (isValid) {
       return res.redirect('/dashboard')
     }
