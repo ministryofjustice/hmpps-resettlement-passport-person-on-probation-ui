@@ -32,7 +32,11 @@
             <p class="govuk-body-s govuk-!-margin-0">
               <b>{{nextAppointment.date | formatDate }}</b>
             </p>
-            <p class="govuk-body-s govuk-!-margin-0">{{nextAppointment.time | formatTime }}</p>
+            <p class="govuk-body-s govuk-!-margin-0">{{nextAppointment.time | formatTime }}
+            {% if nextAppointment.duration %}
+              - {{ nextAppointment.time | formatTime(nextAppointment.duration) }}
+            {% endif %}
+            </p>
             <p id="next-appointment-title" class="govuk-heading-s govuk-!-margin-0">{{nextAppointment.title}}</p>
 
             <span class="govuk-body-s">
