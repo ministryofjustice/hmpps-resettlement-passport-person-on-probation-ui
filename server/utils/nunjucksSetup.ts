@@ -50,6 +50,13 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
       express: app,
     },
   )
+  njkEnv.addFilter('hasErrorWithPrefix', (errorsArray, prefixes) => {
+    if (!errorsArray) return null
+    const formattedPrefixes = prefixes.map((field: string) => `#${field}`)
+    return errorsArray.some((error: Express.ValidationError) =>
+      formattedPrefixes.some((prefix: string) => error.href.startsWith(prefix)),
+    )
+  })
 
   njkEnv.addFilter('initialiseName', initialiseName)
   njkEnv.addFilter('formatDate', formatDate)

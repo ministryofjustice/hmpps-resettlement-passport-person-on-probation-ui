@@ -4,6 +4,9 @@ import Page from '../pages/page'
 context('OTP verification', () => {
   const enterValidOtp = () => {
     cy.get('#otp').type('123456')
+    cy.get('#dobDay').type('11')
+    cy.get('#dobMonth').type('1')
+    cy.get('#dobYear').type('1959')
     cy.get('.govuk-button').click()
   }
 
@@ -28,9 +31,28 @@ context('OTP verification', () => {
     Page.verifyOnPage(OtpPage)
 
     cy.get('#otp').type('abcqwe')
+    cy.get('#dob-dobDay').type('1')
+    cy.get('#dob-dobMonth').type('1')
     cy.get('.govuk-button').click()
     Page.verifyOnPage(OtpPage)
     cy.contains('There is a problem')
+    cy.contains('Enter a correct security code matching the date of birth provided')
+  })
+
+  it.skip('Should not continue to Dashboard after validating Date (invalid)', () => {
+    cy.task('stubGetPopUserByUrn')
+    cy.signIn()
+    cy.visit('/otp')
+    Page.verifyOnPage(OtpPage)
+
+    cy.get('#otp').type('123456')
+    cy.get('#dobDay').type('1')
+    cy.get('#dobMonth').type('1')
+    cy.get('#dobYear').type('1111')
+    cy.get('.govuk-button').click()
+    Page.verifyOnPage(OtpPage)
+    cy.contains('There is a problem')
+    cy.contains('Enter a valid date of birth')
   })
 
   it('Should continue to Dashboard after validating OTP (valid)', () => {
