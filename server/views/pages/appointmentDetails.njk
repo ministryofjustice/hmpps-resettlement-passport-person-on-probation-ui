@@ -26,7 +26,7 @@
 
     <!-- Appointment details Begin -->
     {% if appointment %}
-      {{ appointmentMacro.render(appointment, false) }}
+      {{ appointmentMacro.render(appointment, false, false) }}
     {% else %}
       <div class="govuk-grid-column-full" data-qa="appointment-empty-box">
         <p>Nothing to display. <a href="/appointments">Go back to appointments list</a></p>

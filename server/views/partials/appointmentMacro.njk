@@ -1,4 +1,4 @@
- {% macro render(appointment, showNotes) %}
+ {% macro render(appointment, showNotes, showDetails) %}
 
  <div class="govuk-grid-column-full" data-qa="appointment-box">
         <div class="govuk-grid-row appsubpanel govuk-!-margin-bottom-4">
@@ -40,7 +40,8 @@
                   No notes available
                   {% endif %}
                   </p>
-                {% else %}
+                {% endif %}
+                {% if showDetails == true %}
                   <a id="view-details-link" href="/appointments/{{appointment.id}}">View details</a>
                 {% endif %}
               </div>
