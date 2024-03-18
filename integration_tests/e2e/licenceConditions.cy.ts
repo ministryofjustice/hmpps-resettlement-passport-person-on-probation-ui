@@ -10,6 +10,7 @@ context('Licence conditions', () => {
     cy.task('stubHmppsToken')
     cy.task('stubGetPopUserByUrn')
     cy.task('stubGetLicenceConditions')
+    cy.task('stubGetLicenceConditionImage')
   })
 
   afterEach(() => {
@@ -34,6 +35,31 @@ context('Licence conditions', () => {
     cy.contains(
       '2. Not to enter the area of Leeds City Centre, as defined by the attached map, without the prior approval of your supervising officer.',
     )
+  })
+
+  it('Should see licence conditions details', () => {
+    cy.signIn()
+    // click sub navigation menu for licence conditions
+    cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(LicencePage)
+
+    // additional conditions should be visible
+    cy.get('#condition-image-1008-link').click()
+
+    // image should be present
+    cy.get('#licence-conditions-map')
+      .should('be.visible')
+      // "naturalWidth" and "naturalHeight" are set when the image loads
+      .and(img => {
+        expect((img[0] as HTMLImageElement).naturalWidth).to.be.greaterThan(0)
+      })
+    // licence text should be present
+    cy.get('#licence-conditions-text').contains(
+      'Not to enter the area of Leeds City Centre, as defined by the attached map, without the prior approval of your supervising officer.',
+    )
+    // and should be able to go back
+    cy.get('#back-licence-details-link').click()
+    Page.verifyOnPage(LicencePage)
   })
 
   it('Should be able to see the Licence Conditions Tile', () => {

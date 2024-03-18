@@ -70,7 +70,7 @@ export interface PersonalDetails {
   assessmentRequired?: true
 }
 
-export interface LicenceInfo {
+export interface ConditionInfo {
   id: number
   image: boolean
   text?: string
@@ -82,6 +82,6 @@ export interface LicenceConditionData {
   status?: string
   startDate?: string
   expiryDate?: string
-  standardLicenceConditions?: LicenceInfo[]
-  otherLicenseConditions?: LicenceInfo[]
+  standardLicenceConditions?: ConditionInfo[]
+  otherLicenseConditions?: ConditionInfo[]
 }

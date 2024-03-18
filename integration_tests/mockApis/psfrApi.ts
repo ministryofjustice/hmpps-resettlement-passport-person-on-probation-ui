@@ -135,6 +135,10 @@ const mockedUserDetailsResponse = {
   },
 }
 
+const getBinaryResponse = (base64Image: string) => {
+  return Buffer.from(base64Image, 'base64')
+}
+
 export default {
   stubGetPopUserOtp: (): SuperAgentRequest =>
     stubFor({
@@ -194,6 +198,18 @@ export default {
         status: 200,
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
         jsonBody: mockedLicenceConditions,
+      },
+    }),
+  stubGetLicenceConditionImage: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/licence-condition/id/101/condition/1008/image`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: getBinaryResponse('R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='), // this is the base64 for a white image
       },
     }),
 }

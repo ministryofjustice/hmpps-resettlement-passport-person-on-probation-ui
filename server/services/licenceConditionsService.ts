@@ -38,4 +38,10 @@ export default class LicenceConditionsService {
     }
     return Promise.resolve(fetchedLicenceConditions)
   }
+
+  async getLicenceConditionsImage(nomsId: string, licenceId: number, conditionId: number): Promise<string> {
+    logger.info(`Get licence conditions image`)
+    const fetchedImage = await this.resettlementPassportClient.getLicenceConditionsImage(nomsId, licenceId, conditionId)
+    return Promise.resolve(fetchedImage)
+  }
 }

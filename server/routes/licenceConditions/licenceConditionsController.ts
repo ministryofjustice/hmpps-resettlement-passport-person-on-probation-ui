@@ -23,4 +23,27 @@ export default class LicenceConditionsController {
       return next(err)
     }
   }
+
+  view: RequestHandler = async (req, res, next) => {
+    try {
+      const verificationData = await requireUser(req.user?.sub, this.userService)
+      if (typeof verificationData === 'string') {
+        return res.redirect(verificationData)
+      }
+      const licenceId = typeof req.params.licenceId === 'string' ? parseInt(req.params.licenceId, 10) : -1
+      const conditionId = typeof req.params.conditionId === 'string' ? parseInt(req.params.conditionId, 10) : -1
+
+      const licence = await this.licenceConditionsService.getLicenceConditionsByNomsId(verificationData.nomsId)
+      const condition = licence.otherLicenseConditions.find(x => x.id === conditionId)
+      const image = await this.licenceConditionsService.getLicenceConditionsImage(
+        verificationData.nomsId,
+        licenceId,
+        conditionId,
+      )
+
+      return res.render('pages/licenceConditionsDetails', { user: req.user, condition, image })
+    } catch (err) {
+      return next(err)
+    }
+  }
 }

@@ -18,6 +18,19 @@ export default class ResettlementPassportApiClient {
     this.restClient = new RestClient('Resettlement Passport Api Client', config.apis.resettlementPassportApi)
   }
 
+  async getLicenceConditionsImage(nomsId: string, licenceId: number, conditionId: number): Promise<string> {
+    try {
+      const imageResult = await this.restClient.get<string>({
+        path: `/prisoner/${nomsId}/licence-condition/id/${licenceId}/condition/${conditionId}/image`,
+      })
+
+      return Buffer.from(imageResult).toString('base64')
+    } catch (error) {
+      logger.error('Licence condition image not found:', error)
+    }
+    return null
+  }
+
   async getLicenceConditionsByNomsId(nomsId: string): Promise<LicenceConditionData> {
     try {
       const response = await this.restClient.get<LicenceConditionData>({
@@ -25,7 +38,7 @@ export default class ResettlementPassportApiClient {
       })
       return response
     } catch (error) {
-      logger.debug('Prisoner not found')
+      logger.error('Licence conditions not found:', error)
     }
     return null
   }
@@ -37,7 +50,7 @@ export default class ResettlementPassportApiClient {
       })
       return response
     } catch (error) {
-      logger.debug('Prisoner not found')
+      logger.error('Prisoner not found:', error)
     }
     return null
   }
@@ -49,7 +62,7 @@ export default class ResettlementPassportApiClient {
       })
       return response
     } catch (error) {
-      logger.debug('Prisoner appointments not found')
+      logger.error('Prisoner appointments not found:', error)
     }
     return null
   }
@@ -62,7 +75,7 @@ export default class ResettlementPassportApiClient {
       })
       return response
     } catch (error) {
-      logger.debug('OTP not found')
+      logger.error('OTP not found:', error)
     }
     return null
   }
