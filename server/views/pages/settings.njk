@@ -1,0 +1,86 @@
+{% extends "../partials/layout.njk" %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block content %}
+
+  {% set activePage = 'settings' %}
+  {% include "../partials/subnavigation.njk" %}
+
+  <div class="govuk-grid-row govuk-!-padding-bottom-4">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Settings</h1>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row govuk-!-padding-bottom-8">
+
+    <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">
+      Your sign in details
+    </h2>
+     <p>These are your login account details which can be changed below.</p>
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: {
+              text: "Email address"
+            },
+            value: {
+              text: email
+            },
+            actions: {
+              items: [
+                {
+                  href: oneloginUrl + "/enter-password?type=changeEmail",
+                  text: "Change",
+                  attributes: {'target': '_blank', 'data-qa': 'change-email-link'},
+                  visuallyHiddenText: "email"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Password"
+            },
+            value: {
+              text: "***************"
+            },
+            actions: {
+              items: [
+                {
+                  href: oneloginUrl + "/enter-password?type=changePassword",
+                  text: "Change",
+                  attributes: {'target': '_blank', 'data-qa': 'change-pwd-link'},
+                  visuallyHiddenText: "password"
+                }
+              ]
+            }
+          },
+          {
+            key: {
+              text: "Phone"
+            },
+            value: {
+              text: "Phone number ending with " + phoneEnding
+            },
+            actions: {
+              items: [
+                {
+                  href: oneloginUrl + "/enter-password?type=changePhoneNumber",
+                  attributes: {'target': '_blank', 'data-qa': 'change-phone-link'},
+                  text: "Change",
+                  visuallyHiddenText: "phone"
+                }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+
+    </div>
+  </div>
+
+{% endblock %}

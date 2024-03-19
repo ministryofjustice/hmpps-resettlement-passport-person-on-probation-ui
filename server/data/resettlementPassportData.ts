@@ -60,14 +60,6 @@ export interface PersonalDetails {
     location?: string
     facialImageId?: string
   }
-  pathways?: [
-    {
-      pathway?: string
-      status?: string
-      lastDateChange?: string
-    },
-  ]
-  assessmentRequired?: true
 }
 
 export interface ConditionInfo {

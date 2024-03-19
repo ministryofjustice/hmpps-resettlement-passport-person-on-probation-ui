@@ -1,4 +1,6 @@
 import { addMinutes, compareAsc, format, isFuture, isSameDay, isValid, parse } from 'date-fns'
+// eslint-disable-next-line import/no-duplicates
+import { enGB } from 'date-fns/locale'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
 
 const properCase = (word: string): string =>
@@ -29,14 +31,14 @@ export const formatLicenceDate = (dateString: string): string => {
   if (!dateString || dateString?.length < 1) return null
   const date = parse(dateString, 'dd/MM/yyyy', new Date())
   const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' }
-  return date.toLocaleDateString('en-GB', options)
+  return date.toLocaleDateString(enGB.code, options)
 }
 
 export const formatDate = (dateString: string, monthStyle: 'short' | 'long' = 'long'): string => {
   if (!dateString || dateString?.length < 1) return null
   const date = new Date(dateString)
   const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: monthStyle, year: 'numeric' }
-  return date.toLocaleDateString('en-GB', options)
+  return date.toLocaleDateString(enGB.code, options)
 }
 
 export function getDobDate(day?: string, month?: string, year?: string): Date {
@@ -59,7 +61,9 @@ export function formatTime(inputTime: string, duration: number = 0): string {
   dateObj.setSeconds(seconds || 0)
   const updatedDate = addMinutes(dateObj, duration)
 
-  return format(updatedDate, 'hh:mm a')
+  return format(updatedDate, 'hh:mm a', {
+    locale: enGB,
+  })
 }
 
 export function formatAppointmentLocation(input: AppointmentLocation): string {
@@ -110,4 +114,8 @@ export const formatAppointmentNote = (inputNote?: string): string => {
     return sanitisedNotes
   }
   return inputNote
+}
+
+export const orElse = (input: string, alternative: string): string => {
+  return input || alternative
 }
