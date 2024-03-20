@@ -6,6 +6,8 @@ import otpRoutes from './otp'
 import dashboardRoutes from './dashboard'
 import appointmentRoutes from './appointment'
 import licenceConditionsRoutes from './licenceConditions'
+import profileRoutes from './profile'
+import settingsRoutes from './settings'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function routes(service: Services): Router {
@@ -15,5 +17,7 @@ export default function routes(service: Services): Router {
   dashboardRoutes(router, service)
   appointmentRoutes(router, service)
   licenceConditionsRoutes(router, service)
+  profileRoutes(router, service)
+  settingsRoutes(router, service)
   return router
 }
