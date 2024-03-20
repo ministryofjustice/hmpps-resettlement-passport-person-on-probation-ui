@@ -6,9 +6,8 @@ Template github repo used for new Typescript based projects.
 
 ### Dev setup
 
-Install dependencies using `npm install`, ensuring you are using `node v18.x` and `npm v9.x`
-
-Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm)), run `nvm install --latest-npm` within the repository folder to use the correct version of node, and the latest version of npm. This matches the `engines` config in `package.json` and the CircleCI build config.
+Install dependencies using `npm install`, ensuring you are using v20.11.0 (npm v10.4.0)
+Note: If using `nvm` run `nvm use`
 
 ```
 GOVUK_ONE_LOGIN_URL=https://oidc.integration.account.gov.uk
@@ -28,13 +27,13 @@ Recreate the secret in the k8s namespace:
 ### Running the app for development
 To start the main services excluding the example typescript template app: 
 
-`docker compose up --scale=app=0`
+`docker compose up -d`
 
 And then, to build the assets and start the app with nodemon:
 
 `npm run start:dev`
 
-Simplified: `./dev`
+=> Simplified script: `./dev`
 
 ### Run linter
 
@@ -43,7 +42,6 @@ Simplified: `./dev`
 ### Run prettier format
 
 `npm run format`
-
 
 ### Run tests
 
@@ -67,7 +65,7 @@ Or run tests with the cypress UI:
 
 `npm run int-test-ui`
 
-Simplified: `./int-test`
+=> Simplified script: `./int-test`
 
 ## Change log
 
