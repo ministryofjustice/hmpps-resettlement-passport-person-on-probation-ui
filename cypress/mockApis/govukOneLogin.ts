@@ -7,13 +7,13 @@ import { getMatchingRequests, stubFor } from './wiremock'
 export const oneLoginUrn = 'urn:fdc:gov.uk:2022:user1'
 
 const oidcConfig = JSON.parse(
-  fs.readFileSync('integration_tests/mockApis/mappings/openid-configuration.json').toString(),
+  fs.readFileSync('cypress/mockApis/mappings/openid-configuration.json').toString(),
 )
 
 const stubOidcDiscovery = () => stubFor(oidcConfig)
 
 const stubJwks = () => {
-  const publicKey = fs.readFileSync('integration_tests/testKeys/server_public_key.pem')
+  const publicKey = fs.readFileSync('cypress/testKeys/server_public_key.pem')
   const publicKeyJwk = createPublicKey({ key: publicKey }).export({ format: 'jwk' })
 
   return stubFor({
@@ -82,7 +82,7 @@ const createIdToken = (nonce: string) => {
     sid: 'SESSION_IDENTIFIER',
   }
 
-  const privateKey = fs.readFileSync('integration_tests/testKeys/server_private_key.pem')
+  const privateKey = fs.readFileSync('cypress/testKeys/server_private_key.pem')
   const idToken = jwt.sign(payload, privateKey, { algorithm: 'ES256' })
   return idToken
 }
@@ -130,7 +130,7 @@ const verifyJwtAssertionForToken = (): Promise<string | JwtPayload> =>
       return clientJwtAssertion
     })
     .then(clientJwtAssertion => {
-      return jwt.verify(clientJwtAssertion, fs.readFileSync('integration_tests/testKeys/client_public_key.pem'))
+      return jwt.verify(clientJwtAssertion, fs.readFileSync('cypress/testKeys/client_public_key.pem'))
     })
 
 const stubUserInfo = () =>

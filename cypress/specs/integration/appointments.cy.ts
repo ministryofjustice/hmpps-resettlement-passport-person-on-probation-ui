@@ -1,5 +1,5 @@
-import AppointmentsPage from '../pages/appointment'
-import Page from '../pages/page'
+import AppointmentsPage from '../../pages/appointment'
+import Page from '../../pages/page'
 
 context('Appointments', () => {
   beforeEach(() => {

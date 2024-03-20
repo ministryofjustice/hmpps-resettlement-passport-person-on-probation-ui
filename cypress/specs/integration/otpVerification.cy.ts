@@ -1,5 +1,5 @@
-import OtpPage from '../pages/otp'
-import Page from '../pages/page'
+import OtpPage from '../../pages/otp'
+import Page from '../../pages/page'
 
 context('OTP verification', () => {
   const enterValidOtp = () => {

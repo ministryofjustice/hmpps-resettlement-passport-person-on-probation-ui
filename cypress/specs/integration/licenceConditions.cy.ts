@@ -1,5 +1,5 @@
-import LicencePage from '../pages/licence'
-import Page from '../pages/page'
+import LicencePage from '../../pages/licence'
+import Page from '../../pages/page'
 
 context('Licence conditions', () => {
   beforeEach(() => {

@@ -1,7 +1,7 @@
-import GovukOneLoginPage from '../pages/govukOneLogin'
-import Page from '../pages/page'
-import HomePage from '../pages/home'
-import OtpPage from '../pages/otp'
+import GovukOneLoginPage from '../../pages/govukOneLogin'
+import Page from '../../pages/page'
+import HomePage from '../../pages/home'
+import OtpPage from '../../pages/otp'
 
 context('Sign in with GOV.UK One Login', () => {
   beforeEach(() => {

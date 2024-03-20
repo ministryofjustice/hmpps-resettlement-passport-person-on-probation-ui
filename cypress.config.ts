@@ -1,15 +1,15 @@
 import { defineConfig } from 'cypress'
-import { resetStubs } from './integration_tests/mockApis/wiremock'
-import govukOneLogin from './integration_tests/mockApis/govukOneLogin'
-import psfrApi from './integration_tests/mockApis/psfrApi'
-import popApi from './integration_tests/mockApis/popApi'
-import hmppsAuth from './integration_tests/mockApis/hmppsAuth'
+import { resetStubs } from './cypress/mockApis/wiremock'
+import govukOneLogin from './cypress/mockApis/govukOneLogin'
+import psfrApi from './cypress/mockApis/psfrApi'
+import popApi from './cypress/mockApis/popApi'
+import hmppsAuth from './cypress/mockApis/hmppsAuth'
 
 export default defineConfig({
   chromeWebSecurity: false,
-  fixturesFolder: 'integration_tests/fixtures',
-  screenshotsFolder: 'integration_tests/screenshots',
-  videosFolder: 'integration_tests/videos',
+  fixturesFolder: 'cypress/fixtures',
+  screenshotsFolder: 'cypress/screenshots',
+  videosFolder: 'cypress/videos',
   reporter: 'cypress-multi-reporters',
   reporterOptions: {
     configFile: 'reporter-config.json',
@@ -28,7 +28,7 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:3007',
     excludeSpecPattern: '**/!(*.cy).ts',
-    specPattern: 'integration_tests/e2e/**/*.cy.{js,jsx,ts,tsx}',
-    supportFile: 'integration_tests/support/index.ts',
+    specPattern: 'cypress/specs/**/*.cy.{js,jsx,ts,tsx}',
+    supportFile: 'cypress/support/index.ts',
   },
 })
