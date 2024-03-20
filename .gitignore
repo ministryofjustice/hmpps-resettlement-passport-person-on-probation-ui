@@ -134,3 +134,5 @@ cypress/screenshots/
 
 # scripts
 token
+
+e2e.env

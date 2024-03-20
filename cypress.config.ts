@@ -4,6 +4,7 @@ import govukOneLogin from './cypress/mockApis/govukOneLogin'
 import psfrApi from './cypress/mockApis/psfrApi'
 import popApi from './cypress/mockApis/popApi'
 import hmppsAuth from './cypress/mockApis/hmppsAuth'
+require('dotenv').config()
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -16,7 +17,11 @@ export default defineConfig({
   },
   taskTimeout: 60000,
   e2e: {
-    setupNodeEvents(on) {
+    setupNodeEvents(on, config) {
+      config.env = {
+        ...process.env,
+        ...config.env
+      }
       on('task', {
         reset: resetStubs,
         // Add all the mock apis below
@@ -25,6 +30,7 @@ export default defineConfig({
         ...psfrApi,
         ...popApi,
       })
+      return config
     },
     baseUrl: 'http://localhost:3007',
     excludeSpecPattern: '**/!(*.cy).ts',
