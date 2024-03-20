@@ -6,9 +6,7 @@ import { getMatchingRequests, stubFor } from './wiremock'
 
 export const oneLoginUrn = 'urn:fdc:gov.uk:2022:user1'
 
-const oidcConfig = JSON.parse(
-  fs.readFileSync('cypress/mockApis/mappings/openid-configuration.json').toString(),
-)
+const oidcConfig = JSON.parse(fs.readFileSync('cypress/mockApis/mappings/openid-configuration.json').toString())
 
 const stubOidcDiscovery = () => stubFor(oidcConfig)
 
