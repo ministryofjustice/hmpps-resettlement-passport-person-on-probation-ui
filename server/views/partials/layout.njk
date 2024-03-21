@@ -2,16 +2,25 @@
 
 {% block head %}
   <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>
+  <script nonce="{{ cspNonce }}">
+    window['ga-disable-UA-26179049-1'] = true;
+    if (window.GOVUK) {
+      delete window.GOVUK.analytics;
+    }
+    if (ga) {
+      delete ga
+    }
+  </script>
 {% endblock %}
 
-{% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
+{% block pageTitle %}{{pageTitle | default(applicationName)}}
+{% endblock %}
 
 {% block header %}
   {% include "./header.njk" %}
 {% endblock %}
 
-{% block bodyStart %}
-{% endblock %}
+{% block bodyStart %}{% endblock %}
 
 {% block beforeContent %}
   <aside role="complementary">
