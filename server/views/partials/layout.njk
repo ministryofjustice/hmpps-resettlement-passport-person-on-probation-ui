@@ -2,11 +2,6 @@
 
 {% block head %}
   <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>
-  <script nonce="{{ cspNonce }}">
-    window['ga-disable-UA-26179049-1'] = true;
-    window.deleteCookie('_ga')
-    console.log("Deleted ga cookie")
-  </script>
 {% endblock %}
 
 {% block pageTitle %}{{pageTitle | default(applicationName)}}
@@ -30,4 +25,5 @@
   <script type="module" src="/assets/govukFrontendInit.js"></script>
   <script src="/assets/moj/all.js"></script>
   <script src="/assets/mojFrontendInit.js"></script>
+  <script src="/assets/govukCookies.js"></script>
 {% endblock %}
