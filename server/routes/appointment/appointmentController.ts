@@ -31,32 +31,41 @@ export default class AppointmentController {
     }
   }
 
-  show: RequestHandler = async (req, res) => {
-    const verificationData = await requireUser(req.user?.sub, this.userService)
-    if (typeof verificationData === 'string') {
-      return res.redirect(verificationData)
-    }
-    // get one appointment
-    const id = typeof req.params.id === 'string' ? req.params.id : ''
-    let appointment = null
-    let next = null
-    let previous = null
-
-    const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId)
-    const results = appointments?.results || []
-    const nextAppointments = getFutureAppointments(results)
-    nextAppointments.forEach((element, index) => {
-      if (element.id === id) {
-        appointment = element
-
-        // get next and previous appointments
-        const previousIndex = index > 0 ? index - 1 : -1
-        const nextIndex = index < nextAppointments.length ? index + 1 : -1
-        next = nextIndex > -1 ? nextAppointments[nextIndex] : null
-        previous = previousIndex > -1 ? nextAppointments[previousIndex] : null
+  show: RequestHandler = async (req, res, next) => {
+    try {
+      const verificationData = await requireUser(req.user?.sub, this.userService)
+      if (typeof verificationData === 'string') {
+        return res.redirect(verificationData)
       }
-    })
+      // get one appointment
+      const id = typeof req.params.id === 'string' ? req.params.id : ''
+      let appointment = null
+      let nextAppointment = null
+      let previousAppointment = null
 
-    return res.render('pages/appointmentDetails', { user: req.user, appointment, next, previous })
+      const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId)
+      const results = appointments?.results || []
+      const nextAppointments = getFutureAppointments(results)
+      nextAppointments.forEach((element, index) => {
+        if (element.id === id) {
+          appointment = element
+
+          // get next and previous appointments
+          const previousIndex = index > 0 ? index - 1 : -1
+          const nextIndex = index < nextAppointments.length ? index + 1 : -1
+          nextAppointment = nextIndex > -1 ? nextAppointments[nextIndex] : null
+          previousAppointment = previousIndex > -1 ? nextAppointments[previousIndex] : null
+        }
+      })
+
+      return res.render('pages/appointmentDetails', {
+        user: req.user,
+        appointment,
+        nextAppointment,
+        previousAppointment,
+      })
+    } catch (err) {
+      return next(err)
+    }
   }
 }

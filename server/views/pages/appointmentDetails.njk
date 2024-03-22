@@ -16,11 +16,11 @@
 
     <div class="govuk-grid-column-full govuk-!-padding-bottom-6">
         <a id="all-navigation-link" href="/appointments">View all</a>
-        {% if previous %}
-        <span class="govuk-!-margin-left-2 govuk-!-margin-right-2">|</span><a id="previous-navigation-link" href="/appointments/{{previous.id}}">Previous</a>
+        {% if previousAppointment %}
+        <span class="govuk-!-margin-left-2 govuk-!-margin-right-2">|</span><a id="previous-navigation-link" href="/appointments/{{previousAppointment.id}}">Previous</a>
         {% endif %}
-        {% if next %}
-        <span class="govuk-!-margin-left-2 govuk-!-margin-right-2">|</span><a id="next-navigation-link" href="/appointments/{{next.id}}">Next</a>
+        {% if nextAppointment %}
+        <span class="govuk-!-margin-left-2 govuk-!-margin-right-2">|</span><a id="next-navigation-link" href="/appointments/{{nextAppointment.id}}">Next</a>
         {% endif %}
     </div>
 
