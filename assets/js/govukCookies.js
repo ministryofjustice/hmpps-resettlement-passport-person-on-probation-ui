@@ -58,8 +58,10 @@ window.GOVUK.deleteCookie = function (cookie) {
   }
 }  
 
-// cookie categories from: https://github.com/alphagov/govuk_publishing_components/blob/e31f3450ff6e0a44f0436926ecac92f94e5b606b/app/assets/javascripts/govuk_publishing_components/lib/cookie-functions.js#L35
+// https://docs.publishing.service.gov.uk/manual/cookie-consent-on-govuk.html
+window['ga-disable-UA-26179049-1'] = true
 
+// cookie categories from: https://github.com/alphagov/govuk_publishing_components/blob/e31f3450ff6e0a44f0436926ecac92f94e5b606b/app/assets/javascripts/govuk_publishing_components/lib/cookie-functions.js#L35
 const cookieNames = ['_ga', '_ga_VBLT2V3FZR', '_ga_P1DGM6TVYF', '_ga_S5RQ7FTGVR', '_gid', '_gat']
 
 cookieNames.forEach(cookieName => {
