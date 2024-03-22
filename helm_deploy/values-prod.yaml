@@ -1,8 +1,6 @@
 ---
 # Per environment values which override defaults in hmpps-resettlement-passport-person-on-probation-ui/values.yaml
 
-generic-service:
-  replicaCount: 2
   
   ingress:
     host: person-on-probation-user-ui.hmpps.service.justice.gov.uk
