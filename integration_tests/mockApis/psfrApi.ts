@@ -33,6 +33,31 @@ const mockedLicenceConditions = {
   ],
 }
 
+const mockedAppointmentsErrorResponse = () => {
+  return {
+    results: [
+      {
+        title: null,
+        contact: null,
+        date: null,
+        time: null,
+        dateTime: null,
+        location: {
+          buildingName: null,
+          buildingNumber: null,
+          streetName: null,
+          district: null,
+          town: null,
+          county: null,
+          postcode: null,
+          description: null,
+        },
+        note: null,
+      },
+    ],
+  }
+}
+
 const mockedAppointmentsResponse = (apptDate: Date) => {
   return {
     results: [
@@ -162,6 +187,18 @@ export default {
         status: 200,
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
         jsonBody: mockedUserDetailsResponse,
+      },
+    }),
+  stubGetAppointmentsError: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false`,
+      },
+      response: {
+        status: 500,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: mockedAppointmentsErrorResponse(),
       },
     }),
   stubGetAppointments: (): SuperAgentRequest =>

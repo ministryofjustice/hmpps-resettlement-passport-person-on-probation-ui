@@ -16,6 +16,14 @@ context('Appointments', () => {
     cy.contains('You have been logged out.')
   })
 
+  it('Should render no appointments for error responses', () => {
+    cy.task('stubGetAppointmentsError')
+    cy.signIn()
+    // click sub navigation menu for appointments
+    cy.get(':nth-child(2) > .moj-sub-navigation__link').click()
+    cy.contains('Currently you have no future appointments')
+  })
+
   it('Should render alert box for todays appointments', () => {
     cy.task('stubGetAppointmentsToday')
     cy.signIn()

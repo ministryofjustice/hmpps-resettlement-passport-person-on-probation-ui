@@ -9,40 +9,44 @@ export default class HomeController {
     res.render('pages/otp', { user: req.user })
   }
 
-  create: RequestHandler = async (req, res) => {
-    const { otp, 'dob-dobDay': dobDay, 'dob-dobMonth': dobMonth, 'dob-dobYear': dobYear } = req.body
-    const errors: Array<Express.ValidationError> = []
-    const dobDate = getDobDate(dobDay, dobMonth, dobYear)
-    if (!dobDate) {
+  create: RequestHandler = async (req, res, next) => {
+    try {
+      const { otp, 'dob-dobDay': dobDay, 'dob-dobMonth': dobMonth, 'dob-dobYear': dobYear } = req.body
+      const errors: Array<Express.ValidationError> = []
+      const dobDate = getDobDate(dobDay, dobMonth, dobYear)
+      if (!dobDate) {
+        errors.push({
+          text: 'Enter a valid date of birth',
+          href: '#dob',
+        })
+      }
+
+      const isValid = await this.userService.checkOtp(
+        req.user.email,
+        otp,
+        `${dobYear}-${dobMonth}-${dobDay}`,
+        req.user.sub,
+      )
+      if (isValid) {
+        return res.redirect('/dashboard')
+      }
+
       errors.push({
-        text: 'Enter a valid date of birth',
-        href: '#dob',
+        text: 'Enter a correct security code matching the date of birth provided',
+        href: '#otp',
       })
+
+      const otpError = errors.find(x => x.href === '#otp')
+      const dobError = errors.find(x => x.href === '#dob')
+
+      return res.render('pages/otp', {
+        user: req.user,
+        errors,
+        otpError,
+        dobError,
+      })
+    } catch (err) {
+      return next(err)
     }
-
-    const isValid = await this.userService.checkOtp(
-      req.user.email,
-      otp,
-      `${dobYear}-${dobMonth}-${dobDay}`,
-      req.user.sub,
-    )
-    if (isValid) {
-      return res.redirect('/dashboard')
-    }
-
-    errors.push({
-      text: 'Enter a correct security code matching the date of birth provided',
-      href: '#otp',
-    })
-
-    const otpError = errors.find(x => x.href === '#otp')
-    const dobError = errors.find(x => x.href === '#dob')
-
-    return res.render('pages/otp', {
-      user: req.user,
-      errors,
-      otpError,
-      dobError,
-    })
   }
 }
