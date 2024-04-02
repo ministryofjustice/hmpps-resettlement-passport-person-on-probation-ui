@@ -27,6 +27,7 @@ export default function setUpGovukOneLogin(): Router {
     })
 
     router.get('/sign-in', (req, res, next) => {
+      passport
       passport.authenticate('oidc', { nonce: generators.nonce() })(req, res, next)
     })
 
@@ -35,6 +36,7 @@ export default function setUpGovukOneLogin(): Router {
         nonce: generators.nonce(),
         successRedirect: '/dashboard',
         failureRedirect: '/autherror',
+        failureFlash: true
       })(req, res, next)
     })
 

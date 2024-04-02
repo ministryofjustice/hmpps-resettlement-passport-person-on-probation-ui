@@ -29,7 +29,7 @@ context('Profile', () => {
     cy.get('.profile-name').contains('John Paul Smith')
     // Email address
     cy.get('.profile-email').contains('Not available')
-    // Mobile
-    cy.get('.profile-mobile').contains('Not available')
+    // Phone
+    cy.get('.profile-phone').contains('Not available')
   })
 })
