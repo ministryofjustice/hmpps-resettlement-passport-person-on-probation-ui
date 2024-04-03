@@ -23,12 +23,7 @@ export default class HomeController {
 
       const dobDateString = getDobDateString(dobDay, dobMonth, dobYear)
 
-      const isValid = await this.userService.checkOtp(
-        req.user.email,
-        otp,
-        dobDateString,
-        req.user.sub,
-      )
+      const isValid = await this.userService.checkOtp(req.user.email, otp, dobDateString, req.user.sub)
       if (isValid) {
         return res.redirect('/dashboard')
       }

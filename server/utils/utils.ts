@@ -53,8 +53,8 @@ export function getDobDate(day?: string, month?: string, year?: string): Date {
 
 export function getDobDateString(day?: string, month?: string, year?: string): string {
   if (!day || !month || !year) return null
-  const dobDate =  getDobDate(day, month, year)
-  return format(dobDate, 'yyyy-MM-dd');
+  const dobDate = getDobDate(day, month, year)
+  return format(dobDate, 'yyyy-MM-dd')
 }
 
 export function formatTime(inputTime: string, duration: number = 0): string {
