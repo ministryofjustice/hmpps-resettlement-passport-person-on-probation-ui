@@ -18,7 +18,7 @@ export default class ProfileController {
         profile.personalDetails.lastName,
       ].join(' ')
 
-      return res.render('pages/profile', { mobile: '', email: '', fullName })
+      return res.render('pages/profile', { phone: '', email: '', fullName })
     } catch (err) {
       return next(err)
     }

@@ -35,6 +35,7 @@ export default function setUpGovukOneLogin(): Router {
         nonce: generators.nonce(),
         successRedirect: '/dashboard',
         failureRedirect: '/autherror',
+        failureFlash: true,
       })(req, res, next)
     })
 
