@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import UserService from '../../services/userService'
-import { getDobDate } from '../../utils/utils'
+import { getDobDate, getDobDateString } from '../../utils/utils'
 
 export default class HomeController {
   constructor(private readonly userService: UserService) {}
@@ -21,10 +21,12 @@ export default class HomeController {
         })
       }
 
+      const dobDateString = getDobDateString(dobDay, dobMonth, dobYear)
+
       const isValid = await this.userService.checkOtp(
         req.user.email,
         otp,
-        `${dobYear}-${dobMonth}-${dobDay}`,
+        dobDateString,
         req.user.sub,
       )
       if (isValid) {

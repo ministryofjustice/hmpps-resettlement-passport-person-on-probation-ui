@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import type { AppointmentLocation } from '../data/resettlementPassportData'
 import {
   convertToTitleCase,
@@ -9,6 +10,8 @@ import {
   pluraliseAppointments,
   isFutureDate,
   formatLicenceDate,
+  getDobDate,
+  getDobDateString,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -218,5 +221,27 @@ describe('pluraliseAppointments', () => {
       ],
     }
     expect(pluraliseAppointments(appointment.results)).toEqual('appointments')
+  })
+})
+
+describe('getDobDate', () => {
+  it.each([
+    ['02', '09', '2023', '2023-09-02'],
+    ['2', '9', '2023', '2023-09-02'],
+  ])('getDobDate(%s)', (day: string, month: string, year: string, expected: string) => {
+    const result = getDobDate(day, month, year)
+    expect(format(result, 'yyyy-MM-dd')).toBe(expected)
+  })
+})
+
+describe('getDobDateString', () => {
+  it.each([
+    ['02', '09', '2023', '2023-09-02'],
+    ['2', '9', '2023', '2023-09-02'],
+    [null, '9', '2023', null],
+    [null, null, '2023', null],
+    [null, null, null, null],
+  ])('getDobDateString(%s)', (day: string, month: string, year: string, expected: string) => {
+    expect(getDobDateString(day, month, year)).toBe(expected)
   })
 })

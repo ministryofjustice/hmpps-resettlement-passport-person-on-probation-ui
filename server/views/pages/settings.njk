@@ -1,5 +1,4 @@
 {% extends "../partials/layout.njk" %}
-{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
 {% block content %}
 
@@ -18,67 +17,9 @@
     <h2 class="govuk-heading-m">
       Your sign in details
     </h2>
-     <p>These are your login account details which can be changed below.</p>
-
-      {{ govukSummaryList({
-        rows: [
-          {
-            key: {
-              text: "Email address"
-            },
-            value: {
-              text: email
-            },
-            actions: {
-              items: [
-                {
-                  href: oneloginUrl + "/enter-password?type=changeEmail",
-                  text: "Change",
-                  attributes: {'target': '_blank', 'data-qa': 'change-email-link'},
-                  visuallyHiddenText: "email"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Password"
-            },
-            value: {
-              text: "***************"
-            },
-            actions: {
-              items: [
-                {
-                  href: oneloginUrl + "/enter-password?type=changePassword",
-                  text: "Change",
-                  attributes: {'target': '_blank', 'data-qa': 'change-pwd-link'},
-                  visuallyHiddenText: "password"
-                }
-              ]
-            }
-          },
-          {
-            key: {
-              text: "Phone"
-            },
-            value: {
-              text: "Phone number ending with " + phoneEnding
-            },
-            actions: {
-              items: [
-                {
-                  href: oneloginUrl + "/enter-password?type=changePhoneNumber",
-                  attributes: {'target': '_blank', 'data-qa': 'change-phone-link'},
-                  text: "Change",
-                  visuallyHiddenText: "phone"
-                }
-              ]
-            }
-          }
-        ]
-      }) }}
-
+     <p>You can change the details you use to sign in to the Plan your future service at <a href="{{oneloginUrl}}/security" target+"_blank"  data-qa="change-onelogin-link">GOV.UK One Login</a>.</p>
+     <p>Any changes will not be shown on the profile page of Plan your future.</p>
+     <p>If you need to update the contact details shown in your profile, your Probation Officer can do this for you. It is important you keep your profile details up-to-date.</p>
 
     </div>
   </div>
