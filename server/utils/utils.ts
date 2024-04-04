@@ -51,6 +51,12 @@ export function getDobDate(day?: string, month?: string, year?: string): Date {
   return parsedDate
 }
 
+export function getDobDateString(day?: string, month?: string, year?: string): string {
+  if (!day || !month || !year) return null
+  const dobDate = getDobDate(day, month, year)
+  return format(dobDate, 'yyyy-MM-dd')
+}
+
 export function formatTime(inputTime: string, duration: number = 0): string {
   if (!inputTime || inputTime?.length < 1) return null
   const [hours, minutes, seconds] = inputTime.split(':').map(Number)
