@@ -9,6 +9,8 @@ context('Dashboard', () => {
     cy.task('stubGetPopUserDetails')
     cy.task('stubHmppsToken')
     cy.task('stubGetPopUserByUrn')
+    cy.task('stubGetLicenceConditions')
+    cy.task('stubGetLicenceConditionImage')
   })
 
   afterEach(() => {
