@@ -24,6 +24,16 @@ export default defineConfig({
         ...govukOneLogin,
         ...psfrApi,
         ...popApi,
+        log(message) {
+          // eslint-disable-next-line no-console
+          console.log(message)
+          return null
+        },
+        table(message) {
+          // eslint-disable-next-line no-console
+          console.table(message)
+          return null
+        },
       })
     },
     baseUrl: 'http://localhost:3007',

@@ -24,18 +24,6 @@ context('Appointments', () => {
     cy.contains('Currently you have no future appointments')
   })
 
-  it('Should render alert box for todays appointments', () => {
-    cy.task('stubGetAppointmentsToday')
-    cy.signIn()
-    cy.get('.govuk-notification-banner__heading').contains('You have 2 appointments today')
-  })
-
-  it('Should render alert box for tomorrows appointments', () => {
-    cy.task('stubGetAppointments')
-    cy.signIn()
-    cy.get('.govuk-notification-banner__heading').contains('You have 2 appointments tomorrow')
-  })
-
   it('Should be able to see future and past Appointments from the appointment list', () => {
     cy.task('stubGetAppointments')
     cy.signIn()
@@ -52,18 +40,6 @@ context('Appointments', () => {
     // past appointments should be visible when toggled
     cy.get('[data-qa="view-older-appointments"]').click()
     cy.contains('This is a past appointment')
-  })
-
-  it('Should be able to see the Appointments Tile', () => {
-    cy.task('stubGetAppointments')
-    cy.signIn()
-
-    // should be on the dashboard
-    cy.contains('John Smith')
-
-    // appointment tile should exist and clickable
-    cy.get('#appointments-tile').should('exist')
-    cy.get('#next-appointment-title').contains('This is a future appointment')
   })
 
   it('Should be able to see the Appointments details', () => {

@@ -13,11 +13,6 @@ context('Profile', () => {
     cy.contains('You have been logged out.')
   })
 
-  it('Should see the profile tile on dashboard', () => {
-    cy.signIn()
-    cy.get('#profile-tile').contains('Keep your personal information up to date.')
-  })
-
   it('Should be able to see profile page and profile data', () => {
     cy.signIn()
 

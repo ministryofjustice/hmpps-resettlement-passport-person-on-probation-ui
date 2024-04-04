@@ -1,9 +1,14 @@
+import CookiesPage from '../pages/cookies'
+import HomePage from '../pages/home'
+import Page from '../pages/page'
+
 context('Static pages', () => {
   beforeEach(() => {
-    cy.task('reset')
+    cy.visit('/')
   })
 
   it('Should see the start page', () => {
+    Page.verifyOnPage(HomePage)
     cy.contains('Use this service after leaving prison to view:')
   })
 
@@ -17,6 +22,6 @@ context('Static pages', () => {
     cy.get('[data-qa="cookies-link"]').should('have.attr', 'href').and('include', '/cookies')
 
     cy.get('[data-qa="cookies-link"]').click()
-    cy.contains('Cookies')
+    Page.verifyOnPage(CookiesPage)
   })
 })
