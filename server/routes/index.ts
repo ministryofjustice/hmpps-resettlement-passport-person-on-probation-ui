@@ -8,6 +8,7 @@ import appointmentRoutes from './appointment'
 import licenceConditionsRoutes from './licenceConditions'
 import profileRoutes from './profile'
 import settingsRoutes from './settings'
+import cookiesRoutes from './cookies'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function routes(service: Services): Router {
@@ -19,5 +20,6 @@ export default function routes(service: Services): Router {
   licenceConditionsRoutes(router, service)
   profileRoutes(router, service)
   settingsRoutes(router, service)
+  cookiesRoutes(router)
   return router
 }

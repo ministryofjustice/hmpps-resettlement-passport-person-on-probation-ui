@@ -6,7 +6,7 @@ import { createPrivateKey } from 'crypto'
 import config from '../config'
 import logger from '../../logger'
 
-const excludedRoutes = ['/']
+const excludedRoutes = ['/', '/cookies', '/privacy-policy']
 
 passport.serializeUser((user, done) => {
   // Not used but required for Passport
