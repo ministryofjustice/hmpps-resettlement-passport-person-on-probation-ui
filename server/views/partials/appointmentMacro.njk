@@ -3,7 +3,7 @@
  <div class="govuk-grid-column-full" data-qa="appointment-box">
         <div class="govuk-grid-row appsubpanel govuk-!-margin-bottom-4">
           <div class="govuk-grid-column-full">
-            <section id="licence" class="app-summary-card govuk-!-margin-bottom-4">
+            <section id="appointment-details-section" class="app-summary-card govuk-!-margin-bottom-4">
               <header class="app-summary-card__header">
                 <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0">{{appointment.date | formatDate}}
                   <span class="govuk-caption-m">{{appointment.time | formatTime }}
@@ -42,7 +42,7 @@
                   </p>
                 {% endif %}
                 {% if showDetails == true %}
-                  <a id="view-details-link" href="/appointments/{{appointment.id}}">View details</a>
+                  <a data-qa="view-details-link" href="/appointments/{{appointment.id}}">View details</a>
                 {% endif %}
               </div>
             </section>

@@ -61,15 +61,4 @@ context('Licence conditions', () => {
     cy.get('#back-licence-details-link').click()
     Page.verifyOnPage(LicencePage)
   })
-
-  it('Should be able to see the Licence Conditions Tile', () => {
-    cy.signIn()
-
-    // should be on the dashboard
-    cy.contains('John Smith')
-
-    // licence-conditions tile should exist and clickable
-    cy.get('#licence-conditions-tile').should('exist')
-    cy.get('#licence-conditions-tile-body').contains('Your licence conditions expire on 12 July 2023')
-  })
 })

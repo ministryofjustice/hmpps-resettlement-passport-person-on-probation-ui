@@ -21,6 +21,25 @@
   <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
 {% endblock %}
 
+{% block footer %}
+  {{ govukFooter({
+    meta: {
+      items: [
+        {
+          href: "/cookies",
+          text: "Cookies",
+          attributes: {'data-qa': 'cookies-link'}
+        },
+        {
+          href: "https://www.gov.uk/help/privacy-notice",
+          text: "Privacy policy",
+          attributes: {'data-qa': 'privacy-policy-link'}
+        }
+      ]
+    }
+  }) }}
+{% endblock %}
+
 {% block bodyEnd %}
   <script type="module" src="/assets/govukFrontendInit.js"></script>
   <script src="/assets/moj/all.js"></script>
