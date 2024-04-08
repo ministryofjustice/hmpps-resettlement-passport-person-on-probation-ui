@@ -19,7 +19,6 @@ export default class ProfileController {
       ].join(' ')
 
       return res.render('pages/profile', {
-        telephone: profile.personalDetails.telephone,
         mobile: profile.personalDetails.mobile,
         email: profile.personalDetails.email,
         fullName,
