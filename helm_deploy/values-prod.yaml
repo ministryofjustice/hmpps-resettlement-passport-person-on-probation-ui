@@ -18,4 +18,4 @@ generic-service:
     APPOINTMENTS_CACHE_IN_MINUTES: 5
 
 generic-prometheus-alerts:
-  alertSeverity: resettlement_passport_alerts
+  alertSeverity: hmpps-resettlement-passport-prod

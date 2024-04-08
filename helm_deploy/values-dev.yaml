@@ -19,4 +19,6 @@ generic-service:
     POP_API_URL: "https://person-on-probation-user-api-dev.hmpps.service.justice.gov.uk/person-on-probation-user"
 
 generic-prometheus-alerts:
-  alertSeverity: resettlement_passport_alerts_non_prod
+  alertSeverity: hmpps-resettlement-passport-non-prod
+
+deploy_grafana_dashboards: true
