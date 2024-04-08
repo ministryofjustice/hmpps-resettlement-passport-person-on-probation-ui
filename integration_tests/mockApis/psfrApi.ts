@@ -157,6 +157,9 @@ const mockedUserDetailsResponse = {
     middleNames: 'Paul',
     lastName: 'Smith',
     age: 44,
+    mobile: '0798654321',
+    telephone: '0198765432',
+    email: 'john@test.com',
   },
 }
 
