@@ -1,5 +1,5 @@
 import passport from 'passport'
-import { Client, Issuer, Strategy, StrategyVerifyCallbackUserInfo, UserinfoResponse } from 'openid-client'
+import { Client, Issuer, Strategy, StrategyVerifyCallbackUserInfo, UserinfoResponse, custom } from 'openid-client'
 import { RequestHandler } from 'express'
 import { createPrivateKey } from 'crypto'
 
@@ -51,9 +51,11 @@ async function init(): Promise<Client> {
     { keys: [privateKeyJwk] },
   )
 
+  client[custom.http_options] = () => {
+    return { timeout: config.apis.govukOneLogin.timeout }
+  }
+
   const verify: StrategyVerifyCallbackUserInfo<UserinfoResponse> = (tokenSet, userInfo, done) => {
-    // logger.info(`GOV.UK One Login user tokenSet: ${JSON.stringify(tokenSet)}`)
-    // logger.info(`GOV.UK One Login user sub: ${JSON.stringify(userInfo)}`)
     return done(null, userInfo)
   }
 

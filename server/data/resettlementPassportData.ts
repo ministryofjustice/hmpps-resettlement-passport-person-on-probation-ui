@@ -59,6 +59,9 @@ export interface PersonalDetails {
     age?: number
     location?: string
     facialImageId?: string
+    mobile?: string
+    telephone?: string
+    email?: string
   }
 }
 

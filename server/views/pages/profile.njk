@@ -38,11 +38,20 @@
           },
           {
             key: {
-              text: "Phone"
+              text: "Telephone"
             },
             value: {
-              html: phone | orElse('Not available'),
+              html: telephone | orElse('Not available'),
               classes: "profile-phone"
+            }
+          },
+          {
+            key: {
+              text: "Mobile"
+            },
+            value: {
+              html: mobile | orElse('Not available'),
+              classes: "profile-mobile"
             }
           }
         ]
