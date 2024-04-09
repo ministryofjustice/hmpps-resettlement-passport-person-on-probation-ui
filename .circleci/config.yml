@@ -20,6 +20,10 @@ parameters:
     type: string
     default: 20.11-browsers
 
+  redis-version:
+    type: string
+    default: '7.0'
+
 executors:
   # same as hmpps/node_redis executor with the addition of gotenberg container
   integration-tests-executor:
