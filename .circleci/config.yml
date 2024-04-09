@@ -18,7 +18,7 @@ parameters:
 
   node-version:
     type: string
-    default: 20.11-browsers
+    default: 20.12-browsers
 
   redis-version:
     type: string
@@ -30,14 +30,14 @@ executors:
     docker:
       - image: cimg/node:<< pipeline.parameters.node-version >>
       - image: cimg/redis:<< pipeline.parameters.redis-version >>
-      - image: 'gotenberg/gotenberg:7.7.0'
-        command:
-          - "gotenberg"
-          - "--api-port=3001"
-          - "--chromium-ignore-certificate-errors"
-          - "--api-timeout=30s"
-          - "--pdfengines-engines=pdftk"
-          - "--uno-listener-restart-threshold=0"
+    #  - image: 'gotenberg/gotenberg:7.7.0'
+    #    command:
+    #      - "gotenberg"
+    #      - "--api-port=3001"
+    #      - "--chromium-ignore-certificate-errors"
+    #      - "--api-timeout=30s"
+    #      - "--pdfengines-engines=pdftk"
+    #      - "--uno-listener-restart-threshold=0"
 
 jobs:
   build:
