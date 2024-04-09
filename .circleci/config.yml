@@ -74,9 +74,7 @@ jobs:
             - assets/stylesheets
 
   unit_test:
-    executor:
-      name: hmpps/node
-      tag: << pipeline.parameters.node-version >>
+    executor: integration-tests-executor
     steps:
       - checkout
       - restore_cache:
