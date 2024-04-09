@@ -25,18 +25,19 @@ parameters:
     default: '7.0'
 
 executors:
+  # same as hmpps/node_redis executor with the addition of gotenberg container
   integration-tests-executor:
     docker:
       - image: cimg/node:<< pipeline.parameters.node-version >>
       - image: cimg/redis:<< pipeline.parameters.redis-version >>
-    #  - image: 'gotenberg/gotenberg:7.7.0'
-    #    command:
-    #      - "gotenberg"
-    #      - "--api-port=3001"
-    #      - "--chromium-ignore-certificate-errors"
-    #      - "--api-timeout=30s"
-    #      - "--pdfengines-engines=pdftk"
-    #      - "--uno-listener-restart-threshold=0"
+      - image: 'gotenberg/gotenberg:7.7.0'
+        command:
+          - "gotenberg"
+          - "--api-port=3001"
+          - "--chromium-ignore-certificate-errors"
+          - "--api-timeout=30s"
+          - "--pdfengines-engines=pdftk"
+          - "--uno-listener-restart-threshold=0"
     resource_class: medium
     working_directory: ~/app
 
