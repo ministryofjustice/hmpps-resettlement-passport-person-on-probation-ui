@@ -25,7 +25,6 @@ parameters:
     default: '7.0'
 
 executors:
-  # same as hmpps/node_redis executor with the addition of gotenberg container
   integration-tests-executor:
     docker:
       - image: cimg/node:<< pipeline.parameters.node-version >>
@@ -38,6 +37,8 @@ executors:
     #      - "--api-timeout=30s"
     #      - "--pdfengines-engines=pdftk"
     #      - "--uno-listener-restart-threshold=0"
+    resource_class: medium
+    working_directory: ~/app
 
 jobs:
   build:
