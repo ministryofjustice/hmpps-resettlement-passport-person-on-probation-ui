@@ -164,14 +164,15 @@ const signOut = () =>
       urlPath: '/govukOneLogin/logout',
       queryParameters: {
         client_id: { equalTo: 'clientId' },
+        id_token_hint: { matches: '.*' },
+        post_logout_redirect_uri: { equalTo: 'http://localhost:3000' },
       },
     },
     response: {
-      status: 200,
+      status: 302, // Use 301 for permanent redirects
       headers: {
-        'Content-Type': 'text/html',
+        Location: 'http://localhost:3007/',
       },
-      body: '<html><body><h1>GOV.UK One Login</h1><p>You have been logged out.</p></body></html>',
     },
   })
 

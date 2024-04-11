@@ -1,3 +1,4 @@
+import HomePage from '../pages/home'
 import LicencePage from '../pages/licence'
 import Page from '../pages/page'
 
@@ -15,7 +16,7 @@ context('Licence conditions', () => {
 
   afterEach(() => {
     cy.get('[data-qa="signOut"]').click()
-    cy.contains('You have been logged out.')
+    Page.verifyOnPage(HomePage)
   })
 
   it('Should see licence conditions', () => {

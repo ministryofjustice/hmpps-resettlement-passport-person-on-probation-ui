@@ -1,3 +1,6 @@
+import HomePage from '../pages/home'
+import Page from '../pages/page'
+
 context('Profile', () => {
   beforeEach(() => {
     cy.task('reset')
@@ -10,7 +13,7 @@ context('Profile', () => {
 
   afterEach(() => {
     cy.get('[data-qa="signOut"]').click()
-    cy.contains('You have been logged out.')
+    Page.verifyOnPage(HomePage)
   })
 
   it('Should be able to see profile page and profile data', () => {
