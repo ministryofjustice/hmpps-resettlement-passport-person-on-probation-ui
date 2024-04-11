@@ -5,6 +5,8 @@ import { createPrivateKey } from 'crypto'
 
 import config from '../config'
 import logger from '../../logger'
+import TokenStore from '../data/tokenStore/tokenStore'
+import { createRedisClient } from '../data/redisClient'
 
 const excludedRoutes = ['/', '/cookies', '/privacy-policy']
 
@@ -56,6 +58,9 @@ async function init(): Promise<Client> {
   }
 
   const verify: StrategyVerifyCallbackUserInfo<UserinfoResponse> = (tokenSet, userInfo, done) => {
+    const tokenStore = new TokenStore(createRedisClient())
+    tokenStore.setToken(userInfo.sub, tokenSet.id_token, config.session.expiryMinutes)
+
     return done(null, userInfo)
   }
 
