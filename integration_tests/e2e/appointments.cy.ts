@@ -1,4 +1,5 @@
 import AppointmentsPage from '../pages/appointment'
+import HomePage from '../pages/home'
 import Page from '../pages/page'
 
 context('Appointments', () => {
@@ -13,7 +14,7 @@ context('Appointments', () => {
 
   afterEach(() => {
     cy.get('[data-qa="signOut"]').click()
-    cy.contains('You have been logged out.')
+    Page.verifyOnPage(HomePage)
   })
 
   it('Should render no appointments for error responses', () => {

@@ -1,3 +1,4 @@
+import HomePage from '../pages/home'
 import OtpPage from '../pages/otp'
 import Page from '../pages/page'
 
@@ -21,7 +22,7 @@ context('OTP verification', () => {
 
   afterEach(() => {
     cy.get('[data-qa="signOut"]').click()
-    cy.contains('You have been logged out.')
+    Page.verifyOnPage(HomePage)
   })
 
   it.skip('Should not continue to Dashboard after validating OTP (invalid)', () => {

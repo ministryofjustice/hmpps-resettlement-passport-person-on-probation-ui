@@ -1,4 +1,5 @@
 import DashboardPage from '../pages/dashboard'
+import HomePage from '../pages/home'
 import Page from '../pages/page'
 
 context('Dashboard', () => {
@@ -15,7 +16,7 @@ context('Dashboard', () => {
 
   afterEach(() => {
     cy.get('[data-qa="signOut"]').click()
-    cy.contains('You have been logged out.')
+    Page.verifyOnPage(HomePage)
   })
 
   it('Should render alert box for todays appointments', () => {

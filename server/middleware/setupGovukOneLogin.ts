@@ -4,6 +4,9 @@ import passport from 'passport'
 import flash from 'connect-flash'
 import { generators } from 'openid-client'
 import govukOneLogin from '../authentication/govukOneLogin'
+import config from '../config'
+import TokenStore from '../data/tokenStore/tokenStore'
+import { createRedisClient } from '../data/redisClient'
 
 // Add property used in 'passport.authenticate(strategy, options, callback)'
 // strategy options for 'oicd' that is missing from @types/passport
@@ -39,11 +42,20 @@ export default function setUpGovukOneLogin(): Router {
       })(req, res, next)
     })
 
-    router.use('/sign-out', (req, res, next) => {
+    router.use('/sign-out', async (req, res, next) => {
       if (req.user) {
+        const tokenStore = new TokenStore(createRedisClient())
+        const tokenId = await tokenStore.getToken(req.user.sub)
         req.logout(err => {
           if (err) return next(err)
-          return req.session.destroy(() => res.redirect(client.endSessionUrl()))
+          return req.session.destroy(() =>
+            res.redirect(
+              client.endSessionUrl({
+                id_token_hint: tokenId,
+                post_logout_redirect_uri: config.domain,
+              }),
+            ),
+          )
         })
       } else res.redirect(client.endSessionUrl())
     })
