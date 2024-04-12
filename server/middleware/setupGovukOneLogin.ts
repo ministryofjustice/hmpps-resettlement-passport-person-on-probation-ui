@@ -40,14 +40,14 @@ export default function setUpGovukOneLogin(): Router {
 
     // Endpoint to handle back-channel logout requests
     router.post('/backchannel-logout-uri', (req, res) => {
-      const logoutToken = req.body
+      const logoutToken = req.body.logout_token
 
       try {
         const decoded = jwt.verify(logoutToken, config.apis.govukOneLogin.publicKey) as jwt.JwtPayload
         handleLogout(decoded)
         res.status(200).send('Logout processed')
       } catch (error) {
-        logger.error(`Invalid logout token ${logoutToken}:`, error)
+        logger.error(`Invalid logout token ${req.body}:`, error)
         res.status(400).send('Invalid logout token')
       }
     })
