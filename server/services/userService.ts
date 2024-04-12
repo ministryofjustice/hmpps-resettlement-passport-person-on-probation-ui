@@ -79,7 +79,7 @@ export default class UserService {
   }
 
   async isAuthenticated(urn: string): Promise<boolean> {
-    logger.info(`User authentication check`)
+    logger.info(`User authentication check: ${urn}`)
     const tokenStore = new TokenStore(createRedisClient())
     const tokenValue = await tokenStore.getToken(urn)
     return Promise.resolve(!!tokenValue)

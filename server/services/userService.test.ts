@@ -102,13 +102,13 @@ describe('UserService', () => {
     redisClient.get.mockResolvedValue('a token')
     const result = await userService.isAuthenticated(oneLoginTestUrn)
     expect(result).toBe(true)
-    expect(loggerSpy).toHaveBeenCalledWith(`User authentication check`)
+    expect(loggerSpy).toHaveBeenCalledWith(`User authentication check: ${oneLoginTestUrn}`)
   })
 
   it('should check a user is authenticated when auth token doesnt exists', async () => {
     redisClient.get.mockResolvedValue(null)
     const result = await userService.isAuthenticated(oneLoginTestUrn)
     expect(result).toBe(false)
-    expect(loggerSpy).toHaveBeenCalledWith(`User authentication check`)
+    expect(loggerSpy).toHaveBeenCalledWith(`User authentication check: ${oneLoginTestUrn}`)
   })
 })

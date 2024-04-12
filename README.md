@@ -16,13 +16,17 @@ GOVUK_ONE_LOGIN_CLIENT_ID="<govuk_one_login_client_id>"
 GOVUK_ONE_LOGIN_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----
 <private key contents>
 -----END PRIVATE KEY-----"
+GOVUK_ONE_LOGIN_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----
+<public key contents>
+-----END PUBLIC KEY-----"
 ```
+
 You can grab these values from the namespace like so
-`kubectl -n <your-namespace> get secrets govuk-one-login -o json | jq '.data | map_values(@base64d)'`
+`kubectl -n hmpps-resettlement-passport-<env> get secrets govuk-one-login -o json | jq '.data | map_values(@base64d)'`
 
 If the credentials above are lost, you can re-enroll the service here https://admin.sign-in.service.gov.uk
 Recreate the secret in the k8s namespace:
-`kubectl -n <your-namespace> create secret generic govuk-one-login --from-file=GOVUK_ONE_LOGIN_CLIENT_ID=client-id.txt --from-file=GOVUK_ONE_LOGIN_PRIVATE_KEY=private_key.pem`
+`kubectl -n hmpps-resettlement-passport-<env> create secret generic govuk-one-login --from-file=GOVUK_ONE_LOGIN_CLIENT_ID=client-id.txt --from-file=GOVUK_ONE_LOGIN_PRIVATE_KEY=private_key.pem --from-file=GOVUK_ONE_LOGIN_PUBLIC_KEY=public_key.pem`
 
 ### Running the app for development
 To start the main services excluding the example typescript template app: 

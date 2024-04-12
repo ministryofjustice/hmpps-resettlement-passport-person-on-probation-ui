@@ -67,6 +67,7 @@ export default {
       homeUrl: get('GOVUK_ONE_LOGIN_HOME_URL', '', requiredInProduction),
       clientId: get('GOVUK_ONE_LOGIN_CLIENT_ID', 'clientId', requiredInProduction),
       privateKey: get('GOVUK_ONE_LOGIN_PRIVATE_KEY', 'privateKey', requiredInProduction),
+      publicKey: get('GOVUK_ONE_LOGIN_PUBLIC_KEY', 'publicKey', requiredInProduction),
       timeout: Number(get('GOVUK_ONE_LOGIN_TIMEOUT_RESPONSE', 20000)),
       vtr: process.env.GOVUK_ONE_LOGIN_VTR === 'LOW' ? '["Cl"]' : '["Cl.Cm"]',
     },

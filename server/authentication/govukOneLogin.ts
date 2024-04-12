@@ -2,7 +2,6 @@ import passport from 'passport'
 import { Client, Issuer, Strategy, StrategyVerifyCallbackUserInfo, UserinfoResponse, custom } from 'openid-client'
 import { RequestHandler } from 'express'
 import { createPrivateKey } from 'crypto'
-
 import config from '../config'
 import logger from '../../logger'
 import TokenStore from '../data/tokenStore/tokenStore'
@@ -60,6 +59,9 @@ async function init(): Promise<Client> {
   const verify: StrategyVerifyCallbackUserInfo<UserinfoResponse> = (tokenSet, userInfo, done) => {
     const tokenStore = new TokenStore(createRedisClient())
     tokenStore.setToken(userInfo.sub, tokenSet.id_token, config.session.expiryMinutes)
+
+    // const encoded = jwt.sign(userInfo, config.apis.govukOneLogin.publicKey)
+    // logger.info(`GOV.UK One Login user verified: ${encoded}`)
 
     return done(null, userInfo)
   }
