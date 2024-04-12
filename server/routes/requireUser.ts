@@ -8,6 +8,10 @@ export default async function requireUser(
   if (!urn) {
     return '/'
   }
+  const authenticationData = await userService.isAuthenticated(urn)
+  if (!authenticationData) {
+    return '/sign-out'
+  }
   const verificationData = await userService.isVerified(urn)
   if (!verificationData?.verified === true) {
     return '/otp'

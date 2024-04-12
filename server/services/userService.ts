@@ -4,6 +4,7 @@ import PersonOnProbationUserApiClient, { UserDetailsResponse } from '../data/per
 import { RedisClient, createRedisClient, ensureConnected } from '../data/redisClient'
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
 import type { OtpRequest, PersonalDetails } from '../data/resettlementPassportData'
+import TokenStore from '../data/tokenStore/tokenStore'
 
 export default class UserService {
   redisClient: RedisClient
@@ -75,5 +76,12 @@ export default class UserService {
     }
 
     return Promise.resolve(fetchedUser)
+  }
+
+  async isAuthenticated(urn: string): Promise<boolean> {
+    logger.info(`User authentication check`)
+    const tokenStore = new TokenStore(createRedisClient())
+    const tokenValue = await tokenStore.getToken(urn)
+    return Promise.resolve(!!tokenValue)
   }
 }
