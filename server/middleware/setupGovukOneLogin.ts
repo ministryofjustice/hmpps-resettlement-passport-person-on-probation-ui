@@ -3,10 +3,12 @@ import express from 'express'
 import passport from 'passport'
 import flash from 'connect-flash'
 import { generators } from 'openid-client'
+import jwt from 'jsonwebtoken'
 import govukOneLogin from '../authentication/govukOneLogin'
 import config from '../config'
 import TokenStore from '../data/tokenStore/tokenStore'
 import { createRedisClient } from '../data/redisClient'
+import logger from '../../logger'
 
 // Add property used in 'passport.authenticate(strategy, options, callback)'
 // strategy options for 'oicd' that is missing from @types/passport
@@ -18,6 +20,12 @@ declare module 'passport' {
 
 const router = express.Router()
 
+const handleLogout = (decodedToken: jwt.JwtPayload) => {
+  const userId = decodedToken.sub
+  // eslint-disable-next-line no-console
+  console.log(`TODO: User ${userId} logged out`)
+}
+
 export default function setUpGovukOneLogin(): Router {
   govukOneLogin.init().then(client => {
     router.use(passport.initialize())
@@ -27,6 +35,20 @@ export default function setUpGovukOneLogin(): Router {
     router.get('/autherror', (req, res) => {
       res.status(401)
       return res.render('autherror')
+    })
+
+    // Endpoint to handle back-channel logout requests
+    router.post('/backchannel-logout-uri', (req, res) => {
+      const logoutToken = req.body.logout_token
+
+      try {
+        const decoded = jwt.verify(logoutToken, config.apis.govukOneLogin.privateKey) as jwt.JwtPayload
+        handleLogout(decoded)
+        res.status(200).send('Logout processed')
+      } catch (error) {
+        logger.error('Invalid logout token:', error)
+        res.status(400).send('Invalid logout token')
+      }
     })
 
     router.get('/sign-in', (req, res, next) => {
