@@ -8,6 +8,7 @@ context('Settings', () => {
     cy.task('stubGetPopUserOtp')
     cy.task('stubGetPopUserDetails')
     cy.task('stubHmppsToken')
+    cy.task('stubGetLicenceConditions')
     cy.task('stubGetPopUserByUrn')
   })
 
