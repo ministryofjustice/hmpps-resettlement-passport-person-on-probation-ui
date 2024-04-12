@@ -17,6 +17,7 @@ generic-service:
     HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
     PSFR_API_URL: "https://resettlement-passport-api-dev.hmpps.service.justice.gov.uk/resettlement-passport"
     POP_API_URL: "https://person-on-probation-user-api-dev.hmpps.service.justice.gov.uk/person-on-probation-user"
+    GOVUK_ONE_LOGIN_VTR: "LOW"
 
 generic-prometheus-alerts:
   alertSeverity: hmpps-resettlement-passport-non-prod

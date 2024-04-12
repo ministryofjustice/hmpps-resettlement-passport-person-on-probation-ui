@@ -22,8 +22,9 @@ const router = express.Router()
 
 const handleLogout = (decodedToken: jwt.JwtPayload) => {
   const userId = decodedToken.sub
-  // eslint-disable-next-line no-console
-  console.log(`TODO: User ${userId} logged out`)
+  logger.info(`Backchannel notification received to log out user: ${userId}`)
+  const tokenStore = new TokenStore(createRedisClient())
+  tokenStore.removeToken(userId)
 }
 
 export default function setUpGovukOneLogin(): Router {
