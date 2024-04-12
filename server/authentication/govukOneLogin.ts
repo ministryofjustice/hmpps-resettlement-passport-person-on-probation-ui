@@ -8,7 +8,7 @@ import logger from '../../logger'
 import TokenStore from '../data/tokenStore/tokenStore'
 import { createRedisClient } from '../data/redisClient'
 
-const excludedRoutes = ['/', '/cookies', '/privacy-policy']
+const excludedRoutes = ['/', '/cookies', '/privacy-policy', '/backchannel-logout-uri']
 
 passport.serializeUser((user, done) => {
   // Not used but required for Passport
