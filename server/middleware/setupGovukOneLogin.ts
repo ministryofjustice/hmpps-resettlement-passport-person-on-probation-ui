@@ -44,7 +44,7 @@ export default function setUpGovukOneLogin(): Router {
       const logoutToken = req.body.logout_token
       try {
         const decoded = jwt.verify(logoutToken, config.apis.govukOneLogin.publicKey, {
-          algorithms: ['RS256'],
+          algorithms: ['RS256', 'ES256'],
         }) as jwt.JwtPayload
         handleLogout(decoded)
         res.status(200).send('Logout processed')
@@ -82,7 +82,7 @@ export default function setUpGovukOneLogin(): Router {
             ),
           )
         })
-      } else res.redirect(client.endSessionUrl())
+      } else res.redirect(config.domain)
     })
 
     router.use(govukOneLogin.authenticationMiddleware())
