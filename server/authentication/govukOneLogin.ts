@@ -58,7 +58,7 @@ async function init(): Promise<Client> {
 
   const verify: StrategyVerifyCallbackUserInfo<UserinfoResponse> = (tokenSet, userInfo, done) => {
     const tokenStore = new TokenStore(createRedisClient())
-    tokenStore.setToken(userInfo.sub, tokenSet.id_token, config.session.expiryMinutes)
+    tokenStore.setToken(userInfo.sub, tokenSet.id_token, config.session.expiryMinutes * 60)
     return done(null, userInfo)
   }
 
