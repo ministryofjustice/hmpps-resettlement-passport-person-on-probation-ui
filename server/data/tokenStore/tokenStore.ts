@@ -29,6 +29,6 @@ export default class TokenStore {
 
   public async removeToken(key: string): Promise<void> {
     await this.ensureConnected()
-    return this.setToken(key, '', 0)
+    return this.setToken(key, '', 1)
   }
 }
