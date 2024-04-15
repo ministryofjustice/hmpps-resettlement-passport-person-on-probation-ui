@@ -46,6 +46,7 @@ export default function setUpGovukOneLogin(): Router {
         const decoded = jwt.verify(logoutToken, config.apis.govukOneLogin.publicKey, {
           algorithms: ['RS256'],
         }) as jwt.JwtPayload
+
         handleLogout(decoded)
         res.status(200).send('Logout processed')
       } catch (error) {
