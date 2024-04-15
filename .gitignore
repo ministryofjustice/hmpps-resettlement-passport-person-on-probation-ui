@@ -117,7 +117,7 @@ dist
 
 
 client-id.txt
-private_key.pem
+*.pem
 
 
 assets/stylesheets/*.css
