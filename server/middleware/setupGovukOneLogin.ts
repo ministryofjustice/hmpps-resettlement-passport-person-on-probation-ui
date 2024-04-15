@@ -22,7 +22,7 @@ const router = express.Router()
 
 const handleLogout = (decodedToken: jwt.JwtPayload) => {
   const userId = decodedToken.sub
-  logger.info(`Backchannel notification received to log out user: ${userId}`)
+  logger.info(`Logging out user: ${userId}`)
   const tokenStore = new TokenStore(createRedisClient())
   tokenStore.removeToken(userId)
 }
@@ -40,10 +40,13 @@ export default function setUpGovukOneLogin(): Router {
 
     // Endpoint to handle back-channel logout requests
     router.post('/backchannel-logout-uri', (req, res) => {
+      logger.info(`Backchannel logout notification received`)
       const logoutToken = req.body.logout_token
-
       try {
-        const decoded = jwt.verify(logoutToken, config.apis.govukOneLogin.publicKey) as jwt.JwtPayload
+        const decoded = jwt.verify(logoutToken, config.apis.govukOneLogin.publicKey, {
+          algorithms: ['RS256'],
+        }) as jwt.JwtPayload
+
         handleLogout(decoded)
         res.status(200).send('Logout processed')
       } catch (error) {
