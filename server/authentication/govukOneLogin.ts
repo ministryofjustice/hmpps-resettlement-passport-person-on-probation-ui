@@ -47,7 +47,7 @@ async function init(): Promise<Client> {
       response_types: ['code'],
       token_endpoint_auth_method: 'private_key_jwt',
       token_endpoint_auth_signing_alg: 'RS256',
-      id_token_signed_response_alg: 'ES256',
+      id_token_signed_response_alg: 'RS256',
     },
     { keys: [privateKeyJwk] },
   )

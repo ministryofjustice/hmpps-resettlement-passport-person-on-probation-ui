@@ -43,9 +43,7 @@ export default function setUpGovukOneLogin(): Router {
       logger.info(`Backchannel logout notification received`)
       const logoutToken = req.body.logout_token
       try {
-        const decoded = jwt.verify(logoutToken, config.apis.govukOneLogin.publicKey, {
-          algorithms: ['ES256'],
-        }) as jwt.JwtPayload
+        const decoded = jwt.verify(logoutToken, config.apis.govukOneLogin.publicKey) as jwt.JwtPayload
         handleLogout(decoded)
         res.status(200).send('Logout processed')
       } catch (error) {
