@@ -83,7 +83,7 @@ const createIdToken = (nonce: string) => {
   }
 
   const privateKey = fs.readFileSync('integration_tests/testKeys/server_private_key.pem')
-  const idToken = jwt.sign(payload, privateKey, { algorithm: 'ES256' })
+  const idToken = jwt.sign(payload, privateKey, { algorithm: 'RS256' })
   return idToken
 }
 

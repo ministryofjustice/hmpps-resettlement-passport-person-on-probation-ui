@@ -69,6 +69,7 @@ export default {
       privateKey: get('GOVUK_ONE_LOGIN_PRIVATE_KEY', 'privateKey', requiredInProduction),
       publicKey: get('GOVUK_ONE_LOGIN_PUBLIC_KEY', 'publicKey', requiredInProduction),
       timeout: Number(get('GOVUK_ONE_LOGIN_TIMEOUT_RESPONSE', 20000)),
+      signingAlg: get('GOVUK_ONE_LOGIN_SIGNING_ALG', 'RS256', requiredInProduction),
       vtr: process.env.GOVUK_ONE_LOGIN_VTR === 'LOW' ? '["Cl"]' : '["Cl.Cm"]',
     },
     personOnProbationUserApi: {
