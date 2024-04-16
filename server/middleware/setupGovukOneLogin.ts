@@ -44,12 +44,12 @@ export default function setUpGovukOneLogin(): Router {
       const logoutToken = req.body.logout_token
       try {
         const decoded = jwt.verify(logoutToken, config.apis.govukOneLogin.publicKey, {
-          algorithms: ['RS256', 'ES256'],
+          algorithms: ['ES256'],
         }) as jwt.JwtPayload
         handleLogout(decoded)
         res.status(200).send('Logout processed')
       } catch (error) {
-        logger.error(`Invalid logout token ${req.body}:`, error)
+        logger.error(`Invalid logout token ${JSON.stringify(req.body)}:`, error)
         res.status(400).send('Invalid logout token')
       }
     })
