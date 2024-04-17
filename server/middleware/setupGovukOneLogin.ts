@@ -4,6 +4,7 @@ import passport from 'passport'
 import flash from 'connect-flash'
 import { generators } from 'openid-client'
 import jwt from 'jsonwebtoken'
+import jwksClient from 'jwks-rsa'
 import govukOneLogin from '../authentication/govukOneLogin'
 import config from '../config'
 import TokenStore from '../data/tokenStore/tokenStore'
@@ -19,6 +20,23 @@ declare module 'passport' {
 }
 
 const router = express.Router()
+
+const signatureClient = jwksClient({
+  jwksUri: config.apis.govukOneLogin.jwksUrl,
+})
+
+const getSigningKey = (kid: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    signatureClient.getSigningKey(kid, (err, key) => {
+      if (err) {
+        reject(err)
+      } else {
+        const signingKey = key.getPublicKey()
+        resolve(signingKey)
+      }
+    })
+  })
+}
 
 const handleLogout = (decodedToken: jwt.JwtPayload) => {
   const userId = decodedToken.sub
@@ -39,14 +57,21 @@ export default function setUpGovukOneLogin(): Router {
     })
 
     // Endpoint to handle back-channel logout requests
-    router.post('/backchannel-logout-uri', (req, res) => {
+    router.post('/backchannel-logout-uri', async (req, res) => {
       logger.info(`Backchannel logout notification received`)
       const logoutToken = req.body.logout_token
       try {
-        const decoded = jwt.verify(logoutToken, config.apis.govukOneLogin.publicKey, {
-          algorithms: ['ES256'],
-        }) as jwt.JwtPayload
-        handleLogout(decoded)
+        // decode to find the signing key header (kid)
+        const decodedToken = jwt.decode(logoutToken, { complete: true })
+        if (!decodedToken || !decodedToken.header || !decodedToken.header.kid) {
+          throw new Error('Invalid token')
+        }
+
+        // verify the signature
+        const oneLoginPublicKey = await getSigningKey(decodedToken.header.kid)
+        const verifiedPayload = jwt.verify(logoutToken, oneLoginPublicKey as jwt.Secret) as jwt.JwtPayload
+
+        handleLogout(verifiedPayload)
         res.status(200).send('Logout processed')
       } catch (error) {
         logger.error(`Invalid logout token ${JSON.stringify(req.body)}:`, error)
