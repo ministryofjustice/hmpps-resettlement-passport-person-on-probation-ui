@@ -64,6 +64,7 @@ export default {
     },
     govukOneLogin: {
       url: get('GOVUK_ONE_LOGIN_URL', '', requiredInProduction),
+      jwksUrl: get('GOVUK_ONE_LOGIN_JWKS_URL', '', requiredInProduction),
       homeUrl: get('GOVUK_ONE_LOGIN_HOME_URL', '', requiredInProduction),
       clientId: get('GOVUK_ONE_LOGIN_CLIENT_ID', 'clientId', requiredInProduction),
       privateKey: get('GOVUK_ONE_LOGIN_PRIVATE_KEY', 'privateKey', requiredInProduction),
