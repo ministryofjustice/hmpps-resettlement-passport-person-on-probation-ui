@@ -1,12 +1,12 @@
- {% macro render(appointment, showNotes, showDetails) %}
+ {% macro render(appointment, loopIndex, showNotes, showDetails) %}
 
  <div class="govuk-grid-column-full" data-qa="appointment-box">
         <div class="govuk-grid-row appsubpanel govuk-!-margin-bottom-4">
           <div class="govuk-grid-column-full">
             <section id="appointment-details-section" class="app-summary-card govuk-!-margin-bottom-4">
               <header class="app-summary-card__header">
-                <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0">{{appointment.date | formatDate}}
-                  <span class="govuk-caption-m">{{appointment.time | formatTime }}
+                <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0" data-qa="{{loopIndex}}-appointment-date">{{appointment.date | formatDate}}
+                  <span class="govuk-caption-m" data-qa="{{loopIndex}}-appointment-duration">{{appointment.time | formatTime }}
                       {% if appointment.duration %}
                          - {{ appointment.time | formatTime(appointment.duration) }}
                       {% endif %}
@@ -14,25 +14,25 @@
                 </h3>
               </header>
               <div class="app-summary-card__body govuk-!-padding-4">
-                <h3 class="govuk-heading-s govuk-!-margin-bottom-1">{{appointment.title}}</h3>
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-1" data-qa="{{loopIndex}}-appointment-title">{{appointment.title}}</h3>
                 {% if appointment.location | formatAppointmentLocation %}
-                  <p class="govuk-body-s">
+                  <p class="govuk-body-s" data-qa="{{loopIndex}}-appointment-location">
                     {{ appointment.location | formatAppointmentLocation }}
                   </p>
                   <p class="govuk-body-s">
-                    <a href="{{ appointment.location | mapsLinkFromAppointmentLocation }}" target="_blank">
+                    <a href="{{ appointment.location | mapsLinkFromAppointmentLocation }}" target="_blank" data-qa="{{loopIndex}}-appointment-map-link">
                     View on Google maps</a>
                   </p>
                 {% else %}
-                  <p class="govuk-body-s">No location available</p>
+                  <p class="govuk-body-s" data-qa="{{loopIndex}}-appointment-no-location">No location available</p>
                 {% endif %}
 
-                <p class="govuk-body-s">Contact: {{appointment.contact}}
+                <p class="govuk-body-s" data-qa="{{loopIndex}}-appointment-contact">Contact: {{appointment.contact}}
                 {% if appointment.contactEmail %}
                 (email: {{appointment.contactEmail}})
                 {% endif %}</p>
                 {% if showNotes == true %}
-                  <h4 class="govuk-heading-s govuk-!-padding-top-2">Notes</h4>
+                  <h4 class="govuk-heading-s govuk-!-padding-top-2" data-qa="{{loopIndex}}-appointment-notes">Notes</h4>
                   <p class="govuk-body-s">
                   {% if appointment.note | formatAppointmentNote %}
                     {{appointment.note}}
@@ -42,7 +42,7 @@
                   </p>
                 {% endif %}
                 {% if showDetails == true %}
-                  <a data-qa="view-details-link" href="/appointments/{{appointment.id}}">View details</a>
+                  <a data-qa="view-details-link" href="/appointments/{{appointment.id}}" data-qa="{{loopIndex}}-appointment-details-link">View details</a>
                 {% endif %}
               </div>
             </section>

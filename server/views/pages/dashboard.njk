@@ -10,7 +10,7 @@
     <div class="govuk-grid-column-full">
       {{ alertBox.render(tomorrowAppointments, todayAppointments) }}
       <p class="hmrc-caption govuk-caption-xl">
-        <span class="govuk-visually-hidden">This section is </span>{{applicationName}}</p>
+        <span class="govuk-visually-hidden">This section is </span><span data-qa="pyf-dashboard-title">{{applicationName}}</span></p>
 
       <h1 class="govuk-heading-xl govuk-!-margin-bottom-8">
         {{personalData.personalDetails.firstName}}
@@ -23,7 +23,7 @@
 
         <div id="appointments-tile" class="card">
           <div class="card-body active govuk-!-padding-bottom-6">
-            <h2 class="govuk-heading-m card-heading govuk-!-padding-bottom-2">
+            <h2 class="govuk-heading-m card-heading govuk-!-padding-bottom-2" data-qa="appointments-tile-title">
               <a href="/appointments">Appointments</a>
             </h2>
 
@@ -57,7 +57,7 @@
       <div class="govuk-grid-column-one-third-from-desktop">
         <div class="card" id="licence-conditions-tile">
           <div id="licence-conditions-tile-body" class="card-body active govuk-!-padding-bottom-6">
-            <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
+            <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2" data-qa="licence-conditions-tile-title">
               <a class="govuk-link card-link" href="/licence-conditions">Licence conditions</a>
             </h2>
             <p class="govuk-body">Understand the rules and conditions you need to follow.</p>
@@ -71,7 +71,7 @@
     <div class="govuk-grid-column-one-third-from-desktop">
         <div class="card" id="profile-tile">
             <div class="card-body active">
-                <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-4">
+                <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-4" data-qa="profile-tile-title">
                     <a class="govuk-link card-link" href="/profile">
                         Profile
                     </a>

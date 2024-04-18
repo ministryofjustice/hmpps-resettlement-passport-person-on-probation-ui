@@ -8,7 +8,7 @@
 
   <div class="govuk-grid-row govuk-!-padding-bottom-8">
     <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl">Appointments</h1>
+      <h1 class="govuk-heading-xl" data-qa="appointments-page-title">Appointments</h1>
       <p>Tell your offender manager if you have a problem attending any appointment as soon as you can.</p>
       <p>If you miss an appointment without a good reason it could break your licence conditions.</p>
     </div>
@@ -27,7 +27,7 @@
       </div>
     {% endif %}
     {% for item in appointments %}
-      {{ appointmentMacro.render(item, false, true) }}
+      {{ appointmentMacro.render(item, loop.index, false, true) }}
     {% endfor %}
     <!-- Next appointments End -->
 
@@ -44,21 +44,21 @@
               <section class="app-summary-card govuk-!-margin-bottom-4">
 
                 <header class="app-summary-card__header">
-                  <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0">{{oldItem.date | formatDate}}</h3>
+                  <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0" data-qa="{{loop.index}}-old-appointment-date">{{oldItem.date | formatDate}}</h3>
                 </header>
                 <div class="app-summary-card__body govuk-!-padding-4">
-                  <span class="govuk-body-m">{{oldItem.time | formatTime }}
+                  <span data-qa="{{loop.index}}-old-appointment-duration" class="govuk-body-m">{{oldItem.time | formatTime }}
                   {% if appointment.duration %}
                     - {{ appointment.time | formatTime(appointment.duration) }}
                   {% endif %}
                   </span>
                   <p>
-                    <b>{{oldItem.title}}</b><br>
+                    <b data-qa="{{loop.index}}-old-appointment-title">{{oldItem.title}}</b><br>
                     {% if oldItem.location | formatAppointmentLocation %}
-                      <span class="govuk-body-s">
+                      <span class="govuk-body-s" data-qa="{{loop.index}}-old-appointment-location">
                         {{ oldItem.location | formatAppointmentLocation }}</span>
                     {% else %}
-                      <span class="govuk-body-s">No location available</span>
+                      <span class="govuk-body-s" data-qa="{{loop.index}}-old-appointment-no-location">No location available</span>
                     {% endif %}
                   </p>
                 </div>

@@ -5,23 +5,28 @@
     items: [{
       text: 'Home',
       href: '/dashboard',
-      active: activePage == 'dashboard'
+      active: activePage == 'dashboard',
+      attributes: {'data-qa': 'home-nav-link'}
     }, {
       text: 'Appointments',
       href: '/appointments',
-      active: activePage == 'appointments'
+      active: activePage == 'appointments',
+      attributes: {'data-qa': 'appointments-nav-link'}
     }, {
       text: 'Licence conditions',
       href: '/licence-conditions',
-      active: activePage == 'licence-conditions'
+      active: activePage == 'licence-conditions',
+      attributes: {'data-qa': 'licence-conditions-nav-link'}
     }, {
       text: 'Profile',
       href: '/profile',
-      active: activePage == 'profile'
+      active: activePage == 'profile',
+      attributes: {'data-qa': 'profile-nav-link'}
     }, {
       text: 'Settings',
       href: '/settings',
-      active: activePage == 'settings'
+      active: activePage == 'settings',
+      attributes: {'data-qa': 'settings-nav-link'}
     }, {
       text: 'Sign out',
       href: '/sign-out',
