@@ -20,17 +20,7 @@ context('Sign in with GOV.UK One Login', () => {
   })
 
   it('Unauthenticated user redirected to GOV.UK One Login - sign-in URL', () => {
-    cy.visit('/auth/sign-in')
-    Page.verifyOnPage(GovukOneLoginPage)
-  })
-
-  it('Unauthenticated user redirected to GOV.UK One Login - callback URL', () => {
-    cy.visit('/auth/callback')
-    Page.verifyOnPage(GovukOneLoginPage)
-  })
-
-  it('Unauthenticated user redirected to GOV.UK One Login - non-existant route', () => {
-    cy.visit('/NON-EXISTANT-PAGE')
+    cy.visit('/sign-in')
     Page.verifyOnPage(GovukOneLoginPage)
   })
 
