@@ -6,7 +6,7 @@ export default async function requireUser(
   userService: UserService,
 ): Promise<UserDetailsResponse | string> {
   if (!urn) {
-    return '/'
+    return '/sign-in'
   }
   const authenticationData = await userService.isAuthenticated(urn)
   if (!authenticationData) {

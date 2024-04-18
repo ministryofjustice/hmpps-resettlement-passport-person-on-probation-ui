@@ -18,9 +18,14 @@ context('NotFound', () => {
     Page.verifyOnPage(HomePage)
   })
 
-  it('Should render page not found', () => {
+  it('Should render page not found when logged in', () => {
     cy.signIn()
     Page.verifyOnPage(DashboardPage)
+    cy.visit('/doesnotexist')
+    cy.get('h1').contains('Page not found')
+  })
+
+  it('Should render page not found when not logged in', () => {
     cy.visit('/doesnotexist')
     cy.get('h1').contains('Page not found')
   })

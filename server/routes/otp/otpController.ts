@@ -6,10 +6,16 @@ export default class HomeController {
   constructor(private readonly userService: UserService) {}
 
   index: RequestHandler = async (req, res) => {
-    res.render('pages/otp', { user: req.user })
+    if (!req.isAuthenticated()) {
+      return res.redirect('/sign-in')
+    }
+    return res.render('pages/otp', { user: req.user })
   }
 
   create: RequestHandler = async (req, res, next) => {
+    if (!req.isAuthenticated()) {
+      return res.redirect('/sign-in')
+    }
     try {
       const { otp, 'dob-dobDay': dobDay, 'dob-dobMonth': dobMonth, 'dob-dobYear': dobYear } = req.body
       const errors: Array<Express.ValidationError> = []

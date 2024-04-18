@@ -1,13 +1,10 @@
 import passport from 'passport'
 import { Client, Issuer, Strategy, StrategyVerifyCallbackUserInfo, UserinfoResponse, custom } from 'openid-client'
-import { RequestHandler } from 'express'
 import { createPrivateKey } from 'crypto'
 import config from '../config'
 import logger from '../../logger'
 import TokenStore from '../data/tokenStore/tokenStore'
 import { createRedisClient } from '../data/redisClient'
-
-const excludedRoutes = ['/', '/cookies', '/privacy-policy', '/backchannel-logout-uri']
 
 passport.serializeUser((user, done) => {
   // Not used but required for Passport
@@ -18,16 +15,6 @@ passport.deserializeUser((user, done) => {
   // Not used but required for Passport
   done(null, user as Express.User)
 })
-
-const authenticationMiddleware = (): RequestHandler => {
-  return async (req, res, next) => {
-    if (req.isAuthenticated() || excludedRoutes.includes(req.path)) {
-      return next()
-    }
-
-    return res.redirect('/sign-in')
-  }
-}
 
 async function init(): Promise<Client> {
   const discoveryEndpoint = `${config.apis.govukOneLogin.url}/.well-known/openid-configuration`
@@ -81,6 +68,5 @@ async function init(): Promise<Client> {
 }
 
 export default {
-  authenticationMiddleware,
   init,
 }
