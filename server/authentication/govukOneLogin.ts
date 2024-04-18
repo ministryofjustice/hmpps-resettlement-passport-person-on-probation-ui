@@ -4,8 +4,7 @@ import { RequestHandler } from 'express'
 import { createPrivateKey } from 'crypto'
 import config from '../config'
 import logger from '../../logger'
-import TokenStore from '../data/tokenStore/tokenStore'
-import { createRedisClient } from '../data/redisClient'
+import { tokenStoreFactory } from '../data/tokenStore/tokenStore'
 
 passport.serializeUser((user, done) => {
   // Not used but required for Passport
@@ -52,7 +51,7 @@ async function init(): Promise<Client> {
   }
 
   const verify: StrategyVerifyCallbackUserInfo<UserinfoResponse> = (tokenSet, userInfo, done) => {
-    const tokenStore = new TokenStore(createRedisClient())
+    const tokenStore = tokenStoreFactory()
     tokenStore.setToken(userInfo.sub, tokenSet.id_token, config.session.expiryMinutes * 60)
     return done(null, userInfo)
   }
