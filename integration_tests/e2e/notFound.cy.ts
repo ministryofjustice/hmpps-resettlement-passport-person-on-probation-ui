@@ -1,5 +1,4 @@
 import DashboardPage from '../pages/dashboard'
-import HomePage from '../pages/home'
 import Page from '../pages/page'
 
 context('NotFound', () => {
