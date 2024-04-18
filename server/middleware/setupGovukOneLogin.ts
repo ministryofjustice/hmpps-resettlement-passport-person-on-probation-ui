@@ -109,6 +109,8 @@ export default function setUpGovukOneLogin(): Router {
         })
       } else res.redirect(config.domain)
     })
+
+    router.use(govukOneLogin.authenticationMiddleware())
   })
 
   return router

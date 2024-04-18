@@ -1,5 +1,6 @@
 import passport from 'passport'
 import { Client, Issuer, Strategy, StrategyVerifyCallbackUserInfo, UserinfoResponse, custom } from 'openid-client'
+import { RequestHandler } from 'express'
 import { createPrivateKey } from 'crypto'
 import config from '../config'
 import logger from '../../logger'
@@ -15,6 +16,13 @@ passport.deserializeUser((user, done) => {
   // Not used but required for Passport
   done(null, user as Express.User)
 })
+
+const authenticationMiddleware = (): RequestHandler => {
+  return async (req, res, next) => {
+    // oddily this need to stay
+    return next()
+  }
+}
 
 async function init(): Promise<Client> {
   const discoveryEndpoint = `${config.apis.govukOneLogin.url}/.well-known/openid-configuration`
@@ -68,5 +76,6 @@ async function init(): Promise<Client> {
 }
 
 export default {
+  authenticationMiddleware,
   init,
 }
