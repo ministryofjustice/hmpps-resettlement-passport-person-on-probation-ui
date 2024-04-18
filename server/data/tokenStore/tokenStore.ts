@@ -15,7 +15,7 @@ export const tokenStoreFactory = (): TokenStore => {
 
 export interface TokenStore {
   setToken(key: string, token: string, durationSeconds: number): Promise<void>
-  removeToken(key: string, token: string): Promise<void>
+  removeToken(key: string): Promise<void>
   getToken(key: string): Promise<string>
 }
 
