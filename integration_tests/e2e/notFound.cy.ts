@@ -1,5 +1,4 @@
 import DashboardPage from '../pages/dashboard'
-import HomePage from '../pages/home'
 import Page from '../pages/page'
 
 context('NotFound', () => {
@@ -13,14 +12,15 @@ context('NotFound', () => {
     cy.task('stubGetLicenceConditions')
   })
 
-  afterEach(() => {
-    cy.visit('/sign-out')
-    Page.verifyOnPage(HomePage)
-  })
-
-  it('Should render page not found', () => {
+  it('Should render page not found when logged in', () => {
     cy.signIn()
     Page.verifyOnPage(DashboardPage)
+    cy.visit('/doesnotexist')
+    cy.get('h1').contains('Page not found')
+    cy.visit('/sign-out')
+  })
+
+  it('Should render page not found when not logged in', () => {
     cy.visit('/doesnotexist')
     cy.get('h1').contains('Page not found')
   })

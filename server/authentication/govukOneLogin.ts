@@ -7,8 +7,6 @@ import logger from '../../logger'
 import TokenStore from '../data/tokenStore/tokenStore'
 import { createRedisClient } from '../data/redisClient'
 
-const excludedRoutes = ['/', '/cookies', '/privacy-policy', '/backchannel-logout-uri']
-
 passport.serializeUser((user, done) => {
   // Not used but required for Passport
   done(null, user)
@@ -21,11 +19,8 @@ passport.deserializeUser((user, done) => {
 
 const authenticationMiddleware = (): RequestHandler => {
   return async (req, res, next) => {
-    if (req.isAuthenticated() || excludedRoutes.includes(req.path)) {
-      return next()
-    }
-
-    return res.redirect('/sign-in')
+    // oddily this need to stay
+    return next()
   }
 }
 
