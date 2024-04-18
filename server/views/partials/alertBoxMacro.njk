@@ -8,7 +8,7 @@
                         </p>
                     </div>
                     <div class="govuk-notification-banner__content">
-                        <p class="govuk-notification-banner__heading">
+                        <p class="govuk-notification-banner__heading" data-qa="alert-box-today-msg">
                             You have <a href="/appointments">{{todayAppointments.length}}</a>&nbsp;
                             {{ todayAppointments | pluraliseAppointments}} today
                         </p>
@@ -24,7 +24,7 @@
                         </p>
                     </div>
                     <div class="govuk-notification-banner__content">
-                        <p class="govuk-notification-banner__heading">
+                        <p class="govuk-notification-banner__heading" data-qa="alert-box-tomorrow-msg">
                             You have <a href="/appointments">{{tomorrowAppointments.length}}</a>&nbsp;
                             {{ tomorrowAppointments | pluraliseAppointments}} tomorrow
                         </p>
