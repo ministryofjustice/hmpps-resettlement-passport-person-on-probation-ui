@@ -37,7 +37,7 @@ context('Appointments', () => {
     // future appointments should be visible
     cy.get('[data-qa="appointment-box"]').should('exist')
     cy.contains('This is a future appointment')
-    cy.get('[data-qa="view-details-link"]').should('exist')
+    cy.get('[data-qa="1-appointment-details-link"]').should('exist')
 
     // past appointments should be visible when toggled
     cy.get('[data-qa="view-older-appointments"]').click()
@@ -53,7 +53,7 @@ context('Appointments', () => {
     Page.verifyOnPage(AppointmentsPage)
 
     // future appointments should be visible
-    cy.get('[data-qa="view-details-link"]').first().click()
+    cy.get('[data-qa="1-appointment-details-link"]').click()
 
     // appointment details page should be visible for the selected appointment
     cy.get('.govuk-heading-xl').contains('Appointment details')
@@ -70,6 +70,6 @@ context('Appointments', () => {
     cy.get('#all-navigation-link').should('exist')
     cy.get('#previous-navigation-link').should('exist')
     cy.get('#next-navigation-link').should('not.exist')
-    cy.get('[data-qa="view-details-link"]').should('not.exist')
+    cy.get('[data-qa="1-appointment-details-link"]').should('not.exist')
   })
 })

@@ -12,7 +12,7 @@
       <p class="hmrc-caption govuk-caption-xl">
         <span class="govuk-visually-hidden">This section is </span><span data-qa="pyf-dashboard-title">{{applicationName}}</span></p>
 
-      <h1 class="govuk-heading-xl govuk-!-margin-bottom-8">
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="pyf-dashboard-fullname">
         {{personalData.personalDetails.firstName}}
         {{personalData.personalDetails.lastName}}</h1>
     </div>
@@ -23,8 +23,8 @@
 
         <div id="appointments-tile" class="card">
           <div class="card-body active govuk-!-padding-bottom-6">
-            <h2 class="govuk-heading-m card-heading govuk-!-padding-bottom-2" data-qa="appointments-tile-title">
-              <a href="/appointments">Appointments</a>
+            <h2 class="govuk-heading-m card-heading govuk-!-padding-bottom-2">
+              <a href="/appointments" data-qa="appointments-tile-title">Appointments</a>
             </h2>
 
             <p class="govuk-body-s" id="next-appointment-heading">Next appointment:</p>
@@ -57,8 +57,8 @@
       <div class="govuk-grid-column-one-third-from-desktop">
         <div class="card" id="licence-conditions-tile">
           <div id="licence-conditions-tile-body" class="card-body active govuk-!-padding-bottom-6">
-            <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2" data-qa="licence-conditions-tile-title">
-              <a class="govuk-link card-link" href="/licence-conditions">Licence conditions</a>
+            <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
+              <a class="govuk-link card-link" href="/licence-conditions" data-qa="licence-conditions-tile-title">Licence conditions</a>
             </h2>
             <p class="govuk-body">Understand the rules and conditions you need to follow.</p>
             <p>Your licence conditions expire on {{licenceExpiryDate | formatLicenceDate }}.</p>
@@ -71,8 +71,8 @@
     <div class="govuk-grid-column-one-third-from-desktop">
         <div class="card" id="profile-tile">
             <div class="card-body active">
-                <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-4" data-qa="profile-tile-title">
-                    <a class="govuk-link card-link" href="/profile">
+                <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-4">
+                    <a class="govuk-link card-link" href="/profile" data-qa="profile-tile-title">
                         Profile
                     </a>
                 </h2>
