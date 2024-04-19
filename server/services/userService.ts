@@ -31,11 +31,13 @@ export default class UserService {
     const key = `${urn}-${nomsId}-popuserdetails-data`
 
     // read from cache
-    const personalDetailsString = await this.tokenStore.getToken(key)
-    if (personalDetailsString) {
-      logger.info('Personal details found in cache')
-      const personalDetails = JSON.parse(personalDetailsString) as PersonalDetails
-      return Promise.resolve(personalDetails)
+    if (config.redis.enabled) {
+      const personalDetailsString = await this.tokenStore.getToken(key)
+      if (personalDetailsString) {
+        logger.info('Personal details found in cache')
+        const personalDetails = JSON.parse(personalDetailsString) as PersonalDetails
+        return Promise.resolve(personalDetails)
+      }
     }
 
     logger.info('Fetching data from Api')
@@ -52,11 +54,13 @@ export default class UserService {
     const key = `${urn}-popuser-data`
 
     // read from cache
-    const cachedUserString = await this.tokenStore.getToken(key)
-    if (cachedUserString) {
-      logger.info('Pop user data found in cache')
-      const cachedUser = JSON.parse(cachedUserString) as UserDetailsResponse
-      return Promise.resolve(cachedUser)
+    if (config.redis.enabled) {
+      const cachedUserString = await this.tokenStore.getToken(key)
+      if (cachedUserString) {
+        logger.info('Pop user data found in cache')
+        const cachedUser = JSON.parse(cachedUserString) as UserDetailsResponse
+        return Promise.resolve(cachedUser)
+      }
     }
 
     logger.info('Fetching Pop user data from Api')

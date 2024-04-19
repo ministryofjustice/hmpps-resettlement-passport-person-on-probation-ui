@@ -47,14 +47,15 @@ export default class AppointmentService {
     const key = `${nomsId}-appointment-data`
 
     // read from cache
-    const appointmentsString = await this.tokenStore.getToken(key)
-    if (appointmentsString) {
-      logger.info('Appointments found in cache')
-      const appointments = JSON.parse(appointmentsString) as AppointmentData
-      appointments.results.map(x => this.ensureDateTime(x))
-      return Promise.resolve(appointments)
+    if (config.redis.enabled) {
+      const appointmentsString = await this.tokenStore.getToken(key)
+      if (appointmentsString) {
+        logger.info('Appointments found in cache')
+        const appointments = JSON.parse(appointmentsString) as AppointmentData
+        appointments.results.map(x => this.ensureDateTime(x))
+        return Promise.resolve(appointments)
+      }
     }
-
     logger.info('Fetching appointments from Api')
     const fetchedAppointments = await this.resettlementPassportClient.getAppointments(nomsId)
 

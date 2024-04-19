@@ -1,4 +1,5 @@
 import logger from '../../logger'
+import config from '../config'
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
 import type { LicenceConditionData } from '../data/resettlementPassportData'
 import { TokenStore, tokenStoreFactory } from '../data/tokenStore/tokenStore'
@@ -17,11 +18,13 @@ export default class LicenceConditionsService {
     const key = `${nomsId}-licence-conditions-data`
 
     // read from cache
-    const licenceConditionsString = await this.tokenStore.getToken(key)
-    if (licenceConditionsString) {
-      logger.info('LicenceConditions found in cache')
-      const licenceConditions = JSON.parse(licenceConditionsString) as LicenceConditionData
-      return Promise.resolve(licenceConditions)
+    if (config.redis.enabled) {
+      const licenceConditionsString = await this.tokenStore.getToken(key)
+      if (licenceConditionsString) {
+        logger.info('LicenceConditions found in cache')
+        const licenceConditions = JSON.parse(licenceConditionsString) as LicenceConditionData
+        return Promise.resolve(licenceConditions)
+      }
     }
 
     logger.info('Fetching licence conditions from Api')
