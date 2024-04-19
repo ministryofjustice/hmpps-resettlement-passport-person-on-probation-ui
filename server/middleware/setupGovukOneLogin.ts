@@ -7,8 +7,7 @@ import jwt from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
 import govukOneLogin from '../authentication/govukOneLogin'
 import config from '../config'
-import TokenStore from '../data/tokenStore/tokenStore'
-import { createRedisClient } from '../data/redisClient'
+import { tokenStoreFactory } from '../data/tokenStore/tokenStore'
 import logger from '../../logger'
 
 // Add property used in 'passport.authenticate(strategy, options, callback)'
@@ -41,7 +40,7 @@ const getSigningKey = (kid: string): Promise<string> => {
 const handleLogout = (decodedToken: jwt.JwtPayload) => {
   const userId = decodedToken.sub
   logger.info(`Logging out user: ${userId}`)
-  const tokenStore = new TokenStore(createRedisClient())
+  const tokenStore = tokenStoreFactory()
   tokenStore.removeToken(userId)
 }
 
@@ -94,7 +93,7 @@ export default function setUpGovukOneLogin(): Router {
 
     router.use('/sign-out', async (req, res, next) => {
       if (req.user) {
-        const tokenStore = new TokenStore(createRedisClient())
+        const tokenStore = tokenStoreFactory()
         const tokenId = await tokenStore.getToken(req.user.sub)
         req.logout(err => {
           if (err) return next(err)

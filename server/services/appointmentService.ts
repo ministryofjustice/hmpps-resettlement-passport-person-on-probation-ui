@@ -3,15 +3,15 @@ import crypto from 'crypto'
 import { addHours, addMinutes } from 'date-fns'
 import logger from '../../logger'
 import config from '../config'
-import { RedisClient, createRedisClient, ensureConnected } from '../data/redisClient'
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
 import type { AppointmentData, Appointment } from '../data/resettlementPassportData'
+import { TokenStore, tokenStoreFactory } from '../data/tokenStore/tokenStore'
 
 export default class AppointmentService {
-  redisClient: RedisClient
+  tokenStore: TokenStore
 
   constructor(private readonly resettlementPassportClient: ResettlementPassportApiClient) {
-    this.redisClient = createRedisClient()
+    this.tokenStore = tokenStoreFactory()
   }
 
   /**
@@ -45,10 +45,10 @@ export default class AppointmentService {
   async getAllByNomsId(nomsId: string): Promise<AppointmentData> {
     logger.info(`Get all appointments by nomsId`)
     const key = `${nomsId}-appointment-data`
+
+    // read from cache
     if (config.redis.enabled) {
-      // read from cache
-      await ensureConnected(this.redisClient)
-      const appointmentsString = await this.redisClient.get(key)
+      const appointmentsString = await this.tokenStore.getToken(key)
       if (appointmentsString) {
         logger.info('Appointments found in cache')
         const appointments = JSON.parse(appointmentsString) as AppointmentData
@@ -56,7 +56,6 @@ export default class AppointmentService {
         return Promise.resolve(appointments)
       }
     }
-
     logger.info('Fetching appointments from Api')
     const fetchedAppointments = await this.resettlementPassportClient.getAppointments(nomsId)
 
@@ -72,11 +71,9 @@ export default class AppointmentService {
       }),
     }
 
-    if (fetchedAppointments && config.redis.enabled) {
+    if (fetchedAppointments) {
       // store to cache only briefly
-      await this.redisClient.set(key, JSON.stringify(dataToCache), {
-        EX: config.session.appointmentsCacheMinutes,
-      })
+      await this.tokenStore.setToken(key, JSON.stringify(dataToCache), config.session.appointmentsCacheMinutes)
     }
     return Promise.resolve(dataToCache)
   }

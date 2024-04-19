@@ -9,8 +9,7 @@ import type { ApiConfig } from '../config'
 import type { UnsanitisedError } from '../sanitisedError'
 import { restClientMetricsMiddleware } from './restClientMetricsMiddleware'
 import getHmppsAuthToken from './hmppsAuthClient'
-import { RedisClient, createRedisClient, ensureConnected } from './redisClient'
-import config from '../config'
+import { TokenStore, tokenStoreFactory } from './tokenStore/tokenStore'
 
 interface Request {
   path: string
@@ -43,14 +42,14 @@ interface StreamRequest {
 export default class RestClient {
   agent: Agent
 
-  redisClient: RedisClient
+  tokenStore: TokenStore
 
   constructor(
     private readonly name: string,
     private readonly apiConfig: ApiConfig,
   ) {
     this.agent = apiConfig.url.startsWith('https') ? new HttpsAgent(apiConfig.agent) : new Agent(apiConfig.agent)
-    this.redisClient = createRedisClient()
+    this.tokenStore = tokenStoreFactory()
   }
 
   private apiUrl() {
@@ -62,26 +61,19 @@ export default class RestClient {
   }
 
   private async getCachedTokenOrRefresh(): Promise<string> {
-    if (config.redis.enabled) {
-      const key = `hmppsAuthToken`
-      await ensureConnected(this.redisClient)
-      const cachedToken = await this.redisClient.get(key)
+    const key = `hmppsAuthToken`
 
-      if (cachedToken) {
-        logger.info('Auth token found in cache')
-        return Promise.resolve(cachedToken)
-      }
+    const cachedToken = await this.tokenStore.getToken(key)
 
-      const token = await getHmppsAuthToken()
-      await this.redisClient.set(key, token.access_token, {
-        EX: token.expires_in,
-      })
-
-      logger.info(`Auth token fetched from Api, expires in ${token.expires_in}`)
-      return token.access_token
+    if (cachedToken) {
+      logger.info('Auth token found in cache')
+      return Promise.resolve(cachedToken)
     }
-    logger.info('Redis is disabled - fetching Auth token from Api')
+
     const token = await getHmppsAuthToken()
+    await this.tokenStore.setToken(key, token.access_token, token.expires_in)
+
+    logger.info(`Auth token fetched from Api, expires in ${token.expires_in}`)
     return token.access_token
   }
 
