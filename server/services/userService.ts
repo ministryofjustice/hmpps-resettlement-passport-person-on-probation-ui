@@ -40,7 +40,7 @@ export default class UserService {
 
     logger.info('Fetching data from Api')
     const fetchedPersonalDetails = await this.resettlementPassportClient.getByNomsId(nomsId)
-    if (fetchedPersonalDetails && config.redis.enabled) {
+    if (fetchedPersonalDetails) {
       // store to cache
       await this.tokenStore.setToken(key, JSON.stringify(fetchedPersonalDetails), config.session.expiryMinutes * 60)
     }
@@ -61,7 +61,7 @@ export default class UserService {
 
     logger.info('Fetching Pop user data from Api')
     const fetchedUser = await this.personOnProbationUserApiClient.getUserByUrn(urn)
-    if (fetchedUser && config.redis.enabled) {
+    if (fetchedUser) {
       // store to cache
       await this.tokenStore.setToken(key, JSON.stringify(fetchedUser), config.session.expiryMinutes * 60)
     }

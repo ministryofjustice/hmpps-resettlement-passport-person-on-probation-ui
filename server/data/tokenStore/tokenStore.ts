@@ -34,12 +34,12 @@ export class RedisTokenStore implements TokenStore {
 
   public async setToken(key: string, token: string, durationSeconds: number): Promise<void> {
     await this.ensureConnected()
-    await this.client.set(`${key}`, token, { EX: durationSeconds })
+    await this.client.set(key, token, { EX: durationSeconds })
   }
 
   public async getToken(key: string): Promise<string> {
     await this.ensureConnected()
-    return this.client.get(`${key}`)
+    return this.client.get(key)
   }
 
   public async removeToken(key: string): Promise<void> {
@@ -49,7 +49,7 @@ export class RedisTokenStore implements TokenStore {
 }
 
 export class InMemoryTokenStore implements TokenStore {
-  constructor(private readonly tokenMap: Map<string, string> = new Map()) {}
+  constructor(private tokenMap: Map<string, string> = new Map()) {}
 
   public async setToken(key: string, token: string): Promise<void> {
     this.tokenMap.set(key, token)
