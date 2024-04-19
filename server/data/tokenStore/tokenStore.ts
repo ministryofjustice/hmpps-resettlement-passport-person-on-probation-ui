@@ -4,15 +4,6 @@ import { createRedisClient, type RedisClient } from '../redisClient'
 import logger from '../../../logger'
 import config from '../../config'
 
-export const tokenStoreFactory = (): TokenStore => {
-  if (config.redis.enabled) {
-    logger.info('Creating new RedisTokenStore')
-    return new RedisTokenStore(createRedisClient())
-  }
-  logger.info('Creating new InMemoryTokenStore')
-  return new InMemoryTokenStore()
-}
-
 export interface TokenStore {
   setToken(key: string, token: string, durationSeconds: number): Promise<void>
   removeToken(key: string): Promise<void>
@@ -62,4 +53,15 @@ export class InMemoryTokenStore implements TokenStore {
   public async removeToken(key: string): Promise<void> {
     return this.setToken(key, '')
   }
+}
+
+const inMemoryStore = new InMemoryTokenStore()
+
+export const tokenStoreFactory = (): TokenStore => {
+  if (config.redis.enabled) {
+    logger.info('Creating new RedisTokenStore')
+    return new RedisTokenStore(createRedisClient())
+  }
+  logger.info('Creating new InMemoryTokenStore')
+  return inMemoryStore
 }
