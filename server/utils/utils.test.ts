@@ -12,6 +12,7 @@ import {
   formatLicenceDate,
   getDobDate,
   getDobDateString,
+  isValidOtp,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -243,5 +244,20 @@ describe('getDobDateString', () => {
     [null, null, null, null],
   ])('getDobDateString(%s)', (day: string, month: string, year: string, expected: string) => {
     expect(getDobDateString(day, month, year)).toBe(expected)
+  })
+})
+
+describe('isValidOtp', () => {
+  it.each([
+    [null, false],
+    ['null', false],
+    ['', false],
+    ['      ', false],
+    ['123456', true],
+    ['1234567', false],
+    ['QWcomJ', true],
+    ['QWcomJA', false],
+  ])('%s isValidOtp(%s, %s)', (input: string, expected: Boolean) => {
+    expect(isValidOtp(input)).toBe(expected)
   })
 })

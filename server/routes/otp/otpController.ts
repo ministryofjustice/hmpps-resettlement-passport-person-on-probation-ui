@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express'
 import UserService from '../../services/userService'
-import { getDobDate, getDobDateString } from '../../utils/utils'
+import { getDobDate, getDobDateString, isValidOtp } from '../../utils/utils'
+import { isPast } from 'date-fns'
 
 export default class HomeController {
   constructor(private readonly userService: UserService) {}
@@ -22,22 +23,35 @@ export default class HomeController {
       const dobDate = getDobDate(dobDay, dobMonth, dobYear)
       if (!dobDate) {
         errors.push({
-          text: 'Enter a valid date of birth',
+          text: 'Enter a date of birth in the correct format',
+          href: '#dob',
+        })
+      }
+      if (!isPast(dobDate)) {
+        errors.push({
+          text: 'The date of birth must be in the past',
           href: '#dob',
         })
       }
 
       const dobDateString = getDobDateString(dobDay, dobMonth, dobYear)
 
-      const isValid = await this.userService.checkOtp(req.user.email, otp, dobDateString, req.user.sub)
-      if (isValid) {
-        return res.redirect('/dashboard')
-      }
+      if (!isValidOtp(otp)) {
+        errors.push({
+          text: 'Enter a First-time ID code in the correct format',
+          href: '#otp',
+        })
+      } else {
+        const isAccepted = await this.userService.checkOtp(req.user.email, otp, dobDateString, req.user.sub)
+        if (isAccepted) {
+          return res.redirect('/dashboard')
+        }
 
-      errors.push({
-        text: 'Enter a correct security code matching the date of birth provided',
-        href: '#otp',
-      })
+        errors.push({
+          text: 'The First-time ID code entered is not associated with the date of birth provided',
+          href: '#otp',
+        })
+      }
 
       const otpError = errors.find(x => x.href === '#otp')
       const dobError = errors.find(x => x.href === '#dob')

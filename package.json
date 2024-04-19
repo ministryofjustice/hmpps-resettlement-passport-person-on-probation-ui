@@ -30,7 +30,8 @@
     "security_audit": "npx audit-ci --config audit-ci.json",
     "int-test": "cypress run --config video=false",
     "int-test-ui": "cypress open --e2e --browser chrome",
-    "clean": "rm -rf dist build node_modules stylesheets"
+    "clean": "rm -rf dist build node_modules stylesheets",
+    "outdated-required": "npm outdated typescript govuk-frontend"
   },
   "engines": {
     "node": "^20",
@@ -114,7 +115,7 @@
     "express": "^4.19.2",
     "express-prom-bundle": "^7.0.0",
     "express-session": "^1.17.3",
-    "govuk-frontend": "^5.3.0",
+    "govuk-frontend": "^5.3.1",
     "helmet": "^7.1.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
@@ -178,6 +179,6 @@
     "sass": "^1.70.0",
     "supertest": "^6.3.4",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.5"
   }
 }

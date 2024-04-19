@@ -57,6 +57,12 @@ export function getDobDateString(day?: string, month?: string, year?: string): s
   return format(dobDate, 'yyyy-MM-dd')
 }
 
+export function isValidOtp(otp?: string): Boolean {
+  if (!otp) return false
+  const regex = /^[a-zA-Z0-9]{6}$/;
+  return regex.test(otp);
+}
+
 export function formatTime(inputTime: string, duration: number = 0): string {
   if (!inputTime || inputTime?.length < 1) return null
   const [hours, minutes, seconds] = inputTime.split(':').map(Number)
