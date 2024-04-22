@@ -46,4 +46,19 @@ FOR BROWSER TESTS (HEADLESS:FALSE)
 `K6_BROWSER_HEADLESS=false k6 run --no-setup -e EXECUTION_TYPE=smoke run.js`
 
 
+# The report
+
+At the end of the test a report is generated with an array of different metrics that have been captured during the tests. 
+There have been thresholds set on a selection of metrics that have been specified in the load model 
+* Server response time is lower than 2000 milliseconds in 90% of requests and lower than
+5000 milliseconds in 100% of requests
+This is captured in `browser_http_req_duration` && `browser_http_req_failed`
+* “start” page within the service should take longer than 2 seconds to load in 90% of
+sessions
+This is captured in `total_dashboard_time`
+* The API test metrics are also monitored 
+This is captured in `http_req_duration` && `http_req_failed`
+
+Should any of these exceed the selected threshold metric an error will be displayed in the test results.
+
 
