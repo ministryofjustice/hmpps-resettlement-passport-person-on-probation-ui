@@ -32,12 +32,13 @@ context('OTP verification', () => {
     Page.verifyOnPage(OtpPage)
 
     cy.get('#otp').type('abcqwe')
-    cy.get('#dob-dobDay').type('1')
-    cy.get('#dob-dobMonth').type('1')
+    cy.get('#dobDay').type('01')
+    cy.get('#dobMonth').type('01')
+    cy.get('#dobYear').type('1986')
     cy.get('.govuk-button').click()
     Page.verifyOnPage(OtpPage)
     cy.contains('There is a problem')
-    cy.contains('Enter a correct security code matching the date of birth provided')
+    cy.contains('The First-time ID code entered is not associated with the date of birth provided')
   })
 
   it.skip('Should not continue to Dashboard after validating Date (invalid)', () => {
@@ -46,6 +47,7 @@ context('OTP verification', () => {
     cy.visit('/otp')
     Page.verifyOnPage(OtpPage)
 
+    // invalid format
     cy.get('#otp').type('123456')
     cy.get('#dobDay').type('1')
     cy.get('#dobMonth').type('1')
@@ -54,6 +56,16 @@ context('OTP verification', () => {
     Page.verifyOnPage(OtpPage)
     cy.contains('There is a problem')
     cy.contains('Enter a valid date of birth')
+
+    // date in the future
+    cy.get('#otp').type('123456')
+    cy.get('#dobDay').type('1')
+    cy.get('#dobMonth').type('1')
+    cy.get('#dobYear').type('2099')
+    cy.get('.govuk-button').click()
+    Page.verifyOnPage(OtpPage)
+    cy.contains('There is a problem')
+    cy.contains('The date of birth must be in the past')
   })
 
   it('Should continue to Dashboard after validating OTP (valid)', () => {
