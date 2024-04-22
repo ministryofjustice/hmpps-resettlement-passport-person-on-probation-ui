@@ -113,7 +113,7 @@
           "refId": "A"
         }
       ],
-      "title": "Panel Title",
+      "title": "SignIn Count",
       "type": "timeseries"
     }
   ],
@@ -124,7 +124,7 @@
     "list": [
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "hmpps-person-on-probation-user-service-dev",
           "value": "hmpps-person-on-probation-user-service-dev"
         },
@@ -149,6 +149,34 @@
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "P5DCFC7561CCDE821"
+        },
+        "definition": "label_values(total_prisoners_count,prison)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Prison",
+        "multi": false,
+        "name": "prison",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(total_prisoners_count,prison)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
       }
     ]
   },
@@ -160,6 +188,6 @@
   "timezone": "",
   "title": "Plan Your Future Dashboard",
   "uid": "plan-your-future-dashboard",
-  "version": 1,
+  "version": 586,
   "weekStart": ""
 }
