@@ -10,8 +10,6 @@ context('Licence conditions', () => {
     cy.task('stubGetPopUserDetails')
     cy.task('stubHmppsToken')
     cy.task('stubGetPopUserByUrn')
-    cy.task('stubGetLicenceConditions')
-    cy.task('stubGetLicenceConditionImage')
   })
 
   afterEach(() => {
@@ -20,6 +18,7 @@ context('Licence conditions', () => {
   })
 
   it('Should see licence conditions', () => {
+    cy.task('stubGetLicenceConditions')
     cy.signIn()
 
     // click sub navigation menu for licence conditions
@@ -38,7 +37,22 @@ context('Licence conditions', () => {
     )
   })
 
+  it('Should see alternative text when licence conditions missing', () => {
+    cy.task('stubGetLicenceConditionsMissing')
+    cy.signIn()
+
+    // click sub navigation menu for licence conditions
+    cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(LicencePage)
+
+    cy.get('#licence-dates').should('not.exist')
+
+    cy.contains('We cannot show your licence conditions. Ask your probation officer for details.')
+  })
+
   it('Should see licence conditions details', () => {
+    cy.task('stubGetLicenceConditions')
+    cy.task('stubGetLicenceConditionImage')
     cy.signIn()
     // click sub navigation menu for licence conditions
     cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
