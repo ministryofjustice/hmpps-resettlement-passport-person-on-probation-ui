@@ -27,7 +27,7 @@ context('Licence conditions', () => {
     Page.verifyOnPage(LicencePage)
 
     // date start and end should be visivle
-    cy.get('#licence-dates').contains('20 August 2023 - 12 July 2023')
+    cy.get('#licence-dates').contains('Licence expires on: 12 July 2023')
 
     // standard conditions should be visible
     cy.contains('1. Be of good behaviour and not behave in a way which undermines the purpose of the licence period.')
