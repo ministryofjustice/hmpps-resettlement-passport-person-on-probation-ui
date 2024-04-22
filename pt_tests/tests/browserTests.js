@@ -1,7 +1,7 @@
-import { browser } from 'k6/experimental/browser';
+import { browser } from 'k6/experimental/browser'
 import { describe, expect } from 'https://jslib.k6.io/k6chaijs/4.3.4.3/index.js'
-import { sleep } from 'k6';
-import { Trend } from 'k6/metrics';
+import { sleep } from 'k6'
+import { Trend } from 'k6/metrics'
 
 import { GovOneLogin } from '../pages/govOne/govOneLogin.js'
 import { Dashboard } from '../pages/dashboard.js'
@@ -9,19 +9,18 @@ import { NavigationBar } from '../pages/navigationBar.js'
 import { Appointments } from '../pages/appointments.js'
 import { Settings } from '../pages/settings.js'
 import { Profile } from '../pages/profile.js'
-import { LicenceConditions } from '../pages/licenceConditions.js';
-import { SignOut } from '../pages/signOut.js';
-import { GovOneEnterEmail } from '../pages/govOne/govOneEnterEmail.js';
-import { GovOneEnterPassword } from '../pages/govOne/govOneEnterPassword.js';
-import { PYFLandingPage } from '../pages/pyfLandingPage.js';
+import { LicenceConditions } from '../pages/licenceConditions.js'
+import { SignOut } from '../pages/signOut.js'
+import { GovOneEnterEmail } from '../pages/govOne/govOneEnterEmail.js'
+import { GovOneEnterPassword } from '../pages/govOne/govOneEnterPassword.js'
+import { PYFLandingPage } from '../pages/pyfLandingPage.js'
 
-const myTrend = new Trend('total_dashboard_time', true);
-var testVal;
+const myTrend = new Trend('total_dashboard_time', true)
+let testVal
 
-export async function mainDevBrowserTest () {
-
+export async function mainDevBrowserTest() {
   const page = browser.newPage()
-  
+
   const pYFLandingPage = new PYFLandingPage(page)
   const appointments = new Appointments(page)
   const licenceConditions = new LicenceConditions(page)
@@ -42,134 +41,121 @@ export async function mainDevBrowserTest () {
     await govOneLogin.gotoIntegrationLogin()
     await govOneLogin.gotoPlan()
     console.log('gotoPlan')
-    page.screenshot({ path: screenshot+'startPYFJourney.png' });
+    page.screenshot({ path: `${screenshot}startPYFJourney.png` })
     await Promise.all([page.waitForNavigation(), pYFLandingPage.startNowButton.click()])
     console.log('signIn')
-    page.screenshot({ path: screenshot+'signIn.png' });
+    page.screenshot({ path: `${screenshot}signIn.png` })
     await Promise.all([page.waitForNavigation(), govOneLogin.signInButton.click()])
     console.log('email')
-    page.screenshot({ path: screenshot+'email.png' });
+    page.screenshot({ path: `${screenshot}email.png` })
     await Promise.all([page.waitForNavigation(), enterEmail.submitEmail('david.mccourt+1@hippodigital.co.uk')])
     await Promise.all([page.waitForNavigation(), enterPassword.submitPassword('0net1mepa55')])
 
     // checks duration of loading Dashboard Page
-    page.evaluate(() => window.performance.mark('page-visit'));
+    page.evaluate(() => window.performance.mark('page-visit'))
     console.log('loggedIn')
-    page.screenshot({ path: screenshot+'dashboard.png' });
-    describe("getDashboard", () => {
-      testVal = dashboard.nameTag.innerText();
-      expect(testVal).to.equal('John Smith');
-      console.log('testDash')    
-    });
-    
-    page.evaluate(() => window.performance.mark('action-completed'));
+    page.screenshot({ path: `${screenshot}dashboard.png` })
+    describe('getDashboard', () => {
+      testVal = dashboard.nameTag.innerText()
+      expect(testVal).to.equal('John Smith')
+      console.log('testDash')
+    })
+
+    page.evaluate(() => window.performance.mark('action-completed'))
     // measures total duration of loading Dashboard Page
-    page.evaluate(() =>
-      window.performance.measure('total_dashboard_time', 'page-visit', 'action-completed')
-    );
+    page.evaluate(() => window.performance.measure('total_dashboard_time', 'page-visit', 'action-completed'))
 
     const totalActionTime = page.evaluate(
-      () =>
-        JSON.parse(JSON.stringify(window.performance.getEntriesByName('total_dashboard_time')))[0]
-          .duration
-    );
-    myTrend.add(totalActionTime);
+      () => JSON.parse(JSON.stringify(window.performance.getEntriesByName('total_dashboard_time')))[0].duration,
+    )
+    myTrend.add(totalActionTime)
 
-    await Promise.all([page.waitForNavigation(), navigationBar.appointments.click()]) 
-    describe("getAppointments", async () => {
-      page.screenshot({ path: screenshot+'appointments.png' });
-      testVal = appointments.header.innerText();
-      expect(testVal).to.equal('Appointments');
+    await Promise.all([page.waitForNavigation(), navigationBar.appointments.click()])
+    describe('getAppointments', async () => {
+      page.screenshot({ path: `${screenshot}appointments.png` })
+      testVal = appointments.header.innerText()
+      expect(testVal).to.equal('Appointments')
       console.log('testAppointments')
-    });
-    
+    })
 
     await Promise.all([page.waitForNavigation(), navigationBar.licenceConditions.click()])
-    await describe("getLicenceConditions", () => {
-      page.screenshot({ path: screenshot+'licence.png' });
-      testVal = licenceConditions.header.innerText();
-      expect(testVal).to.equal('Licence conditions');
+    await describe('getLicenceConditions', () => {
+      page.screenshot({ path: `${screenshot}licence.png` })
+      testVal = licenceConditions.header.innerText()
+      expect(testVal).to.equal('Licence conditions')
       console.log('testLicence')
-    });
+    })
 
     await Promise.all([page.waitForNavigation(), navigationBar.profile.click()])
-    describe("getProfile", () => {
-      page.screenshot({ path: screenshot+'profile.png' });
-      testVal = profile.header.innerText();
-      expect(testVal).to.equal('Profile');
+    describe('getProfile', () => {
+      page.screenshot({ path: `${screenshot}profile.png` })
+      testVal = profile.header.innerText()
+      expect(testVal).to.equal('Profile')
       console.log('testProfile')
-    });
+    })
 
     await Promise.all([page.waitForNavigation(), navigationBar.settings.click()])
-    describe("getSettings", () => {
-      page.screenshot({ path: screenshot+'settings.png' });
-      testVal = settings.header.innerText();
-      expect(testVal).to.equal('Settings');
+    describe('getSettings', () => {
+      page.screenshot({ path: `${screenshot}settings.png` })
+      testVal = settings.header.innerText()
+      expect(testVal).to.equal('Settings')
       console.log('testSettings')
-    });
+    })
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()])
-    describe("getDashboard", () => {
-      testVal = dashboard.nameTag.innerText();
-      expect(testVal).to.equal('John Smith');
-      console.log('testDash')    
-    });
+    describe('getDashboard', () => {
+      testVal = dashboard.nameTag.innerText()
+      expect(testVal).to.equal('John Smith')
+      console.log('testDash')
+    })
 
     await Promise.all([page.waitForNavigation(), dashboard.appointmentsTile.click()])
-    describe("getAppointmentsTile", async () => {
-      page.screenshot({ path: screenshot+'appointmentsTile.png' });
-      testVal = appointments.header.innerText();
-      expect(testVal).to.equal('Appointments');
+    describe('getAppointmentsTile', async () => {
+      page.screenshot({ path: `${screenshot}appointmentsTile.png` })
+      testVal = appointments.header.innerText()
+      expect(testVal).to.equal('Appointments')
       console.log('testAppointmentsTile')
-    });
+    })
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()])
-    describe("getDashboard", () => {
-      testVal = dashboard.nameTag.innerText();
-      expect(testVal).to.equal('John Smith');
+    describe('getDashboard', () => {
+      testVal = dashboard.nameTag.innerText()
+      expect(testVal).to.equal('John Smith')
       console.log('testDash')
-    });
+    })
 
     await Promise.all([page.waitForNavigation(), dashboard.licenceConditionsTile.click()])
-    describe("getLicenceConditionsTile", () => {
-      page.screenshot({ path: screenshot+'licenceTile.png' });
-      testVal = licenceConditions.header.innerText();
-      expect(testVal).to.equal('Licence conditions');
+    describe('getLicenceConditionsTile', () => {
+      page.screenshot({ path: `${screenshot}licenceTile.png` })
+      testVal = licenceConditions.header.innerText()
+      expect(testVal).to.equal('Licence conditions')
       console.log('testLicenceTile')
-    });
+    })
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()])
-    describe("getDashboard", () => {
-      testVal = dashboard.nameTag.innerText();
-      expect(testVal).to.equal('John Smith');
+    describe('getDashboard', () => {
+      testVal = dashboard.nameTag.innerText()
+      expect(testVal).to.equal('John Smith')
       console.log('testDash')
-    });
+    })
 
     await Promise.all([page.waitForNavigation(), dashboard.profileTile.click()])
-    describe("getProfileTile", () => {
-      page.screenshot({ path: screenshot+'profile.png' });
-      testVal = profile.header.innerText();
-      expect(testVal).to.equal('Profile');
+    describe('getProfileTile', () => {
+      page.screenshot({ path: `${screenshot}profile.png` })
+      testVal = profile.header.innerText()
+      expect(testVal).to.equal('Profile')
       console.log('testProfileTile')
-    });
+    })
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()])
-    describe("getDashboard", () => {
-      testVal = dashboard.nameTag.innerText();
-      expect(testVal).to.equal('John Smith');
+    describe('getDashboard', () => {
+      testVal = dashboard.nameTag.innerText()
+      expect(testVal).to.equal('John Smith')
       console.log('testDash')
-    });
+    })
 
     await Promise.all([page.waitForNavigation(), navigationBar.signOut.click()])
-
-  } 
-  finally {
-    page.close();
+  } finally {
+    page.close()
   }
 }
-
-
-
-
-
-
