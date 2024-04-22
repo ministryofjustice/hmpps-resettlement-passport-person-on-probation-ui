@@ -257,7 +257,7 @@ describe('isValidOtp', () => {
     ['1234567', false],
     ['QWcomJ', true],
     ['QWcomJA', false],
-  ])('%s isValidOtp(%s, %s)', (input: string, expected: Boolean) => {
+  ])('%s isValidOtp(%s, %s)', (input: string, expected: boolean) => {
     expect(isValidOtp(input)).toBe(expected)
   })
 })

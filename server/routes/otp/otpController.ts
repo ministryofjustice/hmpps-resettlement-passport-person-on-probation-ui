@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
+import { isPast } from 'date-fns'
 import UserService from '../../services/userService'
 import { getDobDate, getDobDateString, isValidOtp } from '../../utils/utils'
-import { isPast } from 'date-fns'
 
 export default class HomeController {
   constructor(private readonly userService: UserService) {}
