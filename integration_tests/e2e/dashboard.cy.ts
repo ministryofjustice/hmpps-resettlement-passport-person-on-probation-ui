@@ -35,13 +35,20 @@ context('Dashboard', () => {
 
   it('Should be able to see the Licence Conditions Tile', () => {
     cy.signIn()
-
-    // should be on the dashboard
     Page.verifyOnPage(DashboardPage)
 
     // licence-conditions tile should exist and clickable
     cy.get('#licence-conditions-tile').should('exist')
     cy.get('#licence-conditions-tile-body').contains('Your licence conditions expire on 12 July 2023')
+  })
+
+  it('Should see alternative text on Licence Conditions Tile when licence conditions missing', () => {
+    cy.task('stubGetLicenceConditionsMissing')
+    cy.signIn()
+    Page.verifyOnPage(DashboardPage)
+    cy.get('#licence-conditions-tile-body').contains(
+      'We cannot show your licence conditions. Ask your probation officer for details.',
+    )
   })
 
   it('Should be able to see the Appointments Tile', () => {

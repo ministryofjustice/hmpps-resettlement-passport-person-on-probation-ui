@@ -240,6 +240,18 @@ export default {
         jsonBody: mockedLicenceConditions,
       },
     }),
+  stubGetLicenceConditionsMissing: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/licence-condition`,
+      },
+      response: {
+        status: 404,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: {},
+      },
+    }),
   stubGetLicenceConditionImage: (): SuperAgentRequest =>
     stubFor({
       request: {

@@ -10,8 +10,6 @@ context('Licence conditions', () => {
     cy.task('stubGetPopUserDetails')
     cy.task('stubHmppsToken')
     cy.task('stubGetPopUserByUrn')
-    cy.task('stubGetLicenceConditions')
-    cy.task('stubGetLicenceConditionImage')
   })
 
   afterEach(() => {
@@ -20,6 +18,7 @@ context('Licence conditions', () => {
   })
 
   it('Should see licence conditions', () => {
+    cy.task('stubGetLicenceConditions')
     cy.signIn()
 
     // click sub navigation menu for licence conditions
@@ -27,7 +26,7 @@ context('Licence conditions', () => {
     Page.verifyOnPage(LicencePage)
 
     // date start and end should be visivle
-    cy.get('#licence-dates').contains('20 August 2023 - 12 July 2023')
+    cy.get('#licence-dates').contains('Licence expires on: 12 July 2023')
 
     // standard conditions should be visible
     cy.contains('1. Be of good behaviour and not behave in a way which undermines the purpose of the licence period.')
@@ -38,7 +37,22 @@ context('Licence conditions', () => {
     )
   })
 
+  it('Should see alternative text when licence conditions missing', () => {
+    cy.task('stubGetLicenceConditionsMissing')
+    cy.signIn()
+
+    // click sub navigation menu for licence conditions
+    cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(LicencePage)
+
+    cy.get('#licence-dates').should('not.exist')
+
+    cy.contains('We cannot show your licence conditions. Ask your probation officer for details.')
+  })
+
   it('Should see licence conditions details', () => {
+    cy.task('stubGetLicenceConditions')
+    cy.task('stubGetLicenceConditionImage')
     cy.signIn()
     // click sub navigation menu for licence conditions
     cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
