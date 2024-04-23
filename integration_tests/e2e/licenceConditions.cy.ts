@@ -47,7 +47,7 @@ context('Licence conditions', () => {
 
     cy.get('#licence-dates').should('not.exist')
 
-    cy.contains('We cannot show your licence conditions. Ask your probation officer for details.')
+    cy.get('[data-qa="licence-conditions-not-found-msg"]').contains('We cannot show your licence conditions. Ask your probation officer for details.')
   })
 
   it('Should see licence conditions details', () => {
