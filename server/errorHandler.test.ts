@@ -1,5 +1,6 @@
 import request from 'supertest'
 import { appWithAllRoutes } from './routes/testutils/appSetup'
+import { friendlyErrorMessage } from './errorHandler'
 
 beforeEach(() => {
   appWithAllRoutes({})
@@ -16,7 +17,7 @@ describe('GET 500', () => {
       .expect(500)
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).toContain('Something went wrong. The error has been logged. Please try again')
+        expect(res.text).toContain(friendlyErrorMessage)
       })
   })
   it('should render error page without the user friendly title in Dev mode', () => {
@@ -25,7 +26,7 @@ describe('GET 500', () => {
       .expect(500)
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).not.toContain('Something went wrong. The error has been logged. Please try again')
+        expect(res.text).not.toContain(friendlyErrorMessage)
       })
   })
 })

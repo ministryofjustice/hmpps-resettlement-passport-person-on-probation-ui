@@ -3,7 +3,7 @@ import express from 'express'
 import createError from 'http-errors'
 
 import nunjucksSetup from './utils/nunjucksSetup'
-import errorHandler from './errorHandler'
+import { createErrorHandler } from './errorHandler'
 import { metricsMiddleware } from './monitoring/metricsApp'
 
 import setupGovukOneLogin from './middleware/setupGovukOneLogin'
@@ -37,7 +37,7 @@ export default function createApp(services: Services): express.Application {
   app.use(routes(services))
 
   app.use((req, res, next) => next(createError(404, 'Not found')))
-  app.use(errorHandler(process.env.NODE_ENV === 'production'))
+  app.use(createErrorHandler(process.env.NODE_ENV === 'production'))
 
   return app
 }
