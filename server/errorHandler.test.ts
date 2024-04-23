@@ -11,22 +11,22 @@ afterEach(() => {
 })
 
 describe('GET 500', () => {
-  it('should render error page with a user friendly title in Production mode', () => {
+  it('should render error page without the error info in Production mode', () => {
     return request(appWithAllRoutes({ production: true }))
       .get('/dashboard')
-      .expect(500)
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain(friendlyErrorMessage)
+        expect(res.text).not.toContain('Error info:')
       })
   })
-  it('should render error page without the user friendly title in Dev mode', () => {
+  it('should render error page with the error info in Dev mode', () => {
     return request(appWithAllRoutes({ production: false }))
       .get('/dashboard')
-      .expect(500)
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).not.toContain(friendlyErrorMessage)
+        expect(res.text).toContain(friendlyErrorMessage)
+        expect(res.text).toContain('Error info:')
       })
   })
 })

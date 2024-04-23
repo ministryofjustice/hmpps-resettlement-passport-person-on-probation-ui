@@ -3,7 +3,7 @@ import type { HTTPError } from 'superagent'
 import logger from '../logger'
 
 export const friendlyErrorMessage =
-  'We cannot show these details right now. We are aware of the issue and are working to fix it. Please try again later'
+  'We cannot show these details right now. We are aware of the issue and are working to fix it. Please try again later.'
 
 export function createErrorHandler(production: boolean) {
   return (error: HTTPError, req: Request, res: Response, next: NextFunction): void => {
@@ -18,12 +18,11 @@ export function createErrorHandler(production: boolean) {
       return res.redirect('/sign-out')
     }
 
-    res.locals.message = production ? friendlyErrorMessage : error.message
+    res.locals.message = friendlyErrorMessage
     res.locals.status = error.status
-    res.locals.stack = production ? null : error.stack
+    res.locals.stack = production ? null : `Error info: ${error.stack}`
 
-    res.status(error.status || 500)
-
+    res.status(200)
     return res.render('pages/error')
   }
 }
