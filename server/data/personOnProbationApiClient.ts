@@ -26,6 +26,7 @@ export default class PersonOnProbationUserApiClient {
       return user
     } catch (error) {
       logger.debug('User not found, assuming unverified')
+      if (error.status !== 404) throw new Error(error)
     }
     return null
   }

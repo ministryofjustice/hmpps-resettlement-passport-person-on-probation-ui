@@ -192,6 +192,18 @@ export default {
         jsonBody: mockedUserDetailsResponse,
       },
     }),
+  stubGetAppointmentsMissing: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false`,
+      },
+      response: {
+        status: 404,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: {},
+      },
+    }),
   stubGetAppointmentsError: (): SuperAgentRequest =>
     stubFor({
       request: {

@@ -18,8 +18,8 @@ context('Appointments', () => {
     Page.verifyOnPage(HomePage)
   })
 
-  it('Should render no appointments for error responses', () => {
-    cy.task('stubGetAppointmentsError')
+  it('Should render no appointments for 404 responses', () => {
+    cy.task('stubGetAppointmentsMissing')
     cy.signIn()
     // click sub navigation menu for appointments
     cy.get(':nth-child(2) > .moj-sub-navigation__link').click()
