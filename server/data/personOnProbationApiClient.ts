@@ -2,6 +2,7 @@
 import RestClient from './restClient'
 import config from '../config'
 import logger from '../../logger'
+import { checkError } from './checkError'
 
 export interface UserDetailsResponse {
   id: number
@@ -26,7 +27,7 @@ export default class PersonOnProbationUserApiClient {
       return user
     } catch (error) {
       logger.debug('User not found, assuming unverified')
-      if (error.status !== 404) throw new Error(error)
+      checkError(error)
     }
     return null
   }

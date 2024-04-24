@@ -18,7 +18,6 @@
     </div>
 
     <!-- appointment tile -->
-    {% if nextAppointment %}
       <div class="govuk-grid-column-one-third-from-desktop">
 
         <div id="appointments-tile" class="card">
@@ -27,6 +26,7 @@
               <a href="/appointments" data-qa="appointments-tile-title">Appointments</a>
             </h2>
 
+            {% if nextAppointment %}
             <p class="govuk-body-s" id="next-appointment-heading">Next appointment:</p>
 
             <p class="govuk-body-s govuk-!-margin-0">
@@ -43,14 +43,22 @@
               {% if nextAppointment.location | formatAppointmentLocation %}
                 {{ nextAppointment.location | formatAppointmentLocation }}
               {% else %}
-            No location available
-          {% endif %}
+                No location available
+              {% endif %}
             </span>
+            {% else %}
+              <div data-qa="appointment-tile-no-content" class="govuk-heading-s govuk-!-margin-0">
+                <p>
+                  There's no future appointments to show you.
+                </p>
+                <p>Please check with your probation officer to make sure this is correct.
+                </p>
+              </div>
+            {% endif %}
           </div>
         </div>
 
       </div>
-    {% endif %}
 
     <!-- licence condition tile -->
       <div class="govuk-grid-column-one-third-from-desktop">
