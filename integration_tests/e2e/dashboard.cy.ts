@@ -67,12 +67,15 @@ context('Dashboard', () => {
   it('Should be able to see the Appointments Tile even with no appointments', () => {
     cy.task('stubGetAppointmentsMissing')
     cy.signIn()
-
-    // should be on the dashboard
     Page.verifyOnPage(DashboardPage)
-    cy.contains('John Smith')
+    cy.get('#appointments-tile').should('exist')
+    cy.get('[data-qa="appointment-tile-no-content"]').contains("There's no future appointments to show you.")
+  })
 
-    // appointment tile should exist and clickable
+  it('Should be able to see the Appointments Tile even with only past appointments', () => {
+    cy.task('stubGetAppointmentsPast')
+    cy.signIn()
+    Page.verifyOnPage(DashboardPage)
     cy.get('#appointments-tile').should('exist')
     cy.get('[data-qa="appointment-tile-no-content"]').contains("There's no future appointments to show you.")
   })
