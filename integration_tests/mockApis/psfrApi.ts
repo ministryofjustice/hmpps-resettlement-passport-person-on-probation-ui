@@ -209,18 +209,18 @@ export default {
         jsonBody: {},
       },
     }),
-    stubGetAppointmentsPast: (): SuperAgentRequest =>
-      stubFor({
-        request: {
-          method: 'GET',
-          url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false`,
-        },
-        response: {
-          status: 200,
-          headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-          jsonBody: mockedAppointmentsResponse(getYesterdaysDate()),
-        },
-      }),
+  stubGetAppointmentsPast: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: mockedAppointmentsResponse(getYesterdaysDate()),
+      },
+    }),
   stubGetAppointmentsError: (): SuperAgentRequest =>
     stubFor({
       request: {
