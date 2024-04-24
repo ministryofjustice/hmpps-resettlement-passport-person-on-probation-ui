@@ -4,7 +4,7 @@ import { NotFound } from 'http-errors'
 
 import routes from '../index'
 import nunjucksSetup from '../../utils/nunjucksSetup'
-import errorHandler from '../../errorHandler'
+import { createErrorHandler } from '../../errorHandler'
 import type { Services } from '../../services'
 import type { ApplicationInfo } from '../../applicationInfo'
 
@@ -45,7 +45,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
   app.use(express.urlencoded({ extended: true }))
   app.use(routes(services))
   app.use((req, res, next) => next(new NotFound()))
-  app.use(errorHandler(production))
+  app.use(createErrorHandler(production))
 
   return app
 }
