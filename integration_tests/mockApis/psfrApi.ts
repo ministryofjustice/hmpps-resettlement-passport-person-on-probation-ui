@@ -9,6 +9,11 @@ const getTomorrowsDate = () => {
 const getTodaysDate = () => {
   return new Date()
 }
+const getYesterdaysDate = () => {
+  const yesterday = new Date()
+  yesterday.setDate(new Date().getDate() - 1)
+  return yesterday
+}
 
 const mockedLicenceConditions = {
   licenceId: 101,
@@ -202,6 +207,18 @@ export default {
         status: 404,
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
         jsonBody: {},
+      },
+    }),
+  stubGetAppointmentsPast: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: mockedAppointmentsResponse(getYesterdaysDate()),
       },
     }),
   stubGetAppointmentsError: (): SuperAgentRequest =>

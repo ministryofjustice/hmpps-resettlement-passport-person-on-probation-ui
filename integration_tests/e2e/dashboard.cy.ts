@@ -64,6 +64,22 @@ context('Dashboard', () => {
     cy.get('#next-appointment-title').contains('This is a future appointment')
   })
 
+  it('Should be able to see the Appointments Tile even with no appointments', () => {
+    cy.task('stubGetAppointmentsMissing')
+    cy.signIn()
+    Page.verifyOnPage(DashboardPage)
+    cy.get('#appointments-tile').should('exist')
+    cy.get('[data-qa="appointment-tile-no-content"]').contains("There's no future appointments to show you.")
+  })
+
+  it('Should be able to see the Appointments Tile even with only past appointments', () => {
+    cy.task('stubGetAppointmentsPast')
+    cy.signIn()
+    Page.verifyOnPage(DashboardPage)
+    cy.get('#appointments-tile').should('exist')
+    cy.get('[data-qa="appointment-tile-no-content"]').contains("There's no future appointments to show you.")
+  })
+
   it('Should see the profile tile on dashboard', () => {
     cy.signIn()
     Page.verifyOnPage(DashboardPage)

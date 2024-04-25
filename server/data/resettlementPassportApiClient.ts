@@ -10,6 +10,7 @@ import type {
   OtpRequest,
   PersonalDetails,
 } from './resettlementPassportData'
+import { checkError } from './checkError'
 
 export default class ResettlementPassportApiClient {
   restClient: RestClient
@@ -27,7 +28,7 @@ export default class ResettlementPassportApiClient {
       return Buffer.from(imageResult).toString('base64')
     } catch (error) {
       logger.error('Licence condition image not found:', error)
-      if (error.status !== 404) throw new Error(error)
+      checkError(error)
     }
     return null
   }
@@ -40,7 +41,7 @@ export default class ResettlementPassportApiClient {
       return response
     } catch (error) {
       logger.error('Licence conditions not found:', error)
-      if (error.status !== 404) throw new Error(error)
+      checkError(error)
     }
     return null
   }
@@ -53,7 +54,7 @@ export default class ResettlementPassportApiClient {
       return response
     } catch (error) {
       logger.error('Prisoner not found:', error)
-      if (error.status !== 404) throw new Error(error)
+      checkError(error)
     }
     return null
   }
@@ -66,7 +67,7 @@ export default class ResettlementPassportApiClient {
       return response
     } catch (error) {
       logger.error('Prisoner appointments not found:', error)
-      if (error.status !== 404) throw new Error(error)
+      checkError(error)
     }
     return null
   }
@@ -80,7 +81,7 @@ export default class ResettlementPassportApiClient {
       return response
     } catch (error) {
       logger.error('OTP not found:', error)
-      if (error.status !== 404) throw new Error(error)
+      checkError(error)
     }
     return null
   }
