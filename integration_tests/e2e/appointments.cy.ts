@@ -38,6 +38,9 @@ context('Appointments', () => {
     cy.get('[data-qa="appointment-box"]').should('exist')
     cy.contains('This is a future appointment')
     cy.get('[data-qa="1-appointment-details-link"]').should('exist')
+    cy.get('[data-qa="1-appointment-no-location"]').contains(
+      'We cannot show the address for this appointment. Contact your probation officer for the details.',
+    )
 
     // past appointments should be visible when toggled
     cy.get('[data-qa="view-older-appointments"]').click()
