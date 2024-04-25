@@ -81,7 +81,7 @@ jobs:
       - run:
           name: Run k6 tests
           command: |
-            k6 run pt_tests/run.js
+            k6 run pt_tests/tests/run.js
 
   integration_test:
     executor:
