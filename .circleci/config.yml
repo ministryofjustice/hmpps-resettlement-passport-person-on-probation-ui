@@ -78,9 +78,9 @@ jobs:
       - node/install-packages
       - run: 
           command: npm install -g k6 && k6 run -e EXECUTION_TYPE=api -e PROCESS=dev -e DEV_AUTH='' pt_tests/run.js
-          environment:
-            DEV_AUTH: <<parameters.dev-auth>>
-            PROCESS: <<parameters.process>>
+          #environment:
+          #  DEV_AUTH: <<parameters.dev-auth>>
+          #  PROCESS: <<parameters.process>>
 
   integration_test:
     executor:
