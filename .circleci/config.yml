@@ -151,11 +151,6 @@ workflows:
             - integration_test
             - build_docker
           helm_timeout: 5m
-      - k6io/test:
-          requires:
-            - deploy_dev
-          arguments: '--no-setup --env EXECUTION_TYPE=smoke'
-          script: pt_tests/tests/run.js    
       - request-preprod-approval:
           type: approval
           requires:
@@ -233,3 +228,8 @@ workflows:
           context:
             - veracode-credentials
             - hmpps-common-vars
+  smoke_test:
+    jobs:
+      - k6io/test:
+          arguments: '--no-setup --env EXECUTION_TYPE=smoke'
+          script: pt_tests/tests/run.js    
