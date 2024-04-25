@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   hmpps: ministryofjustice/hmpps@8
   slack: circleci/slack@4.12.5
+  test: k6io/test@1.2.3
 
 parameters:
   alerts-slack-channel:
@@ -150,6 +151,11 @@ workflows:
             - integration_test
             - build_docker
           helm_timeout: 5m
+      - k6io/test:
+          requires:
+            - deploy_dev
+          arguments: '--no-setup --env EXECUTION_TYPE=smoke --compatibility-mode=base'
+          script: pt_tests/tests/run.js    
       - request-preprod-approval:
           type: approval
           requires:
