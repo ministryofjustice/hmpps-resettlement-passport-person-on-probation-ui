@@ -69,7 +69,7 @@ jobs:
       - store_artifacts:
           path: test_results/unit-test-reports.html
 
-  smoke-test:
+  smoke_test:
     executor:
       name: hmpps/node
       tag: << pipeline.parameters.node-version >>
@@ -77,7 +77,7 @@ jobs:
       - checkout
       - node/install-packages
       - run: 
-          command: npm install -g k6 && k6 run -e EXECUTION_TYPE=api pt_tests/run.js
+          command: npm install -g k6 && k6 run -e EXECUTION_TYPE=api -e PROCESS=dev -e DEV_AUTH='' pt_tests/run.js
           environment:
             DEV_AUTH: <<parameters.dev-auth>>
             PROCESS: <<parameters.process>>
