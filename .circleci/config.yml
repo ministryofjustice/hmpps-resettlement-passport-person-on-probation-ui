@@ -20,7 +20,7 @@ parameters:
     default: 20.11-browsers
 
 executors:
- k6-executor:
+  k6-executor:
     docker:
       - image: k6io/test
 
