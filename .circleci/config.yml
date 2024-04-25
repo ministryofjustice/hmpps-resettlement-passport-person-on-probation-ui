@@ -154,7 +154,7 @@ workflows:
       - k6io/test:
           requires:
             - deploy_dev
-          arguments: '--no-setup --env EXECUTION_TYPE=smoke --compatibility-mode=base'
+          arguments: '--no-setup --env EXECUTION_TYPE=smoke'
           script: pt_tests/tests/run.js    
       - request-preprod-approval:
           type: approval
