@@ -22,7 +22,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages
-      - run: npm install k6 && npm run k6 run -e EXECUTION_TYPE=api run.js
+      - run: npm install -g k6 && k6 run -e EXECUTION_TYPE=api pt_tests/run.js
         environment:
           DEV_AUTH: <<parameters.dev-auth>>
           PROCESS: <<parameters.process>>
@@ -31,10 +31,10 @@ workflows:
  manual_performance_test:
     jobs:
       - test:
-          filters:
-            branches:
-              only: main
-            tags:
-              only: /^v.*/
-            triggers:
-              - type: manual
+          #filters:
+          #  branches:
+          #    only: main
+          #  tags:
+          #    only: /^v.*/
+            #triggers:
+            #  - type: manual
