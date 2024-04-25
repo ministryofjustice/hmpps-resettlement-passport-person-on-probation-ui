@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   hmpps: ministryofjustice/hmpps@8
   slack: circleci/slack@4.12.5
+  k6io: k6io/test@1.1.0
 
 parameters:
   alerts-slack-channel:
@@ -69,18 +70,6 @@ jobs:
       - store_artifacts:
           path: test_results/unit-test-reports.html
 
-  smoke_test:
-    executor:
-      name: hmpps/node
-      tag: << pipeline.parameters.node-version >>
-    steps:
-      - checkout
-      - run: 
-          command: npm install -g k6 && k6 run -e EXECUTION_TYPE=api -e PROCESS=dev -e DEV_AUTH='' pt_tests/run.js
-          #environment:
-          #  DEV_AUTH: <<parameters.dev-auth>>
-          #  PROCESS: <<parameters.process>>
-
   integration_test:
     executor:
       name: hmpps/node_redis
@@ -136,9 +125,9 @@ workflows:
       - integration_test:
           requires:
             - build
-      - smoke_test:
-          requires:
-            - build
+      - k6io/test:
+          arguments: '--env EXECUTION_TYPE=api --compatibility-mode=base'
+          script: pt_tests/run.js
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
