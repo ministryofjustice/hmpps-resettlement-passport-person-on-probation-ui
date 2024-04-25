@@ -126,6 +126,9 @@ workflows:
           requires:
             - build
       - k6io/test:
+          name: pt_tests
+          requires:
+            - helm_lint
           arguments: '--env EXECUTION_TYPE=api --compatibility-mode=base'
           script: pt_tests/run.js
       - hmpps/helm_lint:
