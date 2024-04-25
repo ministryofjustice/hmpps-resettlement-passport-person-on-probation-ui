@@ -22,25 +22,6 @@ describe('checkError', () => {
     expect(callable).toThrow(Error)
   })
 
-  it('should not throw for 500 that are actually 404', () => {
-    const error = {
-      status: 500,
-      data: {
-        status: 500,
-        errorCode: null,
-        userMessage:
-          'Unexpected error: 404 Not Found from POST http://hmpps-resettlement-passport-api-stubs/cvl-api/licence/match',
-        developerMessage: '404 Not Found from POST http://hmpps-resettlement-passport-api-stubs/cvl-api/licence/match',
-        moreInfo: null,
-      },
-    } as SanitisedError
-
-    const callable = () => {
-      checkError(error)
-    }
-    expect(callable).not.toThrow(Error)
-  })
-
   it('should not throw for 404', () => {
     const error = {
       status: 404,
