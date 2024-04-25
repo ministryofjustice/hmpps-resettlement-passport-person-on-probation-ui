@@ -127,7 +127,7 @@ workflows:
             - build
       - k6io/test:
           name: 'smoke_test'
-          arguments: '--env EXECUTION_TYPE=api --env PROCESS=dev --compatibility-mode=base'
+          arguments: '--env EXECUTION_TYPE=api --env PROCESS=dev'
           script: pt_tests/tests/run.js
       - hmpps/helm_lint:
           name: helm_lint
