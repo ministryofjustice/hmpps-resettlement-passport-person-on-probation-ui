@@ -72,7 +72,7 @@ jobs:
   smoke_test:
     circleci_ip_ranges: true
     docker:
-      - image: loadimpact/k6:latest
+      - image: loadimpact/k6:master-with-browser
     steps:
       - checkout
       - run:
