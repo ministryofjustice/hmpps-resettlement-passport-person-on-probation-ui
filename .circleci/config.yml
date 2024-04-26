@@ -72,8 +72,8 @@ jobs:
 
   smoke_test:
     circleci_ip_ranges: true
-    docker:
-      - image: cimg/base:stable
+    executor:
+      name: k6io/test@1.1.0
     steps:
       - k6io/test:
           arguments: '--env EXECUTION_TYPE=api --env PROCESS=dev'
