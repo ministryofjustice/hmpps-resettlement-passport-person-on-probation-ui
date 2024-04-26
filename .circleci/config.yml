@@ -77,8 +77,9 @@ jobs:
       - checkout
       - run:
           command: |
-            echo ${API_CLIENT_ID}
-            k6 run pt_tests/tests/run.js
+            echo ${CIRCLE_USERNAME}
+            echo $CIRCLE_USERNAME
+            k6 run -e CLIENT_ID=${API_CLIENT_ID} -e CLIENT_SECRET=${API_CLIENT_SECRET} pt_tests/tests/run.js
           environment:
             EXECUTION_TYPE: apiSmoke
             PROCESS: dev
