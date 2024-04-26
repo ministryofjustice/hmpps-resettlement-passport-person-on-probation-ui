@@ -77,7 +77,7 @@ jobs:
       - checkout
       - run:
           command: |
-            k6 run pt_tests/tests/run.js --no-setup
+            k6 run pt_tests/tests/run.js
           environment:
             EXECUTION_TYPE: apiSmoke
             PROCESS: dev
