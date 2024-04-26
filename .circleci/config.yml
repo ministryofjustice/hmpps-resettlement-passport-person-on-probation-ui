@@ -76,6 +76,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Use API_CLIENT_ID
+          command: echo "API Client ID is $API_CLIENT_ID"
+      - run:
           command: |
             k6 run pt_tests/tests/run.js --env EXECUTION_TYPE=api --env PROCESS=dev
 
