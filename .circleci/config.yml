@@ -73,21 +73,18 @@ jobs:
     circleci_ip_ranges: true
     docker:
       - image: loadimpact/k6:latest
-      - image: cimg/node:<< pipeline.parameters.node-version >>
     steps:
       - checkout
-      - run:
-          name: Install Playwright browsers
-          command: npx playwright install --with-deps
       - run:
           command: |
             export CLIENT_ID=${API_CLIENT_ID}
             export CLIENT_SECRET=${API_CLIENT_SECRET}
-            k6 run pt_tests/tests/run.js --no-setup
+            k6 run pt_tests/tests/run.js
           environment:
-            EXECUTION_TYPE: smoke
+            EXECUTION_TYPE: apiSmoke
             PROCESS: dev
             K6_BROWSER_ENABLED: 'true'
+    working-directory: ./
             
   integration_test:
     executor:
