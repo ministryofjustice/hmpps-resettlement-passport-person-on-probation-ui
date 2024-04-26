@@ -70,6 +70,15 @@ jobs:
       - store_artifacts:
           path: test_results/unit-test-reports.html
 
+  smoke_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - k6io/test:
+          arguments: '--env EXECUTION_TYPE=api --env PROCESS=dev'
+          script: pt_tests/tests/run.js
+
   integration_test:
     executor:
       name: hmpps/node_redis
@@ -125,11 +134,7 @@ workflows:
       - integration_test:
           requires:
             - build
-      - k6io/test:
-          circleci_ip_ranges: true
-          name: 'smoke_test'
-          arguments: '--env EXECUTION_TYPE=api --env PROCESS=dev'
-          script: pt_tests/tests/run.js
+      - smoke_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
