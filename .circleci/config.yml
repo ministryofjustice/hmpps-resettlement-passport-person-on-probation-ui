@@ -202,7 +202,7 @@ workflows:
       - integration_test:
           requires:
             - build
-      - browser_stress_test
+      - browser_smoke_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
