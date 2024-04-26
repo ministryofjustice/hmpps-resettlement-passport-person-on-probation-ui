@@ -74,6 +74,7 @@ jobs:
     docker:
       - image: loadimpact/k6:latest
     steps:
+      - checkout
       - run:
           command: |
             k6 run pt_tests/tests/run.js --env EXECUTION_TYPE=api --env PROCESS=dev
