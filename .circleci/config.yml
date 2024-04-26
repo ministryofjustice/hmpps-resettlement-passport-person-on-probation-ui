@@ -81,7 +81,7 @@ jobs:
             export CLIENT_SECRET=${API_CLIENT_SECRET}
             k6 run pt_tests/tests/run.js
           environment:
-            EXECUTION_TYPE: apiSmoke
+            EXECUTION_TYPE: smoke
             PROCESS: dev
             
 
