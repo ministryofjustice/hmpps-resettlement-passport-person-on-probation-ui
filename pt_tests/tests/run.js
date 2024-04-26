@@ -15,7 +15,7 @@ export const options = {
   insecureSkipTLSVerify: true,
   thresholds: {
     browser_http_req_failed: ['rate<0.01'], // http errors should be less than 1%
-    browser_http_req_duration: ['p(90)<200'], // removed for pipeline, 'p(99.9)<500'], // 90% of requests should be below 200ms / 99% of requests should be below 500ms
+    browser_http_req_duration: ['p(90)<200', 'p(95)<500'], // 90% of requests should be below 200ms / 95% of requests should be below 500ms
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
     http_req_duration: ['p(95)<200'], // 95% of requests should be below 200ms
   },
