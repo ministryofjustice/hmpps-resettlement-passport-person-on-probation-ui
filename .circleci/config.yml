@@ -77,7 +77,8 @@ jobs:
       - checkout
       - run:
           command: |
-            k6 run -e CLIENT_ID=API_CLIENT_ID -e CLIENT_SECRET=API_CLIENT_SECRET pt_tests/tests/run.js
+            echo ${API_CLIENT_ID}
+            k6 run -e CLIENT_ID=${API_CLIENT_ID} -e CLIENT_SECRET=${API_CLIENT_SECRET} pt_tests/tests/run.js
           environment:
             EXECUTION_TYPE: apiSmoke
             PROCESS: dev
