@@ -1,3 +1,1 @@
-export const pageTitles = {
-
-}
+export const pageTitles = {}

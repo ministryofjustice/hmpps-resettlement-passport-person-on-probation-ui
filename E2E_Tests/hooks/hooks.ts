@@ -9,26 +9,26 @@ let browser: Browser
 let context: BrowserContext
 
 BeforeAll(async function () {
-  browser = await chromium.launch({ headless: true }) //launches a chrome instance and returns a browser
+  browser = await chromium.launch({ headless: true }) // launches a chrome instance and returns a browser
 })
 
 Before(async function () {
-  //Before Each Scenario
-  context = await browser.newContext() //sets up incognito mode returns a browser context
-  const page = await context.newPage() //new page in the browser returns page
-  pageFixture.page = page //map to global page variable
+  // Before Each Scenario
+  context = await browser.newContext() // sets up incognito mode returns a browser context
+  const page = await context.newPage() // new page in the browser returns page
+  pageFixture.page = page // map to global page variable
   await pageFixture.page.goto(process.env.BASEURL)
-  console.log('This is the base URL ' + process.env.BASEURL)
+  console.log(`This is the base URL ${process.env.BASEURL}`)
 })
 
 After(async function () {
-  //After each scenario
+  // After each scenario
   await pageFixture.page.close()
   await context.close()
 })
 
 AfterAll(async function () {
-  //After All Tests
+  // After All Tests
 
   await browser.close()
 })
