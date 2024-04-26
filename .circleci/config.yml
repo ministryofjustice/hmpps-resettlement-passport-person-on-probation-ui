@@ -80,7 +80,13 @@ jobs:
           command: echo "API Client ID is $API_CLIENT_ID"
       - run:
           command: |
-            k6 run pt_tests/tests/run.js --env EXECUTION_TYPE=apiSmoke --env PROCESS=dev --env API_CLIENT_ID=$API_CLIENT_ID --env API_CLIENT_SECRET=$API_CLIENT_SECRET
+            k6 run pt_tests/tests/run.js
+          environment:
+            EXECUTION_TYPE: apiSmoke
+            PROCESS: dev
+            API_CLIENT_ID: $API_CLIENT_ID
+            API_CLIENT_SECRET: $API_CLIENT_SECRET
+            
 
   integration_test:
     executor:
