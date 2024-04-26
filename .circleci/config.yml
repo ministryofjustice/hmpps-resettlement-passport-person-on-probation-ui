@@ -3,7 +3,6 @@ version: 2.1
 orbs:
   hmpps: ministryofjustice/hmpps@8
   slack: circleci/slack@4.12.5
-  k6io: k6io/test@1.1.0
 
 parameters:
   alerts-slack-channel:
@@ -72,12 +71,12 @@ jobs:
 
   smoke_test:
     circleci_ip_ranges: true
-    executor:
-      name: k6io/test@1.1.0
+    docker:
+      - image: loadimpact/k6:latest
     steps:
-      - k6io/test:
-          arguments: '--env EXECUTION_TYPE=api --env PROCESS=dev'
-          script: pt_tests/tests/run.js
+      - run:
+          command: |
+            k6 run pt_tests/tests/run.js --env EXECUTION_TYPE=api --env PROCESS=dev
 
   integration_test:
     executor:
