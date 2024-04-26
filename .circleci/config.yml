@@ -77,14 +77,23 @@ jobs:
       - checkout
       - run:
           command: |
-            echo ${CIRCLE_USERNAME}
-            echo $CIRCLE_USERNAME
             k6 run -e CLIENT_ID=${API_CLIENT_ID} -e CLIENT_SECRET=${API_CLIENT_SECRET} pt_tests/tests/run.js
           environment:
             EXECUTION_TYPE: apiSmoke
             PROCESS: dev
-            CLIENT_ID: API_CLIENT_ID
-            CLIENT_SECRET: API_CLIENT_SECRET
+  
+  api_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run -e CLIENT_ID=${API_CLIENT_ID} -e CLIENT_SECRET=${API_CLIENT_SECRET} pt_tests/tests/run.js
+          environment:
+            EXECUTION_TYPE: api
+            PROCESS: dev            
 
   browser_smoke_test:
     circleci_ip_ranges: true
@@ -193,7 +202,7 @@ workflows:
       - integration_test:
           requires:
             - build
-      - api_smoke_test
+            - browser_stress_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
