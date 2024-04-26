@@ -77,13 +77,13 @@ jobs:
       - checkout
       - run:
           command: |
-            k6 run pt_tests/tests/run.js
+            export CLIENT_ID=${API_CLIENT_ID}
+            export CLIENT_SECRET=${API_CLIENT_SECRET}
+            k6 run pt_tests/tests/run.js --no-setup
           environment:
             EXECUTION_TYPE: api
             PROCESS: dev
-            CLIENT_ID: ${API_CLIENT_ID}
-            CLIENT_SECRET: ${API_CLIENT_SECRET}
-
+            
   integration_test:
     executor:
       name: hmpps/node_redis
