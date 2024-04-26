@@ -72,7 +72,7 @@ jobs:
   smoke_test:
     circleci_ip_ranges: true
     docker:
-      - image: loadimpact/k6:master-with-browser
+      - image: grafana/k6:latest-with-browser
     steps:
       - checkout
       - run:
@@ -81,7 +81,7 @@ jobs:
             export CLIENT_SECRET=${API_CLIENT_SECRET}
             k6 run pt_tests/tests/run.js --no-setup
           environment:
-            EXECUTION_TYPE: api
+            EXECUTION_TYPE: smoke
             PROCESS: dev
             
   integration_test:
