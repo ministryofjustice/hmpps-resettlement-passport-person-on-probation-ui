@@ -70,20 +70,25 @@ jobs:
           path: test_results/unit-test-reports.html
 
   smoke_test:
-    circleci_ip_ranges: true
-    docker:
-      - image: loadimpact/k6:latest
+    executor:
+      name: hmpps/node_redis
+      node_tag: << pipeline.parameters.node-version >>
+      redis_tag: "7.0"
     steps:
       - checkout
       - run:
-          command: |
-            export CLIENT_ID=${API_CLIENT_ID}
-            export CLIENT_SECRET=${API_CLIENT_SECRET}
-            k6 run pt_tests/tests/run.js
-          environment:
-            EXECUTION_TYPE: apiSmoke
-            PROCESS: dev
-            K6_BROWSER_ENABLED: 'true'
+          name: Install project dependencies
+          command: npm i
+      - run:
+          name: Install Playwright browsers
+          command: npx playwright install --with-deps
+      - run:
+          name: Run cucumber tests
+          command: | 
+            export BASEURL=${DEV_BASEURL}
+            npm run end-to-end-test
+      - store_test_results:
+          path: test_results
             
   integration_test:
     executor:
