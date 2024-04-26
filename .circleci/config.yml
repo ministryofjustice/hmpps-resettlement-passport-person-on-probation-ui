@@ -77,12 +77,12 @@ jobs:
       - checkout
       - run:
           command: |
-            export CLIENT_ID=${API_CLIENT_ID}
-            export CLIENT_SECRET=${API_CLIENT_SECRET}
             k6 run pt_tests/tests/run.js --no-setup
           environment:
             EXECUTION_TYPE: smoke
             PROCESS: dev
+            CLIENT_ID: API_CLIENT_ID
+            CLIENT_SECRET: API_CLIENT_SECRET
             
   integration_test:
     executor:
