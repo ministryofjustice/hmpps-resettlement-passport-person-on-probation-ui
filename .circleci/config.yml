@@ -73,6 +73,7 @@ jobs:
     circleci_ip_ranges: true
     docker:
       - image: loadimpact/k6:latest
+      - image: cimg/node:<< pipeline.parameters.node-version >>
     steps:
       - checkout
       - run:
