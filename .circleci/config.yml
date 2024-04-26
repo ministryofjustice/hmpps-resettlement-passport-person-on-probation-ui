@@ -3,7 +3,6 @@ version: 2.1
 orbs:
   hmpps: ministryofjustice/hmpps@8
   slack: circleci/slack@4.12.5
-  test: k6io/test@1.2.3
 
 parameters:
   alerts-slack-channel:
@@ -248,8 +247,3 @@ workflows:
           context:
             - veracode-credentials
             - hmpps-common-vars
-  smoke_test:
-    jobs:
-      - k6io/test:
-          arguments: '--no-setup --env EXECUTION_TYPE=smoke'
-          script: pt_tests/tests/run.js    
