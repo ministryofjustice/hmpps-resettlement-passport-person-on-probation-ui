@@ -155,6 +155,7 @@ export async function mainDevBrowserTest() {
     })
 
     await Promise.all([page.waitForNavigation(), navigationBar.signOut.click()])
+    
   } finally {
     page.close()
   }

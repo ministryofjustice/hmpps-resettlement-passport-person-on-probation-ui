@@ -26,10 +26,11 @@ export function getScenarios(executionType) {
     case 'smoke': {
       return {
         browserTest: {
-          executor: 'constant-vus',
+          executor: 'shared-iterations',
           exec: 'mainDevBrowserTest',
           vus: 1,
-          duration: '20s',
+          iterations: 1,
+          maxDuration: '15s',
           options: {
             browser: {
               type: 'chromium',
