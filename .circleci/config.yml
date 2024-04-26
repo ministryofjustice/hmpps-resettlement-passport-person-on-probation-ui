@@ -3,7 +3,6 @@ version: 2.1
 orbs:
   hmpps: ministryofjustice/hmpps@8
   slack: circleci/slack@4.12.5
-  browser-tools: circleci/browser-tools@1.4.8
 
 parameters:
   alerts-slack-channel:
@@ -74,19 +73,18 @@ jobs:
     circleci_ip_ranges: true
     docker:
       - image: loadimpact/k6:latest
-      - image: cimg/node:20.4.0-browsers
     steps:
       - checkout
-      - browser-tools/install-chrome
-      - browser-tools/install-chromedriver
       - run:
           command: |
+            apk update && apk add --no-cache chromium
             export CLIENT_ID=${API_CLIENT_ID}
             export CLIENT_SECRET=${API_CLIENT_SECRET}
             k6 run pt_tests/tests/run.js --no-setup
           environment:
             EXECUTION_TYPE: smoke
             PROCESS: dev
+            K6_BROWSER_ENABLED: 'true'
             
   integration_test:
     executor:
