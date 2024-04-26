@@ -126,6 +126,7 @@ workflows:
           requires:
             - build
       - k6io/test:
+          circleci_ip_ranges: true
           name: 'smoke_test'
           arguments: '--env EXECUTION_TYPE=api --env PROCESS=dev'
           script: pt_tests/tests/run.js
