@@ -68,6 +68,22 @@ jobs:
           path: test_results
       - store_artifacts:
           path: test_results/unit-test-reports.html
+  
+  perf_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest-with-browser
+    steps:
+      - checkout
+      - run:
+          command: |
+            export CLIENT_ID=${API_CLIENT_ID}
+            export CLIENT_SECRET=${API_CLIENT_SECRET}
+            k6 run pt_tests/tests/run.js
+          environment:
+            EXECUTION_TYPE: smoke
+            PROCESS: dev
+            K6_BROWSER_ENABLED: 'true'
 
   smoke_test:
     executor:
@@ -146,6 +162,7 @@ workflows:
           requires:
             - build
       - smoke_test
+      - perf_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
