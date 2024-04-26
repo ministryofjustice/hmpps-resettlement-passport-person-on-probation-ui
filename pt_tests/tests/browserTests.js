@@ -76,6 +76,7 @@ export async function mainDevBrowserTest() {
       testVal = appointments.header.innerText()
       expect(testVal).to.equal('Appointments')
       console.log('testAppointments')
+      console.log(ENV.API_CLIENT_ID + 'client')
     })
 
     await Promise.all([page.waitForNavigation(), navigationBar.licenceConditions.click()])
