@@ -84,7 +84,6 @@ jobs:
             EXECUTION_TYPE: apiSmoke
             PROCESS: dev
             K6_BROWSER_ENABLED: 'true'
-    working-directory: ./
             
   integration_test:
     executor:
