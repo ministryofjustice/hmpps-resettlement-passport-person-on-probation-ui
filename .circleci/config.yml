@@ -72,12 +72,12 @@ jobs:
   api_smoke_test:
     circleci_ip_ranges: true
     docker:
-      - image: grafana/k6:latest-with-browser
+      - image: grafana/k6:latest
     steps:
       - checkout
       - run:
           command: |
-            k6 run pt_tests/tests/run.js
+            k6 run -e CLIENT_ID=${API_CLIENT_ID} -e CLIENT_SECRET=${API_CLIENT_SECRET} pt_tests/tests/run.js
           environment:
             EXECUTION_TYPE: apiSmoke
             PROCESS: dev
