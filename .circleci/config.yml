@@ -76,16 +76,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Use API_CLIENT_ID
-          command: echo "API Client ID is $API_CLIENT_ID"
-      - run:
           command: |
+            export CLIENT_ID=${API_CLIENT_ID}
+            export CLIENT_SECRET=${API_CLIENT_SECRET}
             k6 run pt_tests/tests/run.js
           environment:
             EXECUTION_TYPE: apiSmoke
             PROCESS: dev
-            API_CLIENT_ID: $API_CLIENT_ID
-            API_CLIENT_SECRET: $API_CLIENT_SECRET
             
 
   integration_test:

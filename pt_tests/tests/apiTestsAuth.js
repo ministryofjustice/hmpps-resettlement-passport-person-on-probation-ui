@@ -43,8 +43,8 @@ function base64Encode(str) {
 const config = {
   apis: {
      hmppsAuth: {
-       apiClientId: `${__ENV.API_CLIENT_ID}`,
-       apiClientSecret: `${__ENV.API_CLIENT_SECRET}`,
+       apiClientId: `${__ENV.CLIENT_ID}`,
+       apiClientSecret: `${__ENV.CLIENT_SECRET}`,
        url: 'https://sign-in-dev.hmpps.service.justice.gov.uk/auth',
      },
   },
