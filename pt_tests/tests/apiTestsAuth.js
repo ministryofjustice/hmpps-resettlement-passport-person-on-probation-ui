@@ -53,6 +53,7 @@ const config = {
  // oauth call to get the token
  export const getHmppsAuthToken = () => {
   const { apiClientId, apiClientSecret, url } = config.apis.hmppsAuth;
+  console.log(apiClientId.slice(0, 5) + "...")
   if (!apiClientId){
     throw Error('Missing apiClientId')
   }
