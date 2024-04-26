@@ -70,6 +70,25 @@ jobs:
           path: test_results
       - store_artifacts:
           path: test_results/unit-test-reports.html
+  
+  perf_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest-with-browser
+    steps:
+      - checkout
+      - run:
+          command: |
+            curl -o chrome.json https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json
+            docker run --rm -i --security-opt seccomp=$(pwd)/chrome.json grafana/k6:latest-with-browser - <script.js
+            docker run --rm -i --cap-add=SYS_ADMIN grafana/k6:latest-with-browser - <script.js
+            export CLIENT_ID=${API_CLIENT_ID}
+            export CLIENT_SECRET=${API_CLIENT_SECRET}
+            k6 run pt_tests/tests/run.js --no-setup
+          environment:
+            EXECUTION_TYPE: smoke
+            PROCESS: dev
+            K6_BROWSER_ENABLED: 'true'
 
   integration_test:
     executor:
@@ -126,6 +145,7 @@ workflows:
       - integration_test:
           requires:
             - build
+            - pref_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:

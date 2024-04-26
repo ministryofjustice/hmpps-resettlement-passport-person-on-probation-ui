@@ -31,7 +31,8 @@
     "int-test": "cypress run --config video=false",
     "int-test-ui": "cypress open --e2e --browser chrome",
     "clean": "rm -rf dist build node_modules stylesheets",
-    "outdated-required": "npm outdated typescript govuk-frontend"
+    "outdated-required": "npm outdated typescript govuk-frontend",
+    "pt-smoke-test": "k6 run --no-setup -e EXECUTION_TYPE=smoke pt_tests/tests/run.js"
   },
   "engines": {
     "node": "^20",
