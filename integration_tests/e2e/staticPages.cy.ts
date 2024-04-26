@@ -1,4 +1,5 @@
 import CookiesPage from '../pages/cookies'
+import AccessibilityPage from '../pages/accessibility'
 import HomePage from '../pages/home'
 import Page from '../pages/page'
 
@@ -20,8 +21,13 @@ context('Static pages', () => {
 
   it('Should see the cookies page link', () => {
     cy.get('[data-qa="cookies-link"]').should('have.attr', 'href').and('include', '/cookies')
-
     cy.get('[data-qa="cookies-link"]').click()
     Page.verifyOnPage(CookiesPage)
+  })
+
+  it('Should see the accessibility page link', () => {
+    cy.get('[data-qa="accessibility-link"]').should('have.attr', 'href').and('include', '/accessibility')
+    cy.get('[data-qa="accessibility-link"]').click()
+    Page.verifyOnPage(AccessibilityPage)
   })
 })

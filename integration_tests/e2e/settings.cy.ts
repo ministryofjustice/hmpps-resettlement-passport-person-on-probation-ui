@@ -10,6 +10,7 @@ context('Settings', () => {
     cy.task('stubHmppsToken')
     cy.task('stubGetLicenceConditions')
     cy.task('stubGetPopUserByUrn')
+    cy.task('stubGetAppointments')
   })
 
   afterEach(() => {
