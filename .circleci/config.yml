@@ -69,6 +69,84 @@ jobs:
       - store_artifacts:
           path: test_results/unit-test-reports.html
 
+  api_smoke_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run -e CLIENT_ID=${API_CLIENT_ID} -e CLIENT_SECRET=${API_CLIENT_SECRET} pt_tests/tests/run.js
+          environment:
+            EXECUTION_TYPE: apiSmoke
+            PROCESS: dev
+  
+  api_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run -e CLIENT_ID=${API_CLIENT_ID} -e CLIENT_SECRET=${API_CLIENT_SECRET} pt_tests/tests/run.js
+          environment:
+            EXECUTION_TYPE: api
+            PROCESS: dev            
+
+  browser_smoke_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest-with-browser
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run pt_tests/tests/run.js --no-setup
+          environment:
+            EXECUTION_TYPE: smoke
+            PROCESS: dev      
+
+  browser_stress_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest-with-browser
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run pt_tests/tests/run.js --no-setup
+          environment:
+            EXECUTION_TYPE: stress
+            PROCESS: dev
+
+  browser_load_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest-with-browser
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run pt_tests/tests/run.js --no-setup
+          environment:
+            EXECUTION_TYPE: load
+            PROCESS: dev
+
+  browser_soak_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest-with-browser
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run pt_tests/tests/run.js --no-setup
+          environment:
+            EXECUTION_TYPE: soak
+            PROCESS: dev
+
   integration_test:
     executor:
       name: hmpps/node_redis
@@ -124,6 +202,7 @@ workflows:
       - integration_test:
           requires:
             - build
+      - browser_smoke_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
