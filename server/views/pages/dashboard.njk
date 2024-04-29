@@ -39,11 +39,11 @@
             </p>
             <p id="next-appointment-title" class="govuk-heading-s govuk-!-margin-0">{{nextAppointment.title}}</p>
 
-            <span class="govuk-body-s">
+            <span class="govuk-body-s" data-qa="appointments-tile-location">
               {% if nextAppointment.location | formatAppointmentLocation %}
                 {{ nextAppointment.location | formatAppointmentLocation }}
               {% else %}
-                No location available
+                We cannot show the address for this appointment. Contact your probation officer for the details.
               {% endif %}
             </span>
             {% else %}

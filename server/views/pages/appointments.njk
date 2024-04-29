@@ -1,5 +1,6 @@
 {% extends "../partials/layout.njk" %}
 {% import "../partials/appointmentMacro.njk" as appointmentMacro %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
 {% block content %}
 
@@ -9,7 +10,10 @@
   <div class="govuk-grid-row govuk-!-padding-bottom-8">
     <div class="govuk-grid-column-full">
       <h1 class="govuk-heading-xl" data-qa="appointments-page-title">Appointments</h1>
-      <p>Tell your offender manager if you have a problem attending any appointment as soon as you can.</p>
+        {{ govukWarningText({
+                text: "Tell your offender manager if you have a problem attending any appointment as soon as you can.",
+                iconFallbackText: "Warning"
+         }) }}
       <p>If you miss an appointment without a good reason it could break your licence conditions.</p>
     </div>
   </div>
@@ -58,7 +62,7 @@
                       <span class="govuk-body-s" data-qa="{{loop.index}}-old-appointment-location">
                         {{ oldItem.location | formatAppointmentLocation }}</span>
                     {% else %}
-                      <span class="govuk-body-s" data-qa="{{loop.index}}-old-appointment-no-location">No location available</span>
+                      <span class="govuk-body-s" data-qa="{{loop.index}}-old-appointment-no-location">We cannot show the address for this appointment. Contact your probation officer for the details.</span>
                     {% endif %}
                   </p>
                 </div>

@@ -34,6 +34,7 @@ context('Dashboard', () => {
   })
 
   it('Should be able to see the Licence Conditions Tile', () => {
+    cy.task('stubGetAppointments')
     cy.signIn()
     Page.verifyOnPage(DashboardPage)
 
@@ -43,6 +44,7 @@ context('Dashboard', () => {
   })
 
   it('Should see alternative text on Licence Conditions Tile when licence conditions missing', () => {
+    cy.task('stubGetAppointments')
     cy.task('stubGetLicenceConditionsMissing')
     cy.signIn()
     Page.verifyOnPage(DashboardPage)
@@ -81,6 +83,7 @@ context('Dashboard', () => {
   })
 
   it('Should see the profile tile on dashboard', () => {
+    cy.task('stubGetAppointments')
     cy.signIn()
     Page.verifyOnPage(DashboardPage)
     cy.get('#profile-tile').contains('Keep your personal information up to date.')
