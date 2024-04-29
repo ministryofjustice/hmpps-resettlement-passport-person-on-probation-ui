@@ -1,5 +1,6 @@
 {% extends "../partials/layout.njk" %}
 {% import "../partials/appointmentMacro.njk" as appointmentMacro %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
 {% block content %}
 
@@ -10,7 +11,10 @@
     <div class="govuk-grid-column-full">
       <h1 class="govuk-heading-xl" data-qa="appointments-page-title">Appointments</h1>
       <p>Tell your offender manager if you have a problem attending any appointment as soon as you can.</p>
-      <p>If you miss an appointment without a good reason it could break your licence conditions.</p>
+        {{ govukWarningText({
+                text: "If you miss an appointment without a good reason it could break your licence conditions.",
+                iconFallbackText: "Warning"
+         }) }}
     </div>
   </div>
 
