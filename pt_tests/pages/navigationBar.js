@@ -6,6 +6,6 @@ export class NavigationBar {
     this.licenceConditions = page.locator('[data-qa="licence-conditions-nav-link"]')
     this.profile = page.locator('[data-qa="profile-nav-link"]')
     this.settings = page.locator('[data-qa="settings-nav-link"]')
-    this.signOut = page.locator('[data-qa="signOut-nav-link"]')
+    this.signOut = page.locator('[data-qa="signOut"]')
   }
 }

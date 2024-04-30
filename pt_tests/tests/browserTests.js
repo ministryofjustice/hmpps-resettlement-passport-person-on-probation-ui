@@ -48,8 +48,8 @@ export async function mainDevBrowserTest() {
     await Promise.all([page.waitForNavigation(), govOneLogin.signInButton.click()])
     console.log('email')
     page.screenshot({ path: `${screenshot}email.png` })
-    await Promise.all([page.waitForNavigation(), enterEmail.submitEmail('david.mccourt+1@hippodigital.co.uk')])
-    await Promise.all([page.waitForNavigation(), enterPassword.submitPassword('0net1mepa55')])
+    await Promise.all([page.waitForNavigation(), enterEmail.submitEmail(__ENV.PT_USERNAME)])
+    await Promise.all([page.waitForNavigation(), enterPassword.submitPassword(__ENV.PT_PASSWORD)])
 
     // checks duration of loading Dashboard Page
     page.evaluate(() => window.performance.mark('page-visit'))
@@ -155,6 +155,7 @@ export async function mainDevBrowserTest() {
     })
 
     await Promise.all([page.waitForNavigation(), navigationBar.signOut.click()])
+    
   } finally {
     page.close()
   }
