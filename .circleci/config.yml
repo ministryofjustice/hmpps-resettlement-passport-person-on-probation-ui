@@ -202,7 +202,13 @@ workflows:
       - integration_test:
           requires:
             - build
-      - browser_smoke_test
+      - browser_smoke_test:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - deploy_dev
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
