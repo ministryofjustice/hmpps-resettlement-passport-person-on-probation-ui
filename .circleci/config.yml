@@ -202,6 +202,13 @@ workflows:
       - integration_test:
           requires:
             - build
+      - browser_smoke_test:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - deploy_dev
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
@@ -252,17 +259,6 @@ workflows:
           requires:
             - request-prod-approval
           helm_timeout: 5m
-
-  performance:
-    triggers:
-      - schedule:
-          cron: "30 9 * * 1-5" 
-          filters:
-            branches:
-              only:
-                - main
-    jobs:
-      - browser_smoke_test
 
   security:
     triggers:
