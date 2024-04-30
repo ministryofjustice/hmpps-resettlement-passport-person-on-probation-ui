@@ -20,10 +20,16 @@ export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFun
   const limit = 10 // Limit to 10 requests per minute
   const window = 60000 // 1 minute in milliseconds
 
+  // initialise
   if (!rateLimiters[ip]) {
     rateLimiters[ip] = { count: 1, lastRequest: now }
   } else {
     rateLimiters[ip].count += 1
+  }
+
+  // reset counter
+  if (rateLimiters[ip].count >= limit && now - rateLimiters[ip].lastRequest >= window) {
+    rateLimiters[ip].count = 0
   }
 
   if (now - rateLimiters[ip].lastRequest > window) {
