@@ -45,7 +45,7 @@ describe('rateLimiterMiddleware', () => {
 
   it.each([
     ['/otp/verify', '222.0.0.1'],
-    ['/feedback/submit', '222.0.0.2'],
+    ['/feedback/complete', '222.0.0.2'],
   ])('should restrict path %s with more than 10 requests in 1 minute', (path: string, ip: string) => {
     reqMock = createRequest({
       method: 'POST',

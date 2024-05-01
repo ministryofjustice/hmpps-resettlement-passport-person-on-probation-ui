@@ -1,6 +1,6 @@
 import express, { Router, Request, Response, NextFunction } from 'express'
 
-const rateLimitedPaths = ['/feedback/submit', '/otp/verify']
+const rateLimitedPaths = ['/feedback/complete', '/otp/verify']
 
 interface RateLimiter {
   [ip: string]: {

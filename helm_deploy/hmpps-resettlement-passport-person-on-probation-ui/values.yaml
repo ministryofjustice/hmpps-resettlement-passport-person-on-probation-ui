@@ -58,7 +58,7 @@ generic-service:
     zendesk:
       ZENDESK_USER: "ZENDESK_USER"
       ZENDESK_TOKEN: "ZENDESK_TOKEN"
-
+      
   allowlist: null
 
 generic-prometheus-alerts:
