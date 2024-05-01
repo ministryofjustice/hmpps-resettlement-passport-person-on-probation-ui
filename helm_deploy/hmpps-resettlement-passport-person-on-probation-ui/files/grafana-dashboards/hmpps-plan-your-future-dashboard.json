@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 43,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -81,7 +82,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "avg(sum(pdf_print_count{namespace=~\"$namespace\"}))",
+          "expr": "avg(sum(pdf_print_count{namespace=~\"$namespace\", prison=~\"$prison\"}))",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -102,7 +103,7 @@
     "list": [
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "hmpps-resettlement-passport-dev",
           "value": "hmpps-resettlement-passport-dev"
         },
@@ -166,6 +167,6 @@
   "timezone": "",
   "title": "Plan Your Future Dashboard",
   "uid": "plan-your-future-dashboard",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }

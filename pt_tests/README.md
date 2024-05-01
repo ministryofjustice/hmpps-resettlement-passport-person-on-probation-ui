@@ -33,9 +33,9 @@ And then, to run the tests execute the following command (replacing EXECUTION_TY
 
 FOR API TESTS
 
-`k6 run -e EXECUTION_TYPE=api -e PROCESS=dev -e DEV_AUTH=<devAuthKey> run.js`
+`k6 run -e EXECUTION_TYPE=api -e PROCESS=dev -e API_CLIENT_ID=<> -e API_CLIENT_SECRET=<> run.js`
 
-`k6 run -e EXECUTION_TYPE=api -e PROCESS=preprod -e PRE_PROD_AUTH=<preProdAuthKey> run.js`
+`k6 run -e EXECUTION_TYPE=api -e PROCESS=preprod -e API_CLIENT_ID=<> -e API_CLIENT_SECRET=<> run.js`
 
 FOR BROWSER TESTS (HEADLESS:TRUE)
 

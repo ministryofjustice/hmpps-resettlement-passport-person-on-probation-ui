@@ -1,9 +1,6 @@
 import { describe, expect } from 'https://jslib.k6.io/k6chaijs/4.3.4.3/index.js'
 import { Httpx } from 'https://jslib.k6.io/httpx/0.1.0/index.js'
 
-let basicAuth
-__ENV.PROCESS === 'dev' ? (basicAuth = __ENV.DEV_AUTH) : (basicAuth = __ENV.PRE_PROD_AUTH)
-
 const nomdId2 = 'A8731DY'
 
 const authSession = new Httpx({ baseURL: 'https://sign-in-dev.hmpps.service.justice.gov.uk/' })
@@ -12,20 +9,80 @@ const session = new Httpx({
 })
 
 // Register a new user and retrieve authentication token for subsequent API requests
+
+// copy pasted base64 encoding because k6 does not have access to Buffer library
+function base64Encode(str) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  let output = '';
+  let chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+  let i = 0;
+
+  do {
+      chr1 = str.charCodeAt(i++);
+      chr2 = str.charCodeAt(i++);
+      chr3 = str.charCodeAt(i++);
+
+      enc1 = chr1 >> 2;
+      enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+      enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+      enc4 = chr3 & 63;
+
+      if (isNaN(chr2)) {
+          enc3 = enc4 = 64;
+      } else if (isNaN(chr3)) {
+          enc4 = 64;
+      }
+
+      output += chars.charAt(enc1) + chars.charAt(enc2) + chars.charAt(enc3) + chars.charAt(enc4);
+  } while (i < str.length);
+
+  return output;
+}
+
+// hmpps auth api config
+const config = {
+  apis: {
+     hmppsAuth: {
+       apiClientId: `${__ENV.CLIENT_ID}`,
+       apiClientSecret: `${__ENV.CLIENT_SECRET}`,
+       url: 'https://sign-in-dev.hmpps.service.justice.gov.uk/auth',
+     },
+  },
+ };
+ 
+ // oauth call to get the token
+ export const getHmppsAuthToken = () => {
+  const { apiClientId, apiClientSecret, url } = config.apis.hmppsAuth;
+  if (!apiClientId){
+    throw Error('Missing apiClientId')
+  }
+  if (!apiClientSecret){
+    throw Error('Missing apiClientSecret')
+  }
+  const basicAuth = base64Encode(`${apiClientId}:${apiClientSecret}`);
+ 
+  const headers = {
+     'Content-Type': 'application/json',
+     'Authorization': `Basic ${basicAuth}`,
+  };
+ 
+  const payload = JSON.stringify({
+     grant_type: 'client_credentials',
+  });
+ 
+  const response = session.post(`${url}/oauth/token?grant_type=client_credentials`, payload, { headers: headers });
+ 
+  if (response.status === 200) {
+     return JSON.parse(response.body);
+  } else {
+     console.error('Error while fetching hmpps auth token:', response.status, response.body);
+     throw new Error('Failed to fetch HMPPS Auth token');
+  }
+ };
+
 export function setup() {
-  let authToken = null
-  authSession.addHeader('Authorization', `Basic ${basicAuth}`)
-
-  describe(`setup - Authenticate the user`, () => {
-    const resp = authSession.post(`auth/oauth/token?grant_type=client_credentials`)
-
-    expect(resp.status, 'Authenticate status').to.equal(200)
-    expect(resp, 'Authenticate valid json response').to.have.validJsonBody()
-    authToken = resp.json('access_token')
-    expect(authToken, 'Authentication token').to.be.a('string')
-  })
-
-  return authToken
+  const authToken = getHmppsAuthToken();
+  return authToken.access_token
 }
 
 export function resettlementPassportApi(authToken) {
