@@ -114,7 +114,6 @@ context('Feedback', () => {
     cy.contains('Select how satisfied you are with the service')
   })
 
-  
   it('Should strip unsafe html input', () => {
     Page.verifyOnPage(HomePage)
     cy.get('[data-qa="feedback-link"]').click()
@@ -142,6 +141,4 @@ context('Feedback', () => {
     // success
     cy.get('[data-qa="feedback-success-panel"]').should('exist')
   })
-
-  
 })

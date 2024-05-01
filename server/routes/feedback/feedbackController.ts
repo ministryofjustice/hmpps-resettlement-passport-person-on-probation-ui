@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express'
+import sanitizeHtml from 'sanitize-html'
 import ZendeskService from '../../services/zendeskService'
 import { ContactHelpdeskForm } from '../../data/zendeskData'
 import logger from '../../../logger'
 import { isValidEmail } from '../../utils/utils'
-import sanitizeHtml from 'sanitize-html'
 
 export default class FeedbackController {
   constructor(private readonly zendeskService: ZendeskService) {}
