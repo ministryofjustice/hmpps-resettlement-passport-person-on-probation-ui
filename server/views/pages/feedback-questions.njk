@@ -110,7 +110,10 @@
               },
               id: "email",
               name: "email",
-              value: feedback.email
+              value: feedback.email,
+              errorMessage: {
+                    text: emailError.message
+              } if emailError
             }) }}
           </div>
 

@@ -63,6 +63,12 @@ export function isValidOtp(otp?: string): boolean {
   return regex.test(otp)
 }
 
+export function isValidEmail(email?: string): boolean {
+  if (!email) return false
+  const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+  return regex.test(email)
+}
+
 export function formatTime(inputTime: string, duration: number = 0): string {
   if (!inputTime || inputTime?.length < 1) return null
   const [hours, minutes, seconds] = inputTime.split(':').map(Number)

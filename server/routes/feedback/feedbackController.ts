@@ -2,6 +2,7 @@ import { RequestHandler } from 'express'
 import ZendeskService from '../../services/zendeskService'
 import { ContactHelpdeskForm } from '../../data/zendeskData'
 import logger from '../../../logger'
+import { isValidEmail } from '../../utils/utils'
 
 export default class FeedbackController {
   constructor(private readonly zendeskService: ZendeskService) {}
@@ -38,16 +39,24 @@ export default class FeedbackController {
           href: '#score',
         })
       }
-
-      if (errors.length > 0) {
-        const scoreError = errors.find(x => x.href === '#score')
-        return res.render('pages/feedback-questions', { user: req.user, errors, scoreError })
+      if (email.length > 0 && !isValidEmail(email)) {
+        errors.push({
+          text: 'Enter an email address in the correct format',
+          href: '#email',
+        })
       }
+
       req.session.feedback = {
         score,
         details,
         name,
         email,
+      }
+      
+      if (errors.length > 0) {
+        const scoreError = errors.find(x => x.href === '#score')
+        const emailError = errors.find(x => x.href === '#email')
+        return res.render('pages/feedback-questions', { user: req.user, errors, scoreError, emailError, feedback: req.session.feedback })
       }
       return res.redirect('/feedback/review')
     } catch (err) {
