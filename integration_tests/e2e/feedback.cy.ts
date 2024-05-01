@@ -40,7 +40,6 @@ context('Feedback', () => {
     Page.verifyOnPage(HomePage)
   })
 
-
   it('Should be able to change answers', () => {
     Page.verifyOnPage(HomePage)
     cy.get('[data-qa="feedback-link"]').click()
@@ -79,20 +78,18 @@ context('Feedback', () => {
 
     // change name
     cy.get(':nth-child(3) > .govuk-summary-list__actions > .govuk-link').click()
-    cy.get('#name').focus().clear()
+    cy.get('#name').clear()
     cy.get('[data-qa="feedback-questions-btn"]').click()
     cy.get('[data-qa="feedback-review-page-title"]').contains('Check your answers')
     cy.get(':nth-child(3) > .govuk-summary-list__value').contains('not provided')
 
     // change email
     cy.get(':nth-child(4) > .govuk-summary-list__actions > .govuk-link').click()
-    cy.get('#email').focus().clear()
+    cy.get('#email').clear()
     cy.get('[data-qa="feedback-questions-btn"]').click()
     cy.get('[data-qa="feedback-review-page-title"]').contains('Check your answers')
     cy.get(':nth-child(4) > .govuk-summary-list__value').contains('not provided')
-
   })
-
 
   it('Should validate feedback input', () => {
     Page.verifyOnPage(HomePage)
@@ -116,4 +113,35 @@ context('Feedback', () => {
     cy.contains('Enter an email address in the correct format')
     cy.contains('Select how satisfied you are with the service')
   })
+
+  
+  it('Should strip unsafe html input', () => {
+    Page.verifyOnPage(HomePage)
+    cy.get('[data-qa="feedback-link"]').click()
+
+    // start feedback
+    cy.get('[data-qa="feedback-start-btn"]').click()
+
+    // type unsafe answers
+    cy.get('[data-qa="feedback-questions-page-title"]').contains('Send us feedback')
+    cy.get('#score-2').click()
+    cy.get('#details').type('This is some <script>alert(hi)</script>feedback')
+    cy.get('#name').type('Testname<script>alert(hi)</script> Testlastname')
+    cy.get('#email').type('test@test.com')
+    cy.get('[data-qa="feedback-questions-btn"]').click()
+
+    // check answers
+    cy.get('[data-qa="feedback-review-page-title"]').contains('Check your answers')
+    cy.get(':nth-child(1) > .govuk-summary-list__value').contains('4')
+    cy.get(':nth-child(2) > .govuk-summary-list__value').contains('This is some feedback')
+    cy.get(':nth-child(3) > .govuk-summary-list__value').contains('Testname Testlastname')
+    cy.get(':nth-child(4) > .govuk-summary-list__value').contains('test@test.com')
+
+    cy.get('[data-qa="feedback-review-btn"]').click()
+
+    // success
+    cy.get('[data-qa="feedback-success-panel"]').should('exist')
+  })
+
+  
 })

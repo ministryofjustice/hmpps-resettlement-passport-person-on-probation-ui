@@ -3,6 +3,7 @@ import ZendeskService from '../../services/zendeskService'
 import { ContactHelpdeskForm } from '../../data/zendeskData'
 import logger from '../../../logger'
 import { isValidEmail } from '../../utils/utils'
+import sanitizeHtml from 'sanitize-html'
 
 export default class FeedbackController {
   constructor(private readonly zendeskService: ZendeskService) {}
@@ -48,15 +49,21 @@ export default class FeedbackController {
 
       req.session.feedback = {
         score,
-        details,
-        name,
+        details: sanitizeHtml(details),
+        name: sanitizeHtml(name),
         email,
       }
-      
+
       if (errors.length > 0) {
         const scoreError = errors.find(x => x.href === '#score')
         const emailError = errors.find(x => x.href === '#email')
-        return res.render('pages/feedback-questions', { user: req.user, errors, scoreError, emailError, feedback: req.session.feedback })
+        return res.render('pages/feedback-questions', {
+          user: req.user,
+          errors,
+          scoreError,
+          emailError,
+          feedback: req.session.feedback,
+        })
       }
       return res.redirect('/feedback/review')
     } catch (err) {

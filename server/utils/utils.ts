@@ -65,7 +65,7 @@ export function isValidOtp(otp?: string): boolean {
 
 export function isValidEmail(email?: string): boolean {
   if (!email) return false
-  const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+  const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
   return regex.test(email)
 }
 
