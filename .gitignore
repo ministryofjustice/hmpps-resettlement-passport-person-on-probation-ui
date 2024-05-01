@@ -134,3 +134,6 @@ integration_tests/screenshots/
 
 # scripts
 token
+
+# cucumber test results
+test-results
