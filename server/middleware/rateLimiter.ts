@@ -1,6 +1,6 @@
 import express, { Router, Request, Response, NextFunction } from 'express'
 
-const rateLimitedPaths = ['/userSupport/submit', '/otp/verify']
+const rateLimitedPaths = ['/feedback/submit', '/otp/verify']
 
 interface RateLimiter {
   [ip: string]: {
@@ -11,6 +11,10 @@ interface RateLimiter {
 
 const rateLimiters: RateLimiter = {}
 
+const isWindowLapsed = (now: number, ip: string, window: number) => now - rateLimiters[ip].lastRequest >= window
+
+const isLimitExceeded = (ip: string, limit: number) => rateLimiters[ip].count > limit
+
 export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (rateLimitedPaths.indexOf(req.path) < 0) {
     return next()
@@ -20,7 +24,7 @@ export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFun
   const limit = 10 // Limit to 10 requests per minute
   const window = 60000 // 1 minute in milliseconds
 
-  // initialise
+  // initialise or increase
   if (!rateLimiters[ip]) {
     rateLimiters[ip] = { count: 1, lastRequest: now }
   } else {
@@ -28,20 +32,21 @@ export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFun
   }
 
   // reset counter
-  if (rateLimiters[ip].count >= limit && now - rateLimiters[ip].lastRequest >= window) {
+  if (isLimitExceeded(ip, limit) && isWindowLapsed(now, ip, window)) {
     rateLimiters[ip].count = 0
   }
 
-  if (now - rateLimiters[ip].lastRequest > window) {
-    rateLimiters[ip].count = 1
-    rateLimiters[ip].lastRequest = now
-  }
+  rateLimiters[ip].lastRequest = now
 
-  if (rateLimiters[ip].count > limit) {
+  // deny
+  if (isLimitExceeded(ip, limit)) {
     return res.status(429).send('Too Many Requests')
   }
+
+  // continue
   return next()
 }
+
 
 export function setupRateLimiter(): Router {
   const router = express.Router()

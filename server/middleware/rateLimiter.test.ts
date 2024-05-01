@@ -45,7 +45,7 @@ describe('rateLimiterMiddleware', () => {
 
   it.each([
     ['/otp/verify', '222.0.0.1'],
-    ['/userSupport/submit', '222.0.0.2'],
+    ['/feedback/submit', '222.0.0.2'],
   ])('should restrict path %s with more than 10 requests in 1 minute', (path: string, ip: string) => {
     reqMock = createRequest({
       method: 'POST',
@@ -103,8 +103,8 @@ describe('rateLimiterMiddleware', () => {
 
     // call again for the 12th time
     rateLimiterMiddleware(reqMock, resMock, nextMock)
-    expect(nextMock).toHaveBeenCalled()
     expect(resMock.statusCode).toBe(200)
+    expect(nextMock).toHaveBeenCalled()
   })
 
   it('counter should not reset after 59 seconds', () => {
