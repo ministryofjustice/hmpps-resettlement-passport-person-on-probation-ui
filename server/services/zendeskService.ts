@@ -12,8 +12,8 @@ export type ZendeskTicket = {
     }
     tags: string[]
     requester: {
-      email: string
-      name: string
+      email?: string
+      name?: string
     }
   }
 }
@@ -44,8 +44,8 @@ export default class ZendeskService {
           },
           tags: ['PlanYourFuture'],
           requester: {
-            email: `${contactHelpdeskForm.email}`,
-            name: `${contactHelpdeskForm.name}`,
+            ...(contactHelpdeskForm.email ? { email: `${contactHelpdeskForm.email}` } : {}),
+            ...(contactHelpdeskForm.name ? { name: `${contactHelpdeskForm.name}` } : {}),
           },
         },
       }

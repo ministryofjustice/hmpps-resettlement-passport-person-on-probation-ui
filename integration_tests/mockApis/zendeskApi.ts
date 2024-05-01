@@ -3,8 +3,8 @@ import { stubFor } from './wiremock'
 
 const mockedResponse = {
   ticket: {
-    id: 123456
-  }
+    id: 123456,
+  },
 }
 
 export default {
@@ -19,5 +19,5 @@ export default {
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
         jsonBody: mockedResponse,
       },
-    })
+    }),
 }

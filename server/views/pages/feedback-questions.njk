@@ -25,7 +25,7 @@
     <div class="govuk-grid-row govuk-!-padding-bottom-6">
       <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl" data-qa="feedback-questions-page-title">Send us feedback</h1>
-        <form class="form" action="/feedback/review" method="post">
+        <form class="form" action="/feedback/questions/submit" method="post">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
 
           <p>
@@ -34,52 +34,58 @@
 
           <div class="govuk-!-padding-top-8">
             {{ govukRadios({
-          name: "score",
-          fieldset: {
-            legend: {
-              text: "Overall, how satisfied were you with this service?",
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
-            }
-          },
-          items: [
-            {
-              value: "5",
-              text: "Very satisfied"
-            },
-            {
-              value: "4",
-              text: "Satisfied"
-            },
-            {
-              value: "3",
-              text: "Neither satisfied nor dissatisfied"
-            },
-            {
-              value: "2",
-              text: "Dissatisfied"
-            },
-            {
-              value: "1",
-              text: "Very dissatisfied"
-            }
-          ]
-        }) }}
+              id: "score",
+              name: "score",
+              fieldset: {
+                legend: {
+                  text: "Overall, how satisfied were you with this service?",
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+              },
+              errorMessage: {
+                    text: scoreError.message
+              } if scoreError,
+              value: feedback.score,
+              items: [
+                {
+                  value: "5",
+                  text: "Very satisfied"
+                },
+                {
+                  value: "4",
+                  text: "Satisfied"
+                },
+                {
+                  value: "3",
+                  text: "Neither satisfied nor dissatisfied"
+                },
+                {
+                  value: "2",
+                  text: "Dissatisfied"
+                },
+                {
+                  value: "1",
+                  text: "Very dissatisfied"
+                }
+              ]
+            }) }}
           </div>
 
           <div class="govuk-!-padding-top-8">
             {{ govukTextarea({
-            name: "moreDetail",
-            id: "more-detail",
-            label: {
-              text: "Is there anything you want to tell us about using this service? (optional)",
-              classes: "govuk-label--l",
-              isPageHeading: true
-            },
-            hint: {
-              text: "Do not include personal or financial information."
-            }
-          }) }}
+                name: "details",
+                id: "details",
+                label: {
+                  text: "Is there anything you want to tell us about using this service? (optional)",
+                  classes: "govuk-label--l",
+                  isPageHeading: true
+                },
+                hint: {
+                  text: "Do not include personal or financial information."
+                },
+                value: feedback.details
+              }) }}
           </div>
 
           <div class="govuk-!-padding-top-8">
@@ -90,7 +96,8 @@
                 isPageHeading: true
               },
               id: "name",
-              name: "name"
+              name: "name",
+              value: feedback.name
             }) }}
           </div>
 
@@ -102,7 +109,8 @@
                 isPageHeading: true
               },
               id: "email",
-              name: "email"
+              name: "email",
+              value: feedback.email
             }) }}
           </div>
 

@@ -47,7 +47,6 @@ export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFun
   return next()
 }
 
-
 export function setupRateLimiter(): Router {
   const router = express.Router()
   router.use(rateLimiterMiddleware)

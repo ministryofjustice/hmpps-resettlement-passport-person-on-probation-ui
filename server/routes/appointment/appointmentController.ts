@@ -17,7 +17,7 @@ export default class AppointmentController {
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)
       }
-      
+
       const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId)
       const results = appointments?.results || []
       const nextAppointments = getFutureAppointments(results)

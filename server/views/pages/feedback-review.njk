@@ -14,7 +14,7 @@
 
         <h1 class="govuk-heading-xl" data-qa="feedback-review-page-title">Check your answers</h1>
 
-        <form class="form" action="/feedback/submit" method="post">
+        <form class="form" action="/feedback/complete" method="post">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
 
           <div>
@@ -26,12 +26,12 @@
                   text: "Overall, how satisfied	were you with this Service?"
                 },
                 value: {
-                  text: "1"
+                  text: feedback.score
                 },
                 actions: {
                   items: [
                     {
-                      href: "#",
+                      href: "/feedback/questions#rate",
                       text: "Change",
                       visuallyHiddenText: "satisfaction score"
                     }
@@ -43,12 +43,12 @@
                   text: "Is there anything you want	to tell us about using this Service?"
                 },
                 value: {
-                  text: "I thought that bla bla bla"
+                  text: feedback.details or 'not provided'
                 },
                 actions: {
                   items: [
                     {
-                      href: "#",
+                      href: "/feedback/questions#details",
                       text: "Change",
                       visuallyHiddenText: "comments"
                     }
@@ -60,12 +60,12 @@
                   text: "Your name (optional)"
                 },
                 value: {
-                  html: "J Smith"
+                  text: feedback.name or 'not provided'
                 },
                 actions: {
                   items: [
                     {
-                      href: "#",
+                      href: "/feedback/questions#name",
                       text: "Change",
                       visuallyHiddenText: "name"
                     }
@@ -77,12 +77,12 @@
                   text: "Your email address (optional)"
                 },
                 value: {
-                  text: "test@gmail.com"
+                  text: feedback.email or 'not provided'
                 },
                 actions: {
                   items: [
                     {
-                      href: "#",
+                      href: "/feedback/questions#email",
                       text: "Change",
                       visuallyHiddenText: "email"
                     }

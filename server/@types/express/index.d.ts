@@ -5,6 +5,12 @@ declare module 'express-session' {
   interface SessionData {
     returnTo: string
     nowInMinutes: number
+    feedback: {
+      score: number
+      details?: string
+      name?: string
+      email?: string
+    }
   }
 }
 

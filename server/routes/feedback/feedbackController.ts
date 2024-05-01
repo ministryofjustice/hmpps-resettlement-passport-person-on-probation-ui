@@ -8,6 +8,8 @@ export default class FeedbackController {
 
   index: RequestHandler = async (req, res, next) => {
     try {
+      // clear session
+      req.session.feedback = null
       return res.render('pages/feedback', { user: req.user })
     } catch (err) {
       return next(err)
@@ -16,7 +18,38 @@ export default class FeedbackController {
 
   questions: RequestHandler = async (req, res, next) => {
     try {
+      if (req.session.feedback) {
+        // prepopulate
+        return res.render('pages/feedback-questions', { user: req.user, feedback: req.session.feedback })
+      }
       return res.render('pages/feedback-questions', { user: req.user })
+    } catch (err) {
+      return next(err)
+    }
+  }
+
+  submitQuestions: RequestHandler = async (req, res, next) => {
+    const { score, details, name, email } = req.body
+    try {
+      const errors: Array<Express.ValidationError> = []
+      if (!score) {
+        errors.push({
+          text: 'Select how satisfied you are with the service',
+          href: '#score',
+        })
+      }
+
+      if (errors.length > 0) {
+        const scoreError = errors.find(x => x.href === '#score')
+        return res.render('pages/feedback-questions', { user: req.user, errors, scoreError })
+      }
+      req.session.feedback = {
+        score,
+        details,
+        name,
+        email,
+      }
+      return res.redirect('/feedback/review')
     } catch (err) {
       return next(err)
     }
@@ -24,22 +57,27 @@ export default class FeedbackController {
 
   review: RequestHandler = async (req, res, next) => {
     try {
+      if (req.session.feedback) {
+        // prepopulate
+        return res.render('pages/feedback-review', { user: req.user, feedback: req.session.feedback })
+      }
       return res.render('pages/feedback-review', { user: req.user })
     } catch (err) {
       return next(err)
     }
   }
 
-  create: RequestHandler = async (req, res, next) => {
+  submitReview: RequestHandler = async (req, res, next) => {
     try {
-      const form: ContactHelpdeskForm = {
-        score: 6,
-        detail: 'I cannot remember my password',
-        name: 'Riccardo',
-        email: 'test@hippodigital.co.uk',
+      if (!req.session.feedback) {
+        throw new Error('Missing feedback session data')
       }
+      const { feedback } = req.session
+      const form: ContactHelpdeskForm = { ...feedback }
       const ticketId = await this.zendeskService.createSupportTicket(form)
       logger.info(`Submitted ZenDesk ticket: ${ticketId}`)
+      // clear session
+      req.session.feedback = null
       return res.render('pages/feedback-end', { user: req.user })
     } catch (err) {
       return next(err)
