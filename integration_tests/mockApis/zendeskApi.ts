@@ -2,15 +2,17 @@ import { SuperAgentRequest } from 'superagent'
 import { stubFor } from './wiremock'
 
 const mockedResponse = {
-  id: 123456
+  ticket: {
+    id: 123456
+  }
 }
 
 export default {
   stubCreateTicket: (): SuperAgentRequest =>
     stubFor({
       request: {
-        method: 'GET',
-        url: `/zendesk/api/v2/tickets`,
+        method: 'POST',
+        url: `/zenDesk/api/v2/tickets`,
       },
       response: {
         status: 200,
