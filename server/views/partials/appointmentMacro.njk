@@ -42,8 +42,9 @@
                   </p>
                 {% endif %}
                 {% if showDetails == true %}
-                  <a href="/appointments/{{appointment.id}}" data-qa="{{loopIndex}}-appointment-details-link">View details</a>
+                  <a href="/appointments/{{appointment.id}}" data-qa="{{loopIndex}}-appointment-details-link">View details</a><br><br>
                 {% endif %}
+                 <a href="{{appointment.googleCalendarLink}}" target="_blank" data-qa="{{loopIndex}}-add-gcal-link">Add to Google calendar</a>
               </div>
             </section>
           </div>

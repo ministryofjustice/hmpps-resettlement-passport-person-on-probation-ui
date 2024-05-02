@@ -21,7 +21,8 @@ export interface Appointment {
   dateTime?: Date
   time?: string
   location?: AppointmentLocation
-  note?: string
+  note?: string,
+  googleCalendarLink?: string
 }
 
 export interface AppointmentData {

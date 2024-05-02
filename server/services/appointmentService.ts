@@ -6,6 +6,7 @@ import config from '../config'
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
 import type { AppointmentData, Appointment } from '../data/resettlementPassportData'
 import { TokenStore, tokenStoreFactory } from '../data/tokenStore/tokenStore'
+import { formatAppointmentLocation, formatGoogleDate, formatTime, stringTimeToDate } from '../utils/utils'
 
 export default class AppointmentService {
   tokenStore: TokenStore
@@ -24,6 +25,19 @@ export default class AppointmentService {
       .createHash('sha256')
       .update(x.title + x.date + x.time + x.contact)
       .digest('hex')
+  }
+
+  private createGoogleCalendarLink(x: Appointment): string {
+    const details = encodeURI(`${x.title}<br><br>
+    Contact: ${x.contact} ${x.contactEmail}. <br>
+    Date: ${x.date} at ${x.dateTime}.<br>
+    Location: ${formatAppointmentLocation(x.location)}`)
+    const dateFrom = formatGoogleDate(x.dateTime, 0)
+    const dateTo = formatGoogleDate(x.dateTime, x.duration)
+
+    console.log("dateFrom ", formatGoogleDate(x.dateTime, 0))
+
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${x.title}&details=${details}&dates=${dateFrom}/${dateTo}`
   }
 
   private ensureDateTime(x: Appointment): Appointment {
@@ -67,6 +81,8 @@ export default class AppointmentService {
         if (x.contactEmail === 'null') {
           x.contactEmail = null
         }
+        // add google calendar link
+        x.googleCalendarLink = this.createGoogleCalendarLink(x)
         return x
       }),
     }

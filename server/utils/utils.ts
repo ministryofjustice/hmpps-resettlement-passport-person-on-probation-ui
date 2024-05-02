@@ -69,7 +69,7 @@ export function isValidEmail(email?: string): boolean {
   return regex.test(email)
 }
 
-export function formatTime(inputTime: string, duration: number = 0): string {
+export function stringTimeToDate(inputTime: string, duration: number = 0): Date {
   if (!inputTime || inputTime?.length < 1) return null
   const [hours, minutes, seconds] = inputTime.split(':').map(Number)
 
@@ -79,9 +79,27 @@ export function formatTime(inputTime: string, duration: number = 0): string {
   dateObj.setSeconds(seconds || 0)
   const updatedDate = addMinutes(dateObj, duration)
 
+  return updatedDate
+}
+
+export function formatTime(inputTime: string, duration: number = 0): string {
+  if (!inputTime || inputTime?.length < 1) return null
+
+  const updatedDate = stringTimeToDate(inputTime, duration)
+
   return format(updatedDate, 'hh:mm a', {
     locale: enGB,
   })
+}
+export function formatGoogleDate(inputTime: Date, duration: number = 0): string {
+  if (duration) {
+    inputTime = addMinutes(inputTime, duration)
+  }
+  return (
+    format(inputTime, 'yyyyMMdd') +
+    'T' +
+    format(inputTime, 'HHmm')
+  )
 }
 
 export function formatAppointmentLocation(input: AppointmentLocation): string {
