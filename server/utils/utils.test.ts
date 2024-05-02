@@ -13,6 +13,7 @@ import {
   getDobDate,
   getDobDateString,
   isValidOtp,
+  isValidEmail,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -259,5 +260,22 @@ describe('isValidOtp', () => {
     ['QWcomJA', false],
   ])('%s isValidOtp(%s, %s)', (input: string, expected: boolean) => {
     expect(isValidOtp(input)).toBe(expected)
+  })
+})
+
+describe('isValidEmail', () => {
+  it.each([
+    [null, false],
+    ['null', false],
+    ['', false],
+    ['      ', false],
+    ['123456@', false],
+    ['1234567@test', false],
+    ['QWcomJ@test.com', true],
+    ['QWcomJA@test.', false],
+    ['TEST@TES.COM', true],
+    ['Name.DOUBLE-BARREL@SOMETHING.GOV.UK', true],
+  ])('%s isValidEmail(%s, %s)', (input: string, expected: boolean) => {
+    expect(isValidEmail(input)).toBe(expected)
   })
 })

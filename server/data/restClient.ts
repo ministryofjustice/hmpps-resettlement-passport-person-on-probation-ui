@@ -109,6 +109,38 @@ export default class RestClient {
     }
   }
 
+  async externalPost<T>({
+    path = null,
+    query = '',
+    headers = {},
+    responseType = '',
+    data = {},
+    raw = false,
+  }: PostRequest = {}): Promise<T> {
+    const endpoint = `${this.apiUrl()}${path}`
+    try {
+      const result = await superagent
+        .post(endpoint)
+        .send(data)
+        .agent(this.agent)
+        .query(query)
+        .use(restClientMetricsMiddleware)
+        .retry(2, (err, res) => {
+          if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
+          return undefined // retry handler only for logging retries, not to influence retry logic
+        })
+        .set(headers)
+        .responseType(responseType)
+        .timeout(this.timeoutConfig())
+
+      return raw ? result : result.body
+    } catch (error) {
+      const sanitisedError = sanitiseError(error)
+      logger.warn({ ...sanitisedError }, `Error calling ${this.name}, path: '${path}', verb: 'DELETE'`)
+      throw sanitisedError
+    }
+  }
+
   async post<T>({
     path = null,
     query = '',

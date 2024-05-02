@@ -4,6 +4,7 @@ import govukOneLogin from './integration_tests/mockApis/govukOneLogin'
 import psfrApi from './integration_tests/mockApis/psfrApi'
 import popApi from './integration_tests/mockApis/popApi'
 import hmppsAuth from './integration_tests/mockApis/hmppsAuth'
+import zendeskApi from './integration_tests/mockApis/zendeskApi'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -24,6 +25,7 @@ export default defineConfig({
         ...govukOneLogin,
         ...psfrApi,
         ...popApi,
+        ...zendeskApi,
         log(message) {
           // eslint-disable-next-line no-console
           console.log(message)
