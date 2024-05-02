@@ -81,14 +81,14 @@ context('Feedback', () => {
     cy.get('#name').clear()
     cy.get('[data-qa="feedback-questions-btn"]').click()
     cy.get('[data-qa="feedback-review-page-title"]').contains('Check your answers')
-    cy.get(':nth-child(3) > .govuk-summary-list__value').should('have.value', '');
+    cy.get(':nth-child(3) > .govuk-summary-list__value').should('have.value', '')
 
     // change email
     cy.get(':nth-child(4) > .govuk-summary-list__actions > .govuk-link').click()
     cy.get('#email').clear()
     cy.get('[data-qa="feedback-questions-btn"]').click()
     cy.get('[data-qa="feedback-review-page-title"]').contains('Check your answers')
-    cy.get(':nth-child(4) > .govuk-summary-list__value').should('have.value', '');
+    cy.get(':nth-child(4) > .govuk-summary-list__value').should('have.value', '')
   })
 
   it('Should validate feedback input', () => {
