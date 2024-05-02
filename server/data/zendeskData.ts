@@ -1,5 +1,5 @@
 export interface ContactHelpdeskForm {
-  score?: number
+  score: string
   detail?: string
   name?: string
   email?: string

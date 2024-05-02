@@ -6,7 +6,7 @@ declare module 'express-session' {
     returnTo: string
     nowInMinutes: number
     feedback: {
-      score: number
+      score: string
       details?: string
       name?: string
       email?: string
