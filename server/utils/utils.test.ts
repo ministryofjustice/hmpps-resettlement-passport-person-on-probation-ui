@@ -273,6 +273,8 @@ describe('isValidEmail', () => {
     ['1234567@test', false],
     ['QWcomJ@test.com', true],
     ['QWcomJA@test.', false],
+    ['TEST@TES.COM', true],
+    ['Name.DOUBLE-BARREL@SOMETHING.GOV.UK', true],
   ])('%s isValidEmail(%s, %s)', (input: string, expected: boolean) => {
     expect(isValidEmail(input)).toBe(expected)
   })
