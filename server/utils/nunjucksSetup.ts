@@ -18,7 +18,7 @@ import config from '../config'
 
 const production = process.env.NODE_ENV === 'production'
 
-export default function nunjucksSetup(app: express.Express, applicationInfo: ApplicationInfo): void {
+export default function nunjucksSetup(app: express.Express, applicationInfo: ApplicationInfo) {
   app.set('view engine', 'njk')
 
   app.locals.asset_path = '/assets/'
@@ -68,4 +68,6 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   njkEnv.addFilter('mapsLinkFromAppointmentLocation', mapsLinkFromAppointmentLocation)
   njkEnv.addFilter('pluraliseAppointments', pluraliseAppointments)
   njkEnv.addFilter('orElse', orElse)
+
+  return njkEnv
 }
