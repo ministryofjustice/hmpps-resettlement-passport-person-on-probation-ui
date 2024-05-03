@@ -145,7 +145,7 @@
           "values": false
         },
         "showPercentChange": false,
-        "textMode": "value",
+        "textMode": "value_and_name",
         "wideLayout": true
       },
       "pluginVersion": "10.3.3",
@@ -164,7 +164,7 @@
           "instant": true,
           "legendFormat": "Standard",
           "range": false,
-          "refId": "A",
+          "refId": "Standard Licence ",
           "useBackend": false
         },
         {
@@ -183,7 +183,7 @@
           "instant": false,
           "legendFormat": "Others",
           "range": true,
-          "refId": "B",
+          "refId": "Other Licences",
           "useBackend": false
         }
       ],
@@ -198,7 +198,7 @@
     "list": [
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "hmpps-resettlement-passport-dev",
           "value": "hmpps-resettlement-passport-dev"
         },
@@ -255,13 +255,13 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-12h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Plan Your Future Dashboard",
   "uid": "plan-your-future-dashboard",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }
