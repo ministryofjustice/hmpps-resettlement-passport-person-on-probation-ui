@@ -4,6 +4,11 @@
 generic-service:
   
   ingress:
+    enabled: true
+    namespace: hmpps-resettlement-passport-prod
+    className: modsec
+    annotations:
+      external-dns.alpha.kubernetes.io/set-identifier: hmpps-resettlement-passport-person-on-probation-ui-prod-green
     host: person-on-probation-user-ui.hmpps.service.justice.gov.uk
 
   env:
