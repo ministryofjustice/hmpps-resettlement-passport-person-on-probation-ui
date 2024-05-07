@@ -10,6 +10,10 @@ generic-service:
     className: modsec
     annotations:
       external-dns.alpha.kubernetes.io/set-identifier: hmpps-resettlement-passport-person-on-probation-ui-preprod-green
+      external-dns.alpha.kubernetes.io/aws-weight: "100"
+      nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+      nginx.ingress.kubernetes.io/modsecurity-snippet: |
+        SecRuleEngine On
     host: person-on-probation-user-ui-preprod.hmpps.service.justice.gov.uk
 
   env:
