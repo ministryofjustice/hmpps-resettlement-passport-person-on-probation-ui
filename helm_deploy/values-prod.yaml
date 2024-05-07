@@ -10,8 +10,10 @@ generic-service:
     annotations:
       external-dns.alpha.kubernetes.io/set-identifier: hmpps-resettlement-passport-person-on-probation-ui-prod-green
     host: plan-your-future.service.justice.gov.uk
-
-
+    tls:
+      - hosts:
+        - plan-your-future.service.justice.gov.uk
+        secretName: plan-your-future-service-ui-cert
 
   env:
     INGRESS_URL: "https://plan-your-future.service.justice.gov.uk"
