@@ -16,7 +16,7 @@ export default class GovOneLogin {
     this.signInButton = page.locator('//*[@id="sign-in-button"]');
     this.createLogin = page.locator('//*[@id="create-account-link"]');
     this.gov1Header = page.locator('//*[@id="main-content"]/div/div/h1');
-    this.gettingErrorHeader = page.locator('h1', { hasText: 'Sorry, you cannot access GOV.UK One Login from this page' })
+    this.gettingErrorHeader = page.locator('h1', { hasText: 'Sorry, you cannot access GOV.UK One Login from this page' });
   }
 
   async gotoPlan() {
@@ -28,7 +28,7 @@ export default class GovOneLogin {
     await this.page.waitForLoadState();
   }
   async shouldFindTitle() {
-    await expect(this.gettingErrorHeader).toBeVisible()
+    await expect(this.gettingErrorHeader).toBeVisible();
   }
 
 }

@@ -14,8 +14,8 @@ export default class GovOneCreatePassword {
   }
 
   async submitNewPassword(password: string) {
-    await this.enterPassword1Field.fill(password)
-    await this.enterPassword2Field.fill(password)
-    await this.continue.click()
+    await this.enterPassword1Field.fill(password);
+    await this.enterPassword2Field.fill(password);
+    await this.continue.click();
   }
 }

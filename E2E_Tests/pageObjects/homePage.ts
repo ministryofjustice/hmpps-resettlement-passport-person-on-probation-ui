@@ -1,13 +1,13 @@
 import { expect, type Locator, type Page } from '@playwright/test'
 
 export default class HomePage {
-  private page: Page
+  private page: Page;
 
-  readonly gettingStartedHeader: Locator
+  readonly gettingStartedHeader: Locator;
 
   constructor(page: Page) {
-    this.page = page
-    this.gettingStartedHeader = page.locator('h1', { hasText: 'Plan Your Future' })
+    this.page = page;
+    this.gettingStartedHeader = page.locator('h1', { hasText: 'Plan Your Future' });
   }
 
   private HomePageElements = {
@@ -15,10 +15,10 @@ export default class HomePage {
   }
 
   async clickStart() {
-    await this.page.locator(this.HomePageElements.startButton).click()
+    await this.page.locator(this.HomePageElements.startButton).click();
   }
 
   async shouldFindTitle() {
-    await expect(this.gettingStartedHeader).toBeVisible()
+    await expect(this.gettingStartedHeader).toBeVisible();
   }
 }

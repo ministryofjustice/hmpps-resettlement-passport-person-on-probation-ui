@@ -12,6 +12,12 @@ import GovOneCreatePassword from '../../pageObjects/govOne/govOneCreatePassword'
 import GovOneCreatedAccount from '../../pageObjects/govOne/govOneCreatedAccount'
 import GovOneCheckEmail from '../../pageObjects/govOne/govOneCheckEmail'
 import GovOneSelectOTPMethod from '../../pageObjects/govOne/govOneSelectOTPMethod'
+import CompleteAccountPage from '../../pageObjects/completeAccountPage'
+import DashboardPage from '../../pageObjects/dashboardPage'
+import NavigationPage from '../../pageObjects/navigationPage'
+import SettingsPage from '../../pageObjects/settingsPage'
+import GovOneChangedOTP from '../../pageObjects/govOne/govOneChangedOTP'
+import GovOneSecurityDetails from '../../pageObjects/govOne/govOneYourDetailsSecuityPage'
 
 setDefaultTimeout(20000)
 let page: Page;
@@ -24,9 +30,19 @@ let govOneSelectOTPMethod: GovOneSelectOTPMethod;
 let govOneEnterOTPSecurityCode: GovOneEnterOTPSecurityCode;
 let govOneCreatedAccount: GovOneCreatedAccount;
 
+//delete account
+let govOneChangedOTP: GovOneChangedOTP
+let govOneSecurityDetails: GovOneSecurityDetails;
+
 //login
 let govOneEnterEmail: GovOneEnterEmail;
 let govOneEnterPassword: GovOneEnterPassword;
+let completeAccountPage: CompleteAccountPage;
+
+//pyf pages
+let dashboardPage: DashboardPage;
+let navigationPage: NavigationPage;
+let settingsPage: SettingsPage;
 
 
 Given('the user visit plan your future', async function () {
@@ -58,7 +74,7 @@ Then('they create an account with Gov One Login', async function () {
   console.log('govOneLogin');
   await govOneLogin.createLogin.click();
   console.log('creating loging')
-  await govOneEnterEmail.submitEmail('testuserpyf+90@gmail.com');
+  await govOneEnterEmail.submitEmail('testuserpyf+51@gmail.com');
   const securityCode = await returnSecurityCode(count);
   console.log(securityCode);
   await govOneCheckEmail.submitCode(securityCode);
@@ -73,4 +89,70 @@ Then('they create an account with Gov One Login', async function () {
   await govOneEnterOTPSecurityCode.submitCode(otpAuth);
   await govOneCreatedAccount.shouldFindTitle();
   await govOneCreatedAccount.continue.click();
+})
+
+Then('the user completes the account setup with first-time ID code', async function () {
+  completeAccountPage = new CompleteAccountPage(pageFixture.page);
+  dashboardPage = new DashboardPage(pageFixture.page);
+  await completeAccountPage.shouldFindTitle();
+  await completeAccountPage.submitFirstTimeIdCode('3pkGVi');
+  await completeAccountPage.submitDay('24');
+  await completeAccountPage.submitMonth('10');
+  await completeAccountPage.submitYear('1982');
+  await dashboardPage.shouldFindTitle();
+})
+
+Then('the user deletes their Gov One Account', async function () {
+  navigationPage = new NavigationPage(pageFixture.page);
+  settingsPage = new SettingsPage(pageFixture.page);
+  govOneSecurityDetails = new GovOneSecurityDetails(pageFixture.page);
+
+  await navigationPage.settingsLink.click();
+  await settingsPage.shouldFindTitle();
+  await settingsPage.govOneLink.click();
+  console.log('govOnelInkClicked');
+
+  await govOneSecurityDetails.shouldFindTitle();
+  await govOneSecurityDetails.gotoDeleteAccount();
+  await govOneSecurityDetails.submitPassword('0net1mepa55');
+  await govOneSecurityDetails.confirmAreYouSure();
+
+})
+
+// the following Code is when you delete your account but not immediatly from registration but from a login
+Then('the user deletes their Gov One Account after logging in', async function () {
+  const count = await returnCurrentCount();
+  navigationPage = new NavigationPage(pageFixture.page);
+  settingsPage = new SettingsPage(pageFixture.page);
+  govOneEnterOTPSecurityCode = new GovOneEnterOTPSecurityCode(pageFixture.page);
+  govOneCheckEmail = new GovOneCheckEmail(pageFixture.page);
+  govOneSelectOTPMethod = new GovOneSelectOTPMethod(pageFixture.page);
+  govOneChangedOTP = new GovOneChangedOTP(pageFixture.page);
+  govOneSecurityDetails = new GovOneSecurityDetails(pageFixture.page);
+  
+  await navigationPage.settingsLink.click();
+  await settingsPage.shouldFindTitle();
+  await settingsPage.govOneLink.click();
+  console.log('govOnelInkClicked');
+
+  await govOneEnterOTPSecurityCode.gotoResetOTP();
+  console.log('should have redirected to check email');
+  const securityCode = await returnSecurityCode(count);
+  console.log(securityCode);
+  await govOneCheckEmail.submitCode(securityCode);
+  await govOneSelectOTPMethod.submitAuthAppOption();
+  await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
+  const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
+  console.log('secret Key '+ secret);
+  var secretValue= secret.slice(12);
+  console.log('secret Key Trim '+secretValue);
+  const otpAuth = await getMyOTP(secretValue);
+  await govOneEnterOTPSecurityCode.submitCode(otpAuth);
+  await govOneChangedOTP.continue.click();
+  
+  await govOneSecurityDetails.shouldFindTitle();
+  await govOneSecurityDetails.gotoDeleteAccount();
+  await govOneSecurityDetails.submitPassword('0net1mepa55');
+  await govOneSecurityDetails.confirmAreYouSure();
+
 })

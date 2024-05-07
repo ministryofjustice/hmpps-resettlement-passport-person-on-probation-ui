@@ -1,6 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test'
 
-export default class HomePage {
+export default class CompleteAccourtPage {
   private page: Page
 
   readonly pageHeader: Locator
@@ -11,7 +11,7 @@ export default class HomePage {
   readonly continue: Locator;
 
   constructor(page: Page) {
-    this.page = page
+    this.page = page;
     this.pageHeader = page.locator('h1', { hasText: 'Complete your account setup securely'});
     this.enterFirstTimeIdCode = page.locator('//*[@id="otp"]');
     this.enterDay = page.locator('//*[@id="dobDay"]');
@@ -19,6 +19,11 @@ export default class HomePage {
     this.enterYear = page.locator('//*[@id="dobYear"]');
     this.continue = page.locator('//*[@id="main-content"]/div/div/form/button');
 
+  }
+
+
+  async shouldFindTitle() {
+    await expect(this.pageHeader).toBeVisible();
   }
 
 
@@ -32,6 +37,7 @@ export default class HomePage {
     await this.enterMonth.fill(month);
   }
   async submitYear(year: string) {
-    await this.enterFirstTimeIdCode.fill(year);
+    await this.enterYear.fill(year);
+    await this.continue.click();
   }
 }

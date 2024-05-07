@@ -40,7 +40,7 @@ async function returnSecurityCode (number){
     startCount = number;
 
     while (currentCount <= startCount){   
-        await sleep(5000);
+        await sleep(2000);
         currentCount = await authorize().then(countMessages).catch(console.error); 
         console.log('in while loop current count '+ currentCount);
         console.log('in while loop start count '+ startCount);

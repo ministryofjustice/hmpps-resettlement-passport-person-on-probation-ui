@@ -7,13 +7,13 @@ export default class GovOneEnterEmail {
 
 
   constructor(page: Page) {
-    this.page = page
-    this.enterEmailField = page.locator('//*[@id="email"]')
-    this.continue = page.locator('//*[@id="main-content"]/div/div/form/button')
+    this.page = page;
+    this.enterEmailField = page.locator('//*[@id="email"]');
+    this.continue = page.locator('//*[@id="main-content"]/div/div/form/button');
   }
 
   async submitEmail(email: string) {
-    await this.enterEmailField.fill(email)
-    await this.continue.click()
+    await this.enterEmailField.fill(email);
+    await this.continue.click();
   }
 }
