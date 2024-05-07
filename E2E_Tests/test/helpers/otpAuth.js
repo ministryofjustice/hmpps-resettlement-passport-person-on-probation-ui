@@ -1,7 +1,10 @@
 const OTPAuth = require('otpauth') ;
 
 
-function getMyOTP(){
+/**
+ * @param {string} secretValue
+ */
+function getMyOTP(secretValue){
 
     // Create a new TOTP object.
   let totp = new OTPAuth.TOTP({
@@ -10,7 +13,7 @@ function getMyOTP(){
     algorithm: "SHA1",
     digits: 6,
     period: 30,
-    secret: "5BY4PQ6AO7TUB7TZ3XW5HUKTG2LTZT7O", // or 'OTPAuth.Secret.fromBase32("NB2W45DFOIZA")'
+    secret: secretValue, // or 'OTPAuth.Secret.fromBase32("NB2W45DFOIZA")'
   });
 
   let token = totp.generate();
@@ -18,4 +21,5 @@ function getMyOTP(){
   return token;
 }
 
-getMyOTP();
+
+module.exports = {getMyOTP};

@@ -34,22 +34,27 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function main (){
+async function returnSecurityCode (number){
+    console.log('currentCountNumber passed is ' + number)
 
-  startCount = await authorize().then(countMessages).catch(console.error);
+    startCount = number;
 
-  while (currentCount <= startCount){   
-    await sleep(5000);
-    currentCount = await authorize().then(countMessages).catch(console.error); 
-    console.log('in while loop current count '+ currentCount);
-    console.log('in while loop start count '+ startCount);
-  
-    startCount--
-  }
-  const test =  await getMessageNumber();
-  console.log('messageNumber is '+ test);
+    while (currentCount <= startCount){   
+        await sleep(5000);
+        currentCount = await authorize().then(countMessages).catch(console.error); 
+        console.log('in while loop current count '+ currentCount);
+        console.log('in while loop start count '+ startCount);
+    }
+    const securityCode =  await getMessageNumber();
+    console.log('securityCode is '+ securityCode);
+    return securityCode;
 }
-main();
+
+async function returnCurrentCount(){
+    const thisCount = await authorize().then(countMessages).catch(console.error); 
+    return thisCount;
+  }
+
 
 
 
@@ -194,4 +199,6 @@ async function extractSixDigitNumber (input) {
   console.log('this was the match ' +match);
   return match? match[0] : null;
 };
+
+module.exports = {returnSecurityCode, returnCurrentCount};
 
