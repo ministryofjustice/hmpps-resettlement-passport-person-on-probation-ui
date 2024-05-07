@@ -26,10 +26,10 @@ export default function createApp(services: Services): express.Application {
     locales: ['en', 'cy'],
     queryParameter: 'lang',
     cookie: 'lang_cookie_name',
-    directory: `${__dirname}/locales`,
+    directory: `${__dirname}/views/locales`,
     api: {
       __: 't', // now req.__ becomes req.t
-      __n: 'tn' // and req.__n can be called as req.tn
+      __n: 'tn', // and req.__n can be called as req.tn
     },
   })
 
@@ -43,11 +43,13 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
+
   const njkEnv = nunjucksSetup(app, services.applicationInfo)
   // eslint-disable-next-line no-underscore-dangle
   njkEnv.addGlobal('__', i18n.__)
   // eslint-disable-next-line no-underscore-dangle
   njkEnv.addFilter('t', i18n.__)
+  app.use(i18n.init)
 
   app.use(setupGovukOneLogin())
   app.use(setUpCsrf())

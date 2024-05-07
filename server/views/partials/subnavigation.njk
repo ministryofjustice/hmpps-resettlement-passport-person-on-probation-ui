@@ -1,34 +1,34 @@
  {%- from "moj/components/sub-navigation/macro.njk" import mojSubNavigation -%}
  
   {{ mojSubNavigation({
-    label: 'Sub navigation',
+    label: t('subnav-label'),
     items: [{
-      text: 'Home',
+      text: t('subnav-home'),
       href: '/dashboard',
       active: activePage == 'dashboard',
       attributes: {'data-qa': 'home-nav-link'}
     }, {
-      text: 'Appointments',
+      text: t('subnav-appointments'),
       href: '/appointments',
       active: activePage == 'appointments',
       attributes: {'data-qa': 'appointments-nav-link'}
     }, {
-      text: 'Licence conditions',
+      text: t('subnav-licence-conditions'),
       href: '/licence-conditions',
       active: activePage == 'licence-conditions',
       attributes: {'data-qa': 'licence-conditions-nav-link'}
     }, {
-      text: 'Profile',
+      text: t('subnav-profile'),
       href: '/profile',
       active: activePage == 'profile',
       attributes: {'data-qa': 'profile-nav-link'}
     }, {
-      text: 'Settings',
+      text: t('subnav-settings'),
       href: '/settings',
       active: activePage == 'settings',
       attributes: {'data-qa': 'settings-nav-link'}
     }, {
-      text: 'Sign out',
+      text: t('subnav-signout'),
       href: '/sign-out',
       attributes: {'data-qa': "signOut"}
     }]

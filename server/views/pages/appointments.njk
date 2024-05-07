@@ -31,7 +31,7 @@
       </div>
     {% endif %}
     {% for item in appointments %}
-      {{ appointmentMacro.render(item, loop.index, false, true) }}
+      {{ appointmentMacro.render(item, loop.index, false, true, lang) }}
     {% endfor %}
     <!-- Next appointments End -->
 

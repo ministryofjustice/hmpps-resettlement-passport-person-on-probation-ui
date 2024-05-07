@@ -23,13 +23,13 @@ export default class HomeController {
       const dobDate = getDobDate(dobDay, dobMonth, dobYear)
       if (!dobDate) {
         errors.push({
-          text: 'Enter a date of birth in the correct format',
+          text: req.t('otp-error-date-1'),
           href: '#dob',
         })
       }
       if (!isPast(dobDate)) {
         errors.push({
-          text: 'The date of birth must be in the past',
+          text: req.t('otp-error-date-2'),
           href: '#dob',
         })
       }
@@ -38,7 +38,7 @@ export default class HomeController {
 
       if (!isValidOtp(otp)) {
         errors.push({
-          text: 'Enter a First-time ID code in the correct format',
+          text: req.t('otp-error-otp-1'),
           href: '#otp',
         })
       } else {
@@ -48,7 +48,7 @@ export default class HomeController {
         }
 
         errors.push({
-          text: 'The First-time ID code entered is not associated with the date of birth provided',
+          text: req.t('otp-error-otp-2'),
           href: '#otp',
         })
       }
