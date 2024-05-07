@@ -4,6 +4,8 @@ import createError from 'http-errors'
 
 import i18n from 'i18n'
 import cookieParser from 'cookie-parser'
+import path from 'path'
+import fs from 'fs'
 import nunjucksSetup from './utils/nunjucksSetup'
 import { createErrorHandler } from './errorHandler'
 import { metricsMiddleware } from './monitoring/metricsApp'
@@ -22,11 +24,17 @@ import { setupRateLimiter } from './middleware/rateLimiter'
 export default function createApp(services: Services): express.Application {
   const app = express()
 
+  const templatesDir = path.join(__dirname, '/views/locales')
+
+  if (!fs.existsSync(templatesDir)) {
+    throw new Error('Locales directory not found!')
+  }
+
   i18n.configure({
     locales: ['en', 'cy'],
     queryParameter: 'lang',
     cookie: 'lang_cookie_name',
-    directory: `${__dirname}/views/locales`,
+    directory: templatesDir,
     api: {
       __: 't', // now req.__ becomes req.t
       __n: 'tn', // and req.__n can be called as req.tn
@@ -36,7 +44,6 @@ export default function createApp(services: Services): express.Application {
   app.set('json spaces', 2)
   app.set('trust proxy', true)
   app.set('port', process.env.PORT || 3000)
-  app.use(cookieParser())
   app.use(metricsMiddleware)
   app.use(setUpHealthChecks(services.applicationInfo))
   app.use(setUpWebSecurity())
@@ -44,13 +51,9 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
 
-  const njkEnv = nunjucksSetup(app, services.applicationInfo)
-  // eslint-disable-next-line no-underscore-dangle
-  njkEnv.addGlobal('__', i18n.__)
-  // eslint-disable-next-line no-underscore-dangle
-  njkEnv.addFilter('t', i18n.__)
+  nunjucksSetup(app, services.applicationInfo, i18n)
+  app.use(cookieParser())
   app.use(i18n.init)
-
   app.use(setupGovukOneLogin())
   app.use(setUpCsrf())
   app.use(setupRateLimiter())

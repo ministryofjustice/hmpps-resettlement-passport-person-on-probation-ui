@@ -2,6 +2,7 @@
 import path from 'path'
 import nunjucks from 'nunjucks'
 import express from 'express'
+import type { I18n } from 'i18n'
 import {
   initialiseName,
   formatDate,
@@ -14,17 +15,14 @@ import {
   orElse,
 } from './utils'
 import { ApplicationInfo } from '../applicationInfo'
-import config from '../config'
 
 const production = process.env.NODE_ENV === 'production'
 
-export default function nunjucksSetup(app: express.Express, applicationInfo: ApplicationInfo) {
+export default function nunjucksSetup(app: express.Express, applicationInfo: ApplicationInfo, i18n: I18n) {
   app.set('view engine', 'njk')
 
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'Plan your future'
-  app.locals.environmentName = config.environmentName
-  app.locals.environmentNameColour = config.environmentName === 'PRE-PRODUCTION' ? 'govuk-tag--green' : ''
 
   // Cachebusting version string
   if (production) {
@@ -68,6 +66,10 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   njkEnv.addFilter('mapsLinkFromAppointmentLocation', mapsLinkFromAppointmentLocation)
   njkEnv.addFilter('pluraliseAppointments', pluraliseAppointments)
   njkEnv.addFilter('orElse', orElse)
+  // eslint-disable-next-line no-underscore-dangle
+  njkEnv.addGlobal('t', i18n.__)
+  // eslint-disable-next-line no-underscore-dangle
+  njkEnv.addGlobal('__', i18n.__)
 
   return njkEnv
 }
