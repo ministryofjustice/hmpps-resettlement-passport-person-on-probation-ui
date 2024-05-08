@@ -53,7 +53,7 @@ describe('UserService', () => {
   let personOnProbationUserApiClient: jest.Mocked<PersonOnProbationUserApiClient>
   let userService: UserService
   const loggerSpy = jest.spyOn(logger, 'info')
-
+  const sessionId = 'session-123'
   beforeEach(() => {
     config.redis.enabled = true
     jest.mocked(createRedisClient).mockReturnValue(redisClient)
@@ -71,20 +71,23 @@ describe('UserService', () => {
     const email = 'test@example.com'
     const code = '123456'
     resettlementPassportApiClient.submitUserOtp.mockResolvedValue(mockedOtpResponse)
-    const result = await userService.checkOtp(email, code, '2024-01-01', 'urn:aaa:bbb')
+    const result = await userService.checkOtp(email, code, '2024-01-01', 'urn:aaa:bbb', sessionId)
     expect(result).toBe(true)
     expect(loggerSpy).toHaveBeenCalledWith(`OTP verification for: ${email} and code: ${code}`)
-    expect(resettlementPassportApiClient.submitUserOtp).toHaveBeenCalledWith({
-      otp: code,
-      urn: 'urn:aaa:bbb',
-      email,
-      dob: '2024-01-01',
-    })
+    expect(resettlementPassportApiClient.submitUserOtp).toHaveBeenCalledWith(
+      {
+        otp: code,
+        urn: 'urn:aaa:bbb',
+        email,
+        dob: '2024-01-01',
+      },
+      sessionId,
+    )
   })
 
   it('should check an email is verified', async () => {
     personOnProbationUserApiClient.getUserByUrn.mockResolvedValue(mockedUserResponse)
-    const result = await userService.isVerified(oneLoginTestUrn)
+    const result = await userService.isVerified(oneLoginTestUrn, sessionId)
     expect(result).toBe(mockedUserResponse)
     expect(loggerSpy).toHaveBeenCalledWith(`User verification`)
     expect(redisClient.get).toHaveBeenCalledWith(`${oneLoginTestUrn}-popuser-data`)
@@ -92,7 +95,7 @@ describe('UserService', () => {
 
   it('should fetch the user personal details', async () => {
     resettlementPassportApiClient.getByNomsId.mockResolvedValue(mockedUserDetailsResponse)
-    const result = await userService.getByNomsId(mockedUserResponse.nomsId, 'urn')
+    const result = await userService.getByNomsId(mockedUserResponse.nomsId, 'urn', sessionId)
     expect(result).toBe(mockedUserDetailsResponse)
     expect(loggerSpy).toHaveBeenCalledWith(`Get personal details by nomsId`)
     expect(redisClient.get).toHaveBeenCalledWith(`urn-${mockedUserResponse.nomsId}-popuserdetails-data`)

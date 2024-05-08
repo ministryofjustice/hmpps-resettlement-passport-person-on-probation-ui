@@ -13,12 +13,13 @@ export default class AppointmentController {
 
   index: RequestHandler = async (req, res, next) => {
     try {
-      const verificationData = await requireUser(req.user?.sub, this.userService)
+      const sessionId = req.sessionID
+      const verificationData = await requireUser(req.user?.sub, this.userService, sessionId)
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)
       }
 
-      const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId)
+      const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId, sessionId)
       const results = appointments?.results || []
       const nextAppointments = getFutureAppointments(results)
       const oldAppointments = results
@@ -33,7 +34,8 @@ export default class AppointmentController {
 
   show: RequestHandler = async (req, res, next) => {
     try {
-      const verificationData = await requireUser(req.user?.sub, this.userService)
+      const sessionId = req.sessionID
+      const verificationData = await requireUser(req.user?.sub, this.userService, sessionId)
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)
       }
@@ -43,7 +45,7 @@ export default class AppointmentController {
       let nextAppointment = null
       let previousAppointment = null
 
-      const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId)
+      const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId, sessionId)
       const results = appointments?.results || []
       const nextAppointments = getFutureAppointments(results)
       nextAppointments.forEach((element, index) => {
