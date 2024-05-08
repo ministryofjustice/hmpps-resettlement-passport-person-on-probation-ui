@@ -15,6 +15,7 @@ export default class DashboardController {
 
   index: RequestHandler = async (req, res, next) => {
     try {
+      const queryParams = req.query;
       const urn = req.user?.sub
       const verificationData = await requireUser(urn, this.userService)
       if (typeof verificationData === 'string') {
@@ -37,6 +38,7 @@ export default class DashboardController {
         tomorrowAppointments,
         todayAppointments,
         licenceExpiryDate: licence?.expiryDate,
+        queryParams
       })
     } catch (err) {
       return next(err)

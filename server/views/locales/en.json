@@ -122,6 +122,12 @@
 	"error-h1": "Sorry, there is a problem with the service",
 	"error-message": "We cannot show these details right now. We are aware of the issue and are working to fix it. Please try again later.",
 	"profile-h1": "Profile",
+    "profile-p1": "This is the contact information we hold for you.",
+    "profile-p2": "It is important you keep this information up-to-date. Your probation officer can update these details if anything changes.",
+    "profile-name": "Name",
+    "profile-email": "Email address",
+    "profile-mobile": "Mobile",
+    "profile-not-available": "Not available",
 	"dashboard-profile-p1": "Keep your personal information up to date.",
 	"feedback-start-page-title": "Plan your future feedback",
     "feedback-start-form-description": "Use this form to give feedback on the Plan your future service.",
@@ -157,6 +163,20 @@
     "feedback-questions-continue-btn": "Continue",
     "feedback-error-satisfaction": "Select how satisfied you are with the service",
     "feedback-error-email": "Enter an email address in the correct format",
-    "licence-conditions-h1": "Licence conditions"
-	
+    "licence-conditions-h1": "Licence conditions",
+    "licence-conditions-warning": "Licence conditions are the rules you must follow so you do not get recalled to prison.",
+	"licence-conditions-p1": "These are the licence conditions we are able to show you.", 
+    "licence-conditions-p2": "You may have other licence conditions in addition to the ones shown. You should check with your probation officer.",
+    "licence-conditions-p3": "Your probation officer can explain anything you do not understand.",
+    "licence-conditions-expiry": "Licence expires on:",
+    "licence-conditions-must": "You must:",
+    "licence-conditions-p4": "The Supervising Officer is the Community Offender Manager.",
+    "licence-conditions-not-found": "We cannot show your licence conditions. Ask your probation officer for details.",
+    "licence-conditions-details": "View details",
+    "licence-conditions-back": "Back to licence conditions",
+    "licence-conditions-restrictions": "Your geographical restrictions",
+    "not-found-h1": "Page not found",
+    "not-found-p1": "If you typed the web address, check it is correct.",
+    "not-found-p2": "If you pasted the web address, check you copied the entire address."
+
 }

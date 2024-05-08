@@ -11,6 +11,7 @@ export default class LicenceConditionsController {
 
   index: RequestHandler = async (req, res, next) => {
     try {
+      const queryParams = req.query;
       const verificationData = await requireUser(req.user?.sub, this.userService)
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)
@@ -18,7 +19,7 @@ export default class LicenceConditionsController {
 
       const licence = await this.licenceConditionsService.getLicenceConditionsByNomsId(verificationData.nomsId)
 
-      return res.render('pages/licenceConditions', { user: req.user, licence })
+      return res.render('pages/licenceConditions', { user: req.user, licence, queryParams })
     } catch (err) {
       return next(err)
     }
@@ -26,6 +27,7 @@ export default class LicenceConditionsController {
 
   view: RequestHandler = async (req, res, next) => {
     try {
+      const queryParams = req.query;
       const verificationData = await requireUser(req.user?.sub, this.userService)
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)
@@ -41,7 +43,7 @@ export default class LicenceConditionsController {
         conditionId,
       )
 
-      return res.render('pages/licenceConditionsDetails', { user: req.user, condition, image })
+      return res.render('pages/licenceConditionsDetails', { user: req.user, condition, image, queryParams })
     } catch (err) {
       return next(err)
     }

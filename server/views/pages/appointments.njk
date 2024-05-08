@@ -48,7 +48,7 @@
               <section class="app-summary-card govuk-!-margin-bottom-4">
 
                 <header class="app-summary-card__header">
-                  <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0" data-qa="{{loop.index}}-old-appointment-date">{{oldItem.date | formatDate}}</h3>
+                  <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0" data-qa="{{loop.index}}-old-appointment-date">{{oldItem.date | formatDate(lang)}}</h3>
                 </header>
                 <div class="app-summary-card__body govuk-!-padding-4">
                   <span data-qa="{{loop.index}}-old-appointment-duration"  class="govuk-body-m">{{oldItem.time | formatTime }}

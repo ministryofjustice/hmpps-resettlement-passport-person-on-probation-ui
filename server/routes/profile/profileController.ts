@@ -7,6 +7,7 @@ export default class ProfileController {
 
   index: RequestHandler = async (req, res, next) => {
     try {
+      const queryParams = req.query;
       const verificationData = await requireUser(req.user?.sub, this.userService)
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)
@@ -22,6 +23,7 @@ export default class ProfileController {
         mobile: profile.personalDetails.mobile,
         email: profile.personalDetails.email,
         fullName,
+        queryParams
       })
     } catch (err) {
       return next(err)

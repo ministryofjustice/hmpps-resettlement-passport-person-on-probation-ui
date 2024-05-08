@@ -3,7 +3,6 @@ import express from 'express'
 import createError from 'http-errors'
 
 import i18n from 'i18n'
-import cookieParser from 'cookie-parser'
 import path from 'path'
 import fs from 'fs'
 import nunjucksSetup from './utils/nunjucksSetup'
@@ -52,7 +51,6 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpStaticResources())
 
   nunjucksSetup(app, services.applicationInfo, i18n)
-  app.use(cookieParser())
   app.use(i18n.init)
   app.use(setupGovukOneLogin())
   app.use(setUpCsrf())

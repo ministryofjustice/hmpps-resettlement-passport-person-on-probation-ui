@@ -7,13 +7,15 @@ export default class HomeController {
   constructor(private readonly userService: UserService) {}
 
   index: RequestHandler = async (req, res) => {
+    const queryParams = req.query;
     if (!req.isAuthenticated()) {
       return res.redirect('/sign-in')
     }
-    return res.render('pages/otp', { user: req.user })
+    return res.render('pages/otp', { user: req.user, queryParams })
   }
 
   create: RequestHandler = async (req, res, next) => {
+    const queryParams = req.query;
     if (!req.isAuthenticated()) {
       return res.redirect('/sign-in')
     }
@@ -44,7 +46,7 @@ export default class HomeController {
       } else {
         const isAccepted = await this.userService.checkOtp(req.user.email, otp, dobDateString, req.user.sub)
         if (isAccepted) {
-          return res.redirect('/dashboard')
+          return res.redirect('/dashboard', queryParams)
         }
 
         errors.push({
@@ -61,6 +63,7 @@ export default class HomeController {
         errors,
         otpError,
         dobError,
+        queryParams
       })
     } catch (err) {
       return next(err)

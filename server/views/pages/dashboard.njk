@@ -23,18 +23,18 @@
         <div id="appointments-tile" class="card">
           <div class="card-body active govuk-!-padding-bottom-6">
             <h2 class="govuk-heading-m card-heading govuk-!-padding-bottom-2">
-              <a href="/appointments" data-qa="appointments-tile-title">{{ t('appointments-h1') }} </a>
+              <a href="/appointments?{{queryParams|urlencode}}" data-qa="appointments-tile-title">{{ t('appointments-h1') }} </a>
             </h2>
 
             {% if nextAppointment %}
             <p class="govuk-body-s" id="next-appointment-heading">{{ t('dashboard-next-appointment') }}</p>
 
             <p class="govuk-body-s govuk-!-margin-0">
-              <b>{{nextAppointment.date | formatDate }}</b>
+              <b>{{nextAppointment.date | formatDate(queryParams.lang) }}</b>
             </p>
-            <p class="govuk-body-s govuk-!-margin-0">{{nextAppointment.time | formatTime }}
+            <p class="govuk-body-s govuk-!-margin-0">{{nextAppointment.time | formatTime(0, queryParams.lang) }}
             {% if nextAppointment.duration %}
-              - {{ nextAppointment.time | formatTime(nextAppointment.duration) }}
+              - {{ nextAppointment.time | formatTime(nextAppointment.duration, queryParams.lang) }}
             {% endif %}
             </p>
             <p id="next-appointment-title" class="govuk-heading-s govuk-!-margin-0">{{nextAppointment.title}}</p>
@@ -65,11 +65,11 @@
         <div class="card" id="licence-conditions-tile">
           <div id="licence-conditions-tile-body" class="card-body active govuk-!-padding-bottom-6">
             <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
-              <a class="govuk-link card-link" href="/licence-conditions" data-qa="licence-conditions-tile-title">  {{ t('licence-conditions-h1') }}</a>
+              <a class="govuk-link card-link" href="/licence-conditions?{{queryParams|urlencode}}" data-qa="licence-conditions-tile-title">  {{ t('licence-conditions-h1') }}</a>
             </h2>
             {% if licenceExpiryDate %}
               <p class="govuk-body">{{ t('dashboard-licence-conditions-p1') }}</p>
-              <p>{{ t('dashboard-licence-conditions-p2') }} {{licenceExpiryDate | formatLicenceDate }}.</p>
+              <p>{{ t('dashboard-licence-conditions-p2') }} {{licenceExpiryDate | formatLicenceDate(queryParams.lang) }}.</p>
             {% else %}
               <p class="govuk-body">{{ t('dashboard-licence-conditions-not-available') }}</p>
             {% endif %}
@@ -82,7 +82,7 @@
         <div class="card" id="profile-tile">
             <div class="card-body active">
                 <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
-                    <a class="govuk-link card-link" href="/profile" data-qa="profile-tile-title">
+                    <a class="govuk-link card-link" href="/profile?{{queryParams|urlencode}}" data-qa="profile-tile-title">
                         {{ t('profile-h1') }}
                     </a>
                 </h2>

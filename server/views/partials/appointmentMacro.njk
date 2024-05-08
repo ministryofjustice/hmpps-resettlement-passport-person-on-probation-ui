@@ -5,10 +5,10 @@
           <div class="govuk-grid-column-full">
             <section id="appointment-details-section" class="app-summary-card govuk-!-margin-bottom-4">
               <header class="app-summary-card__header">
-                <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0" data-qa="{{loopIndex}}-appointment-date">{{appointment.date | formatDate}}
-                  <span class="govuk-caption-m" data-qa="{{loopIndex}}-appointment-duration">{{appointment.time | formatTime }}
+                <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0" data-qa="{{loopIndex}}-appointment-date">{{appointment.date | formatDate(lang)}}
+                  <span class="govuk-caption-m" data-qa="{{loopIndex}}-appointment-duration">{{appointment.time | formatTime(0, lang) }}
                       {% if appointment.duration %}
-                         - {{ appointment.time | formatTime(appointment.duration) }}
+                         - {{ appointment.time | formatTime(appointment.duration, lang) }}
                       {% endif %}
                   </span>
                 </h3>
