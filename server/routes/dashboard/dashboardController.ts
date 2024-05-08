@@ -16,19 +16,23 @@ export default class DashboardController {
   index: RequestHandler = async (req, res, next) => {
     try {
       const urn = req.user?.sub
-      const verificationData = await requireUser(urn, this.userService)
+      const sessionId = req.sessionID
+      const verificationData = await requireUser(urn, this.userService, sessionId)
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)
       }
-      const personalData = await this.userService.getByNomsId(verificationData.nomsId, urn)
+      const personalData = await this.userService.getByNomsId(verificationData.nomsId, urn, sessionId)
 
-      const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId)
+      const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId, sessionId)
       const nextAppointment = getFutureAppointments(appointments.results)?.[0]
 
       const tomorrowAppointments = appointments?.results?.filter(x => isTomorrow(new Date(x.date)))
       const todayAppointments = appointments?.results?.filter(x => isToday(new Date(x.date)))
 
-      const licence = await this.licenceConditionsService.getLicenceConditionsByNomsId(verificationData.nomsId)
+      const licence = await this.licenceConditionsService.getLicenceConditionsByNomsId(
+        verificationData.nomsId,
+        sessionId,
+      )
 
       return res.render('pages/dashboard', {
         user: req.user,
