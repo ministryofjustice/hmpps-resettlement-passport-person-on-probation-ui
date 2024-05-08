@@ -44,11 +44,9 @@ let dashboardPage: DashboardPage;
 let navigationPage: NavigationPage;
 let settingsPage: SettingsPage;
 
-//const email = process.env.USEREMAIL
-//const password = process.env.USERPASSWORD
+const email = process.env.USEREMAIL
+const password = process.env.USERPASSWORD
 
-const email = 'testuserpyf+51@gmail.com'
-const password = '0net1mepa55'
 
 
 
