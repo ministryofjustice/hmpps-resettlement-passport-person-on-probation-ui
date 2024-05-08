@@ -1,0 +1,28 @@
+{% extends "../partials/layout.njk" %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% block content %}
+  {% if user %}
+    {% include "../partials/limited-subnavigation.njk" %}
+  {% else %}
+    <p class="govuk-!-margin-bottom-6">
+  {% endif %}
+
+  <div class="govuk-grid-row govuk-!-padding-bottom-6">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "Thank you",
+        html: "Your response has been recorded.",
+        attributes: {'data-qa': 'feedback-success-panel'}
+      }) }}
+
+        <div class="govuk-!-padding-top-4">
+          <p> <a href="/" data-qa="feedback-end-return-link">Return to Plan your future</a></p>
+        </div>
+
+
+  
+    </div>
+  </div>
+
+{% endblock %}

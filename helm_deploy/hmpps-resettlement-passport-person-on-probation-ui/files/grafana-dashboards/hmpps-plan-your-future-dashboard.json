@@ -94,6 +94,101 @@
       ],
       "title": "Printed Black Packs",
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P5DCFC7561CCDE821"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_licence_conditions_percentage{namespace=~\"$namespace\", prison=~\"$prison\", licenceType=\"Standard\"})))",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "Standard",
+          "range": false,
+          "refId": "Standard Licence ",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_licence_conditions_percentage{namespace=~\"$namespace\", prison=~\"$prison\", licenceType=\"Others\"})))",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "Others",
+          "range": true,
+          "refId": "Other Licences",
+          "useBackend": false
+        }
+      ],
+      "title": "Missing Licence Conditions",
+      "type": "stat"
     }
   ],
   "refresh": "",
@@ -103,9 +198,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "hmpps-resettlement-passport-dev",
-          "value": "hmpps-resettlement-passport-dev"
+          "selected": true,
+          "text": "hmpps-resettlement-passport-preprod",
+          "value": "hmpps-resettlement-passport-preprod"
         },
         "datasource": {
           "type": "prometheus",
@@ -160,13 +255,13 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-12h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Plan Your Future Dashboard",
   "uid": "plan-your-future-dashboard",
-  "version": 2,
+  "version": 5,
   "weekStart": ""
 }

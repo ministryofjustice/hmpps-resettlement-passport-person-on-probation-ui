@@ -21,12 +21,18 @@ export default class PersonOnProbationUserApiClient {
     this.restClient = new RestClient('Person On Probation User Api Client', config.apis.personOnProbationUserApi)
   }
 
-  async getUserByUrn(urn: string): Promise<UserDetailsResponse | null> {
+  async getUserByUrn(urn: string, sessionId: string): Promise<UserDetailsResponse | null> {
     try {
-      const user = await this.restClient.get<UserDetailsResponse>({ path: `/onelogin/user/${urn}` })
+      logger.debug(`SessionId: ${sessionId}. getUserByUrn(${urn})`)
+      const user = await this.restClient.get<UserDetailsResponse>({
+        path: `/onelogin/user/${urn}`,
+        headers: {
+          SessionID: sessionId,
+        },
+      })
       return user
     } catch (error) {
-      logger.debug('User not found, assuming unverified')
+      logger.warn(`SessionId: ${sessionId}. User not found, assuming unverified`)
       checkError(error)
     }
     return null

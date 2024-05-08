@@ -10,6 +10,7 @@ import profileRoutes from './profile'
 import settingsRoutes from './settings'
 import cookiesRoutes from './cookies'
 import accessibilityRoutes from './accessibility'
+import feedbackRoutes from './feedback'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function routes(service: Services): Router {
@@ -23,5 +24,6 @@ export default function routes(service: Services): Router {
   settingsRoutes(router, service)
   cookiesRoutes(router)
   accessibilityRoutes(router)
+  feedbackRoutes(router, service)
   return router
 }
