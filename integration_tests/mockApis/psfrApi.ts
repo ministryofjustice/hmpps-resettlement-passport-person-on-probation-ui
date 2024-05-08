@@ -201,7 +201,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false`,
+        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false&includePreRelease=false`,
       },
       response: {
         status: 404,
@@ -213,7 +213,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false`,
+        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false&includePreRelease=false`,
       },
       response: {
         status: 200,
@@ -225,7 +225,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false`,
+        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false&includePreRelease=false`,
       },
       response: {
         status: 500,
@@ -237,7 +237,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false`,
+        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false&includePreRelease=false`,
       },
       response: {
         status: 200,
@@ -249,7 +249,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false`,
+        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false&includePreRelease=false`,
       },
       response: {
         status: 200,

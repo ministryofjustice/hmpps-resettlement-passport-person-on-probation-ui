@@ -110,7 +110,7 @@ export function resettlementPassportApi(authToken) {
   })
 
   describe('04. Test Get Appointments', t => {
-    const resp = session.get(`prisoner/${nomdId2}/appointments?futureOnly=false`)
+    const resp = session.get(`prisoner/${nomdId2}/appointments?futureOnly=false&includePreRelease=false`)
     console.log(resp)
     expect(resp.status, 'Appointments status').to.equal(200)
     expect(resp, 'Appointments valid json response').to.have.validJsonBody()

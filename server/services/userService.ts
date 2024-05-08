@@ -15,18 +15,21 @@ export default class UserService {
     this.tokenStore = tokenStoreFactory()
   }
 
-  async checkOtp(email: string, otp: string, dob: string, urn: string): Promise<boolean> {
+  async checkOtp(email: string, otp: string, dob: string, urn: string, sessionId: string): Promise<boolean> {
     logger.info(`OTP verification for: ${email} and code: ${otp}`)
-    const optData = await this.resettlementPassportClient.submitUserOtp({
-      otp,
-      urn,
-      email,
-      dob,
-    } as OtpRequest)
+    const optData = await this.resettlementPassportClient.submitUserOtp(
+      {
+        otp,
+        urn,
+        email,
+        dob,
+      } as OtpRequest,
+      sessionId,
+    )
     return optData && optData.id != null
   }
 
-  async getByNomsId(nomsId: string, urn: string): Promise<PersonalDetails> {
+  async getByNomsId(nomsId: string, urn: string, sessionId: string): Promise<PersonalDetails> {
     logger.info(`Get personal details by nomsId`)
     const key = `${urn}-${nomsId}-popuserdetails-data`
 
@@ -41,7 +44,7 @@ export default class UserService {
     }
 
     logger.info('Fetching data from Api')
-    const fetchedPersonalDetails = await this.resettlementPassportClient.getByNomsId(nomsId)
+    const fetchedPersonalDetails = await this.resettlementPassportClient.getByNomsId(nomsId, sessionId)
     if (fetchedPersonalDetails) {
       // store to cache
       await this.tokenStore.setToken(key, JSON.stringify(fetchedPersonalDetails), config.session.expiryMinutes * 60)
@@ -49,7 +52,7 @@ export default class UserService {
     return Promise.resolve(fetchedPersonalDetails)
   }
 
-  async isVerified(urn: string): Promise<UserDetailsResponse> {
+  async isVerified(urn: string, sessionId: string): Promise<UserDetailsResponse> {
     logger.info(`User verification`)
     const key = `${urn}-popuser-data`
 
@@ -64,7 +67,7 @@ export default class UserService {
     }
 
     logger.info('Fetching Pop user data from Api')
-    const fetchedUser = await this.personOnProbationUserApiClient.getUserByUrn(urn)
+    const fetchedUser = await this.personOnProbationUserApiClient.getUserByUrn(urn, sessionId)
     if (fetchedUser) {
       // store to cache
       await this.tokenStore.setToken(key, JSON.stringify(fetchedUser), config.session.expiryMinutes * 60)

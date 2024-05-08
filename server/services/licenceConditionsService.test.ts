@@ -54,7 +54,7 @@ describe('LicenceConditionsService', () => {
   it('should fetch the licenceConditions details with a new identifier', async () => {
     const nomsId = 'A8731DY'
     resettlementPassportApiClient.getLicenceConditionsByNomsId.mockResolvedValue(mockedLicenceConditions)
-    const result = await licenceConditionsService.getLicenceConditionsByNomsId(nomsId)
+    const result = await licenceConditionsService.getLicenceConditionsByNomsId(nomsId, 'session')
     expect(result).toBe(mockedLicenceConditions)
     expect(loggerSpy).toHaveBeenCalledWith(`Get licence conditions by nomsId`)
     expect(redisClient.get).toHaveBeenCalledWith(`${nomsId}-licence-conditions-data`)

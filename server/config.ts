@@ -90,6 +90,18 @@ export default {
       agent: new AgentConfig(Number(get('PERSON_ON_PROBATION_USER_API_TIMEOUT_RESPONSE', 20000))),
       enabled: get('PSFR_API_ENABLED', 'true') === 'true',
     },
+    zendesk: {
+      url: get('ZENDESK_API_URL', 'http://localhost:8101', requiredInProduction),
+      basicAuth: {
+        user: get('ZENDESK_USER', requiredInProduction),
+        pass: get('ZENDESK_TOKEN', requiredInProduction),
+      },
+      timeout: {
+        response: Number(get('ZENDESK_API_TIMEOUT_RESPONSE', 30000)),
+        deadline: Number(get('ZENDESK_API_TIMEOUT_DEADLINE', 30000)),
+      },
+      agent: new AgentConfig(),
+    },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   environmentName: get('ENVIRONMENT_NAME', ''),

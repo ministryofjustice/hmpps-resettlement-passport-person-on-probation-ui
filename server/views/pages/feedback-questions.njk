@@ -1,0 +1,130 @@
+{% extends "../partials/layout.njk" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+
+{% macro errorClass(field) -%}
+  {{ ' govuk-input--error' if errors | hasErrorWithPrefix([field, 'dobError']) else '' }}
+{%- endmacro %}
+
+{% block content %}
+  {% if user %}
+    {% include "../partials/limited-subnavigation.njk" %}
+  {% else %}
+    <p class="govuk-!-margin-bottom-6">
+    {% endif %}
+
+    {% if errors | length > 0 %}
+      {{ govukErrorSummary({
+    titleText: "There is a problem",
+    errorList: errors
+  }) }}
+    {% endif %}
+
+    <div class="govuk-grid-row govuk-!-padding-bottom-6">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl" data-qa="feedback-questions-page-title">Send us feedback</h1>
+        <form class="form" action="/feedback/questions/submit" method="post">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+
+          <p>
+          We’d like to know more about your experience using Plan your future.
+        </p>
+
+          <div class="govuk-!-padding-top-8">
+            {{ govukRadios({
+              id: "score",
+              name: "score",
+              fieldset: {
+                legend: {
+                  text: "Overall, how satisfied were you with this service?",
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+              },
+              errorMessage: {
+                    text: scoreError.message
+              } if scoreError,
+              value: feedback.score,
+              items: [
+                {
+                  value: "Very satisfied",
+                  text: "Very satisfied"
+                },
+                {
+                  value: "Satisfied",
+                  text: "Satisfied"
+                },
+                {
+                  value: "Neither satisfied nor dissatisfied",
+                  text: "Neither satisfied nor dissatisfied"
+                },
+                {
+                  value: "Dissatisfied",
+                  text: "Dissatisfied"
+                },
+                {
+                  value: "Very dissatisfied",
+                  text: "Very dissatisfied"
+                }
+              ]
+            }) }}
+          </div>
+
+          <div class="govuk-!-padding-top-8">
+            {{ govukTextarea({
+                name: "details",
+                id: "details",
+                label: {
+                  text: "Is there anything you want to tell us about using this service? (optional)",
+                  classes: "govuk-label--l",
+                  isPageHeading: true
+                },
+                hint: {
+                  text: "Do not include personal or financial information."
+                },
+                value: feedback.details
+              }) }}
+          </div>
+
+          <div class="govuk-!-padding-top-8">
+            {{ govukInput({
+              label: {
+                text: "Your name (optional)",
+                classes: "govuk-label--l",
+                isPageHeading: true
+              },
+              id: "name",
+              name: "name",
+              value: feedback.name
+            }) }}
+          </div>
+
+          <div class="govuk-!-padding-top-8">
+            {{ govukInput({
+              label: {
+                text: "Your email address (optional)",
+                classes: "govuk-label--l",
+                isPageHeading: true
+              },
+              id: "email",
+              name: "email",
+              value: feedback.email,
+              errorMessage: {
+                    text: emailError.message
+              } if emailError
+            }) }}
+          </div>
+
+          <div class="govuk-!-padding-top-4">
+            <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="feedback-questions-btn">
+          Continue
+        </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  {% endblock %}

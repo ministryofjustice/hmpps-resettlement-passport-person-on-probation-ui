@@ -16,6 +16,7 @@ import setUpWebSession from './middleware/setUpWebSession'
 
 import routes from './routes'
 import type { Services } from './services'
+import { setupRateLimiter } from './middleware/rateLimiter'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -33,6 +34,7 @@ export default function createApp(services: Services): express.Application {
   nunjucksSetup(app, services.applicationInfo)
   app.use(setupGovukOneLogin())
   app.use(setUpCsrf())
+  app.use(setupRateLimiter())
 
   app.use(routes(services))
 

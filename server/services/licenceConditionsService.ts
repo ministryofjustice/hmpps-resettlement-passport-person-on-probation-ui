@@ -13,7 +13,7 @@ export default class LicenceConditionsService {
     this.tokenStore = tokenStoreFactory()
   }
 
-  async getLicenceConditionsByNomsId(nomsId: string): Promise<LicenceConditionData> {
+  async getLicenceConditionsByNomsId(nomsId: string, sessionId: string): Promise<LicenceConditionData> {
     logger.info(`Get licence conditions by nomsId`)
     const key = `${nomsId}-licence-conditions-data`
 
@@ -28,7 +28,10 @@ export default class LicenceConditionsService {
     }
 
     logger.info('Fetching licence conditions from Api')
-    const fetchedLicenceConditions = await this.resettlementPassportClient.getLicenceConditionsByNomsId(nomsId)
+    const fetchedLicenceConditions = await this.resettlementPassportClient.getLicenceConditionsByNomsId(
+      nomsId,
+      sessionId,
+    )
 
     if (fetchedLicenceConditions) {
       // store to cache only briefly
@@ -37,9 +40,19 @@ export default class LicenceConditionsService {
     return Promise.resolve(fetchedLicenceConditions)
   }
 
-  async getLicenceConditionsImage(nomsId: string, licenceId: number, conditionId: number): Promise<string> {
+  async getLicenceConditionsImage(
+    nomsId: string,
+    licenceId: number,
+    conditionId: number,
+    sessionId: string,
+  ): Promise<string> {
     logger.info(`Get licence conditions image`)
-    const fetchedImage = await this.resettlementPassportClient.getLicenceConditionsImage(nomsId, licenceId, conditionId)
+    const fetchedImage = await this.resettlementPassportClient.getLicenceConditionsImage(
+      nomsId,
+      licenceId,
+      conditionId,
+      sessionId,
+    )
     return Promise.resolve(fetchedImage)
   }
 }
