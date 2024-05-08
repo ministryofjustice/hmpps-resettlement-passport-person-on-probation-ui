@@ -44,6 +44,13 @@ let dashboardPage: DashboardPage;
 let navigationPage: NavigationPage;
 let settingsPage: SettingsPage;
 
+//const email = process.env.USEREMAIL
+//const password = process.env.USERPASSWORD
+
+const email = 'testuserpyf+51@gmail.com'
+const password = '0net1mepa55'
+
+
 
 Given('the user visit plan your future', async function () {
   govOneLogin = new GovOneLogin(pageFixture.page);
@@ -74,11 +81,11 @@ Then('they create an account with Gov One Login', async function () {
   console.log('govOneLogin');
   await govOneLogin.createLogin.click();
   console.log('creating loging')
-  await govOneEnterEmail.submitEmail('testuserpyf+51@gmail.com');
+  await govOneEnterEmail.submitEmail(email);
   const securityCode = await returnSecurityCode(count);
   console.log(securityCode);
   await govOneCheckEmail.submitCode(securityCode);
-  await govOneCreatePassword.submitNewPassword('0net1mepa55');
+  await govOneCreatePassword.submitNewPassword(password);
   await govOneSelectOTPMethod.submitAuthAppOption();
   await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
   const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
@@ -114,7 +121,7 @@ Then('the user deletes their Gov One Account', async function () {
 
   await govOneSecurityDetails.shouldFindTitle();
   await govOneSecurityDetails.gotoDeleteAccount();
-  await govOneSecurityDetails.submitPassword('0net1mepa55');
+  await govOneSecurityDetails.submitPassword(password);
   await govOneSecurityDetails.confirmAreYouSure();
 
 })
@@ -152,7 +159,7 @@ Then('the user deletes their Gov One Account after logging in', async function (
   
   await govOneSecurityDetails.shouldFindTitle();
   await govOneSecurityDetails.gotoDeleteAccount();
-  await govOneSecurityDetails.submitPassword('0net1mepa55');
+  await govOneSecurityDetails.submitPassword(password);
   await govOneSecurityDetails.confirmAreYouSure();
 
 })

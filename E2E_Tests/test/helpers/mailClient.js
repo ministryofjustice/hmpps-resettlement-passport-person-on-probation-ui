@@ -10,18 +10,36 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
+
+const clientId = process.env.GMAIL_CLIENT_ID
+const clientSecret = process.env.GMAIL_CLIENT_SECRET
+const projectId = process.env.GMAIL_PROJECT_ID
+
+const apiCredentials = JSON.stringify({
+  installed: {
+    client_id: clientId,
+    project_id: projectId,
+    auth_uri: "https://accounts.google.com/o/oauth2/auth",
+    token_uri: "https://oauth2.googleapis.com/token",
+    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
+    client_secret: clientSecret,
+    redirect_uris: [
+        "http://localhost"
+    ]
+}
+});
+
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 var count = 0;
 var startCount = 0;
 var currentCount = 0;
+var errorCount = 0;
 
-console.log('Test Start');
 
 async function getMessageNumber(){
   const messageNumberReturned = await authorize().then(getMessage).catch(console.error);
   console.log('Returned Message Numer is ' + messageNumberReturned);
-  console.log('Test End')
   return messageNumberReturned
 }
 
@@ -44,6 +62,12 @@ async function returnSecurityCode (number){
         currentCount = await authorize().then(countMessages).catch(console.error); 
         console.log('in while loop current count '+ currentCount);
         console.log('in while loop start count '+ startCount);
+        errorCount ++
+        // ensures no infinite loop and returns if no email is recieved
+        // allows 20 seconds for email to be received 
+        if (errorCount > 9) {
+          throw new Error('No email has been recieved!');
+        }
     }
     const securityCode =  await getMessageNumber();
     console.log('securityCode is '+ securityCode);
@@ -66,8 +90,15 @@ async function returnCurrentCount(){
 async function loadSavedCredentialsIfExist() {
   try {
     const content = await fs.readFile(TOKEN_PATH);
-    const credentials = JSON.parse(content);
-    return google.auth.fromJSON(credentials);
+    const tokenData = JSON.parse(content);
+    const savedCredentials = JSON.stringify({
+      type: 'authorized_user',
+      client_id: clientId,
+      client_secret: clientSecret,
+      refresh_token: tokenData.refresh_token,
+    });
+    const credentialData = JSON.parse(savedCredentials);
+    return google.auth.fromJSON(credentialData);
   } catch (err) {
     return null;
   }
@@ -80,13 +111,11 @@ async function loadSavedCredentialsIfExist() {
  * @return {Promise<void>}
  */
 async function saveCredentials(client) {
-  const content = await fs.readFile(CREDENTIALS_PATH);
+  const content = apiCredentials;
   const keys = JSON.parse(content);
   const key = keys.installed || keys.web;
   const payload = JSON.stringify({
     type: 'authorized_user',
-    client_id: key.client_id,
-    client_secret: key.client_secret,
     refresh_token: client.credentials.refresh_token,
   });
   await fs.writeFile(TOKEN_PATH, payload);
@@ -101,6 +130,7 @@ async function authorize() {
   if (client) {
     return client;
   }
+  await fs.writeFile(CREDENTIALS_PATH, apiCredentials);
   client = await authenticate({
     scopes: SCOPES,
     keyfilePath: CREDENTIALS_PATH,
@@ -108,6 +138,7 @@ async function authorize() {
   if (client.credentials) {
     await saveCredentials(client);
   }
+  await fs.unlink(CREDENTIALS_PATH);
   return client;
 }
 
@@ -168,7 +199,6 @@ async function countMessages(auth) {
   messages.forEach((message) => {
     
     count ++ 
-    console.log('Current Message count is ' +count);
   });
   return count
 }
@@ -201,4 +231,3 @@ async function extractSixDigitNumber (input) {
 };
 
 module.exports = {returnSecurityCode, returnCurrentCount};
-
