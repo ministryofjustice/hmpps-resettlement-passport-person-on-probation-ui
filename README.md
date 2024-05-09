@@ -23,11 +23,11 @@ GOVUK_ONE_LOGIN_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----
 ```
 
 You can grab these values from the namespace like so
-`kubectl -n hmpps-resettlement-passport-<env> get secrets govuk-one-login -o json | jq '.data | map_values(@base64d)'`
+`kubectl -n hmpps-resettlement-passport-prod get secrets govuk-one-login -o json | jq '.data | map_values(@base64d)'`
 
 If the credentials above are lost, you can re-enroll the service here https://admin.sign-in.service.gov.uk
 Recreate the secret in the k8s namespace:
-`kubectl -n hmpps-resettlement-passport-<env> create secret generic govuk-one-login --from-file=GOVUK_ONE_LOGIN_CLIENT_ID=client-id.txt --from-file=GOVUK_ONE_LOGIN_PRIVATE_KEY=private_key.pem --from-file=GOVUK_ONE_LOGIN_PUBLIC_KEY=public_key.pem`
+`kubectl -n hmpps-resettlement-passport-prod create secret generic govuk-one-login --from-file=GOVUK_ONE_LOGIN_CLIENT_ID=client-id.txt --from-file=GOVUK_ONE_LOGIN_PRIVATE_KEY=private_key.pem --from-file=GOVUK_ONE_LOGIN_PUBLIC_KEY=public_key.pem`
 
 ### ZenDesk credentials
 ```

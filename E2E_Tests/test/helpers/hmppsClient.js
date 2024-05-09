@@ -1,4 +1,5 @@
-import superagent from 'superagent'
+// @ts-nocheck
+const superagent = require('superagent')
   
 const getHmppsAuthToken = async (apiClientId, apiClientSecret) => {
     const basicAuth = Buffer.from(`${apiClientId}:${apiClientSecret}`).toString('base64')
