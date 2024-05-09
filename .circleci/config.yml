@@ -70,6 +70,7 @@ jobs:
           path: test_results/unit-test-reports.html
 
   e2e_test:
+    circleci_ip_ranges: true
     executor:
       name: hmpps/node_redis
       node_tag: << pipeline.parameters.node-version >>
@@ -230,9 +231,7 @@ workflows:
       - integration_test:
           requires:
             - build
-      - e2e_test:
-          requires:
-            - build
+      - e2e_test
       - browser_smoke_test:
           filters:
             branches:
