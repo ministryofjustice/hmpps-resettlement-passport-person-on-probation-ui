@@ -38,7 +38,7 @@
 	"otp-input-year": "Year",
 	"otp-btn": "Continue",
 	"otp-summary-text": "Problems with the code?",
-	"otp-summary-body": "Call 000000 or contact your probation officer to get a new code.",
+	"otp-summary-body": "Contact your probation officer to get a new code.",
 	"otp-error-date-1": "Enter a date of birth in the correct format",
 	"otp-error-date-2": "The date of birth must be in the past",
 	"otp-error-otp-1": "Enter a First-time ID code in the correct format",
