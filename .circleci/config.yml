@@ -91,6 +91,8 @@ jobs:
             export GMAIL_CLIENT_ID=${E2E_GMAIL_CLIENT_ID}
             export GMAIL_CLIENT_SECRET=${E2E_GMAIL_CLIENT_SECRET}
             export GMAIL_PROJECT_ID=${E2E_GMAIL_PROJECT_ID}
+            export CLIENT_ID=${API_CLIENT_ID}
+            export CLIENT_SECRET=${API_CLIENT_SECRET}
             npm run end-to-end-test
       - store_test_results:
           path: test_results

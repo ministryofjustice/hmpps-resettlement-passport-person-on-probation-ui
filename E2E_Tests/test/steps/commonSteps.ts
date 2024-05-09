@@ -18,6 +18,7 @@ import NavigationPage from '../../pageObjects/navigationPage'
 import SettingsPage from '../../pageObjects/settingsPage'
 import GovOneChangedOTP from '../../pageObjects/govOne/govOneChangedOTP'
 import GovOneSecurityDetails from '../../pageObjects/govOne/govOneYourDetailsSecuityPage'
+import { getFirstTimeIdCode } from '../helpers/hmppsClient'
 
 setDefaultTimeout(20000)
 let page: Page;
@@ -100,7 +101,8 @@ Then('the user completes the account setup with first-time ID code', async funct
   completeAccountPage = new CompleteAccountPage(pageFixture.page);
   dashboardPage = new DashboardPage(pageFixture.page);
   await completeAccountPage.shouldFindTitle();
-  await completeAccountPage.submitFirstTimeIdCode('3pkGVi');
+  const firstTimeIdCode = await getFirstTimeIdCode('A8731DY');
+  await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
   await completeAccountPage.submitDay('24');
   await completeAccountPage.submitMonth('10');
   await completeAccountPage.submitYear('1982');
