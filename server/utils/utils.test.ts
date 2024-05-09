@@ -61,37 +61,49 @@ describe('formatTime', () => {
   })
 
   it.each([
-    ['14:00:00', '02:50 PM'],
-    ['14:01', '02:51 PM'],
-    ['12:00:00', '12:50 PM'],
-    ['09:01:00', '09:51 AM'],
-    ['13:50:23', '02:40 PM'],
-    [null, null],
-    ['', null],
-  ])('it should add 50 minutes to formatTime(%s)', (input: string, expected: string) => {
-    expect(formatTime(input, 50)).toEqual(expected)
+    ['14:00:00', null, '02:50 PM'],
+    ['14:01', null, '02:51 PM'],
+    ['12:00:00', null, '12:50 PM'],
+    ['09:01:00', null, '09:51 AM'],
+    ['13:50:23', null, '02:40 PM'],
+    ['09:01:00', 'en', '09:51 AM'],
+    ['13:50:23', 'en', '02:40 PM'],
+    ['09:01:00', 'cy', '09:51 yb'],
+    ['13:50:23', 'cy', '02:40 yh'],
+    [null, null, null],
+    ['', null, null],
+  ])('it should add 50 minutes to formatTime(%s, %s)', (input: string, lang: string, expected: string) => {
+    expect(formatTime(input, 50, lang)).toEqual(expected)
   })
 })
 
 describe('formatDate', () => {
   it.each([
-    ['2023-09-02', '2 September 2023'],
-    ['2023-1-1', '1 January 2023'],
-    [null, null],
-    ['', null],
-  ])('formatDate(%s)', (input: string, expected: string) => {
-    expect(formatDate(input)).toEqual(expected)
+    ['2023-09-02', null, '2 September 2023'],
+    ['2023-1-1', null, '1 January 2023'],
+    ['2023-09-02', 'en', '2 September 2023'],
+    ['2023-1-1', 'en', '1 January 2023'],
+    ['2023-09-02', 'cy', '2 Medi 2023'],
+    ['2023-1-1', 'cy', '1 Ionawr 2023'],
+    [null, null, null],
+    ['', null, null],
+  ])('formatDate(%s, %s)', (input: string, lang: string, expected: string) => {
+    expect(formatDate(input, lang)).toEqual(expected)
   })
 })
 
 describe('formatLicenceDate', () => {
   it.each([
-    ['20/08/2023', '20 August 2023'],
-    ['12/07/2023', '12 July 2023'],
-    [null, null],
-    ['', null],
-  ])('formatLicenceDate(%s)', (input: string, expected: string) => {
-    expect(formatLicenceDate(input)).toEqual(expected)
+    ['20/08/2023', null, '20 August 2023'],
+    ['12/07/2023', null, '12 July 2023'],
+    ['20/08/2023', 'en', '20 August 2023'],
+    ['12/07/2023', 'en', '12 July 2023'],
+    ['20/08/2023', 'cy', '20 Awst 2023'],
+    ['12/07/2023', 'cy', '12 Gorffennaf 2023'],
+    [null, null, null],
+    ['', null, null],
+  ])('formatLicenceDate(%s, %s)', (input: string, lang: string, expected: string) => {
+    expect(formatLicenceDate(input, lang)).toEqual(expected)
   })
 })
 
