@@ -21,28 +21,28 @@
                   </p>
                   <p class="govuk-body-s">
                     <a href="{{ appointment.location | mapsLinkFromAppointmentLocation }}" target="_blank" data-qa="{{loopIndex}}-appointment-map-link">
-                    View on Google maps</a>
+                    {{ t('appointment-view-maps') }}</a>
                   </p>
                 {% else %}
-                  <p class="govuk-body-s" data-qa="{{loopIndex}}-appointment-no-location">We cannot show the address for this appointment. Contact your probation officer for the details.</p>
+                  <p class="govuk-body-s" data-qa="{{loopIndex}}-appointment-no-location">{{ t('appointment-no-address') }}</p>
                 {% endif %}
 
-                <p class="govuk-body-s" data-qa="{{loopIndex}}-appointment-contact">Contact: {{appointment.contact}}
+                <p class="govuk-body-s" data-qa="{{loopIndex}}-appointment-contact">{{ t('appointment-contact') }} {{appointment.contact}}
                 {% if appointment.contactEmail %}
-                (email: {{appointment.contactEmail}})
+                ({{ t('appointment-email') }} {{appointment.contactEmail}})
                 {% endif %}</p>
                 {% if showNotes == true %}
-                  <h4 class="govuk-heading-s govuk-!-padding-top-2" data-qa="{{loopIndex}}-appointment-notes">Notes</h4>
+                  <h4 class="govuk-heading-s govuk-!-padding-top-2" data-qa="{{loopIndex}}-appointment-notes">{{ t('appointment-notes') }}</h4>
                   <p class="govuk-body-s">
                   {% if appointment.note | formatAppointmentNote %}
                     {{appointment.note}}
                   {% else %}
-                  No notes available
+                  {{ t('appointment-no-notes') }}
                   {% endif %}
                   </p>
                 {% endif %}
                 {% if showDetails == true %}
-                  <a href="/appointments/{{appointment.id}}" data-qa="{{loopIndex}}-appointment-details-link">View details</a>
+                  <a href="/appointments/{{appointment.id}}{{appendLang(lang)}}" data-qa="{{loopIndex}}-appointment-details-link">{{ t('appointment-details') }}</a>
                 {% endif %}
               </div>
             </section>

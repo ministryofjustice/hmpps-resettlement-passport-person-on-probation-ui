@@ -23,7 +23,7 @@
         <div id="appointments-tile" class="card">
           <div class="card-body active govuk-!-padding-bottom-6">
             <h2 class="govuk-heading-m card-heading govuk-!-padding-bottom-2">
-              <a href="/appointments?{{queryParams|urlencode}}" data-qa="appointments-tile-title">{{ t('appointments-h1') }} </a>
+              <a href="/appointments{{appendLanguage(queryParams)}}" data-qa="appointments-tile-title">{{ t('appointments-h1') }} </a>
             </h2>
 
             {% if nextAppointment %}
@@ -65,7 +65,7 @@
         <div class="card" id="licence-conditions-tile">
           <div id="licence-conditions-tile-body" class="card-body active govuk-!-padding-bottom-6">
             <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
-              <a class="govuk-link card-link" href="/licence-conditions?{{queryParams|urlencode}}" data-qa="licence-conditions-tile-title">  {{ t('licence-conditions-h1') }}</a>
+              <a class="govuk-link card-link" href="/licence-conditions{{appendLanguage(queryParams)}}" data-qa="licence-conditions-tile-title">  {{ t('licence-conditions-h1') }}</a>
             </h2>
             {% if licenceExpiryDate %}
               <p class="govuk-body">{{ t('dashboard-licence-conditions-p1') }}</p>
@@ -82,7 +82,7 @@
         <div class="card" id="profile-tile">
             <div class="card-body active">
                 <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
-                    <a class="govuk-link card-link" href="/profile?{{queryParams|urlencode}}" data-qa="profile-tile-title">
+                    <a class="govuk-link card-link" href="/profile{{appendLanguage(queryParams)}}" data-qa="profile-tile-title">
                         {{ t('profile-h1') }}
                     </a>
                 </h2>

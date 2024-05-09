@@ -84,6 +84,13 @@
     "appointment-details-next-link-text": "Next",
     "appointment-details-empty-text": "Nothing to display.",
     "appointment-details-go-back-link-text": "Go back to appointments list",
+    "appointment-view-maps": "View on Google maps",
+    "appointment-no-address": "We cannot show the address for this appointment. Contact your probation officer for the details.",
+    "appointment-contact": "Contact:",
+    "appointment-notes": "Notes",
+    "appointment-email": "email:",
+    "appointment-no-notes": "No notes available",
+    "appointment-details": "View details",
 	"appointments-page-title": "Appointments",
     "appointments-h1": "Appointments",
     "appointments-warning-text": "Tell your offender manager if you have a problem attending any appointment as soon as you can.",
@@ -177,6 +184,12 @@
     "licence-conditions-restrictions": "Your geographical restrictions",
     "not-found-h1": "Page not found",
     "not-found-p1": "If you typed the web address, check it is correct.",
-    "not-found-p2": "If you pasted the web address, check you copied the entire address."
+    "not-found-p2": "If you pasted the web address, check you copied the entire address.",
+    "settings-h1": "Settings",
+    "settings-h2": "Your sign in details",
+    "settings-p1": "You can change the details you use to sign in to the Plan your future service at",
+    "settings-p1-btn": "GOV.UK One Login",
+    "settings-p2": "Any changes will not be shown on the profile page of Plan your future.",
+    "settings-p3": "If you need to update the contact details shown in your profile, your Probation Officer can do this for you. It is important you keep your profile details up-to-date."
 
 }

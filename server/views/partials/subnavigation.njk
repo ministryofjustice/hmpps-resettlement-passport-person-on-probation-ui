@@ -4,32 +4,32 @@
     label: t('subnav-label'),
     items: [{
       text: t('subnav-home'),
-      href: '/dashboard?' + queryParams | urlencode,
+      href: '/dashboard' + appendLanguage(queryParams),
       active: activePage == 'dashboard',
       attributes: {'data-qa': 'home-nav-link'}
     }, {
       text: t('subnav-appointments'),
-      href: '/appointments?' + queryParams | urlencode,
+      href: '/appointments' + appendLanguage(queryParams),
       active: activePage == 'appointments',
       attributes: {'data-qa': 'appointments-nav-link'}
     }, {
       text: t('subnav-licence-conditions'),
-      href: '/licence-conditions?' + queryParams | urlencode,
+      href: '/licence-conditions' + appendLanguage(queryParams),
       active: activePage == 'licence-conditions',
       attributes: {'data-qa': 'licence-conditions-nav-link'}
     }, {
       text: t('subnav-profile'),
-      href: '/profile?' + queryParams | urlencode,
+      href: '/profile' + appendLanguage(queryParams),
       active: activePage == 'profile',
       attributes: {'data-qa': 'profile-nav-link'}
     }, {
       text: t('subnav-settings'),
-      href: '/settings?' + queryParams | urlencode,
+      href: '/settings' + appendLanguage(queryParams),
       active: activePage == 'settings',
       attributes: {'data-qa': 'settings-nav-link'}
     }, {
       text: t('subnav-signout'),
-      href: '/sign-out?' + queryParams | urlencode,
+      href: '/sign-out' + appendLanguage(queryParams),
       attributes: {'data-qa': "signOut"}
     }]
   }) }}

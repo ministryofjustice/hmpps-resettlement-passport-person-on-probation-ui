@@ -27,12 +27,25 @@ export const initialiseName = (fullName?: string): string | null => {
   return `${array[0][0]}. ${array.reverse()[0]}`
 }
 
-const getLocaleForLang = (lang: string): Locale  => {
+const getLocaleForLang = (lang: string): Locale => {
   if (lang === 'cy') {
     return cy
   }
   return enGB
 }
+
+export const appendLang = (lang?: string): string => {
+  if (lang) {
+    return encodeURI(`?lang=${lang}`)
+  }
+  return ''
+}
+
+export const appendLanguage = (
+  queryParams: Partial<{
+    lang?: string
+  }>,
+): string => appendLang(queryParams?.lang)
 
 export const formatLicenceDate = (dateString: string, lang?: string): string => {
   if (!dateString || dateString?.length < 1) return null

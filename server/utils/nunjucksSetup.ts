@@ -13,6 +13,7 @@ import {
   pluraliseAppointments,
   formatLicenceDate,
   orElse,
+  appendLanguage,
 } from './utils'
 import { ApplicationInfo } from '../applicationInfo'
 
@@ -66,6 +67,7 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   njkEnv.addFilter('mapsLinkFromAppointmentLocation', mapsLinkFromAppointmentLocation)
   njkEnv.addFilter('pluraliseAppointments', pluraliseAppointments)
   njkEnv.addFilter('orElse', orElse)
+  njkEnv.addGlobal('appendLanguage', appendLanguage)
   // eslint-disable-next-line no-underscore-dangle
   njkEnv.addGlobal('t', i18n.__)
   // eslint-disable-next-line no-underscore-dangle
