@@ -10,7 +10,7 @@
     <div class="govuk-grid-column-full">
       {{ alertBox.render(tomorrowAppointments, todayAppointments) }}
       <p class="hmrc-caption govuk-caption-xl">
-        <span class="govuk-visually-hidden">{{ t('dashboard-hidden-content') }} </span><span data-qa="pyf-dashboard-title">{{applicationName}}</span></p>
+        <span class="govuk-visually-hidden">This section is </span><span data-qa="pyf-dashboard-title">{{applicationName}}</span></p>
 
       <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="pyf-dashboard-fullname">
         {{personalData.personalDetails.firstName}}
@@ -18,16 +18,16 @@
     </div>
 
     <!-- appointment tile -->
-      <div class="govuk-grid-column-one-third">
+      <div class="govuk-grid-column-one-third-from-desktop">
 
         <div id="appointments-tile" class="card">
           <div class="card-body active govuk-!-padding-bottom-6">
             <h2 class="govuk-heading-m card-heading govuk-!-padding-bottom-2">
-              <a href="/appointments{{appendLanguage(queryParams)}}" data-qa="appointments-tile-title">{{ t('appointments-h1') }} </a>
+              <a href="/appointments" data-qa="appointments-tile-title">Appointments</a>
             </h2>
 
             {% if nextAppointment %}
-            <p class="govuk-body-s" id="next-appointment-heading">{{ t('dashboard-next-appointment') }}</p>
+            <p class="govuk-body-s" id="next-appointment-heading">Next appointment:</p>
 
             <p class="govuk-body-s govuk-!-margin-0">
               <b>{{nextAppointment.date | formatDate(queryParams.lang) }}</b>
@@ -43,15 +43,15 @@
               {% if nextAppointment.location | formatAppointmentLocation %}
                 {{ nextAppointment.location | formatAppointmentLocation }}
               {% else %}
-                {{ t('appointments-no-location-text') }}
+                We cannot show the address for this appointment. Contact your probation officer for the details.
               {% endif %}
             </span>
             {% else %}
               <div data-qa="appointment-tile-no-content" class="govuk-heading-s govuk-!-margin-0">
                 <p>
-                  {{ t('dashboard-no-future-appointment') }}
+                  There's no future appointments to show you.
                 </p>
-                <p>{{ t('dashboard-check-appointment') }}
+                <p>Please check with your probation officer to make sure this is correct.
                 </p>
               </div>
             {% endif %}
@@ -61,32 +61,32 @@
       </div>
 
     <!-- licence condition tile -->
-      <div class="govuk-grid-column-one-third">
+      <div class="govuk-grid-column-one-third-from-desktop">
         <div class="card" id="licence-conditions-tile">
           <div id="licence-conditions-tile-body" class="card-body active govuk-!-padding-bottom-6">
             <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
-              <a class="govuk-link card-link" href="/licence-conditions{{appendLanguage(queryParams)}}" data-qa="licence-conditions-tile-title">  {{ t('licence-conditions-h1') }}</a>
+              <a class="govuk-link card-link" href="/licence-conditions{{appendLanguage(queryParams)}}" data-qa="licence-conditions-tile-title">Licence conditions</a>
             </h2>
             {% if licenceExpiryDate %}
-              <p class="govuk-body">{{ t('dashboard-licence-conditions-p1') }}</p>
-              <p>{{ t('dashboard-licence-conditions-p2') }} {{licenceExpiryDate | formatLicenceDate(queryParams.lang) }}.</p>
+              <p class="govuk-body">Understand the rules and conditions you need to follow.</p>
+              <p>Your licence conditions expire on {{licenceExpiryDate | formatLicenceDate(queryParams.lang) }}.</p>
             {% else %}
-              <p class="govuk-body">{{ t('dashboard-licence-conditions-not-available') }}</p>
+              <p class="govuk-body">We cannot show your licence conditions. Ask your probation officer for details.</p>
             {% endif %}
           </div>
         </div>
       </div>
 
     <!-- profile tile -->
-    <div class="govuk-grid-column-one-third">
+    <div class="govuk-grid-column-one-third-from-desktop">
         <div class="card" id="profile-tile">
             <div class="card-body active">
                 <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
                     <a class="govuk-link card-link" href="/profile{{appendLanguage(queryParams)}}" data-qa="profile-tile-title">
-                        {{ t('profile-h1') }}
+                        Profile
                     </a>
                 </h2>
-                <p class="govuk-body">{{ t('dashboard-profile-p1') }}</p>
+                <p class="govuk-body">Keep your personal information up to date.</p>
                 <br>
             </div>
         </div>

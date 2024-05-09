@@ -1,35 +1,35 @@
  {%- from "moj/components/sub-navigation/macro.njk" import mojSubNavigation -%}
  
   {{ mojSubNavigation({
-    label: t('subnav-label'),
+    label: 'Sub navigation',
     items: [{
-      text: t('subnav-home'),
-      href: '/dashboard' + appendLanguage(queryParams),
+      text: 'Home',
+      href: '/dashboard',
       active: activePage == 'dashboard',
       attributes: {'data-qa': 'home-nav-link'}
     }, {
-      text: t('subnav-appointments'),
-      href: '/appointments' + appendLanguage(queryParams),
+      text: 'Appointments',
+      href: '/appointments',
       active: activePage == 'appointments',
       attributes: {'data-qa': 'appointments-nav-link'}
     }, {
-      text: t('subnav-licence-conditions'),
-      href: '/licence-conditions' + appendLanguage(queryParams),
+      text: 'Licence conditions',
+      href: '/licence-conditions',
       active: activePage == 'licence-conditions',
       attributes: {'data-qa': 'licence-conditions-nav-link'}
     }, {
-      text: t('subnav-profile'),
-      href: '/profile' + appendLanguage(queryParams),
+      text: 'Profile',
+      href: '/profile',
       active: activePage == 'profile',
       attributes: {'data-qa': 'profile-nav-link'}
     }, {
-      text: t('subnav-settings'),
-      href: '/settings' + appendLanguage(queryParams),
+      text: 'Settings',
+      href: '/settings',
       active: activePage == 'settings',
       attributes: {'data-qa': 'settings-nav-link'}
     }, {
-      text: t('subnav-signout'),
-      href: '/sign-out' + appendLanguage(queryParams),
+      text: 'Sign out',
+      href: '/sign-out',
       attributes: {'data-qa': "signOut"}
     }]
   }) }}

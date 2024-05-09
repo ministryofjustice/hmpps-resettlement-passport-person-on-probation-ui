@@ -8,14 +8,14 @@
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
+            <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="licence-conditions-page-title">Licence conditions</h1>
             {{ govukWarningText({
-                text: t('licence-conditions-warning'),
+                text: "Licence conditions are the rules you must follow so you do not get recalled to prison.",
                 iconFallbackText: "Warning"
                 }) }}
-            <p>{{ t('licence-conditions-p1') }}</p>
-            <p>{{ t('licence-conditions-p2') }}</p>
-            <p>{{ t('licence-conditions-p3') }}</p>
+            <p>These are the licence conditions we are able to show you.</p>
+            <p>You may have other licence conditions in addition to the ones shown. You should check with your probation officer.</p>
+            <p>Your probation officer can explain anything you do not understand.</p>
         </div>
     </div>
 
@@ -23,8 +23,8 @@
 
         <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-8">
             {% if licence %}
-                <h2 id="licence-dates" class="govuk-heading-m" data-qa="licence-conditions-dates">{{ t('licence-conditions-expiry') }} {{licence.expiryDate | formatLicenceDate(queryParams.lang) }}</h2>
-                <p>{{ t('licence-conditions-must') }}</p>
+                <h2 id="licence-dates" class="govuk-heading-m" data-qa="licence-conditions-dates">Licence expires on: {{licence.expiryDate | formatLicenceDate(queryParams.lang) }}</h2>
+                <p>You must:</p>
                 <ul class="govuk-list govuk-list--spaced test">
                     {% for x in licence.standardLicenceConditions %}
                         <li>
@@ -46,7 +46,7 @@
                                 {% if y.image %}
                                     <div class="govuk-grid-column-full govuk-!-margin-top-2">
                                         <p>
-                                            <a id="condition-image-{{y.id}}-link" data-qa="{{loop.index + licence.standardLicenceConditions.length }}-licence-conditions-link" href="/licence-conditions/{{licence.licenceId}}/condition/{{y.id}}{{appendLanguage(queryParams)}}">{{ t('licence-conditions-details') }}</a>
+                                            <a id="condition-image-{{y.id}}-link" data-qa="{{loop.index + licence.standardLicenceConditions.length }}-licence-conditions-link" href="/licence-conditions/{{licence.licenceId}}/condition/{{y.id}}{{appendLanguage(queryParams)}}">View details</a>
                                         </p>
                                     </div>
                                 {% endif %}
@@ -55,9 +55,9 @@
                         </li>
                     {% endfor %}
                 </ul>
-                <p>{{ t('licence-conditions-p4') }}</p>
+                <p>The Supervising Officer is the Community Offender Manager.</p>
             {% else %}
-                <p data-qa="licence-conditions-not-found-msg">{{ t('licence-conditions-not-found') }}</p>
+                <p data-qa="licence-conditions-not-found-msg">We cannot show your licence conditions. Ask your probation officer for details.</p>
             {% endif %}
         </div>
     </div>

@@ -1,8 +1,8 @@
   {%- from "moj/components/sub-navigation/macro.njk" import mojSubNavigation -%}
   {{ mojSubNavigation({
-    label: t('subnav-label'),
+    label: 'Sub navigation',
     items: [{
-      text: t('subnav-signout'),
+      text: 'Sign out',
       href: '/sign-out',
       attributes: {'data-qa': "signOut"}
     }]

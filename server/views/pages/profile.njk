@@ -8,9 +8,9 @@
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl" data-qa="profile-page-title">{{ t('profile-h1') }}</h1>
-      <p>{{ t('profile-p1') }}</p>
-      <p>{{ t('profile-p2') }}</p>
+      <h1 class="govuk-heading-xl" data-qa="profile-page-title">Profile</h1>
+      <p>This is the contact information we hold for you.</p>
+      <p>It is important you keep this information up-to-date. Your probation officer can update these details if anything changes.</p>
     </div>
   </div>
 
@@ -20,7 +20,7 @@
         rows: [
           {
             key: {
-              text: t('profile-name')
+              text: "Name"
             },
             value: {
               text: fullName,
@@ -29,19 +29,19 @@
           },
           {
             key: {
-              text: t('profile-email')
+              text: "Email address"
             },
             value: {
-              html: email | orElse(t('profile-not-available')),
+              html: email | orElse('Not available'),
               classes: "profile-email"
             }
           },
           {
             key: {
-              text: t('profile-mobile')
+              text: "Mobile"
             },
             value: {
-              html: mobile | orElse(t('profile-not-available')),
+              html: mobile | orElse('Not available'),
               classes: "profile-mobile"
             }
           }
