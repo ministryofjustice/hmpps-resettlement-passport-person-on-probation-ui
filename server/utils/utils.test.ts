@@ -14,6 +14,8 @@ import {
   getDobDateString,
   isValidOtp,
   isValidEmail,
+  appendLang,
+  appendLanguage,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -55,7 +57,7 @@ describe('formatTime', () => {
     [null, null],
     ['', null],
   ])('formatTime(%s)', (input: string, expected: string) => {
-    expect(formatTime(input)).toEqual(expected)
+    expect(formatTime(input, 0)).toEqual(expected)
   })
 
   it.each([
@@ -277,5 +279,27 @@ describe('isValidEmail', () => {
     ['Name.DOUBLE-BARREL@SOMETHING.GOV.UK', true],
   ])('%s isValidEmail(%s, %s)', (input: string, expected: boolean) => {
     expect(isValidEmail(input)).toBe(expected)
+  })
+})
+
+describe('appendLang', () => {
+  it.each([
+    [null, ''],
+    [undefined, ''],
+    ['', ''],
+    ['a', '?lang=a'],
+  ])('%s appendLang(%s, %s)', (lang: string, expected: string) => {
+    expect(appendLang(lang)).toBe(expected)
+  })
+})
+
+describe('appendLanguage', () => {
+  it.each([
+    [{ lang: null }, ''],
+    [{ lang: undefined }, ''],
+    [{ lang: '' }, ''],
+    [{ lang: 'a' }, '?lang=a'],
+  ])('%s appendLanguage(%s, %s)', (queryParams: object, expected: string) => {
+    expect(appendLanguage(queryParams)).toBe(expected)
   })
 })

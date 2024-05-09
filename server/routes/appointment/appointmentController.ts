@@ -13,7 +13,7 @@ export default class AppointmentController {
 
   index: RequestHandler = async (req, res, next) => {
     try {
-      const queryParams = req.query;
+      const queryParams = req.query
       const sessionId = req.sessionID
       const verificationData = await requireUser(req.user?.sub, this.userService, sessionId)
       if (typeof verificationData === 'string') {
@@ -27,7 +27,12 @@ export default class AppointmentController {
         .filter(x => !isFutureDate(x.date))
         .sort((x, y) => compareAsc(x?.dateTime, y?.dateTime))
         .reverse()
-      return res.render('pages/appointments', { user: req.user, appointments: nextAppointments, oldAppointments, queryParams })
+      return res.render('pages/appointments', {
+        user: req.user,
+        appointments: nextAppointments,
+        oldAppointments,
+        queryParams,
+      })
     } catch (err) {
       return next(err)
     }
@@ -35,7 +40,7 @@ export default class AppointmentController {
 
   show: RequestHandler = async (req, res, next) => {
     try {
-      const queryParams = req.query;
+      const queryParams = req.query
       const sessionId = req.sessionID
       const verificationData = await requireUser(req.user?.sub, this.userService, sessionId)
       if (typeof verificationData === 'string') {

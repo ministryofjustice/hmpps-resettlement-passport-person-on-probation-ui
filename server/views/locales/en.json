@@ -190,6 +190,7 @@
     "settings-p1": "You can change the details you use to sign in to the Plan your future service at",
     "settings-p1-btn": "GOV.UK One Login",
     "settings-p2": "Any changes will not be shown on the profile page of Plan your future.",
-    "settings-p3": "If you need to update the contact details shown in your profile, your Probation Officer can do this for you. It is important you keep your profile details up-to-date."
-
+    "settings-p3": "If you need to update the contact details shown in your profile, your Probation Officer can do this for you. It is important you keep your profile details up-to-date.",
+    "authorisation-error-h1": "Authorisation Error",
+    "authorisation-error-p": "You are not authorised to use this application."
 }

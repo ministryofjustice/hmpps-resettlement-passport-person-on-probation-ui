@@ -89,7 +89,7 @@ export function isValidEmail(email?: string): boolean {
   return regex.test(email)
 }
 
-export function formatTime(inputTime: string, duration: number = 0, lang?: string): string {
+export function formatTime(inputTime: string, duration: number, lang?: string): string {
   if (!inputTime || inputTime?.length < 1) return null
   const [hours, minutes, seconds] = inputTime.split(':').map(Number)
 

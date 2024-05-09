@@ -7,7 +7,7 @@ export default class HomeController {
   constructor(private readonly userService: UserService) {}
 
   index: RequestHandler = async (req, res) => {
-    const queryParams = req.query;
+    const queryParams = req.query
     if (!req.isAuthenticated()) {
       return res.redirect('/sign-in')
     }
@@ -15,7 +15,7 @@ export default class HomeController {
   }
 
   create: RequestHandler = async (req, res, next) => {
-    const queryParams = req.query;
+    const queryParams = req.query
     if (!req.isAuthenticated()) {
       return res.redirect('/sign-in')
     }
@@ -69,7 +69,7 @@ export default class HomeController {
         errors,
         otpError,
         dobError,
-        queryParams
+        queryParams,
       })
     } catch (err) {
       return next(err)

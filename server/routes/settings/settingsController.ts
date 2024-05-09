@@ -8,7 +8,7 @@ export default class SettingsController {
 
   index: RequestHandler = async (req, res, next) => {
     try {
-      const queryParams = req.query;
+      const queryParams = req.query
       const verificationData = await requireUser(req.user.sub, this.userService, req.sessionID)
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)

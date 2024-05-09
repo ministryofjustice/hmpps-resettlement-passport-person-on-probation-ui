@@ -11,7 +11,7 @@ export default class LicenceConditionsController {
 
   index: RequestHandler = async (req, res, next) => {
     try {
-      const queryParams = req.query;
+      const queryParams = req.query
       const sessionId = req.sessionID
       const verificationData = await requireUser(req.user?.sub, this.userService, sessionId)
       if (typeof verificationData === 'string') {
@@ -31,7 +31,7 @@ export default class LicenceConditionsController {
 
   view: RequestHandler = async (req, res, next) => {
     try {
-      const queryParams = req.query;
+      const queryParams = req.query
       const sessionId = req.sessionID
       const verificationData = await requireUser(req.user?.sub, this.userService, sessionId)
       if (typeof verificationData === 'string') {
