@@ -85,15 +85,13 @@ jobs:
       - run:
           name: Run cucumber tests
           command: |
+            export BASEURL=${DEV_BASEURL}
+            export USEREMAIL=${E2E_USEREMAIL}
+            export USERPASSWORD=${E2E_USERPASSWORD}
+            export GMAIL_CLIENT_ID=${E2E_GMAIL_CLIENT_ID}
+            export GMAIL_CLIENT_SECRET=${E2E_GMAIL_CLIENT_SECRET}
+            export GMAIL_PROJECT_ID=${E2E_GMAIL_PROJECT_ID}
             npm run end-to-end-test
-          environment:
-            BASEURL: ${DEV_BASEURL}
-            USEREMAIL: ${E2E_USEREMAIL}
-            USERPASSWORD: ${E2E_USERPASSWORD}
-            GMAIL_CLIENT_ID: ${E2E_GMAIL_CLIENT_ID}
-            GMAIL_CLIENT_SECRET: ${E2E_GMAIL_CLIENT_SECRET}
-            GMAIL_PROJECT_ID: ${E2E_GMAIL_PROJECT_ID}
-
       - store_test_results:
           path: test_results
 
