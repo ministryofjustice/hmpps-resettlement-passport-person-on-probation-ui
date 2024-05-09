@@ -138,3 +138,4 @@ token
 # cucumber test results
 test-results
 e2e
+credentials.json
