@@ -6,9 +6,7 @@ const getHmppsAuthToken = async (request, apiClientId: string, apiClientSecret: 
         const response = await request.post(`${url}/oauth/token?grant_type=client_credentials`)
             .setHeader('Content-Type', 'application/json')
             .setHeader('Authorization', `Basic ${basicAuth}`);
-            const responseBody = JSON.parse(await response.text())
-
-        return responseBody;
+            return response.json();
     } catch (error) {
         console.error('Error while fetching hmpps auth token:', error);
         throw error;
@@ -21,9 +19,7 @@ const getOtpForNomisId = async (request, nomisId: string, token: string) => {
         const response = await request.get(url)
             .setHeader('Content-Type', 'application/json')
             .setHeader('Authorization', `Bearer ${token}`);
-            const responseBody = JSON.parse(await response.text())
-
-        return responseBody;
+        return response.json();
     } catch (error) {
         console.error('Error while fetching otp from PSFR API:', error);
         throw error;
