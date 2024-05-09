@@ -36,13 +36,13 @@ export default class AppointmentService {
     return x
   }
 
-  async getOneByIdAndNomsId(id: string, nomsId: string): Promise<Appointment> {
-    const appointments = await this.getAllByNomsId(nomsId)
+  async getOneByIdAndNomsId(id: string, nomsId: string, sessionId: string): Promise<Appointment> {
+    const appointments = await this.getAllByNomsId(nomsId, sessionId)
     const appointment = appointments.results.find(x => x.id === id)
     return Promise.resolve(appointment)
   }
 
-  async getAllByNomsId(nomsId: string): Promise<AppointmentData> {
+  async getAllByNomsId(nomsId: string, sessionId: string): Promise<AppointmentData> {
     logger.info(`Get all appointments by nomsId`)
     const key = `${nomsId}-appointment-data`
 
@@ -57,7 +57,7 @@ export default class AppointmentService {
       }
     }
     logger.info('Fetching appointments from Api')
-    const fetchedAppointments = await this.resettlementPassportClient.getAppointments(nomsId)
+    const fetchedAppointments = await this.resettlementPassportClient.getAppointments(nomsId, sessionId)
 
     // add a unique id
     const dataToCache = {

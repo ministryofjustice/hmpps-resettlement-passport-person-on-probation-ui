@@ -44,9 +44,15 @@ export default class HomeController {
           href: '#otp',
         })
       } else {
-        const isAccepted = await this.userService.checkOtp(req.user.email, otp, dobDateString, req.user.sub)
+        const isAccepted = await this.userService.checkOtp(
+          req.user.email,
+          otp,
+          dobDateString,
+          req.user.sub,
+          req.sessionID,
+        )
         if (isAccepted) {
-          return res.redirect('/dashboard', queryParams)
+          return res.redirect('/dashboard')
         }
 
         errors.push({

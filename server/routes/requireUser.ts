@@ -4,6 +4,7 @@ import { UserDetailsResponse } from '../data/personOnProbationApiClient'
 export default async function requireUser(
   urn: string,
   userService: UserService,
+  sessionId: string,
 ): Promise<UserDetailsResponse | string> {
   if (!urn) {
     return '/sign-in'
@@ -12,7 +13,7 @@ export default async function requireUser(
   if (!authenticationData) {
     return '/sign-out'
   }
-  const verificationData = await userService.isVerified(urn)
+  const verificationData = await userService.isVerified(urn, sessionId)
   if (!verificationData?.verified === true) {
     return '/otp'
   }

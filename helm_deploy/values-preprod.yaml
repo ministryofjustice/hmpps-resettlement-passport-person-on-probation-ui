@@ -5,12 +5,13 @@ generic-service:
   replicaCount: 2
 
   ingress:
-    enabled: true
-    namespace: hmpps-resettlement-passport-preprod
-    className: modsec
-    annotations:
-      external-dns.alpha.kubernetes.io/set-identifier: hmpps-resettlement-passport-person-on-probation-ui-preprod-green
     host: person-on-probation-user-ui-preprod.hmpps.service.justice.gov.uk
+    modsecurity_enabled: true
+    modsecurity_snippet: |
+      SecRuleEngine DetectionOnly
+      SecRuleUpdateActionById 949110 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
+      SecRuleUpdateActionById 959100 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
+      SecAction "id:900000,phase:1,nolog,pass,t:none,setvar:tx.paranoia_level=2"
 
   env:
     INGRESS_URL: "https://person-on-probation-user-ui-preprod.hmpps.service.justice.gov.uk"

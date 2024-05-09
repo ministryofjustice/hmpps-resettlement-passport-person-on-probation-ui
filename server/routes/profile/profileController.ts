@@ -8,11 +8,12 @@ export default class ProfileController {
   index: RequestHandler = async (req, res, next) => {
     try {
       const queryParams = req.query;
-      const verificationData = await requireUser(req.user?.sub, this.userService)
+      const sessionId = req.sessionID
+      const verificationData = await requireUser(req.user?.sub, this.userService, sessionId)
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)
       }
-      const profile = await this.userService.getByNomsId(verificationData.nomsId, req.user?.sub)
+      const profile = await this.userService.getByNomsId(verificationData.nomsId, req.user?.sub, sessionId)
       const fullName = [
         profile.personalDetails.firstName,
         profile.personalDetails.middleNames,
