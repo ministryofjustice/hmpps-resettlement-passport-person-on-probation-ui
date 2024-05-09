@@ -1,7 +1,7 @@
 // @ts-nocheck
-const superagent = require('superagent')
-  
-const getHmppsAuthToken = async (apiClientId, apiClientSecret) => {
+const superagent = require('superagent');
+
+const getHmppsAuthToken = async (apiClientId: string, apiClientSecret: string) => {
     const basicAuth = Buffer.from(`${apiClientId}:${apiClientSecret}`).toString('base64')
     try {
       const url = 'https://sign-in-dev.hmpps.service.justice.gov.uk/auth/oauth/token'
@@ -16,7 +16,7 @@ const getHmppsAuthToken = async (apiClientId, apiClientSecret) => {
     }
 }
 
-const getOtpForNomisId = async (nomisId, token) => {
+const getOtpForNomisId = async (nomisId: string, token: string) => {
     try {
       const url = `https://resettlement-passport-api-dev.hmpps.service.justice.gov.uk/resettlement-passport/popUser/${nomisId}/otp`
       const response = await superagent
@@ -30,10 +30,11 @@ const getOtpForNomisId = async (nomisId, token) => {
     }
 }
 
-export const getFirstTimeIdCode = async (nomisId) => {
+export const getFirstTimeIdCode = async (nomisId: string) => {
     const apiClientId = process.env.CLIENT_ID
     const apiClientSecret = process.env.CLIENT_SECRET
     const authToken = await getHmppsAuthToken(apiClientId, apiClientSecret)
+    console.log("authToken is:", authToken.access_token)
     const otpResponse = await getOtpForNomisId(nomisId, authToken.access_token)
     return otpResponse.otp
 }
