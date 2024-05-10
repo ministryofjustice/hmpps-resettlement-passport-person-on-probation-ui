@@ -2,7 +2,8 @@ import type { Request, Response, NextFunction } from 'express'
 import type { HTTPError } from 'superagent'
 import logger from '../logger'
 
-export const friendlyErrorMessage = 'error-message'
+export const friendlyErrorMessage =
+  'We cannot show these details right now. We are aware of the issue and are working to fix it. Please try again later.'
 
 export function createErrorHandler(production: boolean) {
   return (error: HTTPError, req: Request, res: Response, next: NextFunction): void => {

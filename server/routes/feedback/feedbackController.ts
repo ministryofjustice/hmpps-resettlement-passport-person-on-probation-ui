@@ -38,13 +38,13 @@ export default class FeedbackController {
       const errors: Array<Express.ValidationError> = []
       if (!score) {
         errors.push({
-          text: req.t('feedback-error-satisfaction'),
+          text: 'Select how satisfied you are with the service',
           href: '#score',
         })
       }
       if (email.length > 0 && !isValidEmail(email)) {
         errors.push({
-          text: req.t('feedback-error-email'),
+          text: 'Enter an email address in the correct format',
           href: '#email',
         })
       }

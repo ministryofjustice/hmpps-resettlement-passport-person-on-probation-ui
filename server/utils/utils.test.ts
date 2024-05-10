@@ -257,6 +257,7 @@ describe('getDobDateString', () => {
     [null, '9', '2023', null],
     [null, null, '2023', null],
     [null, null, null, null],
+    ['1', '1', 'abc', null],
   ])('getDobDateString(%s)', (day: string, month: string, year: string, expected: string) => {
     expect(getDobDateString(day, month, year)).toBe(expected)
   })
