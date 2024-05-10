@@ -29,36 +29,41 @@ export default class HomeController {
           href: '#dob',
         })
       }
-      if (!isPast(dobDate)) {
-        errors.push({
-          text: req.t('otp-error-date-2'),
-          href: '#dob',
-        })
-      }
 
-      const dobDateString = getDobDateString(dobDay, dobMonth, dobYear)
-
-      if (!isValidOtp(otp)) {
-        errors.push({
-          text: req.t('otp-error-otp-1'),
-          href: '#otp',
-        })
-      } else {
-        const isAccepted = await this.userService.checkOtp(
-          req.user.email,
-          otp,
-          dobDateString,
-          req.user.sub,
-          req.sessionID,
-        )
-        if (isAccepted) {
-          return res.redirect('/dashboard')
+      if (dobDate) {
+        if (!isPast(dobDate)) {
+          errors.push({
+            text: req.t('otp-error-date-2'),
+            href: '#dob',
+          })
         }
 
-        errors.push({
-          text: req.t('otp-error-otp-2'),
-          href: '#otp',
-        })
+        const dobDateString = getDobDateString(dobDay, dobMonth, dobYear)
+
+        if (!isValidOtp(otp)) {
+          errors.push({
+            text: req.t('otp-error-otp-2'),
+            href: '#otp',
+          })
+        }
+
+        if (isValidOtp(otp)) {
+          const isAccepted = await this.userService.checkOtp(
+            req.user.email,
+            otp,
+            dobDateString,
+            req.user.sub,
+            req.sessionID,
+          )
+          if (isAccepted) {
+            return res.redirect('/dashboard')
+          }
+
+          errors.push({
+            text: 'The First-time ID code entered is not associated with the date of birth provided',
+            href: '#otp',
+          })
+        }
       }
 
       const otpError = errors.find(x => x.href === '#otp')
