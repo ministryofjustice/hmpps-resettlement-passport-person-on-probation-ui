@@ -9,27 +9,27 @@
 
     <div class="govuk-grid-row govuk-!-padding-bottom-6">
       <div class="govuk-grid-column-full">
-        <h1 class="govuk-heading-xl" data-qa="feedback-page-title">Plan your future feedback</h1>
+        <h1 class="govuk-heading-xl" data-qa="feedback-page-title">{{ t('feedback-start-page-title') }}</h1>
         <p>
-          Use this form to give feedback on the Plan your future service.
+          {{ t('feedback-start-form-description') }}
         </p>
 
         <p class="govuk-body">
-        You can:
+        {{ t('feedback-start-paragraph-1') }}
       </p>
 
         <ul class="govuk-list govuk-list--bullet govuk-!-padding-bottom-4">
-          <li>report a problem</li>
-          <li>ask questions</li>
-          <li>suggest improvements</li>
+          <li>{{ t('feedback-start-list-item-1') }}</li>
+          <li>{{ t('feedback-start-list-item-2') }}</li>
+          <li>{{ t('feedback-start-list-item-3') }}</li>
         </ul>
         <p>
-          We will use your feedback to improve the service.
+          {{ t('feedback-start-feedback-message') }}
         </p>
         <p>
           <a class="govuk-button govuk-button--start govuk-!-margin-top-4" data-qa="feedback-start-btn" role="button" data-module="govuk-button" href="/feedback/questions">
             <span data-qa="start-btn">
-            Start now
+            {{ t('feedback-start-start-now') }}
           </span>
             <svg class="govuk-button__start-icon govuk-!-display-none-print" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" focusable="false" aria-hidden="true">
               <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>

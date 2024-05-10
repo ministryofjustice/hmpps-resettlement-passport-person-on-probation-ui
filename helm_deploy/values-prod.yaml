@@ -4,12 +4,16 @@
 generic-service:
   
   ingress:
-    enabled: true
-    namespace: hmpps-resettlement-passport-prod
-    className: modsec
-    annotations:
-      external-dns.alpha.kubernetes.io/set-identifier: hmpps-resettlement-passport-person-on-probation-ui-prod-green
     host: plan-your-future.service.justice.gov.uk
+    modsecurity_enabled: true
+    modsecurity_snippet: |
+      SecRuleEngine On
+      SecRuleUpdateActionById 949110 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
+      SecRuleUpdateActionById 959100 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
+      SecAction "id:900000,phase:1,nolog,pass,t:none,setvar:tx.paranoia_level=2"
+
+
+
 
   env:
     INGRESS_URL: "https://plan-your-future.service.justice.gov.uk"
@@ -18,8 +22,8 @@ generic-service:
     GOVUK_ONE_LOGIN_HOME_URL: "https://home.account.gov.uk"
     GOVUK_ONE_LOGIN_URL: "https://oidc.account.gov.uk"
     HMPPS_AUTH_URL: "https://sign-in.hmpps.service.justice.gov.uk/auth"
-    PSFR_API_URL: "https://resettlement-passport-api-prod.hmpps.service.justice.gov.uk/resettlement-passport"
-    POP_API_URL: "https://person-on-probation-user-api-prod.hmpps.service.justice.gov.uk/person-on-probation-user"
+    PSFR_API_URL: "https://resettlement-passport-api.hmpps.service.justice.gov.uk/resettlement-passport"
+    POP_API_URL: "https://person-on-probation-user-api.hmpps.service.justice.gov.uk/person-on-probation-user"
     APPOINTMENTS_CACHE_IN_MINUTES: 5
     GOVUK_ONE_LOGIN_JWKS_URL: "https://oidc.account.gov.uk/.well-known/jwks.json"
 

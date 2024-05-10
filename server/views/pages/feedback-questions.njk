@@ -17,19 +17,19 @@
 
     {% if errors | length > 0 %}
       {{ govukErrorSummary({
-    titleText: "There is a problem",
+    titleText: t('generic-error-summary'),
     errorList: errors
   }) }}
     {% endif %}
 
     <div class="govuk-grid-row govuk-!-padding-bottom-6">
       <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl" data-qa="feedback-questions-page-title">Send us feedback</h1>
+        <h1 class="govuk-heading-xl" data-qa="feedback-questions-page-title">{{ t('feedback-questions-feedback-page-title') }}</h1>
         <form class="form" action="/feedback/questions/submit" method="post">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
 
           <p>
-          We’d like to know more about your experience using Plan your future.
+          {{ t('feedback-questions-feedback-text') }}
         </p>
 
           <div class="govuk-!-padding-top-8">
@@ -38,7 +38,7 @@
               name: "score",
               fieldset: {
                 legend: {
-                  text: "Overall, how satisfied were you with this service?",
+                  text: t('feedback-questions-overall-satisfaction'),
                   isPageHeading: true,
                   classes: "govuk-fieldset__legend--l"
                 }
@@ -49,24 +49,24 @@
               value: feedback.score,
               items: [
                 {
-                  value: "Very satisfied",
-                  text: "Very satisfied"
+                  value: t('feedback-questions-very-satisfied'),
+                  text: t('feedback-questions-very-satisfied')
                 },
                 {
-                  value: "Satisfied",
-                  text: "Satisfied"
+                  value: t('feedback-questions-satisfied'),
+                  text: t('feedback-questions-satisfied')
                 },
                 {
-                  value: "Neither satisfied nor dissatisfied",
-                  text: "Neither satisfied nor dissatisfied"
+                  value: t('feedback-questions-neither-satisfied'),
+                  text: t('feedback-questions-neither-satisfied')
                 },
                 {
-                  value: "Dissatisfied",
-                  text: "Dissatisfied"
+                  value: t('feedback-questions-dissatisfied'),
+                  text: t('feedback-questions-dissatisfied')
                 },
                 {
-                  value: "Very dissatisfied",
-                  text: "Very dissatisfied"
+                  value: t('feedback-questions-very-dissatisfied'),
+                  text: t('feedback-questions-very-dissatisfied')
                 }
               ]
             }) }}
@@ -77,12 +77,12 @@
                 name: "details",
                 id: "details",
                 label: {
-                  text: "Is there anything you want to tell us about using this service? (optional)",
+                  text: t('feedback-questions-comments'),
                   classes: "govuk-label--l",
                   isPageHeading: true
                 },
                 hint: {
-                  text: "Do not include personal or financial information."
+                  text: t('feedback-questions-personal-information')
                 },
                 value: feedback.details
               }) }}
@@ -91,7 +91,7 @@
           <div class="govuk-!-padding-top-8">
             {{ govukInput({
               label: {
-                text: "Your name (optional)",
+                text: t('feedback-questions-name'),
                 classes: "govuk-label--l",
                 isPageHeading: true
               },
@@ -104,7 +104,7 @@
           <div class="govuk-!-padding-top-8">
             {{ govukInput({
               label: {
-                text: "Your email address (optional)",
+                text:t('feedback-questions-email'),
                 classes: "govuk-label--l",
                 isPageHeading: true
               },
@@ -119,7 +119,7 @@
 
           <div class="govuk-!-padding-top-4">
             <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="feedback-questions-btn">
-          Continue
+          {{ t('feedback-questions-continue-btn') }}
         </button>
           </div>
 

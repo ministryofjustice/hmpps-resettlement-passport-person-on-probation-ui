@@ -11,7 +11,7 @@
   {% include "../partials/limited-subnavigation.njk" %}
   {% if errors | length > 0 %}
     {{ govukErrorSummary({
-    titleText: "There is a problem",
+    titleText: t('generic-error-summary'),
     errorList: errors
   }) }}
   {% endif %}
@@ -21,9 +21,9 @@
 
       <form class="form" action="/otp/verify" method="post">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
-        <h1 class="govuk-heading-xl">Complete your account setup securely</h1>
+        <h1 class="govuk-heading-xl">{{ t('otp-h1') }}</h1>
         <div class="govuk-inset-text">
-          You can find your security code in the Plan your future pack your probation officer gave you.
+          {{ t('otp-inset-1') }}
         </div>
 
         <div class="govuk-!-margin-bottom-8">
@@ -31,11 +31,11 @@
           <div>
             {{ govukInput({
               hint: {
-                text: "This is the 6-characters First-time ID code we gave you in the information pack"
+                text: t('otp-hint-1')
               },
               inputmode: "text",
               label: {
-                text: "Enter First-time ID code",
+                text: t('otp-label-1'),
                 isPageHeading: true,
                 classes: "govuk-fieldset__legend--m"
               },
@@ -59,33 +59,33 @@
           namePrefix: "dob",
           fieldset: {
             legend: {
-              text: "Enter your date of birth",
+              text: t('otp-label-2'),
               isPageHeading: true,
               classes: "govuk-fieldset__legend--m"
             }
           },
           hint: {
-            text: "For example, 31 3 1980"
+            text: t('otp-hint-2')
           },
           items: [
             {
               id: "dobDay",
               name: "dobDay",
-              label: "Day",
+              label: t('otp-input-day'),
               classes: "govuk-input--width-2" + errorClass('dob'),
               autocomplete: "bday-day"
             },
             {
               id: "dobMonth",
               name: "dobMonth",
-              label: "Month",
+              label: t('otp-input-month'),
               classes: "govuk-input--width-2" + errorClass('dob'),
               autocomplete: "bday-month"
             },
             {
               id: "dobYear",
               name: "dobYear",
-              label: "Year",
+              label: t('otp-input-year'),
               classes: "govuk-input--width-4" + errorClass('dob'),
               autocomplete: "bday-year"
             }
@@ -94,23 +94,24 @@
 
         </div>
 
-        <button type="submit" class="govuk-button" data-module="govuk-button">
-          Continue
-        </button>
-
         <details class="govuk-details" data-module="govuk-details">
           <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text">
-              Problems with the code?
+              {{ t('otp-summary-text') }}
             </span>
           </summary>
           <div class="govuk-details__text">
 
             <p class="govuk-body">
-              Call 000000 or contact your probation officer to get a new code.
+              {{ t('otp-summary-body') }}
             </p>
           </div>
         </details>
+
+        <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="otp-submit-btn">
+          {{ t('otp-btn') }}
+        </button>
+
       </form>
     </div>
   </div>

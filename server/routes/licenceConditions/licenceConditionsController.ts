@@ -11,6 +11,7 @@ export default class LicenceConditionsController {
 
   index: RequestHandler = async (req, res, next) => {
     try {
+      const queryParams = req.query
       const sessionId = req.sessionID
       const verificationData = await requireUser(req.user?.sub, this.userService, sessionId)
       if (typeof verificationData === 'string') {
@@ -22,7 +23,7 @@ export default class LicenceConditionsController {
         sessionId,
       )
 
-      return res.render('pages/licenceConditions', { user: req.user, licence })
+      return res.render('pages/licenceConditions', { user: req.user, licence, queryParams })
     } catch (err) {
       return next(err)
     }
@@ -30,6 +31,7 @@ export default class LicenceConditionsController {
 
   view: RequestHandler = async (req, res, next) => {
     try {
+      const queryParams = req.query
       const sessionId = req.sessionID
       const verificationData = await requireUser(req.user?.sub, this.userService, sessionId)
       if (typeof verificationData === 'string') {
@@ -50,7 +52,7 @@ export default class LicenceConditionsController {
         req.sessionID,
       )
 
-      return res.render('pages/licenceConditionsDetails', { user: req.user, condition, image })
+      return res.render('pages/licenceConditionsDetails', { user: req.user, condition, image, queryParams })
     } catch (err) {
       return next(err)
     }

@@ -15,6 +15,7 @@ export default class DashboardController {
 
   index: RequestHandler = async (req, res, next) => {
     try {
+      const queryParams = req.query
       const urn = req.user?.sub
       const sessionId = req.sessionID
       const verificationData = await requireUser(urn, this.userService, sessionId)
@@ -41,6 +42,7 @@ export default class DashboardController {
         tomorrowAppointments,
         todayAppointments,
         licenceExpiryDate: licence?.expiryDate,
+        queryParams,
       })
     } catch (err) {
       return next(err)

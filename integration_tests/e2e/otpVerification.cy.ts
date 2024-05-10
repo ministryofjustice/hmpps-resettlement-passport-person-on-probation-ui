@@ -8,7 +8,7 @@ context('OTP verification', () => {
     cy.get('#dobDay').type('11')
     cy.get('#dobMonth').type('1')
     cy.get('#dobYear').type('1959')
-    cy.get('.govuk-button').click()
+    cy.get('form').submit()
   }
 
   beforeEach(() => {
@@ -16,7 +16,6 @@ context('OTP verification', () => {
     cy.task('stubSignIn')
     cy.task('stubGetPopUserOtp')
     cy.task('stubGetPopUserDetails')
-    cy.task('stubGetLicenceConditions')
     cy.task('stubHmppsToken')
   })
 
@@ -25,24 +24,7 @@ context('OTP verification', () => {
     Page.verifyOnPage(HomePage)
   })
 
-  it.skip('Should not continue to Dashboard after validating OTP (invalid)', () => {
-    cy.task('stubGetPopUserByUrn')
-    cy.signIn()
-    cy.visit('/otp')
-    Page.verifyOnPage(OtpPage)
-
-    cy.get('#otp').type('abcqwe')
-    cy.get('#dobDay').type('01')
-    cy.get('#dobMonth').type('01')
-    cy.get('#dobYear').type('1986')
-    cy.get('.govuk-button').click()
-    Page.verifyOnPage(OtpPage)
-    cy.contains('There is a problem')
-    cy.contains('The First-time ID code entered is not associated with the date of birth provided')
-  })
-
-  it.skip('Should not continue to Dashboard after validating Date (invalid)', () => {
-    cy.task('stubGetPopUserByUrn')
+  it('Should not continue to Dashboard after validating Date (invalid)', () => {
     cy.signIn()
     cy.visit('/otp')
     Page.verifyOnPage(OtpPage)
@@ -51,21 +33,10 @@ context('OTP verification', () => {
     cy.get('#otp').type('123456')
     cy.get('#dobDay').type('1')
     cy.get('#dobMonth').type('1')
-    cy.get('#dobYear').type('1111')
-    cy.get('.govuk-button').click()
-    Page.verifyOnPage(OtpPage)
+    cy.get('#dobYear').type('abcde')
+    cy.get('form').submit()
     cy.contains('There is a problem')
-    cy.contains('Enter a valid date of birth')
-
-    // date in the future
-    cy.get('#otp').type('123456')
-    cy.get('#dobDay').type('1')
-    cy.get('#dobMonth').type('1')
-    cy.get('#dobYear').type('2099')
-    cy.get('.govuk-button').click()
-    Page.verifyOnPage(OtpPage)
-    cy.contains('There is a problem')
-    cy.contains('The date of birth must be in the past')
+    cy.contains('Enter a date of birth in the correct format')
   })
 
   it('Should continue to Dashboard after validating OTP (valid)', () => {

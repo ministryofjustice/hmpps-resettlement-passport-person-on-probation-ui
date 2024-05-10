@@ -26,23 +26,23 @@
     meta: {
       items: [
         {
-          href: "/accessibility",
-          text: "Accessibility statement",
+          href: "/accessibility" + appendLanguage(queryParams),
+          text: t('footer-accessibility'),
           attributes: {'data-qa': 'accessibility-link'}
         },
         {
-          href: "/cookies",
-          text: "Cookies",
+          href: "/cookies" + appendLanguage(queryParams),
+          text: t('footer-cookies'),
           attributes: {'data-qa': 'cookies-link'}
         },
         {
-          href: "/feedback",
-          text: "Give feedback",
+          href: "/feedback" + appendLanguage(queryParams),
+          text: t('footer-feedback'),
           attributes: {'data-qa': 'feedback-link'}
         },
         {
           href: "https://www.gov.uk/help/privacy-notice",
-          text: "Privacy policy",
+          text: t('footer-privacy'),
           attributes: {'data-qa': 'privacy-policy-link'}
         }
       ]
