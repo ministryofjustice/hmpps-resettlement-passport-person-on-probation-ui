@@ -82,15 +82,15 @@ Then('they create an account with Gov One Login', async function () {
   console.log('creating loging')
   await govOneEnterEmail.submitEmail(email);
   const securityCode = await returnSecurityCode(count);
-  console.log(securityCode);
+  console.log("..." + securityCode.slice(-3));
   await govOneCheckEmail.submitCode(securityCode);
   await govOneCreatePassword.submitNewPassword(password);
   await govOneSelectOTPMethod.submitAuthAppOption();
   await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
   const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
-  console.log('secret Key '+ secret);
+  console.log('secret Key ...'+ secret.slice(-3));
   var secretValue= secret.slice(12);
-  console.log('secret Key Trim '+secretValue);
+  console.log('secret Key Trim ...'+secretValue.slice(-3));
   const otpAuth = await getMyOTP(secretValue);
   await govOneEnterOTPSecurityCode.submitCode(otpAuth);
   await govOneCreatedAccount.shouldFindTitle();
@@ -151,9 +151,9 @@ Then('the user deletes their Gov One Account after logging in', async function (
   await govOneSelectOTPMethod.submitAuthAppOption();
   await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
   const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
-  console.log('secret Key '+ secret);
+  console.log('secret Key ...'+ secret.slice(-3));
   var secretValue= secret.slice(12);
-  console.log('secret Key Trim '+secretValue);
+  console.log('secret Key Trim ...'+secretValue.slice(-3));
   const otpAuth = await getMyOTP(secretValue);
   await govOneEnterOTPSecurityCode.submitCode(otpAuth);
   await govOneChangedOTP.continue.click();

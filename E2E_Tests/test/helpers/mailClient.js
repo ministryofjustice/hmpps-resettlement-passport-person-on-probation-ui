@@ -70,7 +70,7 @@ async function returnSecurityCode (number){
         }
     }
     const securityCode =  await getMessageNumber();
-    console.log('securityCode is '+ securityCode);
+    console.log('securityCode is ...' + securityCode.slice(-3));
     return securityCode;
 }
 

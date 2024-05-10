@@ -70,7 +70,7 @@ jobs:
           path: test_results/unit-test-reports.html
 
   e2e_test:
-    #circleci_ip_ranges: true
+    circleci_ip_ranges: true
     executor:
       name: hmpps/node_redis
       node_tag: << pipeline.parameters.node-version >>
@@ -87,7 +87,7 @@ jobs:
           name: Run cucumber tests
           command: |
             export BASEURL=${DEV_BASEURL}
-            export USEREMAIL=testuserpyf+101@gmail.com
+            export USEREMAIL=testuserpyf+106@gmail.com
             export USERPASSWORD=${E2E_USERPASSWORD}
             export GMAIL_CLIENT_ID=${E2E_GMAIL_CLIENT_ID}
             export GMAIL_CLIENT_SECRET=${E2E_GMAIL_CLIENT_SECRET}
