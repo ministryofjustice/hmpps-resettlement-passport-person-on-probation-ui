@@ -53,5 +53,3 @@ export const getFirstTimeIdCode = async (nomisId: string) => {
    console.log('this is the otp '+ otpResponse);
    return otpResponse;
 }
-//getHmppsAuthToken();
-getFirstTimeIdCode('A8731DY')
