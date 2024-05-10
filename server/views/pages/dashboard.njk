@@ -30,11 +30,11 @@
             <p class="govuk-body-s" id="next-appointment-heading">Next appointment:</p>
 
             <p class="govuk-body-s govuk-!-margin-0">
-              <b>{{nextAppointment.date | formatDate }}</b>
+              <b>{{nextAppointment.date | formatDate(queryParams.lang) }}</b>
             </p>
-            <p class="govuk-body-s govuk-!-margin-0">{{nextAppointment.time | formatTime }}
+            <p class="govuk-body-s govuk-!-margin-0">{{nextAppointment.time | formatTime(0, queryParams.lang) }}
             {% if nextAppointment.duration %}
-              - {{ nextAppointment.time | formatTime(nextAppointment.duration) }}
+              - {{ nextAppointment.time | formatTime(nextAppointment.duration, queryParams.lang) }}
             {% endif %}
             </p>
             <p id="next-appointment-title" class="govuk-heading-s govuk-!-margin-0">{{nextAppointment.title}}</p>
@@ -65,11 +65,11 @@
         <div class="card" id="licence-conditions-tile">
           <div id="licence-conditions-tile-body" class="card-body active govuk-!-padding-bottom-6">
             <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
-              <a class="govuk-link card-link" href="/licence-conditions" data-qa="licence-conditions-tile-title">Licence conditions</a>
+              <a class="govuk-link card-link" href="/licence-conditions{{appendLanguage(queryParams)}}" data-qa="licence-conditions-tile-title">Licence conditions</a>
             </h2>
             {% if licenceExpiryDate %}
               <p class="govuk-body">Understand the rules and conditions you need to follow.</p>
-              <p>Your licence conditions expire on {{licenceExpiryDate | formatLicenceDate }}.</p>
+              <p>Your licence conditions expire on {{licenceExpiryDate | formatLicenceDate(queryParams.lang) }}.</p>
             {% else %}
               <p class="govuk-body">We cannot show your licence conditions. Ask your probation officer for details.</p>
             {% endif %}
@@ -82,7 +82,7 @@
         <div class="card" id="profile-tile">
             <div class="card-body active">
                 <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
-                    <a class="govuk-link card-link" href="/profile" data-qa="profile-tile-title">
+                    <a class="govuk-link card-link" href="/profile{{appendLanguage(queryParams)}}" data-qa="profile-tile-title">
                         Profile
                     </a>
                 </h2>

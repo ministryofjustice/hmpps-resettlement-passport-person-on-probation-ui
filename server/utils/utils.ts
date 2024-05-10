@@ -1,6 +1,6 @@
 /* eslint-disable import/no-duplicates */
 import { addMinutes, compareAsc, format, isFuture, isSameDay, isValid, parse } from 'date-fns'
-import { enGB } from 'date-fns/locale'
+import { cy, enGB } from 'date-fns/locale'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
 
 const properCase = (word: string): string =>
@@ -27,22 +27,43 @@ export const initialiseName = (fullName?: string): string | null => {
   return `${array[0][0]}. ${array.reverse()[0]}`
 }
 
-export const formatLicenceDate = (dateString: string): string => {
+const getLocaleForLang = (lang: string): Locale => {
+  if (lang === 'cy') {
+    return cy
+  }
+  return enGB
+}
+
+export const appendLang = (lang?: string): string => {
+  if (lang) {
+    return encodeURI(`?lang=${lang}`)
+  }
+  return ''
+}
+
+export const appendLanguage = (
+  queryParams: Partial<{
+    lang?: string
+  }>,
+): string => appendLang(queryParams?.lang)
+
+export const formatLicenceDate = (dateString: string, lang?: string): string => {
   if (!dateString || dateString?.length < 1) return null
   const date = parse(dateString, 'dd/MM/yyyy', new Date())
   const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' }
-  return date.toLocaleDateString(enGB.code, options)
+  return date.toLocaleDateString(getLocaleForLang(lang).code, options)
 }
 
-export const formatDate = (dateString: string, monthStyle: 'short' | 'long' = 'long'): string => {
+export const formatDate = (dateString: string, lang?: string): string => {
   if (!dateString || dateString?.length < 1) return null
   const date = new Date(dateString)
-  const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: monthStyle, year: 'numeric' }
-  return date.toLocaleDateString(enGB.code, options)
+  const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' }
+  return date.toLocaleDateString(getLocaleForLang(lang).code, options)
 }
 
 export function getDobDate(day?: string, month?: string, year?: string): Date {
   if (!day || !month || !year) return null
+  if (Number.isNaN(Number(day)) || Number.isNaN(Number(month)) || Number.isNaN(Number(year))) return null
   const parsedDate = parse(`${day}/${month}/${year}`, 'dd/MM/yyyy', new Date())
   const isValidDate = isValid(parsedDate)
   if (!isValidDate) {
@@ -54,6 +75,7 @@ export function getDobDate(day?: string, month?: string, year?: string): Date {
 export function getDobDateString(day?: string, month?: string, year?: string): string {
   if (!day || !month || !year) return null
   const dobDate = getDobDate(day, month, year)
+  if (!dobDate) return null
   return format(dobDate, 'yyyy-MM-dd')
 }
 
@@ -69,7 +91,7 @@ export function isValidEmail(email?: string): boolean {
   return regex.test(email)
 }
 
-export function formatTime(inputTime: string, duration: number = 0): string {
+export function formatTime(inputTime: string, duration: number, lang?: string): string {
   if (!inputTime || inputTime?.length < 1) return null
   const [hours, minutes, seconds] = inputTime.split(':').map(Number)
 
@@ -80,7 +102,7 @@ export function formatTime(inputTime: string, duration: number = 0): string {
   const updatedDate = addMinutes(dateObj, duration)
 
   return format(updatedDate, 'hh:mm a', {
-    locale: enGB,
+    locale: getLocaleForLang(lang),
   })
 }
 

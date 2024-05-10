@@ -10,9 +10,10 @@ export default class FeedbackController {
 
   index: RequestHandler = async (req, res, next) => {
     try {
+      const queryParams = req.query
       // clear session
       req.session.feedback = null
-      return res.render('pages/feedback', { user: req.user })
+      return res.render('pages/feedback', { user: req.user, queryParams })
     } catch (err) {
       return next(err)
     }
@@ -20,9 +21,10 @@ export default class FeedbackController {
 
   questions: RequestHandler = async (req, res, next) => {
     try {
+      const queryParams = req.query
       if (req.session.feedback) {
         // prepopulate
-        return res.render('pages/feedback-questions', { user: req.user, feedback: req.session.feedback })
+        return res.render('pages/feedback-questions', { user: req.user, feedback: req.session.feedback, queryParams })
       }
       return res.render('pages/feedback-questions', { user: req.user })
     } catch (err) {
@@ -73,11 +75,12 @@ export default class FeedbackController {
 
   review: RequestHandler = async (req, res, next) => {
     try {
+      const queryParams = req.query
       if (req.session.feedback) {
         // prepopulate
         return res.render('pages/feedback-review', { user: req.user, feedback: req.session.feedback })
       }
-      return res.render('pages/feedback-review', { user: req.user })
+      return res.render('pages/feedback-review', { user: req.user, queryParams })
     } catch (err) {
       return next(err)
     }
@@ -88,13 +91,14 @@ export default class FeedbackController {
       if (!req.session.feedback) {
         throw new Error('Missing feedback session data')
       }
+      const queryParams = req.query
       const { feedback } = req.session
       const form: ContactHelpdeskForm = { ...feedback }
       const ticketId = await this.zendeskService.createSupportTicket(form)
       logger.info(`Submitted ZenDesk ticket: ${ticketId}`)
       // clear session
       req.session.feedback = null
-      return res.render('pages/feedback-end', { user: req.user })
+      return res.render('pages/feedback-end', { user: req.user, queryParams })
     } catch (err) {
       return next(err)
     }

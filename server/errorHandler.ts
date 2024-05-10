@@ -18,7 +18,7 @@ export function createErrorHandler(production: boolean) {
       return res.redirect('/sign-out')
     }
 
-    res.locals.message = friendlyErrorMessage
+    res.locals.message = req.t(friendlyErrorMessage)
     res.locals.status = error.status
     res.locals.stack = production ? null : `Error info: ${error.stack}`
 
