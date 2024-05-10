@@ -1,4 +1,4 @@
-{	
+{
 	"home-p-1": "Use this service after leaving prison to view:",
 	"home-li-1": "details of your appointments",
 	"home-li-2": "any licence conditions you have",
@@ -98,7 +98,6 @@
     "appointments-subheading": "Your appointments",
     "appointments-no-appointments-text": "Currently you have no future appointments",
     "appointments-view-older-appointments-text": "View older appointments",
-    "appointments-no-location-text": "We cannot show the address for this appointment. Contact your probation officer for the details.",
 	"cookies-h1": "Cookies",
     "cookies-paragraph-1": "The 'Plan your future' service puts small files (known as ‘cookies’) onto your computer to collect information about how you browse the site.",
     "cookies-paragraph-2": "Only <b>essential</b> cookies are used on the site.",
@@ -125,7 +124,6 @@
 	"dashboard-check-appointment": "Please check with your probation officer to make sure this is correct.",
 	"dashboard-licence-conditions-p1": "Understand the rules and conditions you need to follow.",
 	"dashboard-licence-conditions-p2": "Your licence conditions expire on",
-	"dashboard-licence-conditions-not-available": "We cannot show your licence conditions. Ask your probation officer for details.",
 	"error-h1": "Sorry, there is a problem with the service",
 	"error-message": "We cannot show these details right now. We are aware of the issue and are working to fix it. Please try again later.",
 	"profile-h1": "Profile",
