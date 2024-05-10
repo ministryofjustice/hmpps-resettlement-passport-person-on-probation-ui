@@ -97,7 +97,7 @@ Then('they create an account with Gov One Login', async function () {
   await govOneCreatedAccount.continue.click();
 })
 
-Then('the user completes the account setup with first-time ID code', async function ({request}) {
+Then('the user completes the account setup with first-time ID code', async function () {
   completeAccountPage = new CompleteAccountPage(pageFixture.page);
   dashboardPage = new DashboardPage(pageFixture.page);
   await completeAccountPage.shouldFindTitle();
@@ -117,12 +117,13 @@ Then('the user deletes their Gov One Account', async function () {
   await navigationPage.settingsLink.click();
   await settingsPage.shouldFindTitle();
   await settingsPage.govOneLink.click();
-  console.log('govOnelInkClicked');
+  console.log('govOnelinkClicked');
 
   await govOneSecurityDetails.shouldFindTitle();
   await govOneSecurityDetails.gotoDeleteAccount();
   await govOneSecurityDetails.submitPassword(password);
   await govOneSecurityDetails.confirmAreYouSure();
+  console.log('govOne Account Deleted');
 
 })
 
@@ -140,7 +141,7 @@ Then('the user deletes their Gov One Account after logging in', async function (
   await navigationPage.settingsLink.click();
   await settingsPage.shouldFindTitle();
   await settingsPage.govOneLink.click();
-  console.log('govOnelInkClicked');
+  console.log('govOnelinkClicked');
 
   await govOneEnterOTPSecurityCode.gotoResetOTP();
   console.log('should have redirected to check email');
@@ -161,5 +162,6 @@ Then('the user deletes their Gov One Account after logging in', async function (
   await govOneSecurityDetails.gotoDeleteAccount();
   await govOneSecurityDetails.submitPassword(password);
   await govOneSecurityDetails.confirmAreYouSure();
+  console.log('govOne Account Deleted');
 
 })

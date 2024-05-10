@@ -170,16 +170,11 @@ async function listMessages(auth) {
   });
   console.log('completed call')
   const messages = res.data.messages;
-  console.log(messages);
   if (!messages || messages.length === 0) {
     console.log('No messages found.');
     return;
   }
-  console.log('get 1st' + res.data.messages[0].id)
-  console.log('Messages:');
-  messages.forEach((message) => {
-    console.log(`- ${message.id}`);
-  });
+  console.log('get latest message ' + res.data.messages[0].id)
   return res.data.messages[0].id
 }
 
@@ -191,7 +186,6 @@ async function countMessages(auth) {
   });
   console.log('completed call')
   const messages = res.data.messages;
-  console.log(messages);
   if (!messages || messages.length === 0) {
     console.log('No messages found.');
     return;
@@ -213,8 +207,7 @@ async function getMessage(auth) {
   console.log('completed call')
   const messages = res.data.snippet;
   const messageNumber = await extractSixDigitNumber(messages);
-  console.log('test messages '+ messages);
-  console.log('test message number ' + messageNumber);
+  console.log('email message number ' + messageNumber);
   if (!messages || messages.length === 0) {
     console.log('No messages found.');
     return;

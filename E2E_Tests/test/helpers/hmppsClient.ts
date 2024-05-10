@@ -13,9 +13,8 @@ import axios from 'axios';
          headers: headers
        });
       const otpResponseData = response.data;
-      console.log('This is the OTP '+ otpResponseData.otp);
       console.log(otpResponseData);
-      return otpResponseData.otp
+      return otpResponseData.otp;
    } catch (error) {
       console.error('Error while fetching otp from PSFR API:', error.message);
    }
@@ -30,28 +29,29 @@ async function getHmppsAuthToken(){
         'Content-Type': 'application/json',
         'Authorization': `Basic ${basicAuth}`
       }
-      console.log(headers)
    const payload = JSON.stringify({
          grant_type: 'client_credentials',
       });
       
-      axios.post(`${url}/oauth/token?grant_type=client_credentials`, payload, {
+      const accessToken =  await axios.post(`${url}/oauth/token?grant_type=client_credentials`, payload, {
           headers: headers
         })
         .then((response) => {
-          const authToken = response.data;
-          console.log("Other authToken is:", authToken.access_token);
-          return authToken.access_token
+          const data = response.data;
+          return data.access_token;
           })
         .catch((error) => {
-            console.log(error);
+            console.log('Error while fetching auth from HMPPS API:', error.message);
           });
-    
+    return accessToken; 
 }
 
 
 export const getFirstTimeIdCode = async (nomisId: string) => {
    const authToken = await getHmppsAuthToken();
    const otpResponse = await getOtpForNomisId(nomisId, authToken);
+   console.log('this is the otp '+ otpResponse);
    return otpResponse;
 }
+//getHmppsAuthToken();
+getFirstTimeIdCode('A8731DY')
