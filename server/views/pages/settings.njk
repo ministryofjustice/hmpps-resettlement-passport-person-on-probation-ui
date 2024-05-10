@@ -7,7 +7,7 @@
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl" data-qa="settings-page-title">Settings</h1>
+      <h1 class="govuk-heading-xl" data-qa="settings-page-title">{{ t('settings-h1') }}</h1>
     </div>
   </div>
 
@@ -15,11 +15,11 @@
 
     <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m">
-      Your sign in details
+      {{ t('settings-h2') }}
     </h2>
-     <p>You can change the details you use to sign in to the Plan your future service at <a href="{{oneloginUrl}}/security" target+"_blank"  data-qa="change-onelogin-link">GOV.UK One Login</a>.</p>
-     <p>Any changes will not be shown on the profile page of Plan your future.</p>
-     <p>If you need to update the contact details shown in your profile, your Probation Officer can do this for you. It is important you keep your profile details up-to-date.</p>
+     <p>{{ t('settings-p1') }} <a href="{{oneloginUrl}}/security?lng={{queryParams.lang}}" target+"_blank"  data-qa="change-onelogin-link">{{ t('settings-p1-btn') }}</a>.</p>
+     <p>{{ t('settings-p2') }}</p>
+     <p>{{ t('settings-p3') }}</p>
 
     </div>
   </div>

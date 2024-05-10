@@ -9,25 +9,25 @@
 
   <div class="govuk-grid-row govuk-!-padding-bottom-8">
     <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl" data-qa="appointments-page-title">Appointments</h1>
+      <h1 class="govuk-heading-xl" data-qa="appointments-page-title">{{ t('appointments-h1') }}</h1>
         {{ govukWarningText({
-                text: "Tell your offender manager if you have a problem attending any appointment as soon as you can.",
+                text: t('appointments-warning-text'),
                 iconFallbackText: "Warning"
          }) }}
-      <p>If you miss an appointment without a good reason it could break your licence conditions.</p>
+      <p>{{ t('appointments-paragraph-1') }}</p>
     </div>
   </div>
 
   <div class="govuk-grid-row govuk-!-padding-bottom-8">
     <div class="govuk-grid-column-full">
-      <h2 class="govuk-heading-m">Your appointments</h2>
+      <h2 class="govuk-heading-m">{{ t('appointments-subheading') }}</h2>
     </div>
 
     <!-- Next appointments Begin -->
 
     {% if appointments | length < 1 %}
       <div class="govuk-grid-column-full" data-qa="appointment-empty-box">
-        <p>Currently you have no future appointments</p>
+        <p>{{ t('appointments-no-appointments-text') }}</p>
       </div>
     {% endif %}
     {% for item in appointments %}
@@ -40,7 +40,7 @@
       <div class="govuk-grid-column-full govuk-!-padding-top-8">
         <details class="govuk-details" data-module="govuk-details">
           <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text" data-qa="view-older-appointments" >View older appointments</span>
+            <span class="govuk-details__summary-text" data-qa="view-older-appointments" >{{ t('appointments-view-older-appointments-text') }}</span>
           </summary>
 
           {% for oldItem in oldAppointments %}
@@ -48,10 +48,10 @@
               <section class="app-summary-card govuk-!-margin-bottom-4">
 
                 <header class="app-summary-card__header">
-                  <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0" data-qa="{{loop.index}}-old-appointment-date">{{oldItem.date | formatDate(queryParams.lang)}}</h3>
+                  <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0" data-qa="{{loop.index}}-old-appointment-date">{{oldItem.date | formatDate(lang)}}</h3>
                 </header>
                 <div class="app-summary-card__body govuk-!-padding-4">
-                  <span data-qa="{{loop.index}}-old-appointment-duration" class="govuk-body-m">{{oldItem.time | formatTime(0, queryParams.lang) }}
+                  <span data-qa="{{loop.index}}-old-appointment-duration"  class="govuk-body-m">{{oldItem.time | formatTime(0, queryParams.lang) }}
                   {% if appointment.duration %}
                     - {{ appointment.time | formatTime(appointment.duration, queryParams.lang) }}
                   {% endif %}
@@ -62,7 +62,7 @@
                       <span class="govuk-body-s" data-qa="{{loop.index}}-old-appointment-location">
                         {{ oldItem.location | formatAppointmentLocation }}</span>
                     {% else %}
-                      <span class="govuk-body-s" data-qa="{{loop.index}}-old-appointment-no-location">We cannot show the address for this appointment. Contact your probation officer for the details.</span>
+                      <span class="govuk-body-s" data-qa="{{loop.index}}-old-appointment-no-location">{{ t('appointment-no-address') }}</span>
                     {% endif %}
                   </p>
                 </div>

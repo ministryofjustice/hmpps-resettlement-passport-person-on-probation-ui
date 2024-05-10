@@ -8,19 +8,19 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="appointments-details-page-title">Appointment details</h1>
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="appointments-details-page-title">{{ t('appointment-details-h1') }}</h1>
     </div>
   </div>
 
   <div class="govuk-grid-row govuk-!-padding-bottom-8">
 
     <div class="govuk-grid-column-full govuk-!-padding-bottom-6">
-        <a id="all-navigation-link" href="/appointments" data-qa="all-appointments-link">View all</a>
+        <a id="all-navigation-link" href="/appointments" data-qa="all-appointments-link">{{ t('appointment-details-all-link-text') }}</a>
         {% if previousAppointment %}
-        <span class="govuk-!-margin-left-2 govuk-!-margin-right-2">|</span><a id="previous-navigation-link" data-qa="previous-appointments-link" href="/appointments/{{previousAppointment.id}}">Previous</a>
+        <span class="govuk-!-margin-left-2 govuk-!-margin-right-2">|</span><a id="previous-navigation-link" data-qa="previous-appointments-link" href="/appointments/{{previousAppointment.id}}">{{ t('appointment-details-previous-link-text') }}</a>
         {% endif %}
         {% if nextAppointment %}
-        <span class="govuk-!-margin-left-2 govuk-!-margin-right-2">|</span><a id="next-navigation-link" data-qa="next-appointments-link" href="/appointments/{{nextAppointment.id}}">Next</a>
+        <span class="govuk-!-margin-left-2 govuk-!-margin-right-2">|</span><a id="next-navigation-link" data-qa="next-appointments-link" href="/appointments/{{nextAppointment.id}}">{{ t('appointment-details-next-link-text') }}</a>
         {% endif %}
     </div>
 
@@ -29,7 +29,7 @@
       {{ appointmentMacro.render(appointment, 1, false, false, lang) }}
     {% else %}
       <div class="govuk-grid-column-full" data-qa="appointment-empty-box">
-        <p>Nothing to display. <a href="/appointments">Go back to appointments list</a></p>
+        <p>{{ t('appointment-details-empty-text') }} <a href="/appointments">{{ t('appointment-details-go-back-link-text') }}</a></p>
       </div>
     {% endif %}
     <!-- appointments details End -->

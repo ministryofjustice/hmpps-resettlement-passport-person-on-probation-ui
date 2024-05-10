@@ -4,13 +4,13 @@
                 <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
                     <div class="govuk-notification-banner__header">
                         <p class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                            Important
+                            {{ t('dashboard-alert-important') }}
                         </p>
                     </div>
                     <div class="govuk-notification-banner__content">
                         <p class="govuk-notification-banner__heading" data-qa="alert-box-today-msg">
-                            You have <a href="/appointments">{{todayAppointments.length}}</a>&nbsp;
-                            {{ todayAppointments | pluraliseAppointments}} today
+                            {{ t('dashboard-alert-you-have') }} <a href="/appointments">{{todayAppointments.length}}</a>&nbsp;
+                            {{ todayAppointments | pluraliseAppointments}} {{ t('dashboard-alert-today') }}
                         </p>
                     </div>
                 </div>
@@ -20,13 +20,13 @@
                 <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
                     <div class="govuk-notification-banner__header">
                         <p class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                            Important
+                            {{ t('dashboard-alert-important') }}
                         </p>
                     </div>
                     <div class="govuk-notification-banner__content">
                         <p class="govuk-notification-banner__heading" data-qa="alert-box-tomorrow-msg">
-                            You have <a href="/appointments">{{tomorrowAppointments.length}}</a>&nbsp;
-                            {{ tomorrowAppointments | pluraliseAppointments}} tomorrow
+                            {{ t('dashboard-alert-you-have') }} <a href="/appointments">{{tomorrowAppointments.length}}</a>&nbsp;
+                            {{ tomorrowAppointments | pluraliseAppointments}} {{ t('dashboard-alert-tomorrow') }}
                         </p>
                     </div>
                 </div>

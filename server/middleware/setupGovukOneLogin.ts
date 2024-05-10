@@ -52,7 +52,7 @@ export default function setUpGovukOneLogin(): Router {
 
     router.get('/autherror', (req, res) => {
       res.status(401)
-      return res.render('autherror')
+      return res.render('pages/autherror', { user: req.user })
     })
 
     // Endpoint to handle back-channel logout requests

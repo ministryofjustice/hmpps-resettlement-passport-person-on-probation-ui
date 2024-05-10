@@ -2,8 +2,7 @@ import type { Request, Response, NextFunction } from 'express'
 import type { HTTPError } from 'superagent'
 import logger from '../logger'
 
-export const friendlyErrorMessage =
-  'We cannot show these details right now. We are aware of the issue and are working to fix it. Please try again later.'
+export const friendlyErrorMessage = 'error-message'
 
 export function createErrorHandler(production: boolean) {
   return (error: HTTPError, req: Request, res: Response, next: NextFunction): void => {
@@ -14,8 +13,7 @@ export function createErrorHandler(production: boolean) {
     }
 
     if (error.status === 401 || error.status === 403 || error.message.indexOf('authorization') > 0) {
-      logger.info('Logging user out')
-      return res.redirect('/sign-out')
+      return res.render('pages/autherror', { user: req.user })
     }
 
     res.locals.message = req.t(friendlyErrorMessage)

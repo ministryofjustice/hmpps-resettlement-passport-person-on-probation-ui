@@ -12,7 +12,7 @@
     <div class="govuk-grid-row govuk-!-padding-bottom-6">
       <div class="govuk-grid-column-two-thirds">
 
-        <h1 class="govuk-heading-xl" data-qa="feedback-review-page-title">Check your answers</h1>
+        <h1 class="govuk-heading-xl" data-qa="feedback-review-page-title">{{ t('feedback-questions-review-page-title') }}</h1>
 
         <form class="form" action="/feedback/complete" method="post">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
@@ -23,7 +23,7 @@
             rows: [
               {
                 key: {
-                  text: "Overall, how satisfied	were you with this Service?"
+                  text:  t('feedback-questions-overall-satisfaction')
                 },
                 value: {
                   text: feedback.score
@@ -32,15 +32,15 @@
                   items: [
                     {
                       href: "/feedback/questions#rate",
-                      text: "Change",
-                      visuallyHiddenText: "satisfaction score"
+                      text:  t('feedback-questions-change'),
+                      visuallyHiddenText: t('feedback-questions-visually-hidden-satisfaction')
                     }
                   ]
                 }
               },
               {
                 key: {
-                  text: "Is there anything you want	to tell us about using this Service?"
+                  text: t('feedback-questions-comments')
                 },
                 value: {
                   text: feedback.details
@@ -49,15 +49,15 @@
                   items: [
                     {
                       href: "/feedback/questions#details",
-                      text: "Change",
-                      visuallyHiddenText: "comments"
+                      text: t('feedback-questions-change'),
+                      visuallyHiddenText: t('feedback-questions-visually-hidden-comments')
                     }
                   ]
                 }
               },
               {
                 key: {
-                  text: "Your name (optional)"
+                  text: t('feedback-questions-name')
                 },
                 value: {
                   text: feedback.name
@@ -66,15 +66,15 @@
                   items: [
                     {
                       href: "/feedback/questions#name",
-                      text: "Change",
-                      visuallyHiddenText: "name"
+                      text: t('feedback-questions-change'),
+                      visuallyHiddenText: t('feedback-questions-visually-hidden-name')
                     }
                   ]
                 }
               },
               {
                 key: {
-                  text: "Your email address (optional)"
+                  text: t('feedback-questions-email')
                 },
                 value: {
                   text: feedback.email
@@ -83,8 +83,8 @@
                   items: [
                     {
                       href: "/feedback/questions#email",
-                      text: "Change",
-                      visuallyHiddenText: "email"
+                      text: t('feedback-questions-change'),
+                      visuallyHiddenText: t('feedback-questions-visually-hidden-email')
                     }
                   ]
                 }
@@ -95,12 +95,12 @@
 
           <div class="govuk-!-padding-bottom-6">
         
-          <p><b>Before you submit your feedback</b></p>
-          <p>Do not include any personal or financial information.</p>
+          <p><b>{{ t('feedback-questions-before-submit') }}</b></p>
+          <p>{{ t('feedback-questions-personal-information') }}</p>
 
           </div>
           <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="feedback-review-btn">
-         Submit
+         {{ t('feedback-questions-submit') }}
         </button>
 
         </form>

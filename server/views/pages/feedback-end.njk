@@ -11,13 +11,13 @@
     <div class="govuk-grid-column-two-thirds">
 
       {{ govukPanel({
-        titleText: "Thank you",
-        html: "Your response has been recorded.",
+        titleText: t('feedback-end-title'),
+        html: t('feedback-end-p'),
         attributes: {'data-qa': 'feedback-success-panel'}
       }) }}
 
         <div class="govuk-!-padding-top-4">
-          <p> <a href="/" data-qa="feedback-end-return-link">Return to Plan your future</a></p>
+          <p> <a href="/" data-qa="feedback-end-return-link">{{ t('feedback-end-link') }}</a></p>
         </div>
 
 
