@@ -71,7 +71,7 @@
               <p class="govuk-body">{{ t('dashboard-licence-conditions-p1') }}</p>
               <p>{{ t('dashboard-licence-conditions-p2') }} {{licenceExpiryDate | formatLicenceDate(queryParams.lang) }}.</p>
             {% else %}
-              <p class="govuk-body">{{ t('dashboard-licence-conditions-not-available') }}</p>
+              <p class="govuk-body">{{ t('licence-conditions-not-found') }}</p>
             {% endif %}
           </div>
         </div>
