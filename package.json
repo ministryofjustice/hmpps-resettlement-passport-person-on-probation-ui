@@ -107,6 +107,7 @@
     "agentkeepalive": "^4.5.0",
     "applicationinsights": "^2.9.2",
     "axe-core": "^4.8.4",
+    "axios": "^1.6.8",
     "body-parser": "^1.20.2",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",

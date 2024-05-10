@@ -101,7 +101,7 @@ Then('the user completes the account setup with first-time ID code', async funct
   completeAccountPage = new CompleteAccountPage(pageFixture.page);
   dashboardPage = new DashboardPage(pageFixture.page);
   await completeAccountPage.shouldFindTitle();
-  const firstTimeIdCode = await getFirstTimeIdCode(request, 'A8731DY');
+  const firstTimeIdCode = await getFirstTimeIdCode('A8731DY');
   await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
   await completeAccountPage.submitDay('24');
   await completeAccountPage.submitMonth('10');

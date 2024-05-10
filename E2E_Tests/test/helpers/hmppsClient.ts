@@ -1,36 +1,57 @@
 // @ts-nocheck
-const getHmppsAuthToken = async (request, apiClientId: string, apiClientSecret: string) => {
-    const basicAuth = Buffer.from(`${apiClientId}:${apiClientSecret}`).toString('base64');
-    try {
-        const url = 'https://sign-in-dev.hmpps.service.justice.gov.uk/auth/oauth/token';
-        const response = await request.post(`${url}/oauth/token?grant_type=client_credentials`)
-            .setHeader('Content-Type', 'application/json')
-            .setHeader('Authorization', `Basic ${basicAuth}`);
-            return response.json();
-    } catch (error) {
-        console.error('Error while fetching hmpps auth token:', error);
-        throw error;
-    }
+import axios from 'axios';
+
+
+ const getOtpForNomisId = async (nomisId: string, token: string) => {
+   const url = `https://resettlement-passport-api-dev.hmpps.service.justice.gov.uk/resettlement-passport/popUser/${nomisId}/otp`;
+   const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    } 
+   try {
+      const response = await axios.get(url,{
+         headers: headers
+       });
+      const otpResponseData = response.data;
+      console.log('This is the OTP '+ otpResponseData.otp);
+      console.log(otpResponseData);
+      return otpResponseData.otp
+   } catch (error) {
+      console.error('Error while fetching otp from PSFR API:', error.message);
+   }
 }
 
-const getOtpForNomisId = async (request, nomisId: string, token: string) => {
-    try {
-        const url = `https://resettlement-passport-api-dev.hmpps.service.justice.gov.uk/resettlement-passport/popUser/${nomisId}/otp`;
-        const response = await request.get(url)
-            .setHeader('Content-Type', 'application/json')
-            .setHeader('Authorization', `Bearer ${token}`);
-        return response.json();
-    } catch (error) {
-        console.error('Error while fetching otp from PSFR API:', error);
-        throw error;
-    }
-}
-
-export const getFirstTimeIdCode = async (request, nomisId: string) => {
+async function getHmppsAuthToken(){
     const apiClientId = process.env.CLIENT_ID;
     const apiClientSecret = process.env.CLIENT_SECRET;
-    const authToken = await getHmppsAuthToken(request, apiClientId, apiClientSecret);
-    console.log("authToken is:", authToken.access_token);
-    const otpResponse = await getOtpForNomisId(request, nomisId, authToken.access_token);
-    return otpResponse.otp;
+    const url = 'https://sign-in-dev.hmpps.service.justice.gov.uk/auth';
+    const basicAuth = Buffer.from(`${apiClientId}:${apiClientSecret}`).toString('base64');
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${basicAuth}`
+      }
+      console.log(headers)
+   const payload = JSON.stringify({
+         grant_type: 'client_credentials',
+      });
+      
+      axios.post(`${url}/oauth/token?grant_type=client_credentials`, payload, {
+          headers: headers
+        })
+        .then((response) => {
+          const authToken = response.data;
+          console.log("Other authToken is:", authToken.access_token);
+          return authToken.access_token
+          })
+        .catch((error) => {
+            console.log(error);
+          });
+    
+}
+
+
+export const getFirstTimeIdCode = async (nomisId: string) => {
+   const authToken = await getHmppsAuthToken();
+   const otpResponse = await getOtpForNomisId(nomisId, authToken);
+   return otpResponse;
 }
