@@ -70,7 +70,7 @@ jobs:
           path: test_results/unit-test-reports.html
 
   e2e_test:
-    circleci_ip_ranges: true
+    #circleci_ip_ranges: true
     executor:
       name: hmpps/node_redis
       node_tag: << pipeline.parameters.node-version >>
@@ -88,7 +88,7 @@ jobs:
           command: |
             export BASEURL=${DEV_BASEURL}
             export USEREMAIL=${E2E_USEREMAIL}
-            export USERPASSWORD=${E2E_USERPASSWORD}
+            export USERPASSWORD=testuserpyf+101@gmail.com
             export GMAIL_CLIENT_ID=${E2E_GMAIL_CLIENT_ID}
             export GMAIL_CLIENT_SECRET=${E2E_GMAIL_CLIENT_SECRET}
             export GMAIL_PROJECT_ID=${E2E_GMAIL_PROJECT_ID}
