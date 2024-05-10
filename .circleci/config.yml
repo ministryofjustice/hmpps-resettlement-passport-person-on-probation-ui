@@ -87,8 +87,8 @@ jobs:
           name: Run cucumber tests
           command: |
             export BASEURL=${DEV_BASEURL}
-            export USEREMAIL=${E2E_USEREMAIL}
-            export USERPASSWORD=testuserpyf+101@gmail.com
+            export USEREMAIL=testuserpyf+101@gmail.com
+            export USERPASSWORD=${E2E_USERPASSWORD}
             export GMAIL_CLIENT_ID=${E2E_GMAIL_CLIENT_ID}
             export GMAIL_CLIENT_SECRET=${E2E_GMAIL_CLIENT_SECRET}
             export GMAIL_PROJECT_ID=${E2E_GMAIL_PROJECT_ID}
