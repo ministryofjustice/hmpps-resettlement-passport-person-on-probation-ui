@@ -13,8 +13,7 @@ export function createErrorHandler(production: boolean) {
     }
 
     if (error.status === 401 || error.status === 403 || error.message.indexOf('authorization') > 0) {
-      logger.info('Logging user out')
-      return res.redirect('/sign-out')
+      return res.render('pages/autherror', { user: req.user })
     }
 
     res.locals.message = req.t(friendlyErrorMessage)

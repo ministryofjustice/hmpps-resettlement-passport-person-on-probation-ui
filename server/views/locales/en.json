@@ -190,5 +190,6 @@
     "settings-p2": "Any changes will not be shown on the profile page of Plan your future.",
     "settings-p3": "If you need to update the contact details shown in your profile, your Probation Officer can do this for you. It is important you keep your profile details up-to-date.",
     "authorisation-error-h1": "Authorisation Error",
-    "authorisation-error-p": "You are not authorised to use this application."
+    "authorisation-error-p": "You are not authorised to use this application",
+    "authorisation-error-p-with-user": "Please sign out and try again"
 }
