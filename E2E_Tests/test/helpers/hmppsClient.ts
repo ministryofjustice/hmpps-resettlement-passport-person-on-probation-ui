@@ -9,7 +9,7 @@ import axios from 'axios';
       'Authorization': `Bearer ${token}`
     } 
    try {
-      const response = await axios.get(url,{
+      const response = await axios.post(url,{}, {
          headers: headers
        });
       const otpResponseData = response.data;
