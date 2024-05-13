@@ -135,7 +135,8 @@ integration_tests/screenshots/
 # scripts
 token
 
-# cucumber test results
+# E2E test files
 test-results
 e2e
 credentials.json
+otp.txt

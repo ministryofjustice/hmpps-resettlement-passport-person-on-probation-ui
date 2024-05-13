@@ -32,5 +32,8 @@ This is a Cucumber BDD Typescript Project using Playwright.
 - Clone the repo (To your documents folder)
 - Create a .env file in th root folder (see .env-example.text) with the following information
      - BASEURL = https://person-on-probation-user-ui-dev.hmpps.service.justice.gov.uk/
+     - PSFRURL = https://resettlement-passport-ui-dev.hmpps.service.justice.gov.uk/
+     - USERNAME = DPS Username
+     - PASSWORD = DPS Password
 - Install Dependencies : npm i 
 - Run Tests : npm run end-to-end-test
