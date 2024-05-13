@@ -13,11 +13,10 @@ function getMyOTP(secretValue){
     algorithm: "SHA1",
     digits: 6,
     period: 30,
-    secret: secretValue, // or 'OTPAuth.Secret.fromBase32("NB2W45DFOIZA")'
+    secret: secretValue,
   });
 
   let token = totp.generate();
-  console.log(token)
   return token;
 }
 
