@@ -232,9 +232,7 @@ workflows:
       - integration_test:
           requires:
             - build
-      - e2e_test:
-          requires:
-            - deploy_dev
+      - e2e_test
       - browser_smoke_test:
           filters:
             branches:
