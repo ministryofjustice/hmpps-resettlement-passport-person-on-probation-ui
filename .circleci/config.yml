@@ -69,6 +69,37 @@ jobs:
       - store_artifacts:
           path: test_results/unit-test-reports.html
 
+  e2e_test:
+    circleci_ip_ranges: true
+    executor:
+      name: hmpps/node_redis
+      node_tag: << pipeline.parameters.node-version >>
+      redis_tag: "7.0"
+    steps:
+      - checkout
+      - run:
+          name: Install project dependencies
+          command: npm i
+      - run:
+          name: Install Playwright browsers
+          command: npx playwright install --with-deps
+      - run:
+          name: Run cucumber tests
+          command: |
+            export BASEURL=${DEV_BASEURL}
+            export PSFRURL=${DEV_PSFRURL}
+            export USEREMAIL=testuserpyf+140@gmail.com
+            export USERPASSWORD=${E2E_USERPASSWORD}
+            export GMAIL_CLIENT_ID=${E2E_GMAIL_CLIENT_ID}
+            export GMAIL_CLIENT_SECRET=${E2E_GMAIL_CLIENT_SECRET}
+            export GMAIL_PROJECT_ID=${E2E_GMAIL_PROJECT_ID}
+            export GMAIL_TOKEN=${E2E_GMAIL_TOKEN}
+            export USERNAME=${E2E_USERNAME}
+            export PASSWORD=${E2E_PASSWORD}
+            npm run end-to-end-test
+      - store_test_results:
+          path: test_results
+
   api_smoke_test:
     circleci_ip_ranges: true
     docker:
@@ -202,6 +233,13 @@ workflows:
       - integration_test:
           requires:
             - build
+      - e2e_test:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - deploy_dev
       - browser_smoke_test:
           filters:
             branches:
