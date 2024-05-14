@@ -14,6 +14,7 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
 const clientId = process.env.GMAIL_CLIENT_ID
 const clientSecret = process.env.GMAIL_CLIENT_SECRET
 const projectId = process.env.GMAIL_PROJECT_ID
+const gmailToken = process.env.GMAIL_TOKEN
 
 const apiCredentials = JSON.stringify({
   installed: {

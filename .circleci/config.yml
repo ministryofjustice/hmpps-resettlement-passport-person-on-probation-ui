@@ -93,6 +93,7 @@ jobs:
             export GMAIL_CLIENT_ID=${E2E_GMAIL_CLIENT_ID}
             export GMAIL_CLIENT_SECRET=${E2E_GMAIL_CLIENT_SECRET}
             export GMAIL_PROJECT_ID=${E2E_GMAIL_PROJECT_ID}
+            export GMAIL_TOKEN=${E2E_GMAIL_TOKEN}
             export USERNAME=${E2E_USERNAME}
             export PASSWORD=${E2E_PASSWORD}
             npm run end-to-end-test
