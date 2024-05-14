@@ -90,13 +90,11 @@ async function returnCurrentCount(){
  */
 async function loadSavedCredentialsIfExist() {
   try {
-    const content = await fs.readFile(TOKEN_PATH);
-    const tokenData = JSON.parse(content);
     const savedCredentials = JSON.stringify({
       type: 'authorized_user',
       client_id: clientId,
       client_secret: clientSecret,
-      refresh_token: tokenData.refresh_token,
+      refresh_token: gmailToken,
     });
     const credentialData = JSON.parse(savedCredentials);
     return google.auth.fromJSON(credentialData);
