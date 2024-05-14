@@ -27,22 +27,20 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
+      "description": "Count of printed black  packs by the Probation Officer ",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
           "mappings": [],
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -100,6 +98,7 @@
         "type": "prometheus",
         "uid": "P5DCFC7561CCDE821"
       },
+      "description": "Shows the missing licence conditions in percentage",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -158,7 +157,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "round(avg(avg by(prison) (missing_licence_conditions_percentage{namespace=~\"$namespace\", prison=~\"$prison\", licenceType=\"Standard\"})))",
+          "expr": "round(avg(avg by(prison) (missing_licence_conditions{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Standard Percentage\"})))",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": true,
@@ -175,7 +174,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "round(avg(avg by(prison) (missing_licence_conditions_percentage{namespace=~\"$namespace\", prison=~\"$prison\", licenceType=\"Others\"})))",
+          "expr": "round(avg(avg by(prison) (missing_licence_conditions{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Others Percentage\"})))",
           "format": "time_series",
           "fullMetaSearch": false,
           "hide": false,
@@ -189,6 +188,306 @@
       ],
       "title": "Missing Licence Conditions",
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P5DCFC7561CCDE821"
+      },
+      "description": "The Score for each data fields are shown, the higher the score is relates to poor data quality",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": false
+      },
+      "pluginVersion": "10.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_appointments_data{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Date Score\"})))",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "Date",
+          "range": false,
+          "refId": "By Date",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_appointments_data{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Time Score\"})))",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "Time",
+          "range": false,
+          "refId": "By Time",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_appointments_data{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Probation Officer Score\"})))",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Probation Officer",
+          "range": false,
+          "refId": "By Probation Officer"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_appointments_data{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Email Score\"})))",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Email",
+          "range": false,
+          "refId": "By Email"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_appointments_data{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Location Score\"})))",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Location",
+          "range": false,
+          "refId": "By Location"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_appointments_data{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Type Score\"})))",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Type",
+          "range": false,
+          "refId": "By Type"
+        }
+      ],
+      "title": "Missing Appointments Data Quality",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P5DCFC7561CCDE821"
+      },
+      "description": "Shows the missing required data in the Appointments",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent",
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "value_and_name",
+        "wideLayout": false
+      },
+      "pluginVersion": "10.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_appointments_data{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Date Percentage\"})))",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "Date",
+          "range": false,
+          "refId": "By Date",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_appointments_data{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Time Percentage\"})))",
+          "format": "time_series",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "Time",
+          "range": false,
+          "refId": "By Time",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_appointments_data{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Probation Officer Percentage\"})))",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Probation Officer",
+          "range": false,
+          "refId": "By Probation Officer"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_appointments_data{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Email Percentage\"})))",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Email",
+          "range": false,
+          "refId": "By Email"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_appointments_data{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Location Percentage\"})))",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Location",
+          "range": false,
+          "refId": "By Location"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P5DCFC7561CCDE821"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "round(avg(avg by(prison) (missing_appointments_data{namespace=~\"$namespace\", prison=~\"$prison\", metricType=~\"Type Percentage\"})))",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Type",
+          "range": false,
+          "refId": "By Type"
+        }
+      ],
+      "title": "Missing Appointments",
+      "type": "stat"
     }
   ],
   "refresh": "",
@@ -198,9 +497,9 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "hmpps-resettlement-passport-preprod",
-          "value": "hmpps-resettlement-passport-preprod"
+          "selected": false,
+          "text": "hmpps-resettlement-passport-dev",
+          "value": "hmpps-resettlement-passport-dev"
         },
         "datasource": {
           "type": "prometheus",
@@ -255,13 +554,13 @@
     ]
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Plan Your Future Dashboard",
   "uid": "plan-your-future-dashboard",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }
