@@ -356,10 +356,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -508,10 +504,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -576,13 +568,13 @@
           "hide": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "Others",
+          "legendFormat": "Appointments",
           "range": true,
           "refId": "Appointments",
           "useBackend": false
         }
       ],
-      "title": "Day of Release - Appointments Count",
+      "title": "Day of Release - Missing Appointments Count",
       "type": "stat"
     },
     {
@@ -598,6 +590,7 @@
           },
           "fieldMinMax": false,
           "mappings": [],
+          "noValue": "0",
           "thresholds": {
             "mode": "percentage",
             "steps": [
@@ -653,7 +646,7 @@
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": true,
-          "legendFormat": "Probation Appointments",
+          "legendFormat": "Appointments",
           "range": false,
           "refId": "Appointments",
           "useBackend": false
@@ -672,7 +665,7 @@
           "hide": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "Others",
+          "legendFormat": "Licence",
           "range": true,
           "refId": "Licence",
           "useBackend": false
