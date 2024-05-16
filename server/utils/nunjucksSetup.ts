@@ -17,6 +17,7 @@ import {
   appendLang,
 } from './utils'
 import { ApplicationInfo } from '../applicationInfo'
+import config from '../config'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -25,6 +26,11 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
 
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'Plan your future'
+
+  // will add a no-index meta tag unless the environment is production
+  if (config.environmentName !== 'PRODUCTION') {
+    app.locals.addNoIndexTag = 'true'
+  }
 
   // Cachebusting version string
   if (production) {
