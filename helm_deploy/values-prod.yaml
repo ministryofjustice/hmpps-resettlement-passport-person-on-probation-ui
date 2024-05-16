@@ -12,9 +12,6 @@ generic-service:
       SecRuleUpdateActionById 959100 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
       SecAction "id:900000,phase:1,nolog,pass,t:none,setvar:tx.paranoia_level=2"
 
-
-
-
   env:
     INGRESS_URL: "https://plan-your-future.service.justice.gov.uk"
     MANAGE_USERS_API_URL: "https://manage-users-api.hmpps.service.justice.gov.uk"
@@ -26,6 +23,7 @@ generic-service:
     POP_API_URL: "https://person-on-probation-user-api.hmpps.service.justice.gov.uk/person-on-probation-user"
     APPOINTMENTS_CACHE_IN_MINUTES: 5
     GOVUK_ONE_LOGIN_JWKS_URL: "https://oidc.account.gov.uk/.well-known/jwks.json"
+    ENVIRONMENT_NAME: PRODUCTION
 
 generic-prometheus-alerts:
   alertSeverity: hmpps-resettlement-passport-prod
