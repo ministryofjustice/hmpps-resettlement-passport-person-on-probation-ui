@@ -1,11 +1,11 @@
 {% extends "../partials/layout.njk" %}
 {% block content %}
-{% set queryParams = queryParams %}
+  {% set queryParams = queryParams %}
   <div class="govuk-grid-row govuk-!-padding-bottom-4 govuk-!-padding-top-8">
     <div class="govuk-grid-column-two-thirds">
 
       <h1 class="govuk-heading-xl" data-qa="start-page-title">
-        {{applicationName}}
+        {{t('homepage-title')}}
       </h1>
 
       <p class="govuk-body">{{ t('home-p-1') }}</p>
@@ -14,7 +14,7 @@
         <li>{{ t('home-li-1') }}</li>
         <li>{{ t('home-li-2') }}</li>
       </ul>
-      
+
       <h2 class="govuk-heading-m">
         {{ t('home-h2-1') }}
       </h2>

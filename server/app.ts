@@ -19,16 +19,17 @@ import setUpWebSession from './middleware/setUpWebSession'
 import routes from './routes'
 import type { Services } from './services'
 import { setupRateLimiter } from './middleware/rateLimiter'
+import { setupContentful } from './middleware/contentful'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
 
   const templatesDir = path.join(__dirname, '/views/locales')
-
+/**
   if (!fs.existsSync(templatesDir)) {
     throw new Error('Locales directory not found!')
   }
-
+ */
   i18n.configure({
     locales: ['en', 'cy'],
     queryParameter: 'lang',
@@ -38,6 +39,8 @@ export default function createApp(services: Services): express.Application {
       __: 't', // now req.__ becomes req.t
       __n: 'tn', // and req.__n can be called as req.tn
     },
+    autoReload: true,
+    syncFiles: true
   })
 
   app.set('json spaces', 2)
@@ -49,6 +52,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
+  app.use(setupContentful())
 
   nunjucksSetup(app, services.applicationInfo, i18n)
   app.use(i18n.init)
