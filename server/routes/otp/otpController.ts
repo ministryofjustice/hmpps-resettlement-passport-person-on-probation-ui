@@ -23,6 +23,14 @@ export default class HomeController {
       const { otp, 'dob-dobDay': dobDay, 'dob-dobMonth': dobMonth, 'dob-dobYear': dobYear } = req.body
       const errors: Array<Express.ValidationError> = []
       const dobDate = getDobDate(dobDay, dobMonth, dobYear)
+
+      if (!isValidOtp(otp)) {
+        errors.push({
+          text: req.t('otp-error-otp-1'),
+          href: '#otp',
+        })
+      }
+
       if (!dobDate) {
         errors.push({
           text: req.t('otp-error-date-1'),
@@ -40,13 +48,6 @@ export default class HomeController {
 
         const dobDateString = getDobDateString(dobDay, dobMonth, dobYear)
 
-        if (!isValidOtp(otp)) {
-          errors.push({
-            text: req.t('otp-error-otp-2'),
-            href: '#otp',
-          })
-        }
-
         if (isValidOtp(otp)) {
           const isAccepted = await this.userService.checkOtp(
             req.user.email,
@@ -60,7 +61,7 @@ export default class HomeController {
           }
 
           errors.push({
-            text: 'The First-time ID code entered is not associated with the date of birth provided',
+            text: req.t('otp-error-otp-2'),
             href: '#otp',
           })
         }
