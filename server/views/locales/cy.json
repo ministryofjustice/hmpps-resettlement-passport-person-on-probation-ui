@@ -84,7 +84,7 @@
     "appointment-details-next-link-text": "Next",
     "appointment-details-empty-text": "Nothing to display.",
     "appointment-details-go-back-link-text": "Go back to appointments list",
-    "appointment-view-maps": "View on Google maps",
+    "appointment-view-maps": "View on Google maps (opens in a new tab)",
     "appointment-no-address": "We cannot show the address for this appointment. Contact your probation officer for the details.",
     "appointment-contact": "Contact:",
     "appointment-notes": "Notes",
