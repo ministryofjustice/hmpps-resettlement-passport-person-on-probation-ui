@@ -17,7 +17,7 @@
   {% endif %}
 
   <div class="govuk-grid-row govuk-!-padding-bottom-6">
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-two-thirds">
 
       <form class="form" action="/otp/verify" method="post">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
@@ -36,7 +36,7 @@
               inputmode: "text",
               label: {
                 text: t('otp-label-1'),
-                isPageHeading: true,
+                isPageHeading: false,
                 classes: "govuk-fieldset__legend--m"
               },
               spellcheck: false,
@@ -60,7 +60,7 @@
           fieldset: {
             legend: {
               text: t('otp-label-2'),
-              isPageHeading: true,
+              isPageHeading: false,
               classes: "govuk-fieldset__legend--m"
             }
           },
@@ -93,20 +93,6 @@
         }) }}
 
         </div>
-
-        <details class="govuk-details" data-module="govuk-details">
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">
-              {{ t('otp-summary-text') }}
-            </span>
-          </summary>
-          <div class="govuk-details__text">
-
-            <p class="govuk-body">
-              {{ t('otp-summary-body') }}
-            </p>
-          </div>
-        </details>
 
         <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="otp-submit-btn">
           {{ t('otp-btn') }}
