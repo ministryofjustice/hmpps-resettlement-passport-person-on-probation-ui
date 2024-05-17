@@ -4,6 +4,9 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 
+
+{% set pageTitle = "Feedback" + titleHeading %}
+
 {% macro errorClass(field) -%}
   {{ ' govuk-input--error' if errors | hasErrorWithPrefix([field, 'dobError']) else '' }}
 {%- endmacro %}

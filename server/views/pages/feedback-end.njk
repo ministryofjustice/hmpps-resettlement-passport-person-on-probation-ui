@@ -1,5 +1,8 @@
 {% extends "../partials/layout.njk" %}
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+{% set pageTitle = "Feedback" + titleHeading %}
+
 {% block content %}
   {% if user %}
     {% include "../partials/limited-subnavigation.njk" %}
