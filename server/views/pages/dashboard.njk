@@ -1,10 +1,38 @@
 {% extends "../partials/layout.njk" %}
 {% import "../partials/alertBoxMacro.njk" as alertBox %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
+  {%- from "moj/components/ticket-panel/macro.njk" import mojTicketPanel -%}
+  
 {% block content %}
 
   {% set activePage = 'dashboard' %}
   {% include "../partials/subnavigation.njk" %}
+
+
+  <div class="govuk-grid-column-two-third govuk-!-padding-bottom-4">
+  {{ govukWarningText({
+    text: 'For your security, we will sign you out in: ' +  5 + ' minutes',
+    iconFallbackText: "Warning"
+  }) }}
+
+{{ mojTicketPanel({
+  attributes: {
+    'aria-label': 'Sub navigation 1'
+  },
+  items: [{
+    html: ' <h2 class="govuk-heading-m govuk-!-margin-bottom-2">This is a heading 2</h2>
+    <p class="govuk-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <a class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button">
+      Save and continue
+    </a>',
+    attributes: {
+      'aria-label': 'Section 1'
+    },
+    classes: 'moj-ticket-panel__content--blue'
+  }]
+}) }}
+  </div>
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-full">

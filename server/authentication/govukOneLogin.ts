@@ -5,6 +5,7 @@ import { createPrivateKey } from 'crypto'
 import config from '../config'
 import logger from '../../logger'
 import { tokenStoreFactory } from '../data/tokenStore/tokenStore'
+import { addMinutes } from 'date-fns'
 
 passport.serializeUser((user, done) => {
   // Not used but required for Passport
@@ -53,6 +54,8 @@ async function init(): Promise<Client> {
   const verify: StrategyVerifyCallbackUserInfo<UserinfoResponse> = (tokenSet, userInfo, done) => {
     const tokenStore = tokenStoreFactory()
     tokenStore.setToken(userInfo.sub, tokenSet.id_token, config.session.expiryMinutes * 60)
+    const expiryDate = addMinutes(new Date(), config.session.expiryMinutes)
+    tokenStore.setToken(`session-expiry-date-${userInfo.sub}`, expiryDate.toISOString(), config.session.expiryMinutes * 60)
     return done(null, userInfo)
   }
 

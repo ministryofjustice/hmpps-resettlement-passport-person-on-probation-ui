@@ -61,6 +61,13 @@ export const formatDate = (dateString: string, lang?: string): string => {
   return date.toLocaleDateString(getLocaleForLang(lang).code, options)
 }
 
+export const formatDateTime = (dateString: string, lang?: string): string => {
+  if (!dateString || dateString?.length < 1) return null
+  const date = new Date(dateString)
+  const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric', minute: 'numeric', hour: 'numeric', second: 'numeric' }
+  return date.toLocaleDateString(getLocaleForLang(lang).code, options)
+}
+
 export function getDobDate(day?: string, month?: string, year?: string): Date {
   if (!day || !month || !year) return null
   if (Number.isNaN(Number(day)) || Number.isNaN(Number(month)) || Number.isNaN(Number(year))) return null

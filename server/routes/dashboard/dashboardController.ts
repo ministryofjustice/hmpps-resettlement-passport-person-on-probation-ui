@@ -1,10 +1,11 @@
 import { RequestHandler } from 'express'
-import { isTomorrow, isToday } from 'date-fns'
+import { isTomorrow, isToday, differenceInMinutes } from 'date-fns'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
 import AppointmentService from '../../services/appointmentService'
-import { getFutureAppointments } from '../../utils/utils'
+import { formatDate, formatDateTime, getFutureAppointments } from '../../utils/utils'
 import LicenceConditionsService from '../../services/licenceConditionsService'
+import { tokenStoreFactory } from '../../data/tokenStore/tokenStore'
 
 export default class DashboardController {
   constructor(
@@ -34,6 +35,11 @@ export default class DashboardController {
         verificationData.nomsId,
         sessionId,
       )
+      const tokenStore = tokenStoreFactory()
+      const t = await tokenStore.getToken(`session-expiry-date-${urn}`)
+      const expiryDate = new Date(t)
+      const diff = differenceInMinutes(expiryDate, new Date())
+      console.log("urn session expires in  ", diff)
 
       return res.render('pages/dashboard', {
         user: req.user,
@@ -43,6 +49,7 @@ export default class DashboardController {
         todayAppointments,
         licenceExpiryDate: licence?.expiryDate,
         queryParams,
+        expiryMinutes: diff
       })
     } catch (err) {
       return next(err)
