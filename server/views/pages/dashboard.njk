@@ -32,7 +32,7 @@
             </h2>
 
             {% if nextAppointment %}
-            <p  id="govuk-body-m next-appointment-heading">{{ t('dashboard-next-appointment') }}</p>
+            <p class="govuk-body-m" id="next-appointment-heading">{{ t('dashboard-next-appointment') }}</p>
 
             <p class="govuk-body-m govuk-!-margin-0">
               <b>{{nextAppointment.date | formatDate(queryParams.lang) }}</b>
