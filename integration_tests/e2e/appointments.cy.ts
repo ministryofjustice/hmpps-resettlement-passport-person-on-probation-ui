@@ -37,7 +37,7 @@ context('Appointments', () => {
     // future appointments should be visible
     cy.get('[data-qa="appointment-box"]').should('exist')
     cy.contains('This is a future appointment')
-    cy.get('[data-qa="1-appointment-details-link"]').should('exist')
+    cy.get('[data-qa="1-appointment-details-link"]').should('not.exist')
     cy.get('[data-qa="1-appointment-no-location"]').contains(
       'We cannot show the address for this appointment. Contact your probation officer for the details.',
     )
@@ -47,7 +47,8 @@ context('Appointments', () => {
     cy.contains('This is a past appointment')
   })
 
-  it('Should be able to see the Appointments details', () => {
+  // Removed in PLT-282 will be re-instated in the near future
+  it.skip('Should be able to see the Appointments details', () => {
     cy.task('stubGetAppointments')
     cy.signIn()
 
