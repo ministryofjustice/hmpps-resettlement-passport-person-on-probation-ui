@@ -101,9 +101,9 @@ export function formatTime(inputTime: string, duration: number, lang?: string): 
   dateObj.setSeconds(seconds || 0)
   const updatedDate = addMinutes(dateObj, duration)
 
-  return format(updatedDate, 'hh:mm a', {
+  return format(updatedDate, 'h:mma', {
     locale: getLocaleForLang(lang),
-  })
+  })?.toLowerCase()
 }
 
 export function formatAppointmentLocation(input: AppointmentLocation): string {

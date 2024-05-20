@@ -1,5 +1,7 @@
 {% extends "../partials/layout.njk" %}
 
+{% set pageTitle = "Authorisation Error" + titleHeading %}
+
 {% block content %}
   {% if user %}
     {% include "../partials/limited-subnavigation.njk" %}

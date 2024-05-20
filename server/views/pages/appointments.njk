@@ -2,6 +2,8 @@
 {% import "../partials/appointmentMacro.njk" as appointmentMacro %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
+{% set pageTitle = "Appointments" + titleHeading %}
+
 {% block content %}
 
   {% set activePage = 'appointments' %}
