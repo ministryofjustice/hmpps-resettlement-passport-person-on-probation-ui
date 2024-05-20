@@ -28,7 +28,7 @@ context('Sign in with GOV.UK One Login', () => {
   it('User sent to auth error page if sign in fails', () => {
     // setting an invalid nonce value should cause ID token validation to fail
     cy.signIn({ failOnStatusCode: false, nonce: 'INVALID_NONCE' })
-    cy.get('h1').contains('Authorisation Error')
+    cy.get('h1').contains('Sorry, there is a problem with the service')
   })
 
   it('User can sign in and view callback page', () => {
