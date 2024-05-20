@@ -1,9 +1,21 @@
   {%- from "moj/components/sub-navigation/macro.njk" import mojSubNavigation -%}
-  {{ mojSubNavigation({
-    label: t('subnav-label'),
-    items: [{
-      text: t('subnav-signout'),
-      href: '/sign-out',
-      attributes: {'data-qa': "signOut"}
-    }]
-  }) }}
+  
+  <aside role="complementary">
+    {% include "./phasebanner.njk" %}
+    {% block aside %}{% endblock %}
+  </aside>
+
+  <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
+
+ {% if user %}
+    {{ mojSubNavigation({
+      label: t('subnav-label'),
+      items: [{
+        text: t('subnav-signout'),
+        href: '/sign-out',
+        attributes: {'data-qa': "signOut"}
+      }]
+    }) }}
+  {% else %}
+    <p class="govuk-!-margin-bottom-6"></p>
+  {% endif %}

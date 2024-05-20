@@ -1,6 +1,6 @@
  {% macro render(appointment, loopIndex, showNotes, showDetails, lang) %}
 
- <div class="govuk-grid-column-full" data-qa="appointment-box">
+ <div class="govuk-grid-column-two-thirds" data-qa="appointment-box">
         <div class="govuk-grid-row appsubpanel govuk-!-margin-bottom-4">
           <div class="govuk-grid-column-full">
             <section id="appointment-details-section" class="app-summary-card govuk-!-margin-bottom-4">
@@ -29,7 +29,7 @@
 
                 <p class="govuk-body-s" data-qa="{{loopIndex}}-appointment-contact">{{ t('appointment-contact') }} {{appointment.contact}}
                 {% if appointment.contactEmail %}
-                ({{ t('appointment-email') }} {{appointment.contactEmail}})
+                ({{ t('appointment-email') }} <a href="mailto:{{appointment.contactEmail}}">{{appointment.contactEmail}})</a>
                 {% endif %}</p>
                 {% if showNotes == true %}
                   <h4 class="govuk-heading-s govuk-!-padding-top-2" data-qa="{{loopIndex}}-appointment-notes">{{ t('appointment-notes') }}</h4>

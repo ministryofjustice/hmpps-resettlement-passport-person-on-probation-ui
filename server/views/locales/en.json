@@ -177,7 +177,7 @@
     "licence-conditions-must": "You must:",
     "licence-conditions-p4": "The Supervising Officer is the Community Offender Manager.",
     "licence-conditions-not-found": "We cannot show your licence conditions. Ask your probation officer for details.",
-    "licence-conditions-details": "View details",
+    "licence-conditions-details": "See map of the area must not enter",
     "licence-conditions-back": "Back to licence conditions",
     "licence-conditions-restrictions": "Your geographical restrictions",
     "licence-conditions-restriction-img": "The image shows a map of your geographical restrictions",
@@ -192,5 +192,5 @@
     "settings-p3": "If you need to update the contact details shown in your profile, your Probation Officer can do this for you. It is important you keep your profile details up-to-date.",
     "authorisation-error-h1": "Authorisation Error",
     "authorisation-error-p": "You are not authorised to use this application",
-    "authorisation-error-p-with-user": "Please sign out and try again"
+    "authorisation-error-p-with-user": "You can Sign out to end this session and start again."
 }

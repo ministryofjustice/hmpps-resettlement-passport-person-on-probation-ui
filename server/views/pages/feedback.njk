@@ -2,13 +2,11 @@
 
 {% set pageTitle = "Feedback" + titleHeading %}
 
-{% block content %}
-  {% if user %}
-    {% include "../partials/limited-subnavigation.njk" %}
-  {% else %}
-    <p class="govuk-!-margin-bottom-6">
-    {% endif %}
+{% block beforeContent %}
+  {% include "../partials/limited-subnavigation.njk" %}
+{% endblock %}
 
+{% block content %}
     <div class="govuk-grid-row govuk-!-padding-bottom-6">
       <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-xl" data-qa="feedback-page-title">{{ t('feedback-start-page-title') }}</h1>

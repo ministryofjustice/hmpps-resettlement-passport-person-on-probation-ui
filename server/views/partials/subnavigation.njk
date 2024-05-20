@@ -1,5 +1,12 @@
  {%- from "moj/components/sub-navigation/macro.njk" import mojSubNavigation -%}
  
+  <aside role="complementary">
+    {% include "./phasebanner.njk" %}
+    {% block aside %}{% endblock %}
+  </aside>
+
+  <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
+
   {{ mojSubNavigation({
     label: t('subnav-label'),
     items: [{
