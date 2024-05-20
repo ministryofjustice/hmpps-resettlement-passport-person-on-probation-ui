@@ -12,15 +12,11 @@ export function createErrorHandler(production: boolean) {
       return res.render('pages/notFound')
     }
 
-    if (error.status === 401 || error.status === 403 || error.message.indexOf('authorization') > 0) {
-      return res.render('pages/autherror', { user: req.user })
-    }
-
     res.locals.message = req.t(friendlyErrorMessage)
     res.locals.status = error.status
     res.locals.stack = production ? null : `Error info: ${error.stack}`
 
     res.status(200)
-    return res.render('pages/error')
+    return res.render('pages/error', { user: req.user })
   }
 }

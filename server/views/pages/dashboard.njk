@@ -2,10 +2,14 @@
 {% import "../partials/alertBoxMacro.njk" as alertBox %}
 
 {% set pageTitle = "Dashboard" + titleHeading %}
-{% block content %}
 
+{% block beforeContent %}
   {% set activePage = 'dashboard' %}
   {% include "../partials/subnavigation.njk" %}
+{% endblock %}
+
+{% block content %}
+
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-full">

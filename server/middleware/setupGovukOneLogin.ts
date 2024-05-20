@@ -52,7 +52,7 @@ export default function setUpGovukOneLogin(): Router {
 
     router.get('/autherror', (req, res) => {
       res.status(401)
-      return res.render('pages/autherror', { user: req.user })
+      return res.render('pages/error', { user: req.user })
     })
 
     // Endpoint to handle back-channel logout requests
@@ -86,7 +86,7 @@ export default function setUpGovukOneLogin(): Router {
       passport.authenticate('oidc', {
         nonce: generators.nonce(),
         successRedirect: '/dashboard',
-        failureRedirect: '/autherror',
+        failureRedirect: '/error',
         failureFlash: true,
       })(req, res, next)
     })

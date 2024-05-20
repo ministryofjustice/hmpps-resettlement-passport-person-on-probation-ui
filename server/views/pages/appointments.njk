@@ -4,13 +4,15 @@
 
 {% set pageTitle = "Appointments" + titleHeading %}
 
-{% block content %}
-
+{% block beforeContent %}
   {% set activePage = 'appointments' %}
   {% include "../partials/subnavigation.njk" %}
+{% endblock %}
+
+{% block content %}
 
   <div class="govuk-grid-row govuk-!-padding-bottom-8">
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl" data-qa="appointments-page-title">{{ t('appointments-h1') }}</h1>
         {{ govukWarningText({
                 text: t('appointments-warning-text'),
@@ -21,14 +23,14 @@
   </div>
 
   <div class="govuk-grid-row govuk-!-padding-bottom-8">
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-two-thirds">
       <h2 class="govuk-heading-m">{{ t('appointments-subheading') }}</h2>
     </div>
 
     <!-- Next appointments Begin -->
 
     {% if appointments | length < 1 %}
-      <div class="govuk-grid-column-full" data-qa="appointment-empty-box">
+      <div class="govuk-grid-column-two-thirds" data-qa="appointment-empty-box">
         <p>{{ t('appointments-no-appointments-text') }}</p>
       </div>
     {% endif %}
@@ -39,7 +41,7 @@
 
     <!-- Older appointments Begin -->
     {% if oldAppointments | length > 0 %}
-      <div class="govuk-grid-column-full govuk-!-padding-top-8">
+      <div class="govuk-grid-column-two-thirds govuk-!-padding-top-8">
         <details class="govuk-details" data-module="govuk-details">
           <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text" data-qa="view-older-appointments" >{{ t('appointments-view-older-appointments-text') }}</span>

@@ -2,10 +2,15 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
 {% set pageTitle = "Profile" + titleHeading %}
-{% block content %}
 
+{% block beforeContent %}
   {% set activePage = 'profile' %}
   {% include "../partials/subnavigation.njk" %}
+{% endblock %}
+
+{% block content %}
+
+
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-two-thirds">

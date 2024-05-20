@@ -1,10 +1,13 @@
 {% extends "../partials/layout.njk" %}
 
 {% set pageTitle = "Settings" + titleHeading %}
-{% block content %}
 
+{% block beforeContent %}
   {% set activePage = 'settings' %}
   {% include "../partials/subnavigation.njk" %}
+{% endblock %}
+
+{% block content %}
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-two-thirds">

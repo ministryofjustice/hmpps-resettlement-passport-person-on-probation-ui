@@ -11,12 +11,11 @@
   {{ ' govuk-input--error' if errors | hasErrorWithPrefix([field, 'dobError']) else '' }}
 {%- endmacro %}
 
+{% block beforeContent %}
+  {% include "../partials/limited-subnavigation.njk" %}
+{% endblock %}
+
 {% block content %}
-  {% if user %}
-    {% include "../partials/limited-subnavigation.njk" %}
-  {% else %}
-    <p class="govuk-!-margin-bottom-6">
-    {% endif %}
 
     {% if errors | length > 0 %}
       {{ govukErrorSummary({
