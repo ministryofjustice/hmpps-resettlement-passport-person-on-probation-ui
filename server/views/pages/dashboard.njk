@@ -32,19 +32,19 @@
             </h2>
 
             {% if nextAppointment %}
-            <p class="govuk-body-s" id="next-appointment-heading">{{ t('dashboard-next-appointment') }}</p>
+            <p class="govuk-body-m" id="next-appointment-heading">{{ t('dashboard-next-appointment') }}</p>
 
-            <p class="govuk-body-s govuk-!-margin-0">
+            <p class="govuk-body-m govuk-!-margin-0">
               <b>{{nextAppointment.date | formatDate(queryParams.lang) }}</b>
             </p>
-            <p class="govuk-body-s govuk-!-margin-0">{{nextAppointment.time | formatTime(0, queryParams.lang) }}
+            <p class="govuk-body-m govuk-!-margin-0">{{nextAppointment.time | formatTime(0, queryParams.lang) }}
             {% if nextAppointment.duration %}
               - {{ nextAppointment.time | formatTime(nextAppointment.duration, queryParams.lang) }}
             {% endif %}
             </p>
             <p id="next-appointment-title" class="govuk-heading-s govuk-!-margin-0">{{nextAppointment.title}}</p>
 
-            <span class="govuk-body-s" data-qa="appointments-tile-location">
+            <span class="govuk-body-m" data-qa="appointments-tile-location">
               {% if nextAppointment.location | formatAppointmentLocation %}
                 {{ nextAppointment.location | formatAppointmentLocation }}
               {% else %}
