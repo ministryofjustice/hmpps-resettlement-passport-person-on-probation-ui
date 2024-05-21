@@ -6,7 +6,7 @@ const { authenticate } = require('@google-cloud/local-auth')
 const { google } = require('googleapis')
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+const SCOPES = ['https://mail.google.com/']
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
@@ -76,6 +76,15 @@ async function returnCurrentCount() {
   return thisCount
 }
 
+async function deleteMessageHousekeeping() {
+
+  currentCount = await authorize().then(countMessages).catch(console.error)
+  while (currentCount > 1){
+    await authorize().then(deleteLatestMessage).catch(console.error)
+    currentCount = await authorize().then(countMessages).catch(console.error)
+  }
+  
+}
 /**
  * Reads previously authorized credentials from the save file.
  *
@@ -83,16 +92,18 @@ async function returnCurrentCount() {
  */
 async function loadSavedCredentialsIfExist() {
   try {
+    const content = await fs.readFile(TOKEN_PATH);
+    const tokenData = JSON.parse(content);
     const savedCredentials = JSON.stringify({
       type: 'authorized_user',
       client_id: clientId,
       client_secret: clientSecret,
-      refresh_token: gmailToken,
-    })
-    const credentialData = JSON.parse(savedCredentials)
-    return google.auth.fromJSON(credentialData)
+      refresh_token: tokenData.refresh_token,
+    });
+    const credentialData = JSON.parse(savedCredentials);
+    return google.auth.fromJSON(credentialData);
   } catch (err) {
-    return null
+    return null;
   }
 }
 
@@ -103,14 +114,14 @@ async function loadSavedCredentialsIfExist() {
  * @return {Promise<void>}
  */
 async function saveCredentials(client) {
-  const content = apiCredentials
-  const keys = JSON.parse(content)
-  const key = keys.installed || keys.web
+  const content = apiCredentials;
+  const keys = JSON.parse(content);
+  const key = keys.installed || keys.web;
   const payload = JSON.stringify({
     type: 'authorized_user',
-    refresh_token: gmailToken,
-  })
-  await fs.writeFile(TOKEN_PATH, payload)
+    refresh_token: client.credentials.refresh_token,
+  });
+  await fs.writeFile(TOKEN_PATH, payload);
 }
 
 /**
@@ -186,6 +197,17 @@ async function getMessage(auth) {
   return messageNumber
 }
 
+async function deleteLatestMessage(auth) {
+  const id = await authorize().then(listMessages).catch(console.error)
+  const gmail = google.gmail({ version: 'v1', auth })
+  const res = await gmail.users.messages.delete({
+    userId: 'me',
+    id: id,
+  })
+  console.log('completed call')
+  console.log('email deleted ' + id)
+}
+
 async function extractSixDigitNumber(input) {
   const regex = /\b\d{6}\b/
   const match = input.match(regex)
@@ -194,4 +216,4 @@ async function extractSixDigitNumber(input) {
   return match ? match[0] : null
 }
 
-module.exports = { returnSecurityCode, returnCurrentCount }
+module.exports = { returnSecurityCode, returnCurrentCount, deleteMessageHousekeeping }
