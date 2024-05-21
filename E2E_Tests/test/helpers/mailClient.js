@@ -77,14 +77,13 @@ async function returnCurrentCount() {
 }
 
 async function deleteMessageHousekeeping() {
-
   currentCount = await authorize().then(countMessages).catch(console.error)
   while (currentCount > 1){
     await authorize().then(deleteLatestMessage).catch(console.error)
     currentCount = await authorize().then(countMessages).catch(console.error)
   }
-  
 }
+
 /**
  * Reads previously authorized credentials from the save file.
  *
@@ -92,18 +91,16 @@ async function deleteMessageHousekeeping() {
  */
 async function loadSavedCredentialsIfExist() {
   try {
-    const content = await fs.readFile(TOKEN_PATH);
-    const tokenData = JSON.parse(content);
     const savedCredentials = JSON.stringify({
       type: 'authorized_user',
       client_id: clientId,
       client_secret: clientSecret,
-      refresh_token: tokenData.refresh_token,
-    });
-    const credentialData = JSON.parse(savedCredentials);
-    return google.auth.fromJSON(credentialData);
+      refresh_token: gmailToken,
+    })
+    const credentialData = JSON.parse(savedCredentials)
+    return google.auth.fromJSON(credentialData)
   } catch (err) {
-    return null;
+    return null
   }
 }
 
@@ -114,14 +111,14 @@ async function loadSavedCredentialsIfExist() {
  * @return {Promise<void>}
  */
 async function saveCredentials(client) {
-  const content = apiCredentials;
-  const keys = JSON.parse(content);
-  const key = keys.installed || keys.web;
+  const content = apiCredentials
+  const keys = JSON.parse(content)
+  const key = keys.installed || keys.web
   const payload = JSON.stringify({
     type: 'authorized_user',
-    refresh_token: client.credentials.refresh_token,
-  });
-  await fs.writeFile(TOKEN_PATH, payload);
+    refresh_token: gmailToken,
+  })
+  await fs.writeFile(TOKEN_PATH, payload)
 }
 
 /**
@@ -193,7 +190,6 @@ async function getMessage(auth) {
     console.log('No messages found.')
     return
   }
-  // TODO: will need to do a cleanup because after 100 messages in the inbox this code fails for some reason
   return messageNumber
 }
 
