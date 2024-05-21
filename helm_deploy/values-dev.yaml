@@ -6,6 +6,8 @@ generic-service:
 
   ingress:
     host: person-on-probation-user-ui-dev.hmpps.service.justice.gov.uk
+    annotations:
+      nginx.ingress.kubernetes.io/server-snippet: add_header X-Robots-Tag "noindex, nofollow";
       
   env:
     INGRESS_URL: "https://person-on-probation-user-ui-dev.hmpps.service.justice.gov.uk"
