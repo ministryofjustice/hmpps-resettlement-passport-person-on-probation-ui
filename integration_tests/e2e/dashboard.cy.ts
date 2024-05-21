@@ -86,6 +86,6 @@ context('Dashboard', () => {
     cy.task('stubGetAppointments')
     cy.signIn()
     Page.verifyOnPage(DashboardPage)
-    cy.get('#profile-tile').contains('Keep your personal information up to date.')
+    cy.get('#profile-tile').contains('Manage your personal and contact information. You must keep this up-to-date.')
   })
 })

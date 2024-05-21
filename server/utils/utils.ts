@@ -57,8 +57,8 @@ export const formatLicenceDate = (dateString: string, lang?: string): string => 
 export const formatDate = (dateString: string, lang?: string): string => {
   if (!dateString || dateString?.length < 1) return null
   const date = new Date(dateString)
-  const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' }
-  return date.toLocaleDateString(getLocaleForLang(lang).code, options)
+  const options: Intl.DateTimeFormatOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }
+  return date.toLocaleDateString(getLocaleForLang(lang).code, options)?.replace(',', '')
 }
 
 export function getDobDate(day?: string, month?: string, year?: string): Date {
