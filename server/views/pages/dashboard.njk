@@ -18,8 +18,8 @@
         <span class="govuk-visually-hidden">{{ t('dashboard-hidden-content') }} </span><span data-qa="pyf-dashboard-title">{{applicationName}}</span></p>
 
       <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="pyf-dashboard-fullname">
-        {{personalData.personalDetails.firstName}}
-        {{personalData.personalDetails.lastName}}</h1>
+        {{personalData.personalDetails.firstName | capitalize}}
+        {{personalData.personalDetails.lastName | capitalize}}</h1>
     </div>
 
     <!-- appointment tile -->
