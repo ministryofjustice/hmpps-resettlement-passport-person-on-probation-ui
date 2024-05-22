@@ -2,6 +2,7 @@ import { RequestHandler } from 'express'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
 import LicenceConditionsService from '../../services/licenceConditionsService'
+import { isBeforeDate } from '../../utils/utils'
 
 export default class LicenceConditionsController {
   constructor(
@@ -23,7 +24,12 @@ export default class LicenceConditionsController {
         sessionId,
       )
 
-      return res.render('pages/licenceConditions', { user: req.user, licence, queryParams })
+      return res.render('pages/licenceConditions', {
+        user: req.user,
+        licence,
+        isExpired: isBeforeDate(licence?.expiryDate),
+        queryParams,
+      })
     } catch (err) {
       return next(err)
     }

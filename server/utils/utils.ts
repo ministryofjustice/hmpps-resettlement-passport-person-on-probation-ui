@@ -1,5 +1,5 @@
 /* eslint-disable import/no-duplicates */
-import { addMinutes, compareAsc, format, isFuture, isSameDay, isValid, parse } from 'date-fns'
+import { addMinutes, compareAsc, format, isBefore, isFuture, isSameDay, isValid, parse } from 'date-fns'
 import { cy, enGB } from 'date-fns/locale'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
 
@@ -158,4 +158,10 @@ export const formatAppointmentNote = (inputNote?: string): string => {
 
 export const orElse = (input: string, alternative: string): string => {
   return input || alternative
+}
+
+export const isBeforeDate = (input: string): boolean => {
+  if (!input || input?.length < 1) return false
+  const inputDate = new Date(input)
+  return isBefore(inputDate, new Date())
 }
