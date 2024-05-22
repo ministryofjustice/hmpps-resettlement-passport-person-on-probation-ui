@@ -1,4 +1,4 @@
-import HomePage from '../pages/home'
+import StartPage from '../pages/start'
 import Page from '../pages/page'
 
 context('Error', () => {
@@ -13,7 +13,7 @@ context('Error', () => {
 
   afterEach(() => {
     cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(HomePage)
+    Page.verifyOnPage(StartPage)
   })
 
   it('Should render error when a 500 response is received', () => {

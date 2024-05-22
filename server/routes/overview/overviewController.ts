@@ -6,7 +6,7 @@ import AppointmentService from '../../services/appointmentService'
 import { getFutureAppointments, isDateInPast } from '../../utils/utils'
 import LicenceConditionsService from '../../services/licenceConditionsService'
 
-export default class DashboardController {
+export default class OverviewController {
   constructor(
     private readonly appointmentService: AppointmentService,
     private readonly userService: UserService,
@@ -35,7 +35,7 @@ export default class DashboardController {
         sessionId,
       )
 
-      return res.render('pages/dashboard', {
+      return res.render('pages/overview', {
         user: req.user,
         personalData,
         nextAppointment,

@@ -57,7 +57,7 @@ export async function mainDevBrowserTest() {
     page.screenshot({ path: `${screenshot}dashboard.png` })
     describe('getDashboard', () => {
       testVal = dashboard.nameTag.innerText()
-      expect(testVal).to.equal('John Smith')
+      expect(testVal).to.equal('Overview')
       console.log('testDash')
     })
 
@@ -105,7 +105,7 @@ export async function mainDevBrowserTest() {
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()])
     describe('getDashboard', () => {
       testVal = dashboard.nameTag.innerText()
-      expect(testVal).to.equal('John Smith')
+      expect(testVal).to.equal('Overview')
       console.log('testDash')
     })
 
@@ -120,7 +120,7 @@ export async function mainDevBrowserTest() {
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()])
     describe('getDashboard', () => {
       testVal = dashboard.nameTag.innerText()
-      expect(testVal).to.equal('John Smith')
+      expect(testVal).to.equal('Overview')
       console.log('testDash')
     })
 
@@ -135,7 +135,7 @@ export async function mainDevBrowserTest() {
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()])
     describe('getDashboard', () => {
       testVal = dashboard.nameTag.innerText()
-      expect(testVal).to.equal('John Smith')
+      expect(testVal).to.equal('Overview')
       console.log('testDash')
     })
 
@@ -150,7 +150,7 @@ export async function mainDevBrowserTest() {
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()])
     describe('getDashboard', () => {
       testVal = dashboard.nameTag.innerText()
-      expect(testVal).to.equal('John Smith')
+      expect(testVal).to.equal('Overview')
       console.log('testDash')
     })
 
