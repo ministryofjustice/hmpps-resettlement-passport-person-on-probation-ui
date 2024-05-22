@@ -234,8 +234,12 @@ workflows:
           requires:
             - build
       - e2e_test:
+          filters:
+            branches:
+              only:
+                - main
           requires:
-            - build
+            - deploy_dev
       - browser_smoke_test:
           filters:
             branches:
