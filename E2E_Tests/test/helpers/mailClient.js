@@ -6,7 +6,7 @@ const { authenticate } = require('@google-cloud/local-auth')
 const { google } = require('googleapis')
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+const SCOPES = ['https://mail.google.com/']
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
@@ -74,6 +74,14 @@ async function returnSecurityCode(number) {
 async function returnCurrentCount() {
   const thisCount = await authorize().then(countMessages).catch(console.error)
   return thisCount
+}
+
+async function deleteMessageHousekeeping() {
+  currentCount = await authorize().then(countMessages).catch(console.error)
+  while (currentCount > 1){
+    await authorize().then(deleteLatestMessage).catch(console.error)
+    currentCount = await authorize().then(countMessages).catch(console.error)
+  }
 }
 
 /**
@@ -182,8 +190,18 @@ async function getMessage(auth) {
     console.log('No messages found.')
     return
   }
-  // TODO: will need to do a cleanup because after 100 messages in the inbox this code fails for some reason
   return messageNumber
+}
+
+async function deleteLatestMessage(auth) {
+  const id = await authorize().then(listMessages).catch(console.error)
+  const gmail = google.gmail({ version: 'v1', auth })
+  const res = await gmail.users.messages.delete({
+    userId: 'me',
+    id: id,
+  })
+  console.log('completed call')
+  console.log('email deleted ' + id)
 }
 
 async function extractSixDigitNumber(input) {
@@ -194,4 +212,4 @@ async function extractSixDigitNumber(input) {
   return match ? match[0] : null
 }
 
-module.exports = { returnSecurityCode, returnCurrentCount }
+module.exports = { returnSecurityCode, returnCurrentCount, deleteMessageHousekeeping }
