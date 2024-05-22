@@ -40,7 +40,7 @@ context('Dashboard', () => {
 
     // licence-conditions tile should exist and clickable
     cy.get('#licence-conditions-tile').should('exist')
-    cy.get('#licence-conditions-tile-body').contains('Your licence conditions expire on 12 July 2023')
+    cy.get('#licence-conditions-tile-body').contains('Your licence conditions expire on 12 July 2199')
   })
 
   it('Should see alternative text on Licence Conditions Tile when licence conditions missing', () => {
@@ -51,6 +51,15 @@ context('Dashboard', () => {
     cy.get('#licence-conditions-tile-body').contains(
       'We cannot show your licence conditions. Ask your probation officer for details.',
     )
+  })
+
+  it('Should see alert box when licence conditions expired', () => {
+    cy.task('stubGetAppointments')
+    cy.task('stubGetLicenceConditionsExpired')
+    cy.signIn()
+    Page.verifyOnPage(DashboardPage)
+    cy.get('.govuk-notification-banner__heading').contains('Your licence conditions ended on 12 July 1999.')
+    cy.get('#licence-conditions-tile-body').contains('You do not have any licence conditions.')
   })
 
   it('Should be able to see the Appointments Tile', () => {

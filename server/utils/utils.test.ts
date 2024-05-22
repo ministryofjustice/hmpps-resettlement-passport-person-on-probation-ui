@@ -16,6 +16,7 @@ import {
   isValidEmail,
   appendLang,
   appendLanguage,
+  isDateInPast,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -314,5 +315,16 @@ describe('appendLanguage', () => {
     [{ lang: 'a' }, '?lang=a'],
   ])('%s appendLanguage(%s, %s)', (queryParams: object, expected: string) => {
     expect(appendLanguage(queryParams)).toBe(expected)
+  })
+})
+
+describe('isDateInPast', () => {
+  it.each([
+    ['01/08/1970', true],
+    ['', false],
+    [null, false],
+    ['01/08/2999', false],
+  ])('isDateInPast(%s)', (input: string, expected: boolean) => {
+    expect(isDateInPast(input)).toBe(expected)
   })
 })

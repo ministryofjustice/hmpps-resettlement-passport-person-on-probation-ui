@@ -15,6 +15,10 @@ export default defineConfig({
   reporterOptions: {
     configFile: 'reporter-config.json',
   },
+  retries: {
+    runMode: 1,
+    openMode: 0,
+  },
   taskTimeout: 60000,
   e2e: {
     setupNodeEvents(on) {

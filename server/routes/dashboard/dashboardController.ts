@@ -3,7 +3,7 @@ import { isTomorrow, isToday } from 'date-fns'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
 import AppointmentService from '../../services/appointmentService'
-import { getFutureAppointments } from '../../utils/utils'
+import { getFutureAppointments, isDateInPast } from '../../utils/utils'
 import LicenceConditionsService from '../../services/licenceConditionsService'
 
 export default class DashboardController {
@@ -42,6 +42,7 @@ export default class DashboardController {
         tomorrowAppointments,
         todayAppointments,
         licenceExpiryDate: licence?.expiryDate,
+        isLicenceExpired: isDateInPast(licence?.expiryDate),
         queryParams,
       })
     } catch (err) {

@@ -10,10 +10,11 @@
 
 {% block content %}
 
+{% set licenceExpiryDateFormatted = licenceExpiryDate | formatLicenceDate(queryParams.lang) %}
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-full">
-      {{ alertBox.render(tomorrowAppointments, todayAppointments) }}
+      {{ alertBox.render(tomorrowAppointments, todayAppointments, licenceExpiryDateFormatted if isLicenceExpired) }}
       <p class="hmrc-caption govuk-caption-xl">
         <span class="govuk-visually-hidden">{{ t('dashboard-hidden-content') }} </span><span data-qa="pyf-dashboard-title">{{applicationName}}</span></p>
 
@@ -72,11 +73,13 @@
             <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
               <a class="govuk-link card-link" href="/licence-conditions{{appendLanguage(queryParams)}}" data-qa="licence-conditions-tile-title">  {{ t('licence-conditions-h1') }}</a>
             </h2>
-            {% if licenceExpiryDate %}
-              <p class="govuk-body">{{ t('dashboard-licence-conditions-p1') }}</p>
-              <p>{{ t('dashboard-licence-conditions-p2') }} {{licenceExpiryDate | formatLicenceDate(queryParams.lang) }}.</p>
+            {% if isLicenceExpired %}
+                <p class="govuk-body">{{ t('dashboard-licence-conditions-none') }}</p>
+            {% elif licenceExpiryDate %}
+                <p class="govuk-body">{{ t('dashboard-licence-conditions-p1') }}</p>
+                <p>{{ t('dashboard-licence-conditions-p2') }} {{licenceExpiryDateFormatted }}.</p>
             {% else %}
-              <p class="govuk-body">{{ t('licence-conditions-not-found') }}</p>
+                <p class="govuk-body">{{ t('licence-conditions-not-found') }}</p> 
             {% endif %}
           </div>
         </div>
