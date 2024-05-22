@@ -160,7 +160,7 @@ export const orElse = (input: string, alternative: string): string => {
   return input || alternative
 }
 
-export const isBeforeDate = (input: string): boolean => {
+export const isDateInPast = (input: string): boolean => {
   if (!input || input?.length < 1) return false
   const inputDate = new Date(input)
   return isBefore(inputDate, new Date())

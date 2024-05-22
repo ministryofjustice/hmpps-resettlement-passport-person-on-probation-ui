@@ -16,7 +16,7 @@ import {
   isValidEmail,
   appendLang,
   appendLanguage,
-  isBeforeDate,
+  isDateInPast,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -318,13 +318,13 @@ describe('appendLanguage', () => {
   })
 })
 
-describe('isBeforeDate', () => {
+describe('isDateInPast', () => {
   it.each([
     ['01/08/1970', true],
     ['', false],
     [null, false],
     ['01/08/2999', false],
-  ])('isBeforeDate(%s)', (input: string, expected: boolean) => {
-    expect(isBeforeDate(input)).toBe(expected)
+  ])('isDateInPast(%s)', (input: string, expected: boolean) => {
+    expect(isDateInPast(input)).toBe(expected)
   })
 })
