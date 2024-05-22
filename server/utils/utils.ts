@@ -165,3 +165,6 @@ export const isDateInPast = (input: string): boolean => {
   const inputDate = new Date(input)
   return isBefore(inputDate, new Date())
 }
+
+export const toProperCase = (input: string): string =>
+  input.replace(/\w\S*/g, txt => `${txt.charAt(0).toUpperCase()}${txt.slice(1).toLowerCase()}`)
