@@ -88,7 +88,7 @@ jobs:
           command: |
             export BASEURL=${DEV_BASEURL}
             export PSFRURL=${DEV_PSFRURL}
-            export USEREMAIL=testuserpyf+150@gmail.com
+            export USEREMAIL=testuserpyf+140@gmail.com
             export USERPASSWORD=${E2E_USERPASSWORD}
             export GMAIL_CLIENT_ID=${E2E_GMAIL_CLIENT_ID}
             export GMAIL_CLIENT_SECRET=${E2E_GMAIL_CLIENT_SECRET}
@@ -233,8 +233,20 @@ workflows:
       - integration_test:
           requires:
             - build
-      - e2e_test
-      - browser_smoke_test
+      - e2e_test:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - deploy_dev
+      - browser_smoke_test:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - deploy_dev
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
