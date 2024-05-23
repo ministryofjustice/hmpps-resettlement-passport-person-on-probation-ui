@@ -1,4 +1,4 @@
-import HomePage from '../pages/home'
+import StartPage from '../pages/start'
 import Page from '../pages/page'
 
 context('Feedback', () => {
@@ -9,7 +9,7 @@ context('Feedback', () => {
   })
 
   it('Should be able to submit feedback', () => {
-    Page.verifyOnPage(HomePage)
+    Page.verifyOnPage(StartPage)
     cy.get('[data-qa="feedback-link"]').click()
 
     // start feedback
@@ -37,11 +37,11 @@ context('Feedback', () => {
     cy.get('[data-qa="feedback-success-panel"]').should('exist')
     cy.get('[data-qa="feedback-end-return-link"]').click()
 
-    Page.verifyOnPage(HomePage)
+    Page.verifyOnPage(StartPage)
   })
 
   it('Should be able to change answers', () => {
-    Page.verifyOnPage(HomePage)
+    Page.verifyOnPage(StartPage)
     cy.get('[data-qa="feedback-link"]').click()
 
     // start feedback
@@ -92,7 +92,7 @@ context('Feedback', () => {
   })
 
   it('Should validate feedback input', () => {
-    Page.verifyOnPage(HomePage)
+    Page.verifyOnPage(StartPage)
     cy.get('[data-qa="feedback-link"]').click()
 
     // start feedback
@@ -115,7 +115,7 @@ context('Feedback', () => {
   })
 
   it('Should strip unsafe html input', () => {
-    Page.verifyOnPage(HomePage)
+    Page.verifyOnPage(StartPage)
     cy.get('[data-qa="feedback-link"]').click()
 
     // start feedback

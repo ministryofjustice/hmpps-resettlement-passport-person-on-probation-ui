@@ -1,5 +1,5 @@
 import AppointmentsPage from '../pages/appointment'
-import HomePage from '../pages/home'
+import StartPage from '../pages/start'
 import Page from '../pages/page'
 
 context('Appointments', () => {
@@ -15,7 +15,7 @@ context('Appointments', () => {
 
   afterEach(() => {
     cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(HomePage)
+    Page.verifyOnPage(StartPage)
   })
 
   it('Should render no appointments for 404 responses', () => {

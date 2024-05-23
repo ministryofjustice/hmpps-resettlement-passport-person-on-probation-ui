@@ -1,12 +1,12 @@
 import { Router } from 'express'
 import { Services } from '../../services'
-import DashboardController from './dashboardController'
+import OverviewController from './overviewController'
 
 export default (router: Router, services: Services) => {
-  const controller = new DashboardController(
+  const controller = new OverviewController(
     services.appointmentService,
     services.userService,
     services.licenceConditionService,
   )
-  router.get('/dashboard', [controller.index])
+  router.get('/overview', [controller.index])
 }

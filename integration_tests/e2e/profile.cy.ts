@@ -1,4 +1,4 @@
-import HomePage from '../pages/home'
+import StartPage from '../pages/start'
 import Page from '../pages/page'
 
 context('Profile', () => {
@@ -15,7 +15,7 @@ context('Profile', () => {
 
   afterEach(() => {
     cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(HomePage)
+    Page.verifyOnPage(StartPage)
   })
 
   it('Should be able to see profile page and profile data', () => {

@@ -10,61 +10,77 @@
 
 {% block content %}
 
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
-            {{ govukWarningText({
+    {% if isExpired %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <p data-qa="licence-conditions-expired">{{ t('licence-conditions-expired') }} {{licence.expiryDate | formatLicenceDate(queryParams.lang) }}.
+                </p>
+            </div>
+        </div>
+    {% else %}
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
+                {{ govukWarningText({
                 text: t('licence-conditions-warning'),
                 iconFallbackText: "Warning"
                 }) }}
-            <p>{{ t('licence-conditions-p1') }}</p>
-            <p>{{ t('licence-conditions-p2') }}</p>
-            <p>{{ t('licence-conditions-p3') }}</p>
+                <p>{{ t('licence-conditions-p1') }}</p>
+                <p>{{ t('licence-conditions-p2') }}</p>
+                <p>{{ t('licence-conditions-p3') }}</p>
+            </div>
         </div>
-    </div>
 
-    <div class="govuk-grid-row govuk-!-margin-top-8">
+        <div class="govuk-grid-row govuk-!-margin-top-8">
 
-        <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-8">
-            {% if licence %}
-                <h2 id="licence-dates" class="govuk-heading-m" data-qa="licence-conditions-dates">{{ t('licence-conditions-expiry') }} <br/>
-                    {{licence.expiryDate | formatLicenceDate(queryParams.lang) }}</h2>
-                <p>{{ t('licence-conditions-must') }}</p>
-                <ul class="govuk-list govuk-list--spaced test">
-                    {% for x in licence.standardLicenceConditions %}
-                        <li>
-                            <div class="govuk-grid-row govuk-!-padding-bottom-6">
-                                <div class="govuk-grid-column-full" data-qa="{{loop.index}}-licence-conditions-item">
-                                    {{loop.index}}. {{x.text}}
-                                </div>
-                            </div>
-                            <hr>
-                        </li>
-                    {% endfor %}
-
-                    {% for y in licence.otherLicenseConditions %}
-                        <li>
-                            <div class="govuk-grid-row govuk-!-padding-bottom-6">
-                                <div class="govuk-grid-column-full" data-qa="{{loop.index + licence.standardLicenceConditions.length }}-licence-conditions-item">
-                                    {{loop.index + licence.standardLicenceConditions.length }}. {{y.text}}
-                                </div>
-                                {% if y.image %}
-                                    <div class="govuk-grid-column-full govuk-!-margin-top-2">
-                                        <p>
-                                            <a id="condition-image-{{y.id}}-link" data-qa="{{loop.index + licence.standardLicenceConditions.length }}-licence-conditions-link" href="/licence-conditions/{{licence.licenceId}}/condition/{{y.id}}{{appendLanguage(queryParams)}}">{{ t('licence-conditions-details') }}</a>
-                                        </p>
+            <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-8">
+                {% if licence %}
+                    <h2 class="govuk-heading-m" data-qa="licence-conditions-dates">{{ t('licence-conditions-expiry') }}
+                        {{licence.expiryDate | formatLicenceDate(queryParams.lang) }}</h2>
+                    <p>{{ t('licence-conditions-must') }}</p>
+                    <ul class="govuk-list govuk-list--spaced test">
+                        {% for x in licence.standardLicenceConditions %}
+                            <li>
+                                <div class="govuk-grid-row govuk-!-padding-bottom-6">
+                                    <div class="govuk-grid-column-full" data-qa="{{loop.index}}-licence-conditions-item">
+                                        {{loop.index}}. {{x.text}}
                                     </div>
-                                {% endif %}
-                            </div>
-                            <hr>
-                        </li>
-                    {% endfor %}
-                </ul>
-                <p>{{ t('licence-conditions-p4') }}</p>
-            {% else %}
-                <p data-qa="licence-conditions-not-found-msg">{{ t('licence-conditions-not-found') }}</p>
-            {% endif %}
+                                </div>
+                                <hr>
+                            </li>
+                        {% endfor %}
+
+                        {% for y in licence.otherLicenseConditions %}
+                            <li>
+                                <div class="govuk-grid-row govuk-!-padding-bottom-6">
+                                    <div class="govuk-grid-column-full" data-qa="{{loop.index + licence.standardLicenceConditions.length }}-licence-conditions-item">
+                                        {{loop.index + licence.standardLicenceConditions.length }}. {{y.text}}
+                                    </div>
+                                    {% if y.image %}
+                                        <div class="govuk-grid-column-full govuk-!-margin-top-2">
+                                            <p>
+                                                <a id="condition-image-{{y.id}}-link" data-qa="{{loop.index + licence.standardLicenceConditions.length }}-licence-conditions-link" href="/licence-conditions/{{licence.licenceId}}/condition/{{y.id}}{{appendLanguage(queryParams)}}">{{ t('licence-conditions-details') }}</a>
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <hr>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <p>{{ t('licence-conditions-p4') }}</p>
+                {% else %}
+                    <p data-qa="licence-conditions-not-found-msg">{{ t('licence-conditions-not-found') }}</p>
+                {% endif %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 
 {% endblock %}

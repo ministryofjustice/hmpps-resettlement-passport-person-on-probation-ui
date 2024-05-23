@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
 
-export default class HomeController {
+export default class StartController {
   index: RequestHandler = async (req, res) => {
     const queryParams = req.query
-    res.render('pages/index', queryParams)
+    res.render('pages/start', queryParams)
   }
 }

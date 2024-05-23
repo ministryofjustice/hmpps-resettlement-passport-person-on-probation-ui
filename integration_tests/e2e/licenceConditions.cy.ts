@@ -1,4 +1,4 @@
-import HomePage from '../pages/home'
+import StartPage from '../pages/start'
 import LicencePage from '../pages/licence'
 import Page from '../pages/page'
 
@@ -14,7 +14,7 @@ context('Licence conditions', () => {
 
   afterEach(() => {
     cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(HomePage)
+    Page.verifyOnPage(StartPage)
   })
 
   it('Should see licence conditions', () => {
@@ -26,7 +26,7 @@ context('Licence conditions', () => {
     Page.verifyOnPage(LicencePage)
 
     // date start and end should be visivle
-    cy.get('#licence-dates').contains('Licence expires on: 12 July 2023')
+    cy.get('[data-qa="licence-conditions-dates"]').contains('Your licence expires: 12 July 2199')
 
     // standard conditions should be visible
     cy.contains('1. Be of good behaviour and not behave in a way which undermines the purpose of the licence period.')
@@ -45,11 +45,23 @@ context('Licence conditions', () => {
     cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
     Page.verifyOnPage(LicencePage)
 
-    cy.get('#licence-dates').should('not.exist')
+    cy.get('[data-qa="licence-conditions-dates"]').should('not.exist')
 
     cy.get('[data-qa="licence-conditions-not-found-msg"]').contains(
       'We cannot show your licence conditions. Ask your probation officer for details.',
     )
+  })
+
+  it('Should see alternative text when licence conditions expired', () => {
+    cy.task('stubGetLicenceConditionsExpired')
+    cy.signIn()
+
+    // click sub navigation menu for licence conditions
+    cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(LicencePage)
+
+    cy.get('[data-qa="licence-conditions-dates"]').should('not.exist')
+    cy.contains('Your licence conditions ended on 12 July 1999.')
   })
 
   it('Should see licence conditions details', () => {
