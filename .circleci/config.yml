@@ -233,16 +233,8 @@ workflows:
       - integration_test:
           requires:
             - build
-      - e2e_test:
-          requires:
-            - build
-      - browser_smoke_test:
-          filters:
-            branches:
-              only:
-                - main
-          requires:
-            - deploy_dev
+      - e2e_test
+      - browser_smoke_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
