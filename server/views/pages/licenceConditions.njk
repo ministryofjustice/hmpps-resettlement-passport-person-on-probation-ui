@@ -43,7 +43,6 @@
             <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-8">
                 {% if licence %}
                     <h2 class="govuk-heading-m" data-qa="licence-conditions-dates">{{ t('licence-conditions-expiry') }}
-                        <br/>
                         {{licence.expiryDate | formatLicenceDate(queryParams.lang) }}</h2>
                     <p>{{ t('licence-conditions-must') }}</p>
                     <ul class="govuk-list govuk-list--spaced test">
