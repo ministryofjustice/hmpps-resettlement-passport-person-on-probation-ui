@@ -1,6 +1,6 @@
 import CookiesPage from '../pages/cookies'
 import AccessibilityPage from '../pages/accessibility'
-import HomePage from '../pages/home'
+import StartPage from '../pages/start'
 import Page from '../pages/page'
 
 context('Static pages', () => {
@@ -9,8 +9,8 @@ context('Static pages', () => {
   })
 
   it('Should see the start page', () => {
-    Page.verifyOnPage(HomePage)
-    cy.contains('Use this service after leaving prison to view:')
+    Page.verifyOnPage(StartPage)
+    cy.contains('This is a secure and confidential service for people on probation.')
   })
 
   it('Should see the privacy policy link', () => {
