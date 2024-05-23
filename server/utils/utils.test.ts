@@ -17,6 +17,7 @@ import {
   appendLang,
   appendLanguage,
   isDateInPast,
+  toProperCase,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -326,5 +327,15 @@ describe('isDateInPast', () => {
     ['01/08/2999', false],
   ])('isDateInPast(%s)', (input: string, expected: boolean) => {
     expect(isDateInPast(input)).toBe(expected)
+  })
+})
+
+describe('toProperCase', () => {
+  it.each([
+    ['name', 'Name'],
+    ['name surname', 'Name Surname'],
+    ['name middlename surname', 'Name Middlename Surname'],
+  ])('toProperCase(%s)', (input: string, expected: string) => {
+    expect(toProperCase(input)).toBe(expected)
   })
 })

@@ -1,6 +1,6 @@
 import GovukOneLoginPage from '../pages/govukOneLogin'
 import Page from '../pages/page'
-import HomePage from '../pages/home'
+import StartPage from '../pages/start'
 import OtpPage from '../pages/otp'
 
 context('Sign in with GOV.UK One Login', () => {
@@ -12,7 +12,7 @@ context('Sign in with GOV.UK One Login', () => {
   it('Unauthenticated user not redirected - home page', () => {
     cy.task('stubGetAppointments')
     cy.visit('/')
-    Page.verifyOnPage(HomePage)
+    Page.verifyOnPage(StartPage)
   })
 
   it('Unauthenticated user redirected to GOV.UK One Login - OTP', () => {
@@ -36,6 +36,6 @@ context('Sign in with GOV.UK One Login', () => {
     cy.signIn()
     Page.verifyOnPage(OtpPage)
     cy.get('a.moj-sub-navigation__link[data-qa="signOut"]').click()
-    Page.verifyOnPage(HomePage)
+    Page.verifyOnPage(StartPage)
   })
 })

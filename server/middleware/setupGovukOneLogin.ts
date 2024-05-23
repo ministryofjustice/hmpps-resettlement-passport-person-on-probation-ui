@@ -85,7 +85,7 @@ export default function setUpGovukOneLogin(): Router {
     router.get('/auth/callback', (req, res, next) => {
       passport.authenticate('oidc', {
         nonce: generators.nonce(),
-        successRedirect: '/dashboard',
+        successRedirect: '/overview',
         failureRedirect: '/autherror',
         failureFlash: true,
       })(req, res, next)
