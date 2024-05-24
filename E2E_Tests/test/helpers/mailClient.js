@@ -55,7 +55,7 @@ async function returnSecurityCode(number) {
   startCount = number
 
   while (currentCount <= startCount) {
-    await sleep(2000)
+    await sleep(5000)
     currentCount = await authorize().then(countMessages).catch(console.error)
     console.log('in while loop current count ' + currentCount)
     console.log('in while loop start count ' + startCount)
@@ -147,7 +147,7 @@ async function listMessages(auth) {
   const res = await gmail.users.messages.list({
     userId: 'me',
   })
-  console.log('completed call')
+  console.log('completed listMessages call')
   const messages = res.data.messages
   if (!messages || messages.length === 0) {
     console.log('No messages found.')
@@ -163,7 +163,7 @@ async function countMessages(auth) {
   const res = await gmail.users.messages.list({
     userId: 'me',
   })
-  console.log('completed call')
+  console.log('completed countMessages call')
   const messages = res.data.messages
   if (!messages || messages.length === 0) {
     console.log('No messages found.')
@@ -182,7 +182,7 @@ async function getMessage(auth) {
     userId: 'me',
     id: id,
   })
-  console.log('completed call')
+  console.log('completed getMessages call')
   const messages = res.data.snippet
   const messageNumber = await extractSixDigitNumber(messages)
   console.log('email message number ' + messageNumber)
@@ -200,7 +200,7 @@ async function deleteLatestMessage(auth) {
     userId: 'me',
     id: id,
   })
-  console.log('completed call')
+  console.log('completed deleteLatestMessage call')
   console.log('email deleted ' + id)
 }
 

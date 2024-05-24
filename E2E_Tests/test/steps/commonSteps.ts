@@ -65,6 +65,11 @@ Then('they should see the start page', async function () {
 
 })
 
+Then('the user Logs Out of the service', async function () {
+  navigationPage = new NavigationPage(pageFixture.page);
+  await navigationPage.signOutLink.click();
+})
+
 
 Then('they create an account with Gov One Login', async function () {
   govOneLogin = new GovOneLogin(pageFixture.page);
@@ -95,6 +100,34 @@ Then('they create an account with Gov One Login', async function () {
   await govOneEnterOTPSecurityCode.submitCode(otpAuth);
   await govOneCreatedAccount.shouldFindTitle();
   await govOneCreatedAccount.continue.click();
+})
+
+Then('the user logs into their account who has completed account setup', async function () {
+  govOneLogin = new GovOneLogin(pageFixture.page);
+  govOneEnterEmail = new GovOneEnterEmail(pageFixture.page);
+  govOneEnterPassword = new GovOneEnterPassword(pageFixture.page)
+  dashboardPage = new DashboardPage(pageFixture.page);
+  await homePage.clickStart();
+  await govOneLogin.signInButton.click();
+  console.log('user loging into account')
+  await govOneEnterEmail.submitEmail(email);
+  await govOneEnterPassword.submitPassword(password);
+  await dashboardPage.shouldFindTitle();
+  
+})
+
+
+Then('the user logs into their account who has not completed account setup', async function () {
+  govOneLogin = new GovOneLogin(pageFixture.page);
+  govOneEnterEmail = new GovOneEnterEmail(pageFixture.page);
+  govOneEnterPassword = new GovOneEnterPassword(pageFixture.page)
+  completeAccountPage = new CompleteAccountPage(pageFixture.page);
+  await homePage.clickStart();
+  await govOneLogin.signInButton.click();
+  console.log('user loging into account')
+  await govOneEnterEmail.submitEmail(email);
+  await govOneEnterPassword.submitPassword(password);
+  await completeAccountPage.shouldFindTitle();
 })
 
 Then('the user completes the account setup with first-time ID code', async function () {
@@ -165,4 +198,72 @@ Then('the user deletes their Gov One Account after logging in', async function (
   await govOneSecurityDetails.confirmAreYouSure();
   console.log('govOne Account Deleted');
 
+})
+
+
+Then('delete account housekeeping', async function () {
+
+  govOneLogin = new GovOneLogin(pageFixture.page);
+  govOneEnterEmail = new GovOneEnterEmail(pageFixture.page);
+  govOneEnterPassword = new GovOneEnterPassword(pageFixture.page)
+  dashboardPage = new DashboardPage(pageFixture.page);
+  await homePage.clickStart();
+  await govOneLogin.signInButton.click();
+  console.log('user loging into account')
+  await govOneEnterEmail.submitEmail(email);
+  // check header here to see if account exists..
+  if ((await page.$('#elem-id')) !== null) {
+    await govOneEnterPassword.submitPassword(password);
+
+    // check to see if account is fully registered
+    if ((await page.$('#elem-id')) !== null) {
+      // if not completed registration complete registration
+      completeAccountPage = new CompleteAccountPage(pageFixture.page);
+      await completeAccountPage.shouldFindTitle();
+      const firstTimeIdCode = await getFirstTimeIdCode();
+      await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
+      const dob = getDobArray
+      await completeAccountPage.submitDay(getDobArray[0]);
+      await completeAccountPage.submitMonth(getDobArray[1]);
+      await completeAccountPage.submitYear(getDobArray[2]);
+    }
+    await dashboardPage.shouldFindTitle();
+    const count = await returnCurrentCount();
+    navigationPage = new NavigationPage(pageFixture.page);
+    settingsPage = new SettingsPage(pageFixture.page);
+    govOneEnterOTPSecurityCode = new GovOneEnterOTPSecurityCode(pageFixture.page);
+    govOneCheckEmail = new GovOneCheckEmail(pageFixture.page);
+    govOneSelectOTPMethod = new GovOneSelectOTPMethod(pageFixture.page);
+    govOneChangedOTP = new GovOneChangedOTP(pageFixture.page);
+    govOneSecurityDetails = new GovOneSecurityDetails(pageFixture.page);
+    
+    await navigationPage.settingsLink.click();
+    await settingsPage.shouldFindTitle();
+    await settingsPage.govOneLink.click();
+    console.log('govOnelinkClicked');
+
+    await govOneEnterOTPSecurityCode.gotoResetOTP();
+    console.log('should have redirected to check email');
+    const securityCode = await returnSecurityCode(count);
+    console.log(securityCode);
+    await govOneCheckEmail.submitCode(securityCode);
+    await govOneSelectOTPMethod.submitAuthAppOption();
+    await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
+    const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
+    console.log('secret Key ...'+ secret.slice(-3));
+    var secretValue= secret.slice(12);
+    console.log('secret Key Trim ...'+secretValue.slice(-3));
+    const otpAuth = await getMyOTP(secretValue);
+    await govOneEnterOTPSecurityCode.submitCode(otpAuth);
+    await govOneChangedOTP.continue.click();
+    
+    await govOneSecurityDetails.shouldFindTitle();
+    await govOneSecurityDetails.gotoDeleteAccount();
+    await govOneSecurityDetails.submitPassword(password);
+    await govOneSecurityDetails.confirmAreYouSure();
+    console.log('govOne Account Deleted');
+
+  } 
+  // no need to delete account if not in if statement.
+  console.log('account was deleted or not created')
 })
