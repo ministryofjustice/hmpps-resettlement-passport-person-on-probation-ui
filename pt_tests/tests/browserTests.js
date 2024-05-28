@@ -168,7 +168,7 @@ export async function mainDevBrowserTest() {
 }
 
 
-export async function mainPreProdTESTBrowserTest() {
+export async function mainPreProdBrowserTest() {
   const page = browser.newPage()
 
   const pYFLandingPage = new PYFLandingPage(page)
@@ -202,9 +202,9 @@ export async function mainPreProdTESTBrowserTest() {
     await Promise.all([page.waitForNavigation(), enterEmail.submitEmail(__ENV.PT_PP_USERNAME)])
     await Promise.all([page.waitForNavigation(), enterPassword.submitPassword(__ENV.PT_PASSWORD)])
     // gets OTP code using OTP secret value - if ever we update account this will need to be updated.
-    //const otpAuth = getMyOTP(__ENV.PT_OTPAUTHSECRET)
-   // console.log(otpAuth)
-   // await Promise.all([page.waitForNavigation(), govOneEnterOTPSecurityCode.submitCode(otpAuth)])
+    const testOTP = await totp(__ENV.PT_OTPAUTHSECRET)
+    console.log(testOTP) 
+    await Promise.all([page.waitForNavigation(), govOneEnterOTPSecurityCode.submitCode(testOTP)])
 
     // checks duration of loading Dashboard Page
     page.evaluate(() => window.performance.mark('page-visit'))
@@ -315,57 +315,3 @@ export async function mainPreProdTESTBrowserTest() {
     page.close()
   }
 }
-
-
-export async function mainPreProdBrowserTest() {
-  const page = browser.newPage()
-  const testOTP = await totp("HEWGKXC2TUG4SI32C3NPQMPIBRHGC43E")
-  console.log(testOTP)
-
-  const pYFLandingPage = new PYFLandingPage(page)
-  const appointments = new Appointments(page)
-  const licenceConditions = new LicenceConditions(page)
-  const navigationBar = new NavigationBar(page)
-  const dashboard = new Dashboard(page)
-  const profile = new Profile(page)
-  const settings = new Settings(page)
-  const signOut = new SignOut(page)
-  const enterEmail = new GovOneEnterEmail(page)
-  const enterPassword = new GovOneEnterPassword(page)
-  const govOneEnterOTPSecurityCode = new GovOneEnterSecurityCode(page)
-  const screenshot = '../screenshots/'
-  console.log('start of test')
-
-  const govOneLogin = new GovOneLogin(page)
-
-  try {
-    // logs into GovOne before navigating to Plan Your Journey
-    await govOneLogin.gotoIntegrationLogin()
-    await govOneLogin.gotoPPPlan()
-    console.log('gotoPreProdPlan')
-    page.screenshot({ path: `${screenshot}startPYFJourney.png` })
-    await Promise.all([page.waitForNavigation(), pYFLandingPage.startNowButton.click()])
-    console.log('signIn')
-    page.screenshot({ path: `${screenshot}signIn.png` })
-    await Promise.all([page.waitForNavigation(), govOneLogin.signInButton.click()])
-    console.log('email')
-    page.screenshot({ path: `${screenshot}email.png` })
-    await Promise.all([page.waitForNavigation(), enterEmail.submitEmail(__ENV.PT_PP_USERNAME)])
-    await Promise.all([page.waitForNavigation(), enterPassword.submitPassword(__ENV.PT_PASSWORD)])
-    // gets OTP code using OTP secret value - if ever we update account this will need to be updated.
-    //const otpAuth = getMyOTP(__ENV.PT_OTPAUTHSECRET)
-   // console.log(otpAuth)
-   // await Promise.all([page.waitForNavigation(), govOneEnterOTPSecurityCode.submitCode(otpAuth)])
-
-    // checks duration of loading Dashboard Page
-    page.evaluate(() => window.performance.mark('page-visit'))
-    console.log('loggedIn')
-    page.screenshot({ path: `${screenshot}dashboard.png` })
-  
-    
-  } finally {
-    page.close()
-  }
-}
-
-
