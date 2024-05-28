@@ -2,7 +2,7 @@ import { Trend, Rate, Counter, Gauge } from 'k6/metrics'
 
 export { resettlementPassportApi } from './apiTestsAuth.js'
 export { setup } from './apiTestsAuth.js'
-export { mainDevBrowserTest } from './browserTests.js'
+export { mainDevBrowserTest, mainPreProdBrowserTest } from './browserTests.js'
 
 export const errorRate = new Rate('errors')
 const executionType = __ENV.EXECUTION_TYPE
@@ -31,6 +31,22 @@ export function getScenarios(executionType) {
           vus: 1,
           iterations: 1,
           maxDuration: '15s',
+          options: {
+            browser: {
+              type: 'chromium',
+            },
+          },
+        },
+      }
+    }
+    case 'smokePreProd': {
+      return {
+        browserTest: {
+          executor: 'shared-iterations',
+          exec: 'mainPreProdBrowserTest',
+          vus: 1,
+          iterations: 1,
+          maxDuration: '20s',
           options: {
             browser: {
               type: 'chromium',

@@ -5,7 +5,7 @@ export class GovOneEnterSecurityCode {
     this.continue = page.locator('//*[@id="form-tracking"]/button')
   }
 
-  async submitEmail(String) {
+  async submitCode(String) {
     await this.enterCodeField.type(String)
     await this.continue.click()
   }
