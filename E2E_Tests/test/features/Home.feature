@@ -1,6 +1,13 @@
 Feature: Home
 
   @test
+  Scenario: User Housekeeping if failure of tests
+    Given the user has access to their first-time ID code
+    Given the user visit plan your future
+    Then delete account housekeeping
+    
+
+  @test
   Scenario: Full E2E registration Gov One then completed PYF then delete account
     Given the user has access to their first-time ID code
     When the user visit plan your future
@@ -30,9 +37,6 @@ Feature: Home
     Then the user logs into their account who has completed account setup
     Then the user deletes their Gov One Account after logging in
 
-  @test
-  Scenario: User Housekeeping if failure of tests
-    Given the user has access to their first-time ID code
-    Given the user visit plan your future
-    Then delete account housekeeping
+
+
   
