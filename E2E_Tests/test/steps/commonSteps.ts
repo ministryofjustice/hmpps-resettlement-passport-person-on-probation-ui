@@ -200,23 +200,30 @@ Then('the user deletes their Gov One Account after logging in', async function (
 
 })
 
-
+// the following Code is if error in tests and account is still existing this will delete account for next run; controlled in feature file. 
 Then('delete account housekeeping', async function () {
 
   govOneLogin = new GovOneLogin(pageFixture.page);
   govOneEnterEmail = new GovOneEnterEmail(pageFixture.page);
   govOneEnterPassword = new GovOneEnterPassword(pageFixture.page)
   dashboardPage = new DashboardPage(pageFixture.page);
+  navigationPage = new NavigationPage(pageFixture.page);
   await homePage.clickStart();
   await govOneLogin.signInButton.click();
   console.log('user loging into account')
   await govOneEnterEmail.submitEmail(email);
   // check header here to see if account exists..
-  if ((await page.$('#elem-id')) !== null) {
+  var testVal1 = await navigationPage.pageHeader.innerText();
+  console.log(testVal1);
+  if ((testVal1 == 'Enter your password')) {
+    console.log('continuing to log into account');
     await govOneEnterPassword.submitPassword(password);
 
     // check to see if account is fully registered
-    if ((await page.$('#elem-id')) !== null) {
+    var testVal2 = await navigationPage.pageHeader.innerText();
+    console.log(testVal2);
+    if ((testVal2 == 'Complete your account setup securely')) {
+      console.log('continuing to setup account');
       // if not completed registration complete registration
       completeAccountPage = new CompleteAccountPage(pageFixture.page);
       await completeAccountPage.shouldFindTitle();
@@ -227,6 +234,7 @@ Then('delete account housekeeping', async function () {
       await completeAccountPage.submitMonth(getDobArray[1]);
       await completeAccountPage.submitYear(getDobArray[2]);
     }
+    console.log('deleteing account');
     await dashboardPage.shouldFindTitle();
     const count = await returnCurrentCount();
     navigationPage = new NavigationPage(pageFixture.page);
@@ -264,6 +272,9 @@ Then('delete account housekeeping', async function () {
     console.log('govOne Account Deleted');
 
   } 
+  else{
   // no need to delete account if not in if statement.
-  console.log('account was deleted or not created')
+  console.log('no account was to be deleted');
+  }
+
 })
