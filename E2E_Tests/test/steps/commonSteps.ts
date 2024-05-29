@@ -19,6 +19,7 @@ import SettingsPage from '../../pageObjects/settingsPage'
 import GovOneChangedOTP from '../../pageObjects/govOne/govOneChangedOTP'
 import GovOneSecurityDetails from '../../pageObjects/govOne/govOneYourDetailsSecuityPage'
 import { getFirstTimeIdCode, getDobArray } from '../helpers/firstTimeIdCode'
+import exp from 'constants'
 
 setDefaultTimeout(20000)
 let page: Page;
@@ -100,6 +101,24 @@ Then('they create an account with Gov One Login', async function () {
   await govOneEnterOTPSecurityCode.submitCode(otpAuth);
   await govOneCreatedAccount.shouldFindTitle();
   await govOneCreatedAccount.continue.click();
+})
+
+Then('they try to re-create an existing account with Gov One Login', async function () {
+  govOneLogin = new GovOneLogin(pageFixture.page);
+  govOneEnterEmail = new GovOneEnterEmail(pageFixture.page);
+  govOneCreatedAccount = new GovOneCreatedAccount(pageFixture.page);
+  navigationPage = new NavigationPage(pageFixture.page);
+  govOneEnterPassword = new GovOneEnterPassword(pageFixture.page)
+  dashboardPage = new DashboardPage(pageFixture.page);
+  await homePage.clickStart();
+  const count = await returnCurrentCount();
+  console.log('govOneLogin');
+  await govOneLogin.createLogin.click();
+  console.log('creating loging')
+  await govOneEnterEmail.submitEmail(email);
+  await expect(navigationPage.pageHeader).toHaveText('You have a GOV.UK One Login');
+  await govOneEnterPassword.submitPassword(password);
+  await dashboardPage.shouldFindTitle();
 })
 
 Then('the user logs into their account who has completed account setup', async function () {
@@ -213,12 +232,31 @@ Then('delete account housekeeping', async function () {
   console.log('user loging into account')
   await govOneEnterEmail.submitEmail(email);
   // check header here to see if account exists..
-  var testVal1 = await navigationPage.pageHeader.innerText();
-  console.log(testVal1);
-  if ((testVal1 == 'Enter your password')) {
+  var testVal0 = await navigationPage.pageHeader.innerText();
+  console.log(testVal0);
+  if ((testVal0 == 'Enter your password')) {
     console.log('continuing to log into account');
     await govOneEnterPassword.submitPassword(password);
+    // check header here to see Gov One Acc and has been completed
+    var testVal1 = await navigationPage.pageHeader.innerText();
+    console.log(testVal1);
+    if ((testVal1 == 'Finish creating your GOV.UK One Login')) {
 
+      govOneSelectOTPMethod = new GovOneSelectOTPMethod(pageFixture.page);
+      govOneEnterOTPSecurityCode = new GovOneEnterOTPSecurityCode(pageFixture.page);
+      govOneCreatedAccount = new GovOneCreatedAccount(pageFixture.page);
+      const count = await returnCurrentCount();
+      await govOneSelectOTPMethod.submitAuthAppOption();
+      await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
+      const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
+      console.log('secret Key ...'+ secret.slice(-3));
+      var secretValue= secret.slice(12);
+      console.log('secret Key Trim ...'+secretValue.slice(-3));
+      const otpAuth = await getMyOTP(secretValue);
+      await govOneEnterOTPSecurityCode.submitCode(otpAuth);
+      await govOneCreatedAccount.shouldFindTitle();
+      await govOneCreatedAccount.continue.click();
+    }
     // check to see if account is fully registered
     var testVal2 = await navigationPage.pageHeader.innerText();
     console.log(testVal2);
