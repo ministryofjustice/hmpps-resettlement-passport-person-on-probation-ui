@@ -227,6 +227,15 @@ Then('delete account housekeeping', async function () {
   govOneEnterPassword = new GovOneEnterPassword(pageFixture.page)
   dashboardPage = new DashboardPage(pageFixture.page);
   navigationPage = new NavigationPage(pageFixture.page);
+  settingsPage = new SettingsPage(pageFixture.page);
+  govOneCheckEmail = new GovOneCheckEmail(pageFixture.page);
+  govOneChangedOTP = new GovOneChangedOTP(pageFixture.page);
+  govOneSecurityDetails = new GovOneSecurityDetails(pageFixture.page);
+  govOneSelectOTPMethod = new GovOneSelectOTPMethod(pageFixture.page);
+  govOneEnterOTPSecurityCode = new GovOneEnterOTPSecurityCode(pageFixture.page);
+  govOneCreatedAccount = new GovOneCreatedAccount(pageFixture.page);
+  completeAccountPage = new CompleteAccountPage(pageFixture.page);
+
   await homePage.clickStart();
   await govOneLogin.signInButton.click();
   console.log('user loging into account')
@@ -241,10 +250,6 @@ Then('delete account housekeeping', async function () {
     var testVal1 = await navigationPage.pageHeader.innerText();
     console.log(testVal1);
     if ((testVal1 == 'Finish creating your GOV.UK One Login')) {
-
-      govOneSelectOTPMethod = new GovOneSelectOTPMethod(pageFixture.page);
-      govOneEnterOTPSecurityCode = new GovOneEnterOTPSecurityCode(pageFixture.page);
-      govOneCreatedAccount = new GovOneCreatedAccount(pageFixture.page);
       const count = await returnCurrentCount();
       await govOneSelectOTPMethod.submitAuthAppOption();
       await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
@@ -256,60 +261,59 @@ Then('delete account housekeeping', async function () {
       await govOneEnterOTPSecurityCode.submitCode(otpAuth);
       await govOneCreatedAccount.shouldFindTitle();
       await govOneCreatedAccount.continue.click();
+      await govOneSecurityDetails.gotoDeleteAccount();
+      await govOneSecurityDetails.submitPassword(password);
+      await govOneSecurityDetails.confirmAreYouSure();
+      console.log('govOne Account Deleted');
     }
-    // check to see if account is fully registered
-    var testVal2 = await navigationPage.pageHeader.innerText();
-    console.log(testVal2);
-    if ((testVal2 == 'Complete your account setup securely')) {
-      console.log('continuing to setup account');
-      // if not completed registration complete registration
-      completeAccountPage = new CompleteAccountPage(pageFixture.page);
-      await completeAccountPage.shouldFindTitle();
-      const firstTimeIdCode = await getFirstTimeIdCode();
-      await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
-      const dob = getDobArray
-      await completeAccountPage.submitDay(getDobArray[0]);
-      await completeAccountPage.submitMonth(getDobArray[1]);
-      await completeAccountPage.submitYear(getDobArray[2]);
-    }
-    console.log('deleteing account');
-    await dashboardPage.shouldFindTitle();
-    const count = await returnCurrentCount();
-    navigationPage = new NavigationPage(pageFixture.page);
-    settingsPage = new SettingsPage(pageFixture.page);
-    govOneEnterOTPSecurityCode = new GovOneEnterOTPSecurityCode(pageFixture.page);
-    govOneCheckEmail = new GovOneCheckEmail(pageFixture.page);
-    govOneSelectOTPMethod = new GovOneSelectOTPMethod(pageFixture.page);
-    govOneChangedOTP = new GovOneChangedOTP(pageFixture.page);
-    govOneSecurityDetails = new GovOneSecurityDetails(pageFixture.page);
-    
-    await navigationPage.settingsLink.click();
-    await settingsPage.shouldFindTitle();
-    await settingsPage.govOneLink.click();
-    console.log('govOnelinkClicked');
+    else {
+        // check to see if account is fully registered
+        var testVal2 = await navigationPage.pageHeader.innerText();
+        console.log(testVal2);
+        if ((testVal2 == 'Complete your account setup securely')) {
+          console.log('continuing to setup account');
+          // if not completed registration complete registration
+          await completeAccountPage.shouldFindTitle();
+          const firstTimeIdCode = await getFirstTimeIdCode();
+          await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
+          const dob = getDobArray
+          await completeAccountPage.submitDay(getDobArray[0]);
+          await completeAccountPage.submitMonth(getDobArray[1]);
+          await completeAccountPage.submitYear(getDobArray[2]);
+          }
+        console.log('deleteing account');
+        await dashboardPage.shouldFindTitle();
+        const count = await returnCurrentCount();
 
-    await govOneEnterOTPSecurityCode.gotoResetOTP();
-    console.log('should have redirected to check email');
-    const securityCode = await returnSecurityCode(count);
-    console.log(securityCode);
-    await govOneCheckEmail.submitCode(securityCode);
-    await govOneSelectOTPMethod.submitAuthAppOption();
-    await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
-    const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
-    console.log('secret Key ...'+ secret.slice(-3));
-    var secretValue= secret.slice(12);
-    console.log('secret Key Trim ...'+secretValue.slice(-3));
-    const otpAuth = await getMyOTP(secretValue);
-    await govOneEnterOTPSecurityCode.submitCode(otpAuth);
-    await govOneChangedOTP.continue.click();
-    
-    await govOneSecurityDetails.shouldFindTitle();
-    await govOneSecurityDetails.gotoDeleteAccount();
-    await govOneSecurityDetails.submitPassword(password);
-    await govOneSecurityDetails.confirmAreYouSure();
-    console.log('govOne Account Deleted');
 
-  } 
+        await navigationPage.settingsLink.click();
+        await settingsPage.shouldFindTitle();
+        await settingsPage.govOneLink.click();
+        console.log('govOnelinkClicked');
+
+        await govOneEnterOTPSecurityCode.gotoResetOTP();
+        console.log('should have redirected to check email');
+        const securityCode = await returnSecurityCode(count);
+        console.log(securityCode);
+        await govOneCheckEmail.submitCode(securityCode);
+        await govOneSelectOTPMethod.submitAuthAppOption();
+        await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
+        const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
+        console.log('secret Key ...'+ secret.slice(-3));
+        var secretValue= secret.slice(12);
+        console.log('secret Key Trim ...'+secretValue.slice(-3));
+        const otpAuth = await getMyOTP(secretValue);
+        await govOneEnterOTPSecurityCode.submitCode(otpAuth);
+        await govOneChangedOTP.continue.click();
+
+        await govOneSecurityDetails.shouldFindTitle();
+        await govOneSecurityDetails.gotoDeleteAccount();
+        await govOneSecurityDetails.submitPassword(password);
+        await govOneSecurityDetails.confirmAreYouSure();
+        console.log('govOne Account Deleted');
+
+      } 
+  }
   else{
   // no need to delete account if not in if statement.
   console.log('no account was to be deleted');
