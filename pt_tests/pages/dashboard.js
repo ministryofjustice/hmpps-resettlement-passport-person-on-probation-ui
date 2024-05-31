@@ -7,5 +7,7 @@ export class Dashboard {
     this.appointmentsTile = page.locator('[data-qa="appointments-tile-title"]')
     this.licenceConditionsTile = page.locator('[data-qa="licence-conditions-tile-title"]')
     this.profileTile = page.locator('[data-qa="profile-tile-title"]')
+
+    this.header = page.locator('[data-qa="pyf-overview-h1"]')
   }
 }
