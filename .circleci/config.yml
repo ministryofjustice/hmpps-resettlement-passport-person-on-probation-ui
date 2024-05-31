@@ -137,7 +137,20 @@ jobs:
             k6 run pt_tests/tests/run.js --no-setup
           environment:
             EXECUTION_TYPE: smoke
-            PROCESS: dev      
+            PROCESS: dev
+
+  browser_smoke_test_preprod:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest-with-browser
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run pt_tests/tests/run.js --no-setup
+          environment:
+            EXECUTION_TYPE: smokePreProd
+            PROCESS: preprod                 
 
   browser_stress_test:
     circleci_ip_ranges: true
@@ -282,6 +295,13 @@ workflows:
           requires:
             - request-preprod-approval
           helm_timeout: 5m
+      - browser_smoke_test_preprod:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - deploy_preprod    
       - request-prod-approval:
           type: approval
           requires:
