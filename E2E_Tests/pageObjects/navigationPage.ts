@@ -4,7 +4,7 @@ export default class NavigationPage {
   private page: Page;
 
   readonly pageHeader: Locator;
-  readonly homeLink: Locator;
+  readonly overviewLink: Locator;
   readonly appointmentsLink: Locator;
   readonly licenceConditionsLink: Locator;
   readonly profileLink: Locator;
@@ -15,7 +15,7 @@ export default class NavigationPage {
   constructor(page: Page) {
     this.page = page;
     this.pageHeader = page.locator('h1');
-    this.homeLink = page.locator('[data-qa="home-nav-link"]');
+    this.overviewLink = page.locator('[data-qa="home-nav-link"]');
     this.appointmentsLink = page.locator('[data-qa="appointments-nav-link"]');
     this.licenceConditionsLink = page.locator('[data-qa="licence-conditions-nav-link"]');
     this.profileLink = page.locator('[data-qa="profile-nav-link"]');
