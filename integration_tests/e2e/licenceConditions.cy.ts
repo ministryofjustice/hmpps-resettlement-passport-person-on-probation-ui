@@ -64,6 +64,17 @@ context('Licence conditions', () => {
     cy.contains('Your licence conditions ended on 12 July 1999.')
   })
 
+  it('Should see alternative text when licence conditions changed', () => {
+    cy.task('stubGetLicenceConditionsChanged')
+    cy.signIn()
+
+    // click sub navigation menu for licence conditions
+    cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(LicencePage)
+
+    cy.contains('Your licence conditions have been updated.')
+  })
+
   it('Should see licence conditions details', () => {
     cy.task('stubGetLicenceConditions')
     cy.task('stubGetLicenceConditionImage')

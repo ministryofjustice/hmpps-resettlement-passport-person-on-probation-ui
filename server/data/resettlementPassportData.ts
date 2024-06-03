@@ -79,4 +79,5 @@ export interface LicenceConditionData {
   expiryDate?: string
   standardLicenceConditions?: ConditionInfo[]
   otherLicenseConditions?: ConditionInfo[]
+  changeStatus: boolean
 }

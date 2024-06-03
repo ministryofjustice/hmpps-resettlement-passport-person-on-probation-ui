@@ -15,7 +15,7 @@ const getYesterdaysDate = () => {
   return yesterday
 }
 
-const mockedLicenceConditions = expiryDate => {
+const mockedLicenceConditions = (expiryDate, changed = false) => {
   return {
     licenceId: 101,
     status: 'ACTIVE',
@@ -37,6 +37,7 @@ const mockedLicenceConditions = expiryDate => {
         sequence: 7,
       },
     ],
+    changeStatus: changed,
   }
 }
 
@@ -269,6 +270,18 @@ export default {
         status: 200,
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
         jsonBody: mockedLicenceConditions('12/07/2199'),
+      },
+    }),
+  stubGetLicenceConditionsChanged: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/licence-condition`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: mockedLicenceConditions('12/07/2199', true),
       },
     }),
   stubGetLicenceConditionsExpired: (): SuperAgentRequest =>
