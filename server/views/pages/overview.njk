@@ -14,7 +14,7 @@
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-full">
-      {{ alertBox.render(tomorrowAppointments, todayAppointments, licenceExpiryDateFormatted if isLicenceExpired) }}
+      {{ alertBox.render(tomorrowAppointments, todayAppointments, licenceExpiryDateFormatted if isLicenceExpired, isLicenceChanged) }}
       <p class="hmrc-caption govuk-caption-xl">
         <span class="govuk-visually-hidden">{{ t('overview-hidden-content') }} </span><span data-qa="pyf-overview-title">{{applicationName}}</span></p>
 

@@ -28,6 +28,7 @@ export default class LicenceConditionsController {
         user: req.user,
         licence,
         isExpired: isDateInPast(licence?.expiryDate),
+        isLicenceChanged: licence?.changeStatus,
         queryParams,
       })
     } catch (err) {
