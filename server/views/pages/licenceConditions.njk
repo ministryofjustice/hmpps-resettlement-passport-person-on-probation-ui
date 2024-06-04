@@ -1,5 +1,6 @@
 {% extends "../partials/layout.njk" %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% import "../partials/alertBoxMacro.njk" as alertBox %}
 
 {% set pageTitle = "Licence Conditions" + titleHeading %}
 
@@ -10,6 +11,14 @@
 
 {% block content %}
 
+    {% if isLicenceChanged %}
+        <div class="govuk-grid-row govuk-!-padding-bottom-4">
+            <div class="govuk-grid-column-full">
+                {{ alertBox.render([], [], false, true) }}
+            </div>
+        </div>
+    {% endif %}
+
     {% if isExpired %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
@@ -19,12 +28,12 @@
 
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <p data-qa="licence-conditions-expired">{{ t('licence-conditions-expired') }} {{licence.expiryDate | formatLicenceDate(queryParams.lang) }}.
+                <p data-qa="licence-conditions-expired">{{ t('licence-conditions-expired') }}
+                    {{licence.expiryDate | formatLicenceDate(queryParams.lang) }}.
                 </p>
             </div>
         </div>
     {% else %}
-
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>

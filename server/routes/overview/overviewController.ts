@@ -43,6 +43,7 @@ export default class OverviewController {
         todayAppointments,
         licenceExpiryDate: licence?.expiryDate,
         isLicenceExpired: isDateInPast(licence?.expiryDate),
+        isLicenceChanged: licence?.changeStatus,
         queryParams,
       })
     } catch (err) {

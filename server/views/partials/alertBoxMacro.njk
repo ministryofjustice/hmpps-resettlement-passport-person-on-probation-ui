@@ -1,5 +1,5 @@
-{% macro render(tomorrowAppointments, todayAppointments, licenceExpiredFormatted) %}
-    {% if todayAppointments | length > 0 or tomorrowAppointments | length > 0 or licenceExpiredFormatted %}
+{% macro render(tomorrowAppointments, todayAppointments, licenceExpiredFormatted, isLicenceChanged) %}
+    {% if todayAppointments | length > 0 or tomorrowAppointments | length > 0 or licenceExpiredFormatted or isLicenceChanged %}
         <div class="govuk-!-margin-bottom-4" data-qa="overview-alert-box">
             <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
                 <div class="govuk-notification-banner__header">
@@ -27,6 +27,11 @@
                         <p class="govuk-notification-banner__heading" data-qa="alert-box-licence-expired-msg">
                             {{ t('licence-conditions-expired') }}
                             {{ licenceExpiredFormatted }}.
+                        </p>
+                    {% endif %}
+                    {% if isLicenceChanged  %}
+                        <p class="govuk-notification-banner__heading" data-qa="alert-box-licence-changed-msg">
+                            {{ t('licence-conditions-changed') }}
                         </p>
                     {% endif %}
                 </div>
