@@ -46,7 +46,7 @@ export default class ResettlementPassportApiClient {
     try {
       logger.debug(`SessionId: ${sessionId}. getLicenceConditionsByNomsId(${nomsId})`)
       const response = await this.restClient.get<LicenceConditionData>({
-        path: `/prisoner/${nomsId}/licence-condition`,
+        path: `/prisoner/${nomsId}/licence-condition?includeChangeNotify=true`,
         headers: {
           SessionID: sessionId,
         },
