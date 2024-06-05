@@ -264,7 +264,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition`,
+        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
       },
       response: {
         status: 200,
@@ -276,7 +276,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition`,
+        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
       },
       response: {
         status: 200,
@@ -288,7 +288,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition`,
+        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
       },
       response: {
         status: 200,
@@ -300,7 +300,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition`,
+        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
       },
       response: {
         status: 404,
