@@ -75,6 +75,18 @@ context('Licence conditions', () => {
     cy.contains('Your licence conditions have been updated.')
   })
 
+  it('Should not see alert message when licence conditions changed and expired', () => {
+    cy.task('stubGetLicenceConditionsChangedAndExpired')
+    cy.signIn()
+
+    // click sub navigation menu for licence conditions
+    cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(LicencePage)
+
+    cy.contains('Your licence conditions ended on 12 July 1999.')
+    cy.get('alert-box-licence-changed-msg').should('not.exist')
+  })
+
   it('Should see licence conditions details', () => {
     cy.task('stubGetLicenceConditions')
     cy.task('stubGetLicenceConditionImage')
