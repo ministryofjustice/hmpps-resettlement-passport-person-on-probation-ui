@@ -11,14 +11,6 @@
 
 {% block content %}
 
-    {% if isLicenceChanged %}
-        <div class="govuk-grid-row govuk-!-padding-bottom-4">
-            <div class="govuk-grid-column-full">
-                {{ alertBox.render([], [], false, true) }}
-            </div>
-        </div>
-    {% endif %}
-
     {% if isExpired %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
@@ -34,6 +26,14 @@
             </div>
         </div>
     {% else %}
+
+        {% if isLicenceChanged %}
+            <div class="govuk-grid-row govuk-!-padding-bottom-4">
+                <div class="govuk-grid-column-full">
+                    {{ alertBox.render([], [], false, true) }}
+                </div>
+            </div>
+        {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
