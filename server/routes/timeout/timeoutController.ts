@@ -1,0 +1,8 @@
+import { RequestHandler } from 'express'
+
+export default class TimeoutController {
+  index: RequestHandler = async (req, res) => {
+    const queryParams = req.query
+    res.render('pages/timedOut', { queryParams })
+  }
+}
