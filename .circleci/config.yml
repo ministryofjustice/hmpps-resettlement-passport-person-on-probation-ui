@@ -109,6 +109,7 @@ jobs:
             export ST_PROXY_URL="http://localhost:8080"
             export ST_API_KEY=''
             pip install -r ./security_test/requirements.txt
+            playwright install
             python3 ./security_test/test_security.py
       - store_test_results:
           path: test_results
