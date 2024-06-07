@@ -31,7 +31,6 @@ executors:
     docker:
       - image: cimg/python:3.12.3
       - image: cimg/node:<< pipeline.parameters.node-version >>
-      - image: cimg/redis:<< pipeline.parameters.redis-version >>
       - image: 'zaproxy/zap-stable'
         entrypoint: ["/bin/sh", "-c"]
         command: ["zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true"]
