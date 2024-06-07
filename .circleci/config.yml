@@ -19,6 +19,18 @@ parameters:
     type: string
     default: 20.11-browsers
 
+executors:
+  # same as hmpps/node_redis executor with the addition of gotenberg container
+  zap-tests-executor:
+    docker:
+      - image: cimg/node:<< pipeline.parameters.node-version >>
+      - image: cimg/redis:<< pipeline.parameters.redis-version >>
+      - image: 'zaproxy/zap-stable'
+        entrypoint: ["/bin/sh", "-c"]
+        command: ["zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true"]
+    resource_class: medium
+    working_directory: ~/app
+
 jobs:
   build:
     executor:
@@ -68,6 +80,39 @@ jobs:
           path: test_results
       - store_artifacts:
           path: test_results/unit-test-reports.html
+
+  zap_test:
+    circleci_ip_ranges: true
+    executor: zap-tests-executor
+    steps:
+      - checkout
+      - run:
+          name: Install project dependencies
+          command: npm i
+      - run:
+          name: Install Playwright browsers
+          command: npx playwright install --with-deps
+      - run:
+          name: Run zap tests
+          command: |
+            export BASEURL=${DEV_BASEURL}
+            export PSFRURL=${DEV_PSFRURL}
+            export USEREMAIL=testuserpyf+151@gmail.com
+            export USERPASSWORD=${E2E_USERPASSWORD}
+            export GMAIL_CLIENT_ID=${E2E_GMAIL_CLIENT_ID}
+            export GMAIL_CLIENT_SECRET=${E2E_GMAIL_CLIENT_SECRET}
+            export GMAIL_PROJECT_ID=${E2E_GMAIL_PROJECT_ID}
+            export GMAIL_TOKEN=${E2E_GMAIL_TOKEN}
+            export USERNAME=${E2E_USERNAME}
+            export PASSWORD=${E2E_PASSWORD}
+            export ST_USERNAME="testuserpyf+102@gmail.com"
+            export ST_PASSWORD=${E2E_USERPASSWORD}
+            export ST_PROXY_URL="http://localhost:8080"
+            export ST_API_KEY=''
+            npm run install-security-test-requirements
+            npm run security-test
+      - store_test_results:
+          path: test_results
 
   e2e_test:
     circleci_ip_ranges: true
@@ -253,6 +298,13 @@ workflows:
                 - main
           requires:
             - deploy_dev
+      - zap_test:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - build
       - browser_smoke_test:
           filters:
             branches:
