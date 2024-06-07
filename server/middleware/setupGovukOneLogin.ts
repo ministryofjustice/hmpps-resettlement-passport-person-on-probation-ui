@@ -1,4 +1,4 @@
-import type { Router } from 'express'
+import type { Request, Response, NextFunction, Router } from 'express'
 import express from 'express'
 import passport from 'passport'
 import flash from 'connect-flash'
@@ -91,22 +91,35 @@ export default function setUpGovukOneLogin(): Router {
       })(req, res, next)
     })
 
-    router.use('/sign-out', async (req, res, next) => {
+    async function handleSignOut(req: Request, res: Response, next: NextFunction, redirectUri: string) {
       if (req.user) {
-        const tokenStore = tokenStoreFactory()
-        const tokenId = await tokenStore.getToken(req.user.sub)
-        req.logout(err => {
-          if (err) return next(err)
-          return req.session.destroy(() =>
-            res.redirect(
-              client.endSessionUrl({
-                id_token_hint: tokenId,
-                post_logout_redirect_uri: config.domain,
-              }),
-            ),
-          )
-        })
-      } else res.redirect(config.domain)
+        try {
+          const tokenStore = tokenStoreFactory()
+          const tokenId = await tokenStore.getToken(req.user.sub)
+          return req.logout(err => {
+            if (err) return next(err)
+            return req.session.destroy(() =>
+              res.redirect(
+                client.endSessionUrl({
+                  id_token_hint: tokenId,
+                  post_logout_redirect_uri: redirectUri,
+                }),
+              ),
+            )
+          })
+        } catch (err) {
+          return next(err)
+        }
+      }
+      return res.redirect(redirectUri)
+    }
+
+    router.use('/sign-out', async (req, res, next) => {
+      return handleSignOut(req, res, next, config.domain)
+    })
+
+    router.use('/sign-out-timed', async (req, res, next) => {
+      return handleSignOut(req, res, next, `${config.domain}/timed-out`)
     })
 
     router.use(govukOneLogin.authenticationMiddleware())

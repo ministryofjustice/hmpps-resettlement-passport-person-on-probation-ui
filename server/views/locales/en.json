@@ -201,5 +201,9 @@
     "settings-p3": "If you need to update the contact details shown in your profile, your Probation Officer can do this for you. It is important you keep your profile details up-to-date.",
     "authorisation-error-h1": "Authorisation Error",
     "authorisation-error-p": "You are not authorised to use this application",
-    "authorisation-error-p-with-user": "You can Sign out to end this session and start again."
+    "authorisation-error-p-with-user": "You can Sign out to end this session and start again.",
+    "timedout-h1": "You have been signed out",
+    "timedout-p1": "For your privacy and security you have been signed out.",
+    "timedout-p2": "If you want to continue using Plan your future, you’ll need to go back to the start and sign in again.",
+    "timedout-link": "Return to start page"
 }
