@@ -94,8 +94,8 @@ jobs:
       - run:
           name: Run zap tests
           command: |
-            export ST_USERNAME="testuserpyf+102@gmail.com"
-            export ST_PASSWORD=${E2E_USERPASSWORD}
+            export ST_USERNAME=${ST_USERNAME}
+            export ST_PASSWORD=${ST_PASSWORD}
             export ST_PROXY_URL="http://localhost:8080"
             export ST_API_KEY=''
             pip install -r ./security_test/requirements.txt
