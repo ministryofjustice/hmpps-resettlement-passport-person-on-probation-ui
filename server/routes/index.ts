@@ -26,6 +26,6 @@ export default function routes(service: Services): Router {
   cookiesRoutes(router)
   accessibilityRoutes(router)
   feedbackRoutes(router, service)
-  timeoutRoutes(router)
+  timeoutRoutes(router, service)
   return router
 }
