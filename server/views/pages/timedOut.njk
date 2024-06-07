@@ -1,0 +1,20 @@
+{% extends "../partials/layout.njk" %}
+
+{% set pageTitle = "Session Timed out" + titleHeading %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block beforeContent %}
+  {% include "../partials/limited-subnavigation.njk" %}
+{% endblock %}
+
+{% block content %}
+ <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-margin-top-4" data-qa="timedout-page-title">{{ t('timedout-h1') }}</h1>
+    <p>{{ t('timedout-p1') }}</p>
+    <p>{{ t('timedout-p2') }}</p>
+    <a href="/">{{ t('timedout-link') }}</a>
+  </div>
+</div>
+
+{% endblock %}
