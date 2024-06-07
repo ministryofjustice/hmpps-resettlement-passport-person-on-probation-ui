@@ -22,7 +22,7 @@ parameters:
   redis-version:
     type: string
     default: '7.0'
-    
+
 executors:
   # same as hmpps/node_redis executor with the addition of gotenberg container
   zap-tests-executor:
@@ -303,10 +303,6 @@ workflows:
           requires:
             - deploy_dev
       - zap_test:
-          filters:
-            branches:
-              only:
-                - main
           requires:
             - build
       - browser_smoke_test:
