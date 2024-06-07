@@ -3,6 +3,8 @@ version: 2.1
 orbs:
   hmpps: ministryofjustice/hmpps@8
   slack: circleci/slack@4.12.5
+  python: circleci/python@2.0.3
+
 
 parameters:
   alerts-slack-channel:
@@ -27,6 +29,7 @@ executors:
   # same as hmpps/node_redis executor with the addition of gotenberg container
   zap-tests-executor:
     docker:
+      - image: cimg/python
       - image: cimg/node:<< pipeline.parameters.node-version >>
       - image: cimg/redis:<< pipeline.parameters.redis-version >>
       - image: 'zaproxy/zap-stable'
@@ -302,9 +305,7 @@ workflows:
                 - main
           requires:
             - deploy_dev
-      - zap_test:
-          requires:
-            - build
+      - zap_test
       - browser_smoke_test:
           filters:
             branches:
