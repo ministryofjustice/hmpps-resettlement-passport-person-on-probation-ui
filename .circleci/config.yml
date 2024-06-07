@@ -3,6 +3,8 @@ version: 2.1
 orbs:
   hmpps: ministryofjustice/hmpps@8
   slack: circleci/slack@4.12.5
+  python: circleci/python@2.0.3
+
 
 parameters:
   alerts-slack-channel:
@@ -18,6 +20,21 @@ parameters:
   node-version:
     type: string
     default: 20.11-browsers
+
+  redis-version:
+    type: string
+    default: '7.0'
+
+executors:
+  # same as hmpps/node_redis executor with the addition of gotenberg container
+  zap-tests-executor:
+    docker:
+      - image: cimg/python:3.12.3
+      - image: 'zaproxy/zap-stable'
+        entrypoint: ["/bin/sh", "-c"]
+        command: ["zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config api.disablekey=true"]
+    resource_class: medium
+    working_directory: ~/app
 
 jobs:
   build:
@@ -68,6 +85,24 @@ jobs:
           path: test_results
       - store_artifacts:
           path: test_results/unit-test-reports.html
+
+  zap_test:
+    circleci_ip_ranges: true
+    executor: zap-tests-executor
+    steps:
+      - checkout
+      - run:
+          name: Run zap tests
+          command: |
+            export ST_USERNAME=${ST_USERNAME}
+            export ST_PASSWORD=${ST_PASSWORD}
+            export ST_PROXY_URL="http://localhost:8080"
+            export ST_API_KEY=''
+            pip install -r ./security_test/requirements.txt
+            playwright install --with-deps
+            python3 ./security_test/test_security.py
+      - store_test_results:
+          path: test_results
 
   e2e_test:
     circleci_ip_ranges: true
@@ -247,6 +282,13 @@ workflows:
           requires:
             - build
       - e2e_test:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - deploy_dev
+      - zap_test:
           filters:
             branches:
               only:
