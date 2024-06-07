@@ -5,6 +5,7 @@ import { createPrivateKey } from 'crypto'
 import config from '../config'
 import logger from '../../logger'
 import { tokenStoreFactory } from '../data/tokenStore/tokenStore'
+import { setUserActivity } from './userActivityTracking'
 
 passport.serializeUser((user, done) => {
   // Not used but required for Passport
@@ -53,6 +54,7 @@ async function init(): Promise<Client> {
   const verify: StrategyVerifyCallbackUserInfo<UserinfoResponse> = (tokenSet, userInfo, done) => {
     const tokenStore = tokenStoreFactory()
     tokenStore.setToken(userInfo.sub, tokenSet.id_token, config.session.expiryMinutes * 60)
+    setUserActivity(userInfo.sub)
     return done(null, userInfo)
   }
 

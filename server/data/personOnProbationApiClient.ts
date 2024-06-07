@@ -23,7 +23,6 @@ export default class PersonOnProbationUserApiClient {
 
   async getUserByUrn(urn: string, sessionId: string): Promise<UserDetailsResponse | null> {
     try {
-      logger.debug(`SessionId: ${sessionId}. getUserByUrn(${urn})`)
       const user = await this.restClient.get<UserDetailsResponse>({
         path: `/onelogin/user/${urn}`,
         headers: {

@@ -28,8 +28,7 @@
                             {{ t('licence-conditions-expired') }}
                             {{ licenceExpiredFormatted }}.
                         </p>
-                    {% endif %}
-                    {% if isLicenceChanged  %}
+                    {% elif isLicenceChanged %}
                         <p class="govuk-notification-banner__heading" data-qa="alert-box-licence-changed-msg">
                             {{ t('licence-conditions-changed') }}
                         </p>
