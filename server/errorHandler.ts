@@ -6,11 +6,11 @@ export const friendlyErrorMessage = 'error-message'
 
 export function createErrorHandler(production: boolean) {
   return (error: HTTPError, req: Request, res: Response, next: NextFunction): void => {
-    logger.error(`Error handling request for '${req.originalUrl}', user '${res.locals.user}'`, error)
-
     if (error.status === 404) {
       return res.render('pages/notFound')
     }
+
+    logger.error(`Error handling request for '${req.originalUrl}', user '${res.locals.user}'`, error)
 
     res.locals.message = req.t(friendlyErrorMessage)
     res.locals.status = error.status

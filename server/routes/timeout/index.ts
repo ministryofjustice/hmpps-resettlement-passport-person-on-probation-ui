@@ -1,7 +1,10 @@
 import { Router } from 'express'
 import TimeoutController from './timeoutController'
+import { Services } from '../../services'
 
-export default (router: Router) => {
-  const timeoutController = new TimeoutController()
-  router.get('/timed-out', [timeoutController.index])
+export default (router: Router, services: Services) => {
+  const timeoutController = new TimeoutController(services.userService)
+  router.get('/timed-out', timeoutController.index)
+  router.get('/timeout-status', timeoutController.status)
+  router.get('/timeout-config', timeoutController.config)
 }
