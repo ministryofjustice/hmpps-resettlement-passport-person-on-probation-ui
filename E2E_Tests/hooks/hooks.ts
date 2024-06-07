@@ -1,5 +1,6 @@
 import { Before, BeforeAll, AfterAll, After } from '@cucumber/cucumber'
 import { Browser, BrowserContext, chromium, firefox, Page, webkit } from '@playwright/test'
+import { deleteMessageHousekeeping } from '../test/helpers/mailClient'
 import { pageFixture } from './pageFixtures'
 
 require('dotenv').config()
@@ -29,6 +30,7 @@ After(async function () {
 
 AfterAll(async function () {
   // After All Tests
-
+  await deleteMessageHousekeeping()
   await browser.close()
+  
 })

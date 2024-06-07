@@ -15,27 +15,30 @@ const getYesterdaysDate = () => {
   return yesterday
 }
 
-const mockedLicenceConditions = {
-  licenceId: 101,
-  status: 'ACTIVE',
-  startDate: '20/08/2023',
-  expiryDate: '12/07/2023',
-  standardLicenceConditions: [
-    {
-      id: 1001,
-      image: false,
-      text: 'Be of good behaviour and not behave in a way which undermines the purpose of the licence period.',
-      sequence: 0,
-    },
-  ],
-  otherLicenseConditions: [
-    {
-      id: 1008,
-      image: true,
-      text: 'Not to enter the area of Leeds City Centre, as defined by the attached map, without the prior approval of your supervising officer.',
-      sequence: 7,
-    },
-  ],
+const mockedLicenceConditions = (expiryDate, changed = false) => {
+  return {
+    licenceId: 101,
+    status: 'ACTIVE',
+    startDate: '20/08/2023',
+    expiryDate,
+    standardLicenceConditions: [
+      {
+        id: 1001,
+        image: false,
+        text: 'Be of good behaviour and not behave in a way which undermines the purpose of the licence period.',
+        sequence: 0,
+      },
+    ],
+    otherLicenseConditions: [
+      {
+        id: 1008,
+        image: true,
+        text: 'Not to enter the area of Leeds City Centre, as defined by the attached map, without the prior approval of your supervising officer.',
+        sequence: 7,
+      },
+    ],
+    changeStatus: changed,
+  }
 }
 
 const mockedAppointmentsErrorResponse = () => {
@@ -261,19 +264,55 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition`,
+        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
       },
       response: {
         status: 200,
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-        jsonBody: mockedLicenceConditions,
+        jsonBody: mockedLicenceConditions('12/07/2199'),
+      },
+    }),
+  stubGetLicenceConditionsChanged: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: mockedLicenceConditions('12/07/2199', true),
+      },
+    }),
+  stubGetLicenceConditionsChangedAndExpired: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: mockedLicenceConditions('12/07/1999', true),
+      },
+    }),
+  stubGetLicenceConditionsExpired: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: mockedLicenceConditions('12/07/1999'),
       },
     }),
   stubGetLicenceConditionsMissing: (): SuperAgentRequest =>
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition`,
+        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
       },
       response: {
         status: 404,

@@ -88,7 +88,7 @@ jobs:
           command: |
             export BASEURL=${DEV_BASEURL}
             export PSFRURL=${DEV_PSFRURL}
-            export USEREMAIL=testuserpyf+140@gmail.com
+            export USEREMAIL=testuserpyf+151@gmail.com
             export USERPASSWORD=${E2E_USERPASSWORD}
             export GMAIL_CLIENT_ID=${E2E_GMAIL_CLIENT_ID}
             export GMAIL_CLIENT_SECRET=${E2E_GMAIL_CLIENT_SECRET}
@@ -137,7 +137,20 @@ jobs:
             k6 run pt_tests/tests/run.js --no-setup
           environment:
             EXECUTION_TYPE: smoke
-            PROCESS: dev      
+            PROCESS: dev
+
+  browser_smoke_test_preprod:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest-with-browser
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run pt_tests/tests/run.js --no-setup
+          environment:
+            EXECUTION_TYPE: smokePreProd
+            PROCESS: preprod                 
 
   browser_stress_test:
     circleci_ip_ranges: true
@@ -282,6 +295,13 @@ workflows:
           requires:
             - request-preprod-approval
           helm_timeout: 5m
+      - browser_smoke_test_preprod:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - deploy_preprod    
       - request-prod-approval:
           type: approval
           requires:

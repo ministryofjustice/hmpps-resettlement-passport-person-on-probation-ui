@@ -16,6 +16,8 @@ import {
   isValidEmail,
   appendLang,
   appendLanguage,
+  isDateInPast,
+  toProperCase,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -79,12 +81,12 @@ describe('formatTime', () => {
 
 describe('formatDate', () => {
   it.each([
-    ['2023-09-02', null, '2 September 2023'],
-    ['2023-1-1', null, '1 January 2023'],
-    ['2023-09-02', 'en', '2 September 2023'],
-    ['2023-1-1', 'en', '1 January 2023'],
-    ['2023-09-02', 'cy', '2 Medi 2023'],
-    ['2023-1-1', 'cy', '1 Ionawr 2023'],
+    ['2023-09-02', null, 'Saturday 2 September 2023'],
+    ['2023-1-1', null, 'Sunday 1 January 2023'],
+    ['2023-09-02', 'en', 'Saturday 2 September 2023'],
+    ['2023-1-1', 'en', 'Sunday 1 January 2023'],
+    ['2023-09-02', 'cy', 'Dydd Sadwrn 2 Medi 2023'],
+    ['2023-1-1', 'cy', 'Dydd Sul 1 Ionawr 2023'],
     [null, null, null],
     ['', null, null],
   ])('formatDate(%s, %s)', (input: string, lang: string, expected: string) => {
@@ -314,5 +316,26 @@ describe('appendLanguage', () => {
     [{ lang: 'a' }, '?lang=a'],
   ])('%s appendLanguage(%s, %s)', (queryParams: object, expected: string) => {
     expect(appendLanguage(queryParams)).toBe(expected)
+  })
+})
+
+describe('isDateInPast', () => {
+  it.each([
+    ['01/08/1970', true],
+    ['', false],
+    [null, false],
+    ['01/08/2999', false],
+  ])('isDateInPast(%s)', (input: string, expected: boolean) => {
+    expect(isDateInPast(input)).toBe(expected)
+  })
+})
+
+describe('toProperCase', () => {
+  it.each([
+    ['name', 'Name'],
+    ['name surname', 'Name Surname'],
+    ['name middlename surname', 'Name Middlename Surname'],
+  ])('toProperCase(%s)', (input: string, expected: string) => {
+    expect(toProperCase(input)).toBe(expected)
   })
 })

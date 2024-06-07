@@ -15,6 +15,7 @@ import {
   orElse,
   appendLanguage,
   appendLang,
+  toProperCase,
 } from './utils'
 import { ApplicationInfo } from '../applicationInfo'
 import config from '../config'
@@ -75,6 +76,7 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   njkEnv.addFilter('mapsLinkFromAppointmentLocation', mapsLinkFromAppointmentLocation)
   njkEnv.addFilter('pluraliseAppointments', pluraliseAppointments)
   njkEnv.addFilter('orElse', orElse)
+  njkEnv.addFilter('toProperCase', toProperCase)
   njkEnv.addGlobal('appendLang', appendLang)
   njkEnv.addGlobal('appendLanguage', appendLanguage)
   // eslint-disable-next-line no-underscore-dangle

@@ -1,9 +1,9 @@
 import { Router } from 'express'
 
 import type { Services } from '../services'
-import homeRoutes from './home'
+import startRoutes from './start'
 import otpRoutes from './otp'
-import dashboardRoutes from './dashboard'
+import overviewRoutes from './overview'
 import appointmentRoutes from './appointment'
 import licenceConditionsRoutes from './licenceConditions'
 import profileRoutes from './profile'
@@ -11,13 +11,14 @@ import settingsRoutes from './settings'
 import cookiesRoutes from './cookies'
 import accessibilityRoutes from './accessibility'
 import feedbackRoutes from './feedback'
+import timeoutRoutes from './timeout'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function routes(service: Services): Router {
   const router = Router()
-  homeRoutes(router)
+  startRoutes(router)
   otpRoutes(router, service)
-  dashboardRoutes(router, service)
+  overviewRoutes(router, service)
   appointmentRoutes(router, service)
   licenceConditionsRoutes(router, service)
   profileRoutes(router, service)
@@ -25,5 +26,6 @@ export default function routes(service: Services): Router {
   cookiesRoutes(router)
   accessibilityRoutes(router)
   feedbackRoutes(router, service)
+  timeoutRoutes(router, service)
   return router
 }

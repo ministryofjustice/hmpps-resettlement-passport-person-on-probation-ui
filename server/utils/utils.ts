@@ -1,5 +1,5 @@
 /* eslint-disable import/no-duplicates */
-import { addMinutes, compareAsc, format, isFuture, isSameDay, isValid, parse } from 'date-fns'
+import { addMinutes, compareAsc, format, isBefore, isFuture, isSameDay, isValid, parse } from 'date-fns'
 import { cy, enGB } from 'date-fns/locale'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
 
@@ -57,8 +57,8 @@ export const formatLicenceDate = (dateString: string, lang?: string): string => 
 export const formatDate = (dateString: string, lang?: string): string => {
   if (!dateString || dateString?.length < 1) return null
   const date = new Date(dateString)
-  const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' }
-  return date.toLocaleDateString(getLocaleForLang(lang).code, options)
+  const options: Intl.DateTimeFormatOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }
+  return date.toLocaleDateString(getLocaleForLang(lang).code, options)?.replace(',', '')
 }
 
 export function getDobDate(day?: string, month?: string, year?: string): Date {
@@ -159,3 +159,12 @@ export const formatAppointmentNote = (inputNote?: string): string => {
 export const orElse = (input: string, alternative: string): string => {
   return input || alternative
 }
+
+export const isDateInPast = (input: string): boolean => {
+  if (!input || input?.length < 1) return false
+  const inputDate = new Date(input)
+  return isBefore(inputDate, new Date())
+}
+
+export const toProperCase = (input: string): string =>
+  input.replace(/\w\S*/g, txt => `${txt.charAt(0).toUpperCase()}${txt.slice(1).toLowerCase()}`)
