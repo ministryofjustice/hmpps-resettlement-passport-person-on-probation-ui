@@ -29,7 +29,7 @@
               text: t('profile-name')
             },
             value: {
-              text: fullName,
+              text: fullName | toProperCase,
               classes: "profile-name"
             }
           },
@@ -57,4 +57,8 @@
     </div>
   </div>
 
+{% endblock %}
+
+{% block bodyEnd %}
+  <script src="/assets/sessionMonitor.js"></script>
 {% endblock %}

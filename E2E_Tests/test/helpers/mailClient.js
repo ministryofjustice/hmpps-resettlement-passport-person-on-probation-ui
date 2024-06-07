@@ -6,7 +6,7 @@ const { authenticate } = require('@google-cloud/local-auth')
 const { google } = require('googleapis')
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+const SCOPES = ['https://mail.google.com/']
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
@@ -41,6 +41,12 @@ async function getMessageNumber() {
   return messageNumberReturned
 }
 
+async function getMessageContent() {
+  const messageSnippetReturned = await authorize().then(getMessageSnippet).catch(console.error)
+  console.log('Returned Message Snippet is ' + messageSnippetReturned)
+  return messageSnippetReturned
+}
+
 /**
  * @param {number} ms
  */
@@ -53,9 +59,9 @@ async function returnSecurityCode(number) {
   console.log('currentCountNumber passed is ' + number)
 
   startCount = number
-
+  errorCount = 0;
   while (currentCount <= startCount) {
-    await sleep(2000)
+    await sleep(5000)
     currentCount = await authorize().then(countMessages).catch(console.error)
     console.log('in while loop current count ' + currentCount)
     console.log('in while loop start count ' + startCount)
@@ -71,9 +77,40 @@ async function returnSecurityCode(number) {
   return securityCode
 }
 
+async function returnAccountClosed(number) {
+  console.log('currentCountNumber passed is ' + number)
+
+  startCount = number
+  errorCount = 0;
+  while (currentCount <= startCount) {
+    await sleep(5000)
+    currentCount = await authorize().then(countMessages).catch(console.error)
+    console.log('in while loop current count ' + currentCount)
+    console.log('in while loop start count ' + startCount)
+    errorCount++
+    // ensures no infinite loop and returns if no email is recieved
+    // allows 20 seconds for email to be received
+    if (errorCount > 9) {
+      throw new Error('No email has been recieved!')
+    }
+  }
+  const message = await getMessageContent()
+  return message
+}
+
+
+
 async function returnCurrentCount() {
   const thisCount = await authorize().then(countMessages).catch(console.error)
   return thisCount
+}
+
+async function deleteMessageHousekeeping() {
+  currentCount = await authorize().then(countMessages).catch(console.error)
+  while (currentCount > 1){
+    await authorize().then(deleteLatestMessage).catch(console.error)
+    currentCount = await authorize().then(countMessages).catch(console.error)
+  }
 }
 
 /**
@@ -139,7 +176,7 @@ async function listMessages(auth) {
   const res = await gmail.users.messages.list({
     userId: 'me',
   })
-  console.log('completed call')
+  console.log('completed listMessages call')
   const messages = res.data.messages
   if (!messages || messages.length === 0) {
     console.log('No messages found.')
@@ -155,7 +192,7 @@ async function countMessages(auth) {
   const res = await gmail.users.messages.list({
     userId: 'me',
   })
-  console.log('completed call')
+  console.log('completed countMessages call')
   const messages = res.data.messages
   if (!messages || messages.length === 0) {
     console.log('No messages found.')
@@ -174,7 +211,7 @@ async function getMessage(auth) {
     userId: 'me',
     id: id,
   })
-  console.log('completed call')
+  console.log('completed getMessages call')
   const messages = res.data.snippet
   const messageNumber = await extractSixDigitNumber(messages)
   console.log('email message number ' + messageNumber)
@@ -182,8 +219,34 @@ async function getMessage(auth) {
     console.log('No messages found.')
     return
   }
-  // TODO: will need to do a cleanup because after 100 messages in the inbox this code fails for some reason
   return messageNumber
+}
+
+async function getMessageSnippet(auth) {
+  const id = await authorize().then(listMessages).catch(console.error)
+  const gmail = google.gmail({ version: 'v1', auth })
+  const res = await gmail.users.messages.get({
+    userId: 'me',
+    id: id,
+  })
+  console.log('completed getMessageContent call')
+  const message = res.data.snippet
+  if (!message || message.length === 0) {
+    console.log('No messages found.')
+    return
+  }
+  return message
+}
+
+async function deleteLatestMessage(auth) {
+  const id = await authorize().then(listMessages).catch(console.error)
+  const gmail = google.gmail({ version: 'v1', auth })
+  const res = await gmail.users.messages.delete({
+    userId: 'me',
+    id: id,
+  })
+  console.log('completed deleteLatestMessage call')
+  console.log('email deleted ' + id)
 }
 
 async function extractSixDigitNumber(input) {
@@ -194,4 +257,4 @@ async function extractSixDigitNumber(input) {
   return match ? match[0] : null
 }
 
-module.exports = { returnSecurityCode, returnCurrentCount }
+module.exports = { returnSecurityCode, returnCurrentCount, returnAccountClosed, deleteMessageHousekeeping }

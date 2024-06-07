@@ -1,4 +1,4 @@
-import HomePage from '../pages/home'
+import StartPage from '../pages/start'
 import OtpPage from '../pages/otp'
 import Page from '../pages/page'
 
@@ -21,7 +21,7 @@ context('OTP verification', () => {
 
   afterEach(() => {
     cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(HomePage)
+    Page.verifyOnPage(StartPage)
   })
 
   it('Should not continue to Dashboard after validating Date (invalid)', () => {
@@ -46,13 +46,13 @@ context('OTP verification', () => {
     Page.verifyOnPage(OtpPage)
 
     enterValidOtp()
-    cy.contains('John Smith')
+    cy.contains('Overview')
   })
 
   it('Should redirect to OTP when user is not verified', () => {
     cy.task('stubGetPopUserByUrnUnverified')
     cy.signIn()
-    cy.visit('/dashboard')
+    cy.visit('/overview')
     Page.verifyOnPage(OtpPage)
 
     enterValidOtp()

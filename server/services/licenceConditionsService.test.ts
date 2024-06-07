@@ -32,6 +32,7 @@ const mockedLicenceConditions = {
       sequence: 7,
     },
   ],
+  changeStatus: false,
 }
 
 describe('LicenceConditionsService', () => {

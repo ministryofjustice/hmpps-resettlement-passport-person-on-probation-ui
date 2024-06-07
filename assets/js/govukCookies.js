@@ -66,5 +66,4 @@ const cookieNames = ['_ga', '_ga_VBLT2V3FZR', '_ga_P1DGM6TVYF', '_ga_S5RQ7FTGVR'
 
 cookieNames.forEach(cookieName => {
   window.GOVUK.deleteCookie(cookieName)
-  console.log('GA cookie deleted: ' + cookieName)
 })

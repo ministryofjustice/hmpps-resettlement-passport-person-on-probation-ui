@@ -9,6 +9,7 @@ export default class CompleteAccourtPage {
   readonly enterMonth: Locator;
   readonly enterYear: Locator;
   readonly continue: Locator;
+  readonly warning: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -18,6 +19,7 @@ export default class CompleteAccourtPage {
     this.enterMonth = page.locator('//*[@id="dobMonth"]');
     this.enterYear = page.locator('//*[@id="dobYear"]');
     this.continue = page.locator('//*[@id="main-content"]/div/div/form/button');
+    this.warning = page.locator('//*[@id="main-content"]/div[1]/div/div/ul/li/a');
 
   }
 

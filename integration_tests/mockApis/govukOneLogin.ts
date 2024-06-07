@@ -157,21 +157,21 @@ const stubUserInfo = () =>
     },
   })
 
-const signOut = () =>
+const signOut = (defaultLogoutUrl = 'http://localhost:3000') =>
   stubFor({
     request: {
       method: 'GET',
-      urlPath: '/govukOneLogin/logout',
+      urlPathPattern: '/govukOneLogin/logout',
       queryParameters: {
         client_id: { equalTo: 'clientId' },
         id_token_hint: { matches: '.*' },
-        post_logout_redirect_uri: { equalTo: 'http://localhost:3000' },
+        post_logout_redirect_uri: { equalTo: defaultLogoutUrl },
       },
     },
     response: {
       status: 302, // Use 301 for permanent redirects
       headers: {
-        Location: 'http://localhost:3007/',
+        Location: defaultLogoutUrl.replace('3000', '3007'),
       },
     },
   })
@@ -179,6 +179,7 @@ const signOut = () =>
 export default {
   getSignInUrl,
   verifyJwtAssertionForToken,
+  stubTimedOut: () => signOut('http://localhost:3000/timed-out'),
   stubSignIn: (): Promise<[Response, Response, Response, Response, Response]> =>
     Promise.all([stubOidcDiscovery(), stubJwks(), redirect(), stubUserInfo(), signOut()]),
 }

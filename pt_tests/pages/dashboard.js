@@ -8,10 +8,6 @@ export class Dashboard {
     this.licenceConditionsTile = page.locator('[data-qa="licence-conditions-tile-title"]')
     this.profileTile = page.locator('[data-qa="profile-tile-title"]')
 
-    this.nameTag = page.locator('[data-qa="pyf-dashboard-fullname"]')
-  }
-
-  getName() {
-    return this.nameTag.innerText()
+    this.header = page.locator('[data-qa="pyf-overview-h1"]')
   }
 }

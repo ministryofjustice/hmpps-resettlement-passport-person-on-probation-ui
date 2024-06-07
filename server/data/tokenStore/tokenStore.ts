@@ -59,9 +59,7 @@ const inMemoryStore = new InMemoryTokenStore()
 
 export const tokenStoreFactory = (): TokenStore => {
   if (config.redis.enabled) {
-    logger.info('Creating new RedisTokenStore')
     return new RedisTokenStore(createRedisClient())
   }
-  logger.info('Creating new InMemoryTokenStore')
   return inMemoryStore
 }

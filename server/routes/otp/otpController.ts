@@ -57,7 +57,7 @@ export default class HomeController {
             req.sessionID,
           )
           if (isAccepted) {
-            return res.redirect('/dashboard')
+            return res.redirect('/overview')
           }
 
           errors.push({

@@ -14,6 +14,10 @@ export class GovOneLogin {
     await this.page.goto('https://person-on-probation-user-ui-dev.hmpps.service.justice.gov.uk/')
   }
 
+  async gotoPPPlan() {
+    await this.page.goto('https://person-on-probation-user-ui-preprod.hmpps.service.justice.gov.uk/')
+  }
+
   async gotoIntegrationLogin() {
     await this.page.goto('https://integration-user:winter2021@signin.integration.account.gov.uk/')
   }

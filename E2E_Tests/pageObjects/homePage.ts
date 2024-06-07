@@ -7,11 +7,11 @@ export default class HomePage {
 
   constructor(page: Page) {
     this.page = page;
-    this.gettingStartedHeader = page.locator('h1', { hasText: 'Plan Your Future' });
+    this.gettingStartedHeader = page.locator('h1', { hasText: 'Check your appointments and licence conditions' });
   }
 
   private HomePageElements = {
-    startButton: '#main-content > div > div > p:nth-child(9) > a',
+    startButton: '#main-content > div > div > p:nth-child(3) > a',
   }
 
   async clickStart() {

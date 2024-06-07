@@ -1,9 +1,6 @@
 import config from '../../config'
 import { RedisClient } from '../redisClient'
 import { InMemoryTokenStore, RedisTokenStore, tokenStoreFactory } from './tokenStore'
-import logger from '../../../logger'
-
-jest.mock('../../../logger')
 
 const redisClient = {
   get: jest.fn(),
@@ -12,8 +9,6 @@ const redisClient = {
   connect: jest.fn(),
   isOpen: true,
 } as unknown as jest.Mocked<RedisClient>
-
-const loggerSpy = jest.spyOn(logger, 'info')
 
 describe('tokenStore', () => {
   let tokenStore: RedisTokenStore
@@ -31,14 +26,12 @@ describe('tokenStore', () => {
       config.redis.enabled = true
       const result = tokenStoreFactory()
       expect(result).toBeInstanceOf(RedisTokenStore)
-      expect(loggerSpy).toHaveBeenCalledWith('Creating new RedisTokenStore')
     })
 
     it('Creates new InMemoryTokenStore', async () => {
       config.redis.enabled = false
       const result = tokenStoreFactory()
       expect(result).toBeInstanceOf(InMemoryTokenStore)
-      expect(loggerSpy).toHaveBeenCalledWith('Creating new InMemoryTokenStore')
     })
   })
 

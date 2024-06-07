@@ -4,7 +4,7 @@ import ResettlementPassportApiClient from '../data/resettlementPassportApiClient
 import type { LicenceConditionData } from '../data/resettlementPassportData'
 import { TokenStore, tokenStoreFactory } from '../data/tokenStore/tokenStore'
 
-const CACHE_MINUTES = 60 * 5
+const CACHE_MINUTES = 60 * 60
 
 export default class LicenceConditionsService {
   tokenStore: TokenStore
