@@ -98,6 +98,7 @@ jobs:
             export ST_PASSWORD=${ST_PASSWORD}
             export ST_PROXY_URL="http://localhost:8080"
             export ST_API_KEY=''
+            mkdir security_test
             pip install -r ./security_test/requirements.txt
             playwright install --with-deps
             python3 ./security_test/test_security.py
@@ -289,10 +290,10 @@ workflows:
           requires:
             - deploy_dev
       - zap_test:
-          filters:
-            branches:
-              only:
-                - main
+          #filters:
+          #  branches:
+          #    only:
+          #      - main
           requires:
             - deploy_dev
       - browser_smoke_test:
