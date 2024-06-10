@@ -10,6 +10,6 @@
       "dryRun": false,
       "require": ["E2E_Tests/test/steps/*.ts", "E2E_Tests/hooks/hooks.ts"],
       "requireModule": ["ts-node/register"],
-      "format": ["html:test-results/cucumber-report.html"]
+      "format": ["html:test_results/cucumber-report.html"]
     }
   }

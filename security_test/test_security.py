@@ -62,7 +62,7 @@ def run(playwright: Playwright):
     # Generate the report
     print("Generating HTML report…")
     sec_report_html = zap.core.htmlreport()
-    with open("test-results/zap_report.html", "w") as file:
+    with open("test_results/zap_report.html", "w") as file:
        file.write(sec_report_html)
 
     print("Security scan completed successfully.")
