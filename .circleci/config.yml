@@ -289,7 +289,7 @@ workflows:
                 - main
           requires:
             - deploy_dev
-      - zap_test:
+      - zap_test
           #filters:
           #  branches:
           #    only:
