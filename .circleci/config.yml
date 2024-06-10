@@ -294,8 +294,8 @@ workflows:
           #  branches:
           #    only:
           #      - main
-          requires:
-            - deploy_dev
+          #requires:
+          #  - deploy_dev
       - browser_smoke_test:
           filters:
             branches:
