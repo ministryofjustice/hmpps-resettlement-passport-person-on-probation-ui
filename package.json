@@ -32,7 +32,9 @@
     "int-test-ui": "cypress open --e2e --browser chrome",
     "clean": "rm -rf dist build node_modules stylesheets",
     "outdated-required": "npm outdated typescript govuk-frontend",
-    "end-to-end-test": "cucumber-js test"
+    "end-to-end-test": "cucumber-js test",
+    "install-security-test-requirements": "pip install -r ./security_test/requirements.txt",
+    "security-test": "python3 ./security_test/test_security.py"
   },
   "engines": {
     "node": "^20",
