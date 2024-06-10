@@ -28,6 +28,10 @@ async function init(): Promise<Client> {
   const discoveryEndpoint = `${config.apis.govukOneLogin.url}/.well-known/openid-configuration`
 
   const issuer = await Issuer.discover(discoveryEndpoint)
+  issuer[custom.http_options] = () => {
+    return { timeout: config.apis.govukOneLogin.timeout }
+  }
+
   logger.info(`GOV.UK One Login issuer discovered: ${issuer.metadata.issuer}`)
 
   // convert private key in PEM format to JWK

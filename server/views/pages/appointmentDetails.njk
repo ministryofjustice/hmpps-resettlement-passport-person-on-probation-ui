@@ -13,11 +13,11 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="appointments-details-page-title">{{ t('appointment-details-h1') }}</h1>
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-4" data-qa="appointments-details-page-title">{{ t('appointment-details-h1') }}</h1>
     </div>
   </div>
 
-  <div class="govuk-grid-row govuk-!-padding-bottom-8">
+  <div class="govuk-grid-row govuk-!-padding-bottom-4">
 
     <div class="govuk-grid-column-full govuk-!-padding-bottom-6">
         <a id="all-navigation-link" href="/appointments" data-qa="all-appointments-link">{{ t('appointment-details-all-link-text') }}</a>
@@ -31,7 +31,7 @@
 
     <!-- Appointment details Begin -->
     {% if appointment %}
-      {{ appointmentMacro.render(appointment, 1, false, false, lang) }}
+      {{ appointmentMacro.render(appointment, 1, lang) }}
     {% else %}
       <div class="govuk-grid-column-full" data-qa="appointment-empty-box">
         <p>{{ t('appointment-details-empty-text') }} <a href="/appointments">{{ t('appointment-details-go-back-link-text') }}</a></p>
