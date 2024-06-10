@@ -103,7 +103,7 @@ jobs:
             playwright install --with-deps
             python3 ./security_test/test_security.py
       - store_test_results:
-          path: test_results
+          path: test_results/zap_report.html
 
   e2e_test:
     circleci_ip_ranges: true
