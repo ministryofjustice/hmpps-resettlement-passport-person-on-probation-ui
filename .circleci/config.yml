@@ -102,8 +102,8 @@ jobs:
             pip install -r ./security_test/requirements.txt
             playwright install --with-deps
             python3 ./security_test/test_security.py
-      - store_test_results:
-          path: test_results/zap_report.html
+      - store_artifacts:
+          path: test_results
 
   e2e_test:
     circleci_ip_ranges: true
@@ -133,7 +133,7 @@ jobs:
             export USERNAME=${E2E_USERNAME}
             export PASSWORD=${E2E_PASSWORD}
             npm run end-to-end-test
-      - store_test_results:
+      - store_artifacts:
           path: test_results
 
   api_smoke_test:
