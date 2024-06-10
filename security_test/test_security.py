@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from playwright.sync_api import sync_playwright, Playwright
-from zapv2 import ZAPv2, reports
+from zapv2 import ZAPv2
 import time
 import os
 
@@ -62,12 +62,63 @@ def run(playwright: Playwright):
     # Generate the report
     print("Generating HTML report…")
     sec_report_html = zap.core.htmlreport()
-    with open("zap_report.html", "w") as file:
+    with open("test-results/zap_report.html", "w") as file:
        file.write(sec_report_html)
 
     print("Security scan completed successfully.")
 
+
+    # Retrieve the alerts using paging in case there are lots of them
+    risk_high = 0
+    risk_medium = 0
+    risk_low = 0
+    risk_informational = 0
+    st = 0
+    pg = 5000
+    alert_dict = {}
+    alert_count = 0
+    alerts = zap.alert.alerts(baseurl=target_url, start=st, count=pg)
+    blacklist = [1,2]
+    while len(alerts) > 0:
+        print('Reading ' + str(pg) + ' alerts from ' + str(st))
+        alert_count += len(alerts)
+        for alert in alerts:
+            plugin_id = alert.get('pluginId')
+            if plugin_id in blacklist:
+                continue
+            if alert.get('risk') == 'High':
+                risk_high += 1
+                print('High level Alert :')
+                print(alert)
+                # Trigger any relevant postprocessing
+                continue
+            if alert.get('risk') == 'Medium':
+                risk_medium += 1
+                # Trigger any relevant postprocessing
+                continue
+            if alert.get('risk') == 'Low':
+                risk_low += 1
+                # Trigger any relevant postprocessing
+                continue
+            if alert.get('risk') == 'Informational':
+                risk_informational += 1
+                # Ignore all info alerts - some of them may have been downgraded by security annotations
+                continue
+        st += pg
+        alerts = zap.alert.alerts(start=st, count=pg)
+    print('Total number of alerts: ' + str(alert_count))
+    print('Total number of high: ' + str(risk_high))
+    print('Total number of medium: ' + str(risk_medium))
+    print('Total number of low: ' + str(risk_low))
+    print('Total number of informational: ' + str(risk_informational))
+
     browser.close()
+
+
+    # fail test if any High risk items are reported.
+    assert risk_high == 0
+
+    
 
 with sync_playwright() as playwright:
     run(playwright)
