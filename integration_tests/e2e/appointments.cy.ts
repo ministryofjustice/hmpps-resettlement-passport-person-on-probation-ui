@@ -45,7 +45,6 @@ context('Appointments', () => {
     // only 1 appointment date heading is visible per unique Day
     cy.get('[data-qa="1-appointment-date"]').should('exist')
     cy.get('[data-qa="2-appointment-date"]').should('not.exist')
-    
 
     // past appointments should be visible when toggled
     cy.get('[data-qa="view-older-appointments"]').click()
