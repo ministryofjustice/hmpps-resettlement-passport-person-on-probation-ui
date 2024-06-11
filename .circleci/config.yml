@@ -98,10 +98,11 @@ jobs:
             export ST_PASSWORD=${ST_PASSWORD}
             export ST_PROXY_URL="http://localhost:8080"
             export ST_API_KEY=''
+            mkdir -p test_results
             pip install -r ./security_test/requirements.txt
             playwright install --with-deps
             python3 ./security_test/test_security.py
-      - store_test_results:
+      - store_artifacts:
           path: test_results
 
   e2e_test:
@@ -131,8 +132,9 @@ jobs:
             export GMAIL_TOKEN=${E2E_GMAIL_TOKEN}
             export USERNAME=${E2E_USERNAME}
             export PASSWORD=${E2E_PASSWORD}
+            mkdir -p test_results
             npm run end-to-end-test
-      - store_test_results:
+      - store_artifacts:
           path: test_results
 
   api_smoke_test:
