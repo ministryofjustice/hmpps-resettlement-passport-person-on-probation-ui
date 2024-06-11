@@ -2,7 +2,9 @@
 from playwright.sync_api import sync_playwright, Playwright
 from zapv2 import ZAPv2
 import time
+import json
 import os
+
 
 # Change to match the API key set in ZAP, or use None if the API key is disabled
 zap_api_key = os.environ["ST_API_KEY"]
@@ -112,11 +114,38 @@ def run(playwright: Playwright):
     print('Total number of low: ' + str(risk_low))
     print('Total number of informational: ' + str(risk_informational))
 
+    # compare current results against previous run stored results:
+    results = {
+    "high": risk_high,
+    "medium": risk_medium,
+    "low": risk_low
+    }
+
     browser.close()
 
+    with open("security_test/previous_result.json") as f:
+        previous_results = json.load(f)
+    print('Previous results:')
+    print(previous_results)
+
+
+    # convert into JSON:
+    result_publish = json.dumps(results)
+    # the result is a JSON string:
+    print('Current results:')
+    print(result_publish)
 
     # fail test if any High risk items are reported.
     assert risk_high == 0
+
+    # fail test if any changes to previous risk items are reported.
+    assert results == previous_results
+
+    if (results == previous_results):
+    # if no change store this runs results for comparison next time
+        print('Writing results to file')
+        with open("security_test/previous_result.json", "w") as file:
+            file.write(result_publish)
 
     
 
