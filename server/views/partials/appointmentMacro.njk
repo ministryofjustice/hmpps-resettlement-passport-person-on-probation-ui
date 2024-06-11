@@ -1,54 +1,61 @@
- {% macro render(appointment, loopIndex, showNotes, showDetails, lang) %}
+{% macro render(appointment, loopIndex, lang) %}
 
- <div class="govuk-grid-column-two-thirds" data-qa="appointment-box">
-        <div class="govuk-grid-row appsubpanel govuk-!-margin-bottom-4">
-          <div class="govuk-grid-column-full">
-            <section id="appointment-details-section" class="app-summary-card govuk-!-margin-bottom-4">
-              <header class="app-summary-card__header">
-                <h3 class="govuk-heading-m app-summary-card__title govuk-!-margin-bottom-0" data-qa="{{loopIndex}}-appointment-date">{{appointment.date | formatDate(lang)}}
-                  <span class="govuk-caption-m" data-qa="{{loopIndex}}-appointment-duration">{{appointment.time | formatTime(0, lang) }}
-                      {% if appointment.duration %}
+  <div data-qa="appointment-box">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <section id="appointment-details-section" class="govuk-summary-card govuk-!-margin-bottom-0">
+          <header class="govuk-summary-card__title-wrapper">
+            <h3 class="govuk-heading-m govuk-summary-card__title" data-qa="{{loopIndex}}-appointment-duration">
+              {{appointment.time | formatTime(0, lang) }}
+              {% if appointment.duration %}
                          - {{ appointment.time | formatTime(appointment.duration, lang) }}
-                      {% endif %}
-                  </span>
-                </h3>
-              </header>
-              <div class="app-summary-card__body govuk-!-padding-4">
-                <h3 class="govuk-heading-s govuk-!-margin-bottom-1" data-qa="{{loopIndex}}-appointment-title">{{appointment.title}}</h3>
-                {% if appointment.location | formatAppointmentLocation %}
-                  <p class="govuk-body-s" data-qa="{{loopIndex}}-appointment-location">
-                    {{ appointment.location | formatAppointmentLocation }}
-                  </p>
-                  <p class="govuk-body-s">
-                    <a href="{{ appointment.location | mapsLinkFromAppointmentLocation }}" target="_blank" data-qa="{{loopIndex}}-appointment-map-link">
-                    {{ t('appointment-view-maps') }}</a>
-                  </p>
-                {% else %}
-                  <p class="govuk-body-s" data-qa="{{loopIndex}}-appointment-no-location">{{ t('appointment-no-address') }}</p>
-                {% endif %}
-
-                <p class="govuk-body-s" data-qa="{{loopIndex}}-appointment-contact">{{ t('appointment-contact') }} {{appointment.contact}}
-                {% if appointment.contactEmail %}
-                ({{ t('appointment-email') }} <a href="mailto:{{appointment.contactEmail}}">{{appointment.contactEmail}})</a>
-                {% endif %}</p>
-                {% if showNotes == true %}
-                  <h4 class="govuk-heading-s govuk-!-padding-top-2" data-qa="{{loopIndex}}-appointment-notes">{{ t('appointment-notes') }}</h4>
-                  <p class="govuk-body-s">
-                  {% if appointment.note | formatAppointmentNote %}
-                    {{appointment.note}}
+              {% endif %}
+            </h3>
+          </header>
+          <div class="govuk-summary-card__content">
+            <dl class="govuk-summary-list">
+              <!-- Title -->
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">{{ t('appointments-sub-title') }}</dt>
+                <dd class="govuk-summary-list__value" data-qa="{{loopIndex}}-appointment-title">{{appointment.title}}</dd>
+              </div>
+              <!-- Location -->
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">{{ t('appointments-sub-location') }}</dt>
+                <dd class="govuk-summary-list__value">
+                  {% if appointment.location | formatAppointmentLocation %}
+                    <span class="govuk-body-m" data-qa="{{loopIndex}}-appointment-location">
+                      {{ appointment.location | formatAppointmentLocation }}
+                    </span>
+                    <p class="govuk-body">
+                      <a href="{{ appointment.location | mapsLinkFromAppointmentLocation }}" target="_blank" data-qa="{{loopIndex}}-appointment-map-link">
+                        {{ t('appointment-view-maps') }}</a>
+                    </p>
                   {% else %}
-                  {{ t('appointment-no-notes') }}
+                    <span class="govuk-body-m" data-qa="{{loopIndex}}-appointment-no-location">{{ t('appointment-no-address') }}</span>
                   {% endif %}
-                  </p>
+
+                </dd>
+              </div>
+              <!-- Contact -->
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">{{ t('appointments-sub-contact') }}</dt>
+                <dd class="govuk-summary-list__value" data-qa="{{loopIndex}}-appointment-contact">{{appointment.contact}}
+                  {% if appointment.contactEmail %}
+                ({{ t('appointment-email') }}
+                    <a href="mailto:{{appointment.contactEmail}}">{{appointment.contactEmail}}</a>)
                 {% endif %}
-                <!-- Hidden: PLT-282, will be re-worked on in the near future
+                </dd>
+              </div>
+              <!-- View Details HIDDEN: PLT-282, will be re-worked on in the near future
                 {% if showDetails == true %}
                   <a href="/appointments/{{appointment.id}}{{appendLang(lang)}}" data-qa="{{loopIndex}}-appointment-details-link">{{ t('appointment-details') }}</a>
                 {% endif %}
                 -->
-              </div>
-            </section>
+            </dl>
           </div>
-        </div>
+        </section>
       </div>
+    </div>
+  </div>
 {% endmacro %}

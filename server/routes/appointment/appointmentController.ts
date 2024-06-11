@@ -22,14 +22,14 @@ export default class AppointmentController {
 
       const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId, sessionId)
       const results = appointments?.results || []
-      const nextAppointments = getFutureAppointments(results)
+      const futureAppointments = getFutureAppointments(results)
       const oldAppointments = results
         .filter(x => !isFutureDate(x.date))
         .sort((x, y) => compareAsc(x?.dateTime, y?.dateTime))
         .reverse()
       return res.render('pages/appointments', {
         user: req.user,
-        appointments: nextAppointments,
+        futureAppointments,
         oldAppointments,
         queryParams,
       })

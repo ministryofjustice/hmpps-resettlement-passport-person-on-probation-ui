@@ -42,9 +42,14 @@ context('Appointments', () => {
       'We cannot show the address for this appointment. Contact your probation officer for the details.',
     )
 
+    // only 1 appointment date heading is visible per unique Day
+    cy.get('[data-qa="1-appointment-date"]').should('exist')
+    cy.get('[data-qa="2-appointment-date"]').should('not.exist')
+
     // past appointments should be visible when toggled
     cy.get('[data-qa="view-older-appointments"]').click()
     cy.contains('This is a past appointment')
+    cy.get('[data-qa="1-old-appointment-date"]').should('exist')
   })
 
   // Removed in PLT-282 will be re-instated in the near future
