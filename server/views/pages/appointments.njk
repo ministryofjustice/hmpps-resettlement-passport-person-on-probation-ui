@@ -10,7 +10,7 @@
 
 {% block content %}
 
-  <div class="govuk-grid-row govuk-!-padding-bottom-4">
+  <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl" data-qa="appointments-page-title">{{ t('appointments-h1') }}</h1>
       <div class="govuk-warning-text">
@@ -26,16 +26,23 @@
 
   <div class="govuk-grid-row govuk-!-padding-bottom-8">
     <!-- Future appointments -->
-    {% if appointments | length < 1 %}
+    {% if futureAppointments | length < 1 %}
       <div class="govuk-grid-column-two-thirds" data-qa="appointment-empty-box">
         <p>{{ t('appointments-no-appointments-text') }}</p>
       </div>
     {% endif %}
-    {% for item in appointments %}
-      <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
-        <h2 class="govuk-heading-m" data-qa="{{loop.index}}-appointment-date govuk-!-padding-top-4">{{item.date | formatDate(queryParams.lang)}}</h2>
-        {{ appointmentMacro.render(item, loop.index, true, queryParams.lang) }}
-      </div>
+    {% for item in futureAppointments %}
+    <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
+
+      {% set currentFormatDate = item.date | formatDate(queryParams.lang) %}
+      {% set previousFormatDate = futureAppointments[loop.index0 - 1].date | formatDate(queryParams.lang) if loop.index0 > 0 else null %}
+
+      {% if loop.index0 == 0 or currentFormatDate != previousFormatDate %}
+        <h2 class="govuk-heading-m govuk-!-margin-top-4" data-qa="{{ loop.index }}-appointment-date">{{ currentFormatDate }}</h2>
+      {% endif %}
+
+      {{ appointmentMacro.render(item, loop.index, true, queryParams.lang) }}
+    </div>
     {% endfor %}
 
     <!-- Past appointments -->
@@ -47,20 +54,26 @@
           </summary>
           <div class="govuk-details__text">
             {% for oldItem in oldAppointments %}
-              <h2 class="govuk-heading-m" data-qa="{{loop.index}}-old-appointment-date govuk-!-margin-top-4">{{oldItem.date | formatDate(queryParams.lang)}}</h2>
+              {% set currentFormatDate = oldItem.date | formatDate(queryParams.lang) %}
+              {% set previousFormatDate = oldAppointments[loop.index0 - 1].date | formatDate(queryParams.lang) if loop.index0 > 0 else null %}
+
+              {% if loop.index0 == 0 or currentFormatDate != previousFormatDate %}
+                <h2 class="govuk-heading-m govuk-!-margin-top-4" data-qa="{{ loop.index }}-old-appointment-date">{{ currentFormatDate }}</h2>
+              {% endif %}
+              
               {{ appointmentMacro.render(oldItem, loop.index, queryParams.lang) }}
               {% if loop.index < oldAppointments.length %}
-                </br>
-              {% endif %}
-            {% endfor %}
-          </div>
-        </details>
-      </div>
-    {% endif %}
-  </div>
+              </br>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </details>
+    </div>
+  {% endif %}
+</div>
 
 {% endblock %}
 
 {% block bodyEnd %}
-  <script src="/assets/sessionMonitor.js"></script>
+<script src="/assets/sessionMonitor.js"></script>
 {% endblock %}
