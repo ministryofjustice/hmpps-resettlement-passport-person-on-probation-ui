@@ -5,6 +5,8 @@
   {% if addNoIndexTag %}
     <meta name="robots" content="noindex, nofollow">
   {% endif %}
+    <script src="/assets/analytics.js" nonce="{{ cspNonce }}"></script>
+
 {% endblock %}
 
 {% block pageTitle %}{{pageTitle | default(applicationName)}}
@@ -12,6 +14,7 @@
 
 {% block header %}
   {% include "./header.njk" %}
+  <meta name="csrf-token" content="{{ csrfToken }}">
 {% endblock %}
 
 {% block bodyStart %}{% endblock %}
@@ -58,5 +61,4 @@
   <script src="/assets/moj/all.js"></script>
   <script src="/assets/mojFrontendInit.js"></script>
   <script src="/assets/govukCookies.js"></script>
-  <script src="/assets/sessionMonitor.js"></script>
 {% endblock %}

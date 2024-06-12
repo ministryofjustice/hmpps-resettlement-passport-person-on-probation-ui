@@ -75,7 +75,7 @@
                                     {% if y.image %}
                                         <div class="govuk-grid-column-full govuk-!-margin-top-2">
                                             <p>
-                                                <a id="condition-image-{{y.id}}-link" data-qa="{{loop.index + licence.standardLicenceConditions.length }}-licence-conditions-link" href="/licence-conditions/{{licence.licenceId}}/condition/{{y.id}}{{appendLanguage(queryParams)}}">{{ t('licence-conditions-details') }}</a>
+                                                <a id="condition-image-{{y.id}}-link" data-qa="{{loop.index + licence.standardLicenceConditions.length }}-licence-conditions-link" track-tag-id="viewLicenceConditionMapLink" href="/licence-conditions/{{licence.licenceId}}/condition/{{y.id}}{{appendLanguage(queryParams)}}">{{ t('licence-conditions-details') }}</a>
                                             </p>
                                         </div>
                                     {% endif %}

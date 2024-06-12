@@ -28,7 +28,7 @@
                       {{ appointment.location | formatAppointmentLocation }}
                     </span>
                     <p class="govuk-body">
-                      <a href="{{ appointment.location | mapsLinkFromAppointmentLocation }}" target="_blank" data-qa="{{loopIndex}}-appointment-map-link">
+                      <a href="{{ appointment.location | mapsLinkFromAppointmentLocation }}" target="_blank" data-qa="{{loopIndex}}-appointment-map-link" track-tag-id="googleMapsLink">
                         {{ t('appointment-view-maps') }}</a>
                     </p>
                   {% else %}

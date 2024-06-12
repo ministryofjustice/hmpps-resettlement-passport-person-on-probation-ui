@@ -98,3 +98,25 @@ A changelog for the service is available [here](./CHANGELOG.md)
 
 The template project has implemented some scheduled checks to ensure that key dependencies are kept up to date.
 If these are not desired in the cloned project, remove references to `check_outdated` job from `.circleci/config.yml`
+
+
+## Azure App insights Metrics
+
+We have the ability to track user events, through Azure App insights. For example by adding a tag to anchors or buttons like so:
+`<a href="#" track-tag-id="testBtn">Temp</a>`
+this will generate a  `PYF_UserClick` event with properties `[{ type: 'A', identifier: 'testBtn' }]`.
+We can also track other type of events if we wish to, for example events where Errors are displayed to users or, failed number of login attempts, etc.
+
+Go to Azure App Insights >> nomis prod or nomis preprod >> Usage >> Events 
+
+Then click 'View More Insights' for the last 30 minutes (for example).
+
+Scroll to EVENT STATISTICS and filter by name, enter 'PYF' enter and you should see some results.
+
+What we currently track the following events:
+
+| Name                              | Description                                                 |
+|-----------------------------------|-------------------------------------------------------------|
+| PYF_SessionTimeout                | The user session has timed out                              | 
+| PYF_FirstTimeRegistrationError    | The user registration form has failed                       | 
+| PYF_UserClick                     | Browser tracked clicks (see analytics.js)                   | 

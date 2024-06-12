@@ -19,6 +19,7 @@ import setUpWebSession from './middleware/setUpWebSession'
 import routes from './routes'
 import type { Services } from './services'
 import { setupRateLimiter } from './middleware/rateLimiter'
+import { appInsightsMiddleware } from './utils/azureAppInsights'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -43,6 +44,7 @@ export default function createApp(services: Services): express.Application {
   app.set('json spaces', 2)
   app.set('trust proxy', true)
   app.set('port', process.env.PORT || 3000)
+  app.use(appInsightsMiddleware())
   app.use(metricsMiddleware)
   app.use(setUpHealthChecks(services.applicationInfo))
   app.use(setUpWebSecurity())

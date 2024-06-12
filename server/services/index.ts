@@ -5,7 +5,8 @@ import UserService from './userService'
 import ZendeskService from './zendeskService'
 
 export const services = () => {
-  const { applicationInfo, resettlementPassportApiClient, personOnProbationUserApiClient } = dataAccess()
+  const { applicationInfo, resettlementPassportApiClient, personOnProbationUserApiClient, appInsightsClient } =
+    dataAccess()
 
   const userService = new UserService(resettlementPassportApiClient, personOnProbationUserApiClient)
   const appointmentService = new AppointmentService(resettlementPassportApiClient)
@@ -18,6 +19,7 @@ export const services = () => {
     appointmentService,
     licenceConditionService,
     zendeskService,
+    appInsightsClient,
   }
 }
 

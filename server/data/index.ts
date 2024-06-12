@@ -10,12 +10,13 @@ import PersonOnProbationUserApiClient from './personOnProbationApiClient'
 
 const applicationInfo = applicationInfoSupplier()
 initialiseAppInsights()
-buildAppInsightsClient(applicationInfo)
+const appInsightsClient = buildAppInsightsClient(applicationInfo)
 
 type RestClientBuilder<T> = (token: string) => T
 
 export const dataAccess = () => ({
   applicationInfo,
+  appInsightsClient,
   resettlementPassportApiClient: new ResettlementPassportApiClient(),
   personOnProbationUserApiClient: new PersonOnProbationUserApiClient(),
 })
