@@ -28,6 +28,6 @@ export default function routes(service: Services): Router {
   accessibilityRoutes(router)
   feedbackRoutes(router, service)
   timeoutRoutes(router, service)
-  analyticsRoutes(router)
+  analyticsRoutes(router, service)
   return router
 }

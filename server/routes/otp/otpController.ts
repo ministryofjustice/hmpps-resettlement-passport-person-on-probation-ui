@@ -1,10 +1,15 @@
 import { RequestHandler } from 'express'
 import { isPast } from 'date-fns'
+import { TelemetryClient } from 'applicationinsights'
 import UserService from '../../services/userService'
 import { getDobDate, getDobDateString, isValidOtp } from '../../utils/utils'
+import { trackEvent, errorProperties } from '../../utils/analytics'
 
 export default class HomeController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly appInsightClient: TelemetryClient,
+  ) {}
 
   index: RequestHandler = async (req, res) => {
     const queryParams = req.query
@@ -70,6 +75,7 @@ export default class HomeController {
       const otpError = errors.find(x => x.href === '#otp')
       const dobError = errors.find(x => x.href === '#dob')
 
+      trackEvent(this.appInsightClient, 'PYF_FirstTimeRegistrationError', errorProperties(errors, req.user?.email))
       return res.render('pages/otp', {
         user: req.user,
         errors,

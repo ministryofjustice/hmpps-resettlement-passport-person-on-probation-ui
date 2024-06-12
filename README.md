@@ -112,3 +112,5 @@ Go to Azure App Insights >> nomis prod or nomis preprod >> Usage >> Events
 Then click 'View More Insights' for the last 30 minutes (for example).
 
 Scroll to EVENT STATISTICS and filter by name, enter 'PYF' enter and you should see some results.
+
+What we currently track:
