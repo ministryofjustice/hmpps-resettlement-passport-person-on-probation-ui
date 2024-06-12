@@ -1,13 +1,20 @@
 import { RequestHandler } from 'express'
+import { TelemetryClient } from 'applicationinsights'
 import requireUser from '../requireUser'
 import UserService from '../../services/userService'
 import config from '../../config'
+import { userProperties, trackEvent, PyfEvent } from '../../utils/analytics'
 
 export default class TimeoutController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly appInsightClient: TelemetryClient,
+  ) {}
 
   index: RequestHandler = async (req, res) => {
     const queryParams = req.query
+    trackEvent(this.appInsightClient, PyfEvent.TIMEOUT_EVENT, userProperties(req.user?.sub))
+
     res.render('pages/timedOut', { queryParams })
   }
 

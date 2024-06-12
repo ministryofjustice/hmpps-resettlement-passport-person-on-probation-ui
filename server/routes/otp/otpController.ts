@@ -3,7 +3,7 @@ import { isPast } from 'date-fns'
 import { TelemetryClient } from 'applicationinsights'
 import UserService from '../../services/userService'
 import { getDobDate, getDobDateString, isValidOtp } from '../../utils/utils'
-import { trackEvent, errorProperties } from '../../utils/analytics'
+import { trackEvent, errorProperties, PyfEvent } from '../../utils/analytics'
 
 export default class HomeController {
   constructor(
@@ -75,7 +75,7 @@ export default class HomeController {
       const otpError = errors.find(x => x.href === '#otp')
       const dobError = errors.find(x => x.href === '#dob')
 
-      trackEvent(this.appInsightClient, 'PYF_FirstTimeRegistrationError', errorProperties(errors, req.user?.email))
+      trackEvent(this.appInsightClient, PyfEvent.REGISTRATION_ERROR_EVENT, errorProperties(errors, req.user?.sub))
       return res.render('pages/otp', {
         user: req.user,
         errors,

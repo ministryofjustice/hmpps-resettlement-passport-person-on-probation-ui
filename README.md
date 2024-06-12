@@ -113,4 +113,10 @@ Then click 'View More Insights' for the last 30 minutes (for example).
 
 Scroll to EVENT STATISTICS and filter by name, enter 'PYF' enter and you should see some results.
 
-What we currently track:
+What we currently track the following events:
+
+| Name                              | Description                                                 |
+|-----------------------------------|-------------------------------------------------------------|
+| PYF_SessionTimeout                | The user session has timed out                              | 
+| PYF_FirstTimeRegistrationError    | The user registration form has failed                       | 
+| PYF_UserClick                     | Browser tracked clicks (see analytics.js)                   | 

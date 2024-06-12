@@ -1,5 +1,11 @@
 import { TelemetryClient } from 'applicationinsights'
 
+// eslint-disable-next-line no-shadow
+export enum PyfEvent {
+  TIMEOUT_EVENT = 'PYF_SessionTimeout',
+  REGISTRATION_ERROR_EVENT = 'PYF_FirstTimeRegistrationError',
+}
+
 export type KeyValue = {
   key: string
   value: string
@@ -21,6 +27,10 @@ function mapErrorsToAnalytics(errors: Array<Express.ValidationError>): KeyValue[
   })
 }
 
+export const userProperties = (userId: string) => {
+  return [{ key: 'userId', value: userId }]
+}
+
 export const errorProperties = (errors: Array<Express.ValidationError>, userId: string) => {
-  return [...mapErrorsToAnalytics(errors), { key: 'userId', value: userId }]
+  return [...mapErrorsToAnalytics(errors), ...userProperties(userId)]
 }
