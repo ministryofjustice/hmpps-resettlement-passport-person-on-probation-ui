@@ -106,3 +106,9 @@ We have the ability to track user events, through Azure App insights. For exampl
 `<a href="#" track-tag-id="testBtn">Temp</a>`
 this will generate a  `PYF_UserClick` event with properties `[{ type: 'A', identifier: 'testBtn' }]`.
 We can also track other type of events if we wish to, for example events where Errors are displayed to users or, failed number of login attempts, etc.
+
+Go to Azure App Insights >> nomis prod or nomis preprod >> Usage >> Events 
+
+Then click view all for the last 30 minutes (for example).
+
+Scroll to EVENT STATISTICS and filter by name, enter 'PYF' enter and you should see some results.
