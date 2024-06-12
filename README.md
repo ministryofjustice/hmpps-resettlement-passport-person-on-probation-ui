@@ -109,6 +109,6 @@ We can also track other type of events if we wish to, for example events where E
 
 Go to Azure App Insights >> nomis prod or nomis preprod >> Usage >> Events 
 
-Then click view all for the last 30 minutes (for example).
+Then click 'View More Insights' for the last 30 minutes (for example).
 
 Scroll to EVENT STATISTICS and filter by name, enter 'PYF' enter and you should see some results.
