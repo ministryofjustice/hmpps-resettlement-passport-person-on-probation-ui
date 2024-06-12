@@ -14,7 +14,7 @@ const SCOPES = ['https://mail.google.com/']
 const clientId = process.env.GMAIL_CLIENT_ID
 const clientSecret = process.env.GMAIL_CLIENT_SECRET
 const projectId = process.env.GMAIL_PROJECT_ID
-const gmailToken = process.env.GMAIL_TOKEN
+const gmailToken = ''
 
 const apiCredentials = JSON.stringify({
   installed: {
@@ -145,7 +145,7 @@ async function saveCredentials(client) {
   const key = keys.installed || keys.web
   const payload = JSON.stringify({
     type: 'authorized_user',
-    refresh_token: gmailToken,
+    refresh_token: client.credentials.refresh_token,
   })
   await fs.writeFile(TOKEN_PATH, payload)
 }
@@ -258,3 +258,5 @@ async function extractSixDigitNumber(input) {
 }
 
 module.exports = { returnSecurityCode, returnCurrentCount, returnAccountClosed, deleteMessageHousekeeping }
+
+returnCurrentCount()
