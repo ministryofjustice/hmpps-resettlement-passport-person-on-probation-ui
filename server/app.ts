@@ -20,6 +20,7 @@ import routes from './routes'
 import type { Services } from './services'
 import { setupRateLimiter } from './middleware/rateLimiter'
 import { appInsightsMiddleware } from './utils/azureAppInsights'
+import { setupContentful } from './middleware/contentful'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -51,7 +52,8 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
-
+  app.use(setupContentful())
+  
   nunjucksSetup(app, services.applicationInfo, i18n)
   app.use(i18n.init)
   app.use(setupGovukOneLogin())
