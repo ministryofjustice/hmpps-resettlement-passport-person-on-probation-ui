@@ -11,8 +11,19 @@ export type KeyValue = {
   value: string
 }
 
-export const trackEvent = (appInsightsClient: TelemetryClient, name: string, properties: KeyValue[]) => {
+export const trackEvent = (
+  appInsightsClient: TelemetryClient,
+  name: string,
+  properties: KeyValue[],
+  userId: string,
+  sessionId: string,
+) => {
   if (name && appInsightsClient) {
+    // eslint-disable-next-line no-param-reassign
+    appInsightsClient.context.tags[appInsightsClient.context.keys.userId] = userId
+    // eslint-disable-next-line no-param-reassign
+    appInsightsClient.context.tags[appInsightsClient.context.keys.sessionId] = sessionId
+
     appInsightsClient.trackEvent({ name, properties })
     appInsightsClient.flush()
   }
