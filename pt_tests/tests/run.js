@@ -77,10 +77,10 @@ export function getScenarios(executionType) {
         browserTest: {
           executor: 'constant-arrival-rate',
           exec: 'mainDevBrowserTest',
-          rate: 20,
-          timeunit: '10m',
+          rate: 10,
+          timeunit: '5m',
           preAllocatedVUs: 10,
-          duration: '10m',
+          duration: '5m',
           options: {
             browser: {
               type: 'chromium',
