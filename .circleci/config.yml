@@ -303,7 +303,8 @@ workflows:
               only:
                 - main
           requires:
-            - deploy_dev
+            - e2e_test
+            - zap_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
