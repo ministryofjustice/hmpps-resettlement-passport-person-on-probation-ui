@@ -297,7 +297,7 @@ workflows:
                 - main
           requires:
             - deploy_dev
-      - browser_smoke_test:
+      - browser_load_test:
           filters:
             branches:
               only:
