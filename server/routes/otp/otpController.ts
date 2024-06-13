@@ -75,7 +75,13 @@ export default class HomeController {
       const otpError = errors.find(x => x.href === '#otp')
       const dobError = errors.find(x => x.href === '#dob')
 
-      trackEvent(this.appInsightClient, PyfEvent.REGISTRATION_ERROR_EVENT, errorProperties(errors, req.user?.sub))
+      trackEvent(
+        this.appInsightClient,
+        PyfEvent.REGISTRATION_ERROR_EVENT,
+        errorProperties(errors, req.user?.sub),
+        req.user?.sub,
+        req.sessionID,
+      )
       return res.render('pages/otp', {
         user: req.user,
         errors,

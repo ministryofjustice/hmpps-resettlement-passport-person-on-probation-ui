@@ -13,7 +13,13 @@ export default class TimeoutController {
 
   index: RequestHandler = async (req, res) => {
     const queryParams = req.query
-    trackEvent(this.appInsightClient, PyfEvent.TIMEOUT_EVENT, userProperties(req.user?.sub))
+    trackEvent(
+      this.appInsightClient,
+      PyfEvent.TIMEOUT_EVENT,
+      userProperties(req.user?.sub),
+      req.user?.sub,
+      req.sessionID,
+    )
 
     res.render('pages/timedOut', { queryParams })
   }
