@@ -171,7 +171,7 @@ jobs:
       - checkout
       - run:
           command: |
-            k6 run pt_tests/tests/run.js --no-setup
+            k6 run pt_tests/tests/runSmoke.js --no-setup
           environment:
             EXECUTION_TYPE: smoke
             PROCESS: dev
@@ -184,7 +184,7 @@ jobs:
       - checkout
       - run:
           command: |
-            k6 run pt_tests/tests/run.js --no-setup
+            k6 run pt_tests/tests/runSmoke.js --no-setup
           environment:
             EXECUTION_TYPE: smokePreProd
             PROCESS: preprod                 
