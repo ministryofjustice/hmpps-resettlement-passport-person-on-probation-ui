@@ -11,7 +11,7 @@ export default class HomePage {
   }
 
   private HomePageElements = {
-    startButton: '#main-content > div > div > p:nth-child(3) > a',
+    startButton: '[data-qa="start-btn"]',
   }
 
   async clickStart() {
