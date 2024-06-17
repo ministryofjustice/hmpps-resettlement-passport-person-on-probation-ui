@@ -2,7 +2,7 @@ Feature: Home
 
 
 @test
-  Scenario Outline:: User Housekeeping if failure of tests
+  Scenario Outline: 1-5) User Housekeeping if failure of tests
     Given the user has access to their first-time ID code
     Given the user visit plan your future
     Then delete account housekeeping email <gmail>
@@ -17,7 +17,7 @@ Feature: Home
 
 
 @test
-  Scenario: Full E2E registration Gov One then completed PYF then delete account
+  Scenario: 6) Full E2E registration Gov One then completed PYF then delete account
     Given the user has access to their first-time ID code
     When the user visit plan your future
     Then they create an account with Gov One Login email "+140@gmail.com"
@@ -26,7 +26,7 @@ Feature: Home
 
 
 @test
-  Scenario: User registration to Gov One, then logs out, then logs back into complete registration then deletes account
+  Scenario: 7) User registration to Gov One, then logs out, then logs back into complete registration then deletes account
     Given the user has access to their first-time ID code
     Given the user visit plan your future
     Then they create an account with Gov One Login email "+141@gmail.com"
@@ -37,7 +37,7 @@ Feature: Home
 
 
 @test
-  Scenario: User registration to Gov One, then completes PYF then logs out, then logs back into PYF then deletes account
+  Scenario: 8) User registration to Gov One, then completes PYF then logs out, then logs back into PYF then deletes account
     Given the user has access to their first-time ID code
     Given the user visit plan your future
     Then they create an account with Gov One Login email "+142@gmail.com"
@@ -48,7 +48,7 @@ Feature: Home
 
 
 @test
-  Scenario: User registration to Gov One, then completes PYF then logs out, then tries to re-register with Gov One
+  Scenario: 9) User registration to Gov One, then completes PYF then logs out, then tries to re-register with Gov One
     Given the user has access to their first-time ID code
     Given the user visit plan your future
     Then they create an account with Gov One Login email "+143@gmail.com"
@@ -59,7 +59,7 @@ Feature: Home
 
 
 @test
-  Scenario: Full E2E registration Gov One then completed PYF then delete account tries to register with same OTP NOMIS ID, requests new OTP to complete registration
+  Scenario: 10) Full E2E registration Gov One then completed PYF then delete account tries to register with same OTP NOMIS ID, requests new OTP to complete registration
     Given the user has access to their first-time ID code
     When the user visit plan your future
     Then they create an account with Gov One Login email "+144@gmail.com"
