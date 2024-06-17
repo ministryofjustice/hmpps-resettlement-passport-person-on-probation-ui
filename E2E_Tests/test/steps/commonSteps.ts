@@ -179,6 +179,7 @@ Then('the user completes the account setup with first-time ID code', async funct
   await completeAccountPage.submitDay(getDobArray[0]);
   await completeAccountPage.submitMonth(getDobArray[1]);
   await completeAccountPage.submitYear(getDobArray[2]);
+  sleep(500)
   await dashboardPage.shouldFindTitle();
 })
 
