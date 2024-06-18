@@ -1,4 +1,4 @@
-import { Before, BeforeAll, AfterAll, After } from '@cucumber/cucumber'
+import { Before, BeforeAll, AfterAll, After, AfterStep } from '@cucumber/cucumber'
 import { Browser, BrowserContext, chromium, firefox, Page, webkit } from '@playwright/test'
 import { deleteMessageHousekeeping } from '../test/helpers/mailClient'
 import { pageFixture } from './pageFixtures'
@@ -37,6 +37,18 @@ AfterAll(async function () {
   
 })
 
+AfterStep(async function () {
+  // After Each Step
+  await sleep(3000);
+  
+})
+
+
+
+function sleep(ms: number | undefined) {
+  console.log('waiting')
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
 
 async function screenshotOnFailure() {
     // Get a unique place for the screenshot.

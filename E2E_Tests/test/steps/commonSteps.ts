@@ -171,7 +171,7 @@ Then('the user logs into their account who has not completed account setup email
 Then('the user completes the account setup with first-time ID code', async function () {
   completeAccountPage = new CompleteAccountPage(pageFixture.page);
   dashboardPage = new DashboardPage(pageFixture.page);
-  sleep(500)
+  await sleep(500)
   await completeAccountPage.shouldFindTitle();
   const firstTimeIdCode = await getFirstTimeIdCode();
   await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
@@ -179,14 +179,14 @@ Then('the user completes the account setup with first-time ID code', async funct
   await completeAccountPage.submitDay(getDobArray[0]);
   await completeAccountPage.submitMonth(getDobArray[1]);
   await completeAccountPage.submitYear(getDobArray[2]);
-  sleep(500)
+  await sleep(500)
   await dashboardPage.shouldFindTitle();
 })
 
 Then('the user completes the account setup with expired first-time ID code', async function () {
   completeAccountPage = new CompleteAccountPage(pageFixture.page);
   dashboardPage = new DashboardPage(pageFixture.page);
-  sleep(500)
+  await sleep(500)
   await completeAccountPage.shouldFindTitle();
   const firstTimeIdCode = await getFirstTimeIdCode();
   await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
@@ -202,7 +202,7 @@ Then('the user deletes their Gov One Account', async function () {
   navigationPage = new NavigationPage(pageFixture.page);
   settingsPage = new SettingsPage(pageFixture.page);
   govOneSecurityDetails = new GovOneSecurityDetails(pageFixture.page);
-  sleep(500)
+  await sleep(500)
   await navigationPage.settingsLink.click();
   await settingsPage.shouldFindTitle();
   await settingsPage.govOneLink.click();
@@ -228,7 +228,7 @@ Then('the user deletes their Gov One Account after logging in', async function (
   govOneSelectOTPMethod = new GovOneSelectOTPMethod(pageFixture.page);
   govOneChangedOTP = new GovOneChangedOTP(pageFixture.page);
   govOneSecurityDetails = new GovOneSecurityDetails(pageFixture.page);
-  sleep(500)
+  await sleep(500)
   await navigationPage.settingsLink.click();
   await settingsPage.shouldFindTitle();
   await settingsPage.govOneLink.click();
