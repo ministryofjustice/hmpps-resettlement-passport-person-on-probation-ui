@@ -241,7 +241,7 @@ export const fetchContent = async (lang: string): Promise<FullPage[]> => {
   const tokenStore = tokenStoreFactory()
   const contenfulFetched = await tokenStore.getToken(`contenfulFetched-${lang}`)
   if (!contenfulFetched) {
-    const content = await fetchOrderedPages('cy')
+    const content = await fetchOrderedPages(locale.code)
     if (content?.length > 0) {
       const { refreshSeconds } = config.contentful
       await tokenStore.setToken(`contenfulFetched-${lang}`, JSON.stringify(content), refreshSeconds)
