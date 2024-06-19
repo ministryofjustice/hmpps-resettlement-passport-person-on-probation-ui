@@ -197,8 +197,8 @@ const getClient = () => {
   })
 }
 
-const mapPage = async (id: string, client: contentful.ContentfulClientApi<undefined>, index: number) => {
-  const x = await client.getEntry(id)
+const mapPage = async (id: string, client: contentful.ContentfulClientApi<undefined>, index: number, locale: string) => {
+  const x = await client.getEntry(id, {locale})
   return {
     title: x.fields.title,
     order: index + 1,
@@ -216,13 +216,12 @@ const fetchOrderedPages = async (locale: string): Promise<FullPage[]> => {
       locale,
       content_type: navigationComponent,
     })
-
     if (response.items.length !== 1) {
       logger.error('Error fetching contentful main navigation component: unexpected size retrieved')
     }
 
     const pages = await Promise.all(
-      response.items[0].fields?.section?.map(async (page, index) => mapPage(page.sys.id, client, index)),
+      response.items[0].fields?.section?.map(async (page, index) => mapPage(page.sys.id, client, index, locale)),
     )
 
     return pages as FullPage[]
@@ -244,7 +243,7 @@ export const fetchContent = async (lang: string): Promise<FullPage[]> => {
     const content = await fetchOrderedPages(locale.code)
     if (content?.length > 0) {
       const { refreshSeconds } = config.contentful
-      await tokenStore.setToken(`contenfulFetched-${lang}`, JSON.stringify(content), refreshSeconds)
+      await tokenStore.setToken(`contenfulFetched-${lang}`, JSON.stringify(content), 1)
     }
     return content
   }
