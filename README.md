@@ -41,6 +41,18 @@ Set the values with:
 `kubectl -n hmpps-resettlement-passport-<env> create secret generic zendesk --from-literal=ZENDESK_USER=<user>  --from-literal=ZENDESK_TOKEN=<token>`
 
 
+### Contentful credentials
+```
+CONTENTFUL_ACCESS_TOKEN
+CONTENTFUL_PREVIEW_TOKEN
+```
+You can grab these values from the namespace like so
+`kubectl -n hmpps-resettlement-passport-<env> get secrets contentful -o json | jq '.data | map_values(@base64d)'`
+
+Set the values with:
+`kubectl -n hmpps-resettlement-passport-<env> create secret generic contentful --from-literal=CONTENTFUL_ACCESS_TOKEN=<token1>  --from-literal=CONTENTFUL_PREVIEW_TOKEN=<token2>`
+
+
 ### Running the app for development
 To start the main services excluding the example typescript template app: 
 
