@@ -51,7 +51,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
-  
+
   nunjucksSetup(app, services.applicationInfo, i18n)
   app.use(i18n.init)
   app.use(setupGovukOneLogin())

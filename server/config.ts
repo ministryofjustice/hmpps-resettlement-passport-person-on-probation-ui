@@ -46,11 +46,12 @@ export default {
     tls_enabled: get('REDIS_TLS_ENABLED', 'false'),
   },
   contentful: {
-    enabled: get('CONTENTFUL__ENABLED', 'false'),
+    enabled: get('CONTENTFUL_ENABLED', 'true'),
     accessToken: get('CONTENTFUL_ACCESS_TOKEN', ''),
+    showPreview: get('CONTENTFUL_SHOW_PREVIEW', ''),
     previewToken: get('CONTENTFUL_PREVIEW_TOKEN', ''),
     spaceId: get('CONTENTFUL_SPACE_ID', ''),
-    refreshMinutes: Number(get('CONTENTFUL_REFRESH_MINUTES', 1)),
+    refreshSeconds: Number(get('CONTENTFUL_REFRESH_SECONDS', 30)),
   },
   session: {
     secret: get('SESSION_SECRET', 'app-insecure-default-session', requiredInProduction),
