@@ -90,7 +90,7 @@ Then('the user will be still logged into current session so Logs Out of the serv
 })
 
 
-Then('they create an account with Gov One Login', async function () {
+Then('they create an account with Gov One Login email {string}', async function (gmail) {
   govOneLogin = new GovOneLogin(pageFixture.page);
   govOneEnterEmail = new GovOneEnterEmail(pageFixture.page);
   govOneCheckEmail = new GovOneCheckEmail(pageFixture.page);
@@ -104,7 +104,7 @@ Then('they create an account with Gov One Login', async function () {
   console.log('govOneLogin');
   await govOneLogin.createLogin.click();
   console.log('creating loging')
-  await govOneEnterEmail.submitEmail(email);
+  await govOneEnterEmail.submitEmail(email+gmail);
   const securityCode = await returnSecurityCode(count);
   console.log("..." + securityCode.slice(-3));
   await govOneCheckEmail.submitCode(securityCode);
@@ -122,7 +122,7 @@ Then('they create an account with Gov One Login', async function () {
 })
 
 
-Then('they try to re-create an existing account with Gov One Login', async function () {
+Then('they try to re-create an existing account with Gov One Login email {string}', async function (gmail) {
   govOneLogin = new GovOneLogin(pageFixture.page);
   govOneEnterEmail = new GovOneEnterEmail(pageFixture.page);
   govOneCreatedAccount = new GovOneCreatedAccount(pageFixture.page);
@@ -134,13 +134,13 @@ Then('they try to re-create an existing account with Gov One Login', async funct
   console.log('govOneLogin');
   await govOneLogin.createLogin.click();
   console.log('creating loging')
-  await govOneEnterEmail.submitEmail(email);
+  await govOneEnterEmail.submitEmail(email+gmail);
   await expect(navigationPage.pageHeader).toHaveText('You have a GOV.UK One Login');
   await govOneEnterPassword.submitPassword(password);
   await dashboardPage.shouldFindTitle();
 })
 
-Then('the user logs into their account who has completed account setup', async function () {
+Then('the user logs into their account who has completed account setup email {string}', async function (gmail) {
   govOneLogin = new GovOneLogin(pageFixture.page);
   govOneEnterEmail = new GovOneEnterEmail(pageFixture.page);
   govOneEnterPassword = new GovOneEnterPassword(pageFixture.page)
@@ -148,14 +148,14 @@ Then('the user logs into their account who has completed account setup', async f
   await homePage.clickStart();
   await govOneLogin.signInButton.click();
   console.log('user loging into account')
-  await govOneEnterEmail.submitEmail(email);
+  await govOneEnterEmail.submitEmail(email+gmail);
   await govOneEnterPassword.submitPassword(password);
   await dashboardPage.shouldFindTitle();
   
 })
 
 
-Then('the user logs into their account who has not completed account setup', async function () {
+Then('the user logs into their account who has not completed account setup email {string}', async function (gmail) {
   govOneLogin = new GovOneLogin(pageFixture.page);
   govOneEnterEmail = new GovOneEnterEmail(pageFixture.page);
   govOneEnterPassword = new GovOneEnterPassword(pageFixture.page)
@@ -163,7 +163,7 @@ Then('the user logs into their account who has not completed account setup', asy
   await homePage.clickStart();
   await govOneLogin.signInButton.click();
   console.log('user loging into account')
-  await govOneEnterEmail.submitEmail(email);
+  await govOneEnterEmail.submitEmail(email+gmail);
   await govOneEnterPassword.submitPassword(password);
   await completeAccountPage.shouldFindTitle();
 })
@@ -171,6 +171,7 @@ Then('the user logs into their account who has not completed account setup', asy
 Then('the user completes the account setup with first-time ID code', async function () {
   completeAccountPage = new CompleteAccountPage(pageFixture.page);
   dashboardPage = new DashboardPage(pageFixture.page);
+  await sleep(500)
   await completeAccountPage.shouldFindTitle();
   const firstTimeIdCode = await getFirstTimeIdCode();
   await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
@@ -178,12 +179,14 @@ Then('the user completes the account setup with first-time ID code', async funct
   await completeAccountPage.submitDay(getDobArray[0]);
   await completeAccountPage.submitMonth(getDobArray[1]);
   await completeAccountPage.submitYear(getDobArray[2]);
+  await sleep(500)
   await dashboardPage.shouldFindTitle();
 })
 
 Then('the user completes the account setup with expired first-time ID code', async function () {
   completeAccountPage = new CompleteAccountPage(pageFixture.page);
   dashboardPage = new DashboardPage(pageFixture.page);
+  await sleep(500)
   await completeAccountPage.shouldFindTitle();
   const firstTimeIdCode = await getFirstTimeIdCode();
   await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
@@ -199,7 +202,7 @@ Then('the user deletes their Gov One Account', async function () {
   navigationPage = new NavigationPage(pageFixture.page);
   settingsPage = new SettingsPage(pageFixture.page);
   govOneSecurityDetails = new GovOneSecurityDetails(pageFixture.page);
-
+  await sleep(500)
   await navigationPage.settingsLink.click();
   await settingsPage.shouldFindTitle();
   await settingsPage.govOneLink.click();
@@ -225,7 +228,7 @@ Then('the user deletes their Gov One Account after logging in', async function (
   govOneSelectOTPMethod = new GovOneSelectOTPMethod(pageFixture.page);
   govOneChangedOTP = new GovOneChangedOTP(pageFixture.page);
   govOneSecurityDetails = new GovOneSecurityDetails(pageFixture.page);
-  
+  await sleep(500)
   await navigationPage.settingsLink.click();
   await settingsPage.shouldFindTitle();
   await settingsPage.govOneLink.click();
@@ -258,7 +261,7 @@ Then('the user deletes their Gov One Account after logging in', async function (
 })
 
 // the following Code is if error in tests and account is still existing this will delete account for next run; controlled in feature file. 
-Then('delete account housekeeping', async function () {
+Then('delete account housekeeping email {string}', async function (gmail) {
 
   govOneLogin = new GovOneLogin(pageFixture.page);
   govOneEnterEmail = new GovOneEnterEmail(pageFixture.page);
@@ -277,7 +280,7 @@ Then('delete account housekeeping', async function () {
   await homePage.clickStart();
   await govOneLogin.signInButton.click();
   console.log('user loging into account')
-  await govOneEnterEmail.submitEmail(email);
+  await govOneEnterEmail.submitEmail(email+gmail);
   // check header here to see if account exists..
   var testVal0 = await navigationPage.pageHeader.innerText();
   console.log(testVal0);

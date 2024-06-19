@@ -1,4 +1,4 @@
-import { Before, BeforeAll, AfterAll, After } from '@cucumber/cucumber'
+import { Before, BeforeAll, AfterAll, After, AfterStep } from '@cucumber/cucumber'
 import { Browser, BrowserContext, chromium, firefox, Page, webkit } from '@playwright/test'
 import { deleteMessageHousekeeping } from '../test/helpers/mailClient'
 import { pageFixture } from './pageFixtures'
@@ -8,6 +8,7 @@ require('dotenv').config()
 let browser: Browser
 // let page: Page;
 let context: BrowserContext
+var count= 0;
 
 BeforeAll(async function () {
   browser = await chromium.launch({ headless: true }) // launches a chrome instance and returns a browser
@@ -24,6 +25,7 @@ Before(async function () {
 
 After(async function () {
   // After each scenario
+  await screenshotOnFailure();
   await pageFixture.page.close()
   await context.close()
 })
@@ -34,3 +36,28 @@ AfterAll(async function () {
   await browser.close()
   
 })
+
+AfterStep(async function () {
+  // After Each Step
+  await sleep(3000);
+  
+})
+
+
+
+function sleep(ms: number | undefined) {
+  console.log('waiting')
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+async function screenshotOnFailure() {
+    // Get a unique place for the screenshot.
+    count++
+    const mytestID= 'TestNumber'+ count
+    console.log(mytestID)
+    
+    var screenshotPath = 'test_results/screenshots/'+mytestID+'.png'
+    // Take the screenshot itself.
+    await pageFixture.page.screenshot({ path: screenshotPath, timeout: 5000 });
+    
+}
