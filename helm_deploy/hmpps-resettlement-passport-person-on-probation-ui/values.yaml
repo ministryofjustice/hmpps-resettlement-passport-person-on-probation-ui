@@ -36,6 +36,9 @@ generic-service:
     TOKEN_VERIFICATION_ENABLED: "false"
     APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY);IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
     ZENDESK_API_URL: "https://ministryofjustice.zendesk.com"
+    CONTENTFUL_ENABLED: true
+    CONTENTFUL_SHOW_PREVIEW: false
+    CONTENTFUL_REFRESH_SECONDS: 60
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
@@ -58,6 +61,9 @@ generic-service:
     zendesk:
       ZENDESK_USER: "ZENDESK_USER"
       ZENDESK_TOKEN: "ZENDESK_TOKEN"
+    contentful:
+      CONTENTFUL_ACCESS_TOKEN: "CONTENTFUL_ACCESS_TOKEN"
+      CONTENTFUL_SPACE_ID: "CONTENTFUL_SPACE_ID"
       
   allowlist: null
 

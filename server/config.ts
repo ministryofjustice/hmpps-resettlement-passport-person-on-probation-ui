@@ -45,6 +45,14 @@ export default {
     password: process.env.REDIS_AUTH_TOKEN,
     tls_enabled: get('REDIS_TLS_ENABLED', 'false'),
   },
+  contentful: {
+    enabled: get('CONTENTFUL_ENABLED', 'true'),
+    accessToken: get('CONTENTFUL_ACCESS_TOKEN', ''),
+    showPreview: get('CONTENTFUL_SHOW_PREVIEW', ''),
+    previewToken: get('CONTENTFUL_PREVIEW_TOKEN', ''),
+    spaceId: get('CONTENTFUL_SPACE_ID', ''),
+    refreshSeconds: Number(get('CONTENTFUL_REFRESH_SECONDS', 30)),
+  },
   session: {
     secret: get('SESSION_SECRET', 'app-insecure-default-session', requiredInProduction),
     expiryMinutes: Number(get('WEB_SESSION_TIMEOUT_IN_MINUTES', 20)),

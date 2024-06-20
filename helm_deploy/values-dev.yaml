@@ -22,6 +22,8 @@ generic-service:
     GOVUK_ONE_LOGIN_VTR: "LOW"
     GOVUK_ONE_LOGIN_JWKS_URL: "https://oidc.integration.account.gov.uk/.well-known/jwks.json"
     WEB_SESSION_INACTIVITY_IN_MINUTES: 5
+    CONTENTFUL_SHOW_PREVIEW: true
+    CONTENTFUL_REFRESH_SECONDS: 10
 
 generic-prometheus-alerts:
   alertSeverity: hmpps-resettlement-passport-non-prod
