@@ -197,8 +197,13 @@ const getClient = () => {
   })
 }
 
-const mapPage = async (id: string, client: contentful.ContentfulClientApi<undefined>, index: number, locale: string) => {
-  const x = await client.getEntry(id, {locale})
+const mapPage = async (
+  id: string,
+  client: contentful.ContentfulClientApi<undefined>,
+  index: number,
+  locale: string,
+) => {
+  const x = await client.getEntry(id, { locale })
   return {
     title: x.fields.title,
     order: index + 1,
@@ -243,7 +248,7 @@ export const fetchContent = async (lang: string): Promise<FullPage[]> => {
     const content = await fetchOrderedPages(locale.code)
     if (content?.length > 0) {
       const { refreshSeconds } = config.contentful
-      await tokenStore.setToken(`contenfulFetched-${lang}`, JSON.stringify(content), 1)
+      await tokenStore.setToken(`contenfulFetched-${lang}`, JSON.stringify(content), refreshSeconds)
     }
     return content
   }
