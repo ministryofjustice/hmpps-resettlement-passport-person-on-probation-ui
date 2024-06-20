@@ -105,6 +105,15 @@ const mapWarning = (target: Target) => {
 </div>`
 }
 
+const fallbackPages = [{
+  order: 1,
+  helpAndAdvice: null,
+  relatedContent: null,
+  slug: 'plan-your-future',
+  title: 'Plan your future',
+  bodyText: `<a href="/overview" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button" data-qa="start-btn">Start</a>`
+}] as FullPage[]
+
 const options = {
   renderMark: {
     [MARKS.BOLD]: (text: string) => `<strong>${text}</strong>`,
@@ -240,7 +249,7 @@ export const fetchContent = async (lang: string): Promise<FullPage[]> => {
   const locale = getLocaleForLang(lang)
 
   if (config.contentful.enabled === 'false') {
-    return []
+    return fallbackPages
   }
   const tokenStore = tokenStoreFactory()
   const contenfulFetched = await tokenStore.getToken(`contenfulFetched-${lang}`)

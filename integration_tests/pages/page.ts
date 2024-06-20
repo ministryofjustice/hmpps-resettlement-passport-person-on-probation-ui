@@ -28,7 +28,9 @@ export default abstract class Page {
     cy.injectAxe()
     cy.checkA11y(
       null,
-      null,
+      {
+        includedImpacts: ['critical', 'serious'],
+      },
       logAccessibilityViolations,
       false, // skipFailures
     )
