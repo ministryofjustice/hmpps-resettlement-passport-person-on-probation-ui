@@ -39,7 +39,7 @@ generic-service:
     #CONTENTFUL_ENABLED: "true"
     #CONTENTFUL_SHOW_PREVIEW: "false"
     #CONTENTFUL_REFRESH_SECONDS: 60
-    #CONTENTFUL_SPACE_ID: "p38k4c668chw"
+    CONTENTFUL_SPACE_ID: "p38k4c668chw"
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
