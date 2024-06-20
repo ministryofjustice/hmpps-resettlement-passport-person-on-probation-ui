@@ -45,12 +45,13 @@ Set the values with:
 ```
 CONTENTFUL_ACCESS_TOKEN
 CONTENTFUL_PREVIEW_TOKEN
+CONTENTFUL_SPACE_ID
 ```
 You can grab these values from the namespace like so
 `kubectl -n hmpps-resettlement-passport-<env> get secrets contentful -o json | jq '.data | map_values(@base64d)'`
 
 Set the values with:
-`kubectl -n hmpps-resettlement-passport-<env> create secret generic contentful --from-literal=CONTENTFUL_ACCESS_TOKEN=<token1>  --from-literal=CONTENTFUL_PREVIEW_TOKEN=<token2>`
+`kubectl -n hmpps-resettlement-passport-<env> create secret generic contentful --from-literal=CONTENTFUL_ACCESS_TOKEN=<token1>  --from-literal=CONTENTFUL_PREVIEW_TOKEN=<token2>  --from-literal=CONTENTFUL_SPACE_ID=<spaceid>`
 
 
 ### Running the app for development
