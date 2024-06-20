@@ -105,14 +105,16 @@ const mapWarning = (target: Target) => {
 </div>`
 }
 
-const fallbackPages = [{
-  order: 1,
-  helpAndAdvice: null,
-  relatedContent: null,
-  slug: 'plan-your-future',
-  title: 'Plan your future',
-  bodyText: `<a href="/overview" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button" data-qa="start-btn">Start</a>`
-}] as FullPage[]
+const fallbackPages = [
+  {
+    order: 1,
+    helpAndAdvice: null,
+    relatedContent: null,
+    slug: 'plan-your-future',
+    title: 'Plan your future',
+    bodyText: `<a href="/overview" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button" data-qa="start-btn">Start</a>`,
+  },
+] as FullPage[]
 
 const options = {
   renderMark: {
