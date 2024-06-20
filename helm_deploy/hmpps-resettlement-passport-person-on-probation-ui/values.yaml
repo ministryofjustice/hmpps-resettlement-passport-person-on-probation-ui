@@ -39,7 +39,6 @@ generic-service:
     #CONTENTFUL_ENABLED: "true"
     #CONTENTFUL_SHOW_PREVIEW: "false"
     #CONTENTFUL_REFRESH_SECONDS: 60
-    #CONTENTFUL_SPACE_ID: "p38k4c668chw"
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
@@ -62,9 +61,10 @@ generic-service:
     zendesk:
       ZENDESK_USER: "ZENDESK_USER"
       ZENDESK_TOKEN: "ZENDESK_TOKEN"
-    #contentful:
-    #  CONTENTFUL_ACCESS_TOKEN: "CONTENTFUL_ACCESS_TOKEN"
-    #  CONTENTFUL_PREVIEW_TOKEN: "CONTENTFUL_PREVIEW_TOKEN"
+    contentful:
+      CONTENTFUL_ACCESS_TOKEN: "CONTENTFUL_ACCESS_TOKEN"
+      CONTENTFUL_PREVIEW_TOKEN: "CONTENTFUL_PREVIEW_TOKEN"
+      CONTENTFUL_SPACE_ID: "CONTENTFUL_SPACE_ID"
       
   allowlist: null
 
