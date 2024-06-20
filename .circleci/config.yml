@@ -284,12 +284,8 @@ workflows:
           requires:
             - build
       - e2e_test:
-          filters:
-            branches:
-              only:
-                - main
           requires:
-            - deploy_dev
+            - build
       - zap_test:
           filters:
             branches:
