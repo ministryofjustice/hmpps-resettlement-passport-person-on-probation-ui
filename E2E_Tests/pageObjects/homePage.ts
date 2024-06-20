@@ -7,7 +7,7 @@ export default class HomePage {
 
   constructor(page: Page) {
     this.page = page;
-    this.gettingStartedHeader = page.locator('h1', { hasText: 'Check your appointments and licence conditions' });
+    this.gettingStartedHeader = page.locator('h1', { hasText: 'Resettle after prison' });
   }
 
   private HomePageElements = {
