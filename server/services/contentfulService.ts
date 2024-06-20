@@ -56,7 +56,7 @@ interface Target {
 
 interface ResponseFields {
   internalName: string
-  bodyTex: {
+  bodyText: {
     content: {
       content: {
         value: string
@@ -172,7 +172,7 @@ export const fetchPage = async (locale: string, pageId: string) => {
       const fields = x.fields as unknown as ResponseFields
       return {
         key: fields.internalName,
-        value: fields.bodyTex.content.flatMap(content => content.content.map(c => c.value)).join(''),
+        value: fields.bodyText.content.flatMap(content => content.content.map(c => c.value)).join(''),
       }
     })
 
