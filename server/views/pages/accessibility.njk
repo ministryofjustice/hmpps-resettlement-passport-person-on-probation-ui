@@ -1,83 +1,14 @@
 {% extends "../partials/layout.njk" %}
 
-{% set pageTitle = "Accessibility statement" + titleHeading %}
+{% set pageTitle = page.title + titleHeading %}
 
 {% block content %}
 
     <div class="govuk-grid-row govuk-!-padding-bottom-4 govuk-!-margin-top-8">
 
         <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-xl" data-qa="accessibility-page-title"> {{ t('accessibility-page-title') }}</h1>
-
-            <p>{{ t('accessibility-statement-paragraph-1') }}<a href="https://plan-your-future.service.justice.gov.uk" target="_blank">plan-your-future.service.justice.gov.uk</a>.</p>
-            <p>{{ t('accessibility-statement-paragraph-2') }}</p>
-
-            <ul class="govuk-list govuk-list--bullet">
-                <li>{{ t('accessibility-list-item-1') }}</li>
-                <li>{{ t('accessibility-list-item-2') }}</li>
-                <li>{{ t('accessibility-list-item-3') }}</li>
-            </ul>
-
-            <p>{{ t('accessibility-statement-paragraph-3') }}</p>
-
-            <p>
-                <a href="{{ t('accessibility-link-url') }}" target="_blank">{{ t('accessibility-link-text') }}</a></p>
-
-            <h2 class="govuk-heading-l govuk-!-padding-top-8">
-                {{ t('accessibility-h2-1') }}
-            </h2>
-
-            <p>{{ t('accessibility-statement-paragraph-4') }}</p>
-
-            <ul class="govuk-list govuk-list--bullet">
-                <li>{{ t('accessibility-list-item-4') }}</li>
-                <li>{{ t('accessibility-list-item-5') }}</li>
-                <li>{{ t('accessibility-list-item-6') }}</li>
-                <li>{{ t('accessibility-list-item-7') }}</li>
-                <li>{{ t('accessibility-list-item-8') }}</li>
-            </ul>
-
-            <h2 class="govuk-heading-l govuk-!-padding-top-8">
-                {{ t('accessibility-h2-2') }}
-            </h2>
-            <p>{{ t('accessibility-statement-paragraph-5') }}</p>
-
-            <ul class="govuk-list govuk-list--bullet">
-                <li>{{ t('accessibility-list-item-9') }}</li>
-            </ul>
-
-            <h2 class="govuk-heading-l govuk-!-padding-top-8">
-                {{ t('accessibility-h2-3') }}
-            </h2>
-
-            <p>{{ t('accessibility-statement-paragraph-6') }}</p>
-            <p>{{ t('accessibility-statement-paragraph-7') }} <a href="https://www.equalityadvisoryservice.com" target="_blank">Equality Advisory and Support Service (EASS)</a>.</p>
-
-            <h2 class="govuk-heading-l govuk-!-padding-top-8">
-                {{ t('accessibility-h2-4') }}
-            </h2>
-
-            <p>{{ t('accessibility-statement-paragraph-8') }}</p>
-
-            <h2 class="govuk-heading-l govuk-!-padding-top-8">
-                {{ t('accessibility-h2-5') }}
-            </h2>
-
-            <p>{{ t('accessibility-statement-paragraph-9') }} <a href="https://www.w3.org/TR/WCAG21" target="_blank">Web Content Accessibility Guidelines version 2.1 AA standard</a>{{ t('accessibility-statement-paragraph-9b') }} </p>
-
-            <h2 class="govuk-heading-l govuk-!-padding-top-8">
-                {{ t('accessibility-h2-6') }}
-            </h2>
-
-            <p>{{ t('accessibility-statement-paragraph-10') }}</p>
-            <p>{{ t('accessibility-statement-paragraph-11') }}</p>
-
-            <h2 class="govuk-heading-l govuk-!-padding-top-8">
-                {{ t('accessibility-h2-7') }}
-            </h2>
-
-            <p>{{ t('accessibility-statement-paragraph-12') }}</p>
-            <p>{{ t('accessibility-statement-paragraph-13') }}</p>
+            <h1 class="govuk-heading-xl" data-qa="accessibility-page-title">{{ page.title }}</h1>
+                {{ page.bodyText | safe }}
         </div>
     </div>
 

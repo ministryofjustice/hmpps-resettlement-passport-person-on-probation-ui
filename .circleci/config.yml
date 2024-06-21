@@ -253,6 +253,10 @@ jobs:
           name: Wait for wiremock to start
           command: sleep 5
       - run:
+          command: |
+            export CONTENTFUL_ACCESS_TOKEN=${CONTENTFUL_ACCESS_TOKEN}
+            export CONTENTFUL_SPACE_ID=${CONTENTFUL_SPACE_ID}
+      - run:
           name: Run the node app.
           command: npm run start-feature
           background: true

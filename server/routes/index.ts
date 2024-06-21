@@ -8,7 +8,6 @@ import licenceConditionsRoutes from './licenceConditions'
 import profileRoutes from './profile'
 import settingsRoutes from './settings'
 import cookiesRoutes from './cookies'
-import accessibilityRoutes from './accessibility'
 import feedbackRoutes from './feedback'
 import timeoutRoutes from './timeout'
 import analyticsRoutes from './analytics'
@@ -24,7 +23,6 @@ export default function routes(service: Services): Router {
   profileRoutes(router, service)
   settingsRoutes(router, service)
   cookiesRoutes(router)
-  accessibilityRoutes(router)
   feedbackRoutes(router, service)
   timeoutRoutes(router, service)
   analyticsRoutes(router, service)
