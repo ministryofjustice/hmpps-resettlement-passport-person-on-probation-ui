@@ -287,10 +287,12 @@ export const fetchPageBySlug = async (slug: string, lang: string): Promise<FullP
 
     if (content?.items?.length === 1) {
       const { refreshSeconds } = config.contentful
-      await tokenStore.setToken(`contenfulFetched-${slug}-${lang}`, JSON.stringify(content), refreshSeconds)
-      return mapPage(content.items[0])
+      const page = mapPage(content.items[0])
+      await tokenStore.setToken(`contenfulFetched-${slug}-${lang}`, JSON.stringify(page), refreshSeconds)
+      return page
     }
     return null
   }
+
   return JSON.parse(contenfulFetched)
 }
