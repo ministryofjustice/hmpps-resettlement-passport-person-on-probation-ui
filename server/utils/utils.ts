@@ -27,7 +27,7 @@ export const initialiseName = (fullName?: string): string | null => {
   return `${array[0][0]}. ${array.reverse()[0]}`
 }
 
-const getLocaleForLang = (lang: string): Locale => {
+export const getLocaleForLang = (lang: string): Locale => {
   if (lang === 'cy') {
     return cy
   }

@@ -8,7 +8,7 @@
   {% if enableApplicationInsights %}
     {% include "./applicationInsightsScript.njk" %}
   {% endif %}
-    <script src="/assets/analytics.js" nonce="{{ cspNonce }}"></script>
+  <script src="/assets/analytics.js" nonce="{{ cspNonce }}"></script>
 
 {% endblock %}
 
@@ -23,11 +23,11 @@
 {% block bodyStart %}{% endblock %}
 
 {% block beforeContent %}
-  <aside role="complementary">
-    {% include "./phasebanner.njk" %}
-    {% block aside %}{% endblock %}
-  </aside>
-  <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
+    <aside role="complementary">
+      {% include "./phasebanner.njk" %}
+      {% block aside %}{% endblock %}
+    </aside>
+    <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
 {% endblock %}
 
 {% block footer %}

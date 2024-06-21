@@ -100,6 +100,8 @@
     ]
   },
   "dependencies": {
+    "@contentful/rich-text-html-renderer": "^16.5.2",
+    "@contentful/rich-text-types": "^16.5.2",
     "@cucumber/cucumber": "^9.3.0",
     "@google-cloud/local-auth": "^2.1.0",
     "@ministryofjustice/frontend": "^2.1.0",
@@ -116,6 +118,7 @@
     "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
     "connect-redis": "^7.1.0",
+    "contentful": "^10.10.0",
     "csurf": "^1.11.0",
     "cypress-axe": "^1.5.0",
     "date-fns": "^2.30.0",

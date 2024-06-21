@@ -1,0 +1,122 @@
+{% extends "../partials/layout.njk" %}
+
+{% set pageTitle = page.title + titleHeading %}
+
+{% block beforeContent %}
+    <div class="govuk-breadcrumbs">
+        <ol class="govuk-breadcrumbs__list">
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" href="https://www.gov.uk/">{{ t('generic-page-breadcrumbs-1') }}</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" href="https://www.gov.uk/browse/justice">{{ t('generic-page-breadcrumbs-2') }}</a>
+            </li>
+            <li class="govuk-breadcrumbs__list-item">{{ t('generic-page-breadcrumbs-3') }}</li>
+        </ol>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="govuk-grid-row govuk-!-padding-bottom-4 govuk-!-margin-top-8">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-xl">{{ t('generic-page-h1') }}</h1>
+            <aside class="part-navigation-container">
+                <nav class="gem-c-contents-list">
+                    <h2 class="gem-c-contents-list__title">{{ t('generic-page-h2') }}</h2>
+                    <ol class="gem-c-contents-list__list">
+                        {% for item in navList %}
+                            <li class="gem-c-contents-list__list-item gem-c-contents-list__list-item--dashed {% if item.slug === pageId %}gem-c-contents-list__list-item--active{% endif %}">
+                                {% if item.slug === pageId %}
+                                    {{ item.title }}
+                                {% else %}
+                                    <a class="gem-c-contents-list__link govuk-link" href="/pages/{{item.slug}}{{appendLanguage(queryParams)}}">{{ item.title }}</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </nav>
+            </aside>
+        </div>
+    </div>
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds govuk-!-padding-top-4">
+            <h2 class="govuk-heading-l">{{ page.title }}</h2>
+            <div class="govuk-!-margin-bottom-6">
+                {{ page.bodyText | safe }}
+            </div>
+            <nav class="govuk-pagination govuk-pagination--block">
+                {% if page.order > 1 %}
+                    {% set prevOrder = page.order - 2 %}
+                    <div class="govuk-pagination__prev">
+                        <a class="govuk-link govuk-pagination__link" href="/pages/{{ navList[prevOrder].slug }}{{appendLanguage(queryParams)}}" rel="prev">
+                            <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" focusable="false" viewBox="0 0 15 13">
+                                <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+                            </svg>
+                            <span class="govuk-pagination__link-title">
+                                {{ t('generic-page-previous') }}
+                                <span class="govuk-visually-hidden">{{ t('generic-page-page') }}</span>
+                            </span>
+                            <span class="govuk-visually-hidden">:</span>
+                            <span class="govuk-pagination__link-label">{{ navList[prevOrder].title }}</span>
+                        </a>
+                    </div>
+                {% endif %}
+
+                {% if page.order < numPages %}
+                    <div class="govuk-pagination__next">
+                        <a class="govuk-link govuk-pagination__link" href="/pages/{{ navList[page.order].slug }}{{appendLanguage(queryParams)}}" rel="next">
+                            <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" focusable="false" viewBox="0 0 15 13">
+                                <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+                            </svg>
+                            <span class="govuk-pagination__link-title">
+                                {{ t('generic-page-next') }}
+                                <span class="govuk-visually-hidden">{{ t('generic-page-page') }}</span>
+                            </span>
+                            <span class="govuk-visually-hidden">:</span>
+                            <span class="govuk-pagination__link-label">{{ navList[page.order].title }}</span>
+                        </a>
+                    </div>
+                {% endif %}
+            </nav>
+        </div>
+
+        {% if page.relatedContent or page.helpAndAdvice %}
+            <div class="govuk-grid-column-one-third">
+                <div class="gem-c-contextual-sidebar">
+                    <div class="gem-c-related-navigation">
+                        <br>
+                        <aside class="govuk-prototype-kit-common-templates-related-items">
+                            <h3 class="govuk-heading-s" id="subsection-title1">{{ t('generic-page-related') }}</h3>
+                            <nav role="relatedContentNav">
+                                <ul class="govuk-list govuk-!-font-size-16">
+                                    {% for relatedLink in page.relatedContent %}
+                                        <li>
+                                            <a href="{{relatedLink.link}}">
+                                                {{relatedLink.text}}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                        </aside>
+                        <aside class="govuk-prototype-kit-common-templates-related-items">
+                            <h3 class="govuk-heading-s" id="subsection-title2">{{ t('generic-page-help') }}</h3>
+                            <nav role="helpAdviseNav">
+                                <ul class="govuk-list govuk-!-font-size-16">
+                                    {% for helpLink in page.helpAndAdvice %}
+                                        <li>
+                                            <a href="{{helpLink.link}}">
+                                                {{helpLink.text}}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

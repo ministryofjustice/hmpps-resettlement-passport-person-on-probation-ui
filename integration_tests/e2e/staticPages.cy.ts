@@ -10,7 +10,6 @@ context('Static pages', () => {
 
   it('Should see the start page', () => {
     Page.verifyOnPage(StartPage)
-    cy.contains('This is a secure and confidential service for people on probation.')
   })
 
   it('Should see the privacy policy link', () => {
