@@ -52,5 +52,6 @@ describe('AppointmentService', () => {
     const page = await fetchPageBySlug('page1', 'en')
     expect(page.title).toEqual('Page1')
     expect(page.slug).toEqual('page1')
+    expect(cleanText(page.bodyText)).toEqual(cleanText(expectedHtml))
   })
 })
