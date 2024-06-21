@@ -1,4 +1,5 @@
 const production = process.env.NODE_ENV === 'production'
+const enableApplicationInsights = production
 
 function get<T>(name: string, fallback: T, options = { requireInProduction: false }): T | string {
   if (process.env[name]) {
@@ -105,5 +106,6 @@ export default {
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
+  enableApplicationInsights,
   environmentName: get('ENVIRONMENT_NAME', ''),
 }
