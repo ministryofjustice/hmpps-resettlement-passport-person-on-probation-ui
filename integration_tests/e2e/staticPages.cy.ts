@@ -5,7 +5,6 @@ import Page from '../pages/page'
 
 context('Static pages', () => {
   beforeEach(() => {
-    cy.task('reset')
     cy.visit('/')
   })
 

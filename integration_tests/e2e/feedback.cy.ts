@@ -5,7 +5,6 @@ context('Feedback', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubCreateTicket')
-
     cy.visit('/')
   })
 
