@@ -195,7 +195,7 @@ const mapLinks = (relatedLinks: RelatedLink[]) => {
 const getClient = () => {
   const { spaceId, accessToken, previewToken, showPreview } = config.contentful
 
-  if (showPreview) {
+  if (showPreview === 'true') {
     return contentful.createClient({
       space: spaceId,
       accessToken: previewToken,

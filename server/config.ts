@@ -49,7 +49,7 @@ export default {
   contentful: {
     enabled: get('CONTENTFUL_ENABLED', 'true'),
     accessToken: get('CONTENTFUL_ACCESS_TOKEN', ''),
-    showPreview: get('CONTENTFUL_SHOW_PREVIEW', ''),
+    showPreview: get('CONTENTFUL_SHOW_PREVIEW', 'false'),
     previewToken: get('CONTENTFUL_PREVIEW_TOKEN', ''),
     spaceId: get('CONTENTFUL_SPACE_ID', ''),
     refreshSeconds: Number(get('CONTENTFUL_REFRESH_SECONDS', 30)),
