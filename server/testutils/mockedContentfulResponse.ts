@@ -250,3 +250,11 @@ export const mockedResponse = {
   ],
   includes: {},
 }
+
+export const mockedPageResponse = {
+  sys: { type: 'Array' },
+  total: 1,
+  skip: 0,
+  limit: 100,
+  items: [{ metadata: {}, sys: {}, fields: { ...mockedPage.fields } }],
+}
