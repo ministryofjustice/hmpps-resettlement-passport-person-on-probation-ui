@@ -86,6 +86,7 @@
                 <div class="gem-c-contextual-sidebar">
                     <div class="gem-c-related-navigation">
                         <br>
+                        {% if page.relatedContent %}
                         <aside class="govuk-prototype-kit-common-templates-related-items">
                             <h3 class="govuk-heading-s" id="subsection-title1">{{ t('generic-page-related') }}</h3>
                             <nav role="relatedContentNav">
@@ -100,6 +101,8 @@
                                 </ul>
                             </nav>
                         </aside>
+                        {% endif %}
+                        {% if page.helpAndAdvice %}
                         <aside class="govuk-prototype-kit-common-templates-related-items">
                             <h3 class="govuk-heading-s" id="subsection-title2">{{ t('generic-page-help') }}</h3>
                             <nav role="helpAdviseNav">
@@ -114,6 +117,7 @@
                                 </ul>
                             </nav>
                         </aside>
+                        {% endif %}
                     </div>
                 </div>
             </div>
