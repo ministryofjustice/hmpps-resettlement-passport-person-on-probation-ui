@@ -6,7 +6,6 @@ import config from '../config'
 import { tokenStoreFactory } from '../data/tokenStore/tokenStore'
 import logger from '../../logger'
 import { getLocaleForLang } from '../utils/utils'
-import { sl } from 'date-fns/locale'
 
 interface Sys {
   id?: string
@@ -196,7 +195,7 @@ const mapLinks = (relatedLinks: RelatedLink[]) => {
 const getClient = () => {
   const { spaceId, accessToken, previewToken, showPreview } = config.contentful
 
-  if (showPreview) {
+  if (showPreview === 'true') {
     return contentful.createClient({
       space: spaceId,
       accessToken: previewToken,
@@ -211,10 +210,10 @@ const getClient = () => {
 
 const mapPage = (x: contentful.Entry<contentful.EntrySkeletonType, undefined, string>, index: number = 1): FullPage => {
   return {
-    title: x.fields.title,
+    title: x.fields.title as string,
     order: index + 1,
     bodyText: convertToHTMLFormat(x.fields.bodyText),
-    slug: x.fields.slug,
+    slug: x.fields.slug as string,
     relatedContent: mapLinks(x.fields.relatedContent as unknown as RelatedLink[]),
     helpAndAdvice: mapLinks(x.fields.helpAndAdvice as unknown as RelatedLink[]),
   }
@@ -280,7 +279,12 @@ export const fetchPageBySlug = async (slug: string, lang: string): Promise<FullP
   const contenfulFetched = await tokenStore.getToken(`contenfulFetched-${slug}-${lang}`)
   if (!contenfulFetched) {
     const client = getClient()
-    const content = await client.getEntries({ content_type: pageComponent, 'fields.slug[in]': slug, locale: locale.code })
+    const content = await client.getEntries({
+      content_type: pageComponent,
+      'fields.slug[in]': slug,
+      locale: locale.code,
+    })
+
     if (content?.items?.length === 1) {
       const { refreshSeconds } = config.contentful
       await tokenStore.setToken(`contenfulFetched-${slug}-${lang}`, JSON.stringify(content), refreshSeconds)

@@ -255,6 +255,9 @@ jobs:
       - run:
           name: Run the node app.
           command: npm run start-feature
+          environment:
+            CONTENTFUL_ACCESS_TOKEN: ${CONTENTFUL_ACCESS_TOKEN}
+            CONTENTFUL_SPACE_ID: ${CONTENTFUL_SPACE_ID}
           background: true
       - run:
           name: Wait for node app to start

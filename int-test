@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+set -a
+source .env
+set +a
+export CONTENTFUL_ACCESS_TOKEN
+export CONTENTFUL_SPACE_ID
+
 npm run build
 docker-compose down
 docker compose -f docker-compose-test.yml down
@@ -7,4 +13,4 @@ docker compose -f docker-compose-test.yml up -d
 sleep 5
 npm run start-feature &
 sleep 5
-npm run int-test
+npm run int-test-ui
