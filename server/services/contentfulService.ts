@@ -6,6 +6,7 @@ import config from '../config'
 import { tokenStoreFactory } from '../data/tokenStore/tokenStore'
 import logger from '../../logger'
 import { getLocaleForLang } from '../utils/utils'
+import { sl } from 'date-fns/locale'
 
 interface Sys {
   id?: string
@@ -208,13 +209,7 @@ const getClient = () => {
   })
 }
 
-const mapPage = async (
-  id: string,
-  client: contentful.ContentfulClientApi<undefined>,
-  index: number,
-  locale: string,
-) => {
-  const x = await client.getEntry(id, { locale })
+const mapPage = (x: contentful.Entry<contentful.EntrySkeletonType, undefined, string>, index: number = 1): FullPage => {
   return {
     title: x.fields.title,
     order: index + 1,
@@ -223,6 +218,16 @@ const mapPage = async (
     relatedContent: mapLinks(x.fields.relatedContent as unknown as RelatedLink[]),
     helpAndAdvice: mapLinks(x.fields.helpAndAdvice as unknown as RelatedLink[]),
   }
+}
+
+const fetchPageById = async (
+  id: string,
+  client: contentful.ContentfulClientApi<undefined>,
+  index: number,
+  locale: string,
+) => {
+  const x = await client.getEntry(id, { locale })
+  return mapPage(x, index)
 }
 
 const fetchOrderedPages = async (locale: string): Promise<FullPage[]> => {
@@ -237,7 +242,7 @@ const fetchOrderedPages = async (locale: string): Promise<FullPage[]> => {
     }
 
     const pages = await Promise.all(
-      response.items[0].fields?.section?.map(async (page, index) => mapPage(page.sys.id, client, index, locale)),
+      response.items[0].fields?.section?.map(async (page, index) => fetchPageById(page.sys.id, client, index, locale)),
     )
 
     return pages as FullPage[]
@@ -247,7 +252,7 @@ const fetchOrderedPages = async (locale: string): Promise<FullPage[]> => {
   }
 }
 
-export const fetchContent = async (lang: string): Promise<FullPage[]> => {
+export const fetchNavigation = async (lang: string): Promise<FullPage[]> => {
   const locale = getLocaleForLang(lang)
 
   if (config.contentful.enabled === 'false') {
@@ -262,6 +267,26 @@ export const fetchContent = async (lang: string): Promise<FullPage[]> => {
       await tokenStore.setToken(`contenfulFetched-${lang}`, JSON.stringify(content), refreshSeconds)
     }
     return content
+  }
+  return JSON.parse(contenfulFetched)
+}
+
+export const fetchPageBySlug = async (slug: string, lang: string): Promise<FullPage> => {
+  const locale = getLocaleForLang(lang)
+  if (config.contentful.enabled === 'false') {
+    return null
+  }
+  const tokenStore = tokenStoreFactory()
+  const contenfulFetched = await tokenStore.getToken(`contenfulFetched-${slug}-${lang}`)
+  if (!contenfulFetched) {
+    const client = getClient()
+    const content = await client.getEntries({ content_type: pageComponent, 'fields.slug[in]': slug, locale: locale.code })
+    if (content?.items?.length === 1) {
+      const { refreshSeconds } = config.contentful
+      await tokenStore.setToken(`contenfulFetched-${slug}-${lang}`, JSON.stringify(content), refreshSeconds)
+      return mapPage(content.items[0])
+    }
+    return null
   }
   return JSON.parse(contenfulFetched)
 }

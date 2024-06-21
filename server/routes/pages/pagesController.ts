@@ -1,11 +1,12 @@
 import { RequestHandler, Request, Response } from 'express'
-import { fetchContent } from '../../services/contentfulService'
+import { fetchNavigation, fetchPageBySlug } from '../../services/contentfulService'
 
 export default class PagesController {
-  private async renderPage(req: Request, res: Response, pageId: string) {
+
+  private async renderNavigationItems(req: Request, res: Response, pageId: string) {
     const queryParams = req.query
     const lang = req.query.lang || 'en'
-    const content = await fetchContent(lang?.toString())
+    const content = await fetchNavigation(lang?.toString())
 
     const page = content?.find(x => x.slug === pageId)
     const navList = content
@@ -19,13 +20,26 @@ export default class PagesController {
     res.render('pages/page', { page, pageId, navList, queryParams, numPages: content?.length || 0 })
   }
 
+  private async renderSinglePage(req: Request, res: Response, slug: string, template: string) {
+    const queryParams = req.query
+    const lang = req.query.lang || 'en'
+    const page = await fetchPageBySlug(slug, lang?.toString())
+
+    res.render(template, { page, queryParams })
+  }
+
+
   start: RequestHandler = async (req, res) => {
     const startPageId = 'plan-your-future'
-    await this.renderPage(req, res, startPageId)
+    await this.renderNavigationItems(req, res, startPageId)
   }
 
   index: RequestHandler = async (req, res) => {
     const pageId = req.params.id
-    await this.renderPage(req, res, pageId)
+    await this.renderNavigationItems(req, res, pageId)
+  }
+
+  accessibility: RequestHandler = async (req, res) => {
+    await this.renderSinglePage(req, res, 'accessibility', 'pages/accessibility')
   }
 }

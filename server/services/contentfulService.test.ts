@@ -1,5 +1,5 @@
 import * as contentful from 'contentful'
-import { fetchContent } from './contentfulService'
+import { fetchNavigation } from './contentfulService'
 import { mockedPage, mockedResponse } from '../testutils/mockedContentfulResponse'
 
 jest.mock('contentful')
@@ -34,7 +34,7 @@ describe('AppointmentService', () => {
     </strong>
     </div></p><p class="govuk-body-m">
       </p>`
-    const response = await fetchContent('en')
+    const response = await fetchNavigation('en')
     const firstItem = response[0]
     expect(firstItem.title).toEqual('Page1')
     expect(firstItem.slug).toEqual('page1')
