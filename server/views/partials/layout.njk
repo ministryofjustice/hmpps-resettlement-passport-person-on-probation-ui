@@ -5,6 +5,9 @@
   {% if addNoIndexTag %}
     <meta name="robots" content="noindex, nofollow">
   {% endif %}
+  {% if enableApplicationInsights %}
+    {% include "./applicationInsightsScript.njk" %}
+  {% endif %}
   <script src="/assets/analytics.js" nonce="{{ cspNonce }}"></script>
 
 {% endblock %}
