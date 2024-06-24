@@ -29,7 +29,7 @@
                                 {% if item.slug === pageId %}
                                     {{ item.title }}
                                 {% else %}
-                                    <a class="gem-c-contents-list__link govuk-link" href="/pages/{{item.slug}}{{appendLanguage(queryParams)}}">{{ item.title }}</a>
+                                    <a class="gem-c-contents-list__link govuk-link" href="/pages/{{item.slug}}{{appendLanguage(queryParams)}}" data-qa="content-{{loop.index}}">{{ item.title }}</a>
                                 {% endif %}
                             </li>
                         {% endfor %}
@@ -49,7 +49,7 @@
                 {% if page.order > 1 %}
                     {% set prevOrder = page.order - 2 %}
                     <div class="govuk-pagination__prev">
-                        <a class="govuk-link govuk-pagination__link" href="/pages/{{ navList[prevOrder].slug }}{{appendLanguage(queryParams)}}" rel="prev">
+                        <a class="govuk-link govuk-pagination__link" href="/pages/{{ navList[prevOrder].slug }}{{appendLanguage(queryParams)}}" rel="prev" data-qa="prev-btn">
                             <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" focusable="false" viewBox="0 0 15 13">
                                 <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
                             </svg>
@@ -65,7 +65,7 @@
 
                 {% if page.order < numPages %}
                     <div class="govuk-pagination__next">
-                        <a class="govuk-link govuk-pagination__link" href="/pages/{{ navList[page.order].slug }}{{appendLanguage(queryParams)}}" rel="next">
+                        <a class="govuk-link govuk-pagination__link" href="/pages/{{ navList[page.order].slug }}{{appendLanguage(queryParams)}}" rel="next" data-qa="next-btn">
                             <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" focusable="false" viewBox="0 0 15 13">
                                 <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
                             </svg>
