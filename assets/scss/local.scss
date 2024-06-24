@@ -235,3 +235,10 @@
   border-top: 2px solid #1d70b8;
   margin-bottom: 60px
 }
+
+
+.govuk-table__header, .govuk-table__cell {
+  p {
+    margin-bottom: 0 !important;
+  }
+}

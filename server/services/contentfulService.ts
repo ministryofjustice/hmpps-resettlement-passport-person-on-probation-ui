@@ -51,6 +51,7 @@ interface Target {
     link: string
     qatag: string
     text: string
+    lines?: number
   }
 }
 
@@ -82,6 +83,7 @@ export interface FullPage {
 const buttonComponent = 'componentHeroBanner'
 const navigationComponent = 'page'
 const warningComponent = 'warning'
+const breakLineComponent = 'breakline'
 const pageComponent = 'componentDuplex'
 
 const mapButton = (target: Target) => {
@@ -103,6 +105,14 @@ const mapWarning = (target: Target) => {
     ${target?.fields?.text}
   </strong>
 </div>`
+}
+
+function appendBr(n: number): string {
+  return Array(n).fill('<br>').join('')
+}
+
+const mapBreakline = (target: Target) => {
+  return appendBr(target?.fields?.lines || 1)
 }
 
 const fallbackPages = [
@@ -130,6 +140,8 @@ const options = {
           return mapButton(target)
         case warningComponent:
           return mapWarning(target)
+        case breakLineComponent:
+          return mapBreakline(target)
         default:
           logger.error('Contentful error could not map embedded entry: ', JSON.stringify(node))
           return ''
@@ -151,6 +163,14 @@ const options = {
       `<p class="govuk-body-m">${next(node.content)}</p>`,
     [BLOCKS.QUOTE]: (node: { content: any }, next: (arg0: any) => any) =>
       `<div class="govuk-inset-text">${next(node.content)}</div>`,
+    [BLOCKS.TABLE]: (node: { content: any }, next: (arg0: any) => any) =>
+      `<table class="govuk-table govuk-!-margin-top-4">${next(node.content)}</table>`,
+    [BLOCKS.TABLE_HEADER_CELL]: (node: { content: any }, next: (arg0: any) => any) =>
+      `<th class="govuk-table__header">${next(node.content)}</th>`,
+    [BLOCKS.TABLE_ROW]: (node: { content: any }, next: (arg0: any) => any) =>
+      `<tr class="govuk-table__row">${next(node.content)}</tr>`,
+    [BLOCKS.TABLE_CELL]: (node: { content: any }, next: (arg0: any) => any) =>
+      `<td class="govuk-table__cell">${next(node.content)}</td>`,
     [BLOCKS.EMBEDDED_ASSET]: ({
       data: {
         target: { fields },
