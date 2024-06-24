@@ -17,7 +17,13 @@ export default class PagesController {
       }))
       .sort((a, b) => a.order - b.order)
 
-    return res.render('pages/page', { page, pageId, navList, queryParams, numPages: content?.length || 0 })
+    return res.render('pages/contentfulStartPages', {
+      page,
+      pageId,
+      navList,
+      queryParams,
+      numPages: content?.length || 0,
+    })
   }
 
   private async renderSinglePage(req: Request, res: Response, slug: string, template: string) {
@@ -43,6 +49,10 @@ export default class PagesController {
   }
 
   accessibility: RequestHandler = async (req, res) => {
-    await this.renderSinglePage(req, res, 'accessibility', 'pages/accessibility')
+    await this.renderSinglePage(req, res, 'accessibility', 'pages/contentfulPage')
+  }
+
+  cookies: RequestHandler = async (req, res) => {
+    await this.renderSinglePage(req, res, 'cookies', 'pages/contentfulPage')
   }
 }
