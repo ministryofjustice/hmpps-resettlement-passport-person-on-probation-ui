@@ -89,7 +89,7 @@
                         {% if page.relatedContent %}
                         <aside class="govuk-prototype-kit-common-templates-related-items">
                             <h3 class="govuk-heading-s" id="subsection-title1">{{ t('generic-page-related') }}</h3>
-                            <nav role="relatedContentNav">
+                            <nav>
                                 <ul class="govuk-list govuk-!-font-size-16">
                                     {% for relatedLink in page.relatedContent %}
                                         <li>
@@ -105,7 +105,7 @@
                         {% if page.helpAndAdvice %}
                         <aside class="govuk-prototype-kit-common-templates-related-items">
                             <h3 class="govuk-heading-s" id="subsection-title2">{{ t('generic-page-help') }}</h3>
-                            <nav role="helpAdviseNav">
+                            <nav>
                                 <ul class="govuk-list govuk-!-font-size-16">
                                     {% for helpLink in page.helpAndAdvice %}
                                         <li>
