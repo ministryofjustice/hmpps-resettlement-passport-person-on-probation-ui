@@ -93,7 +93,6 @@ Then('the user views all content as listed in contents and scans page accessibil
   var contentLength = contentsReverse.length;
   for (const content of contentsReverse) {
     var pageTitle = await homePage.pageContentsTitle.innerText();
-    console.log('page title '+ pageTitle);
     expect(content).toEqual(pageTitle); 
     console.log('Page analyzed '+ content);
     await homePage.scanPageAccessibilty();

@@ -31,7 +31,7 @@ export default class HomePage {
     const page = this.page
     var accessibilityScanResults = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
     .analyze();
-    console.log('ax is running')
+    console.log('axe is running')
     console.log(accessibilityScanResults.violations);
     expect(accessibilityScanResults.violations).toEqual([]);
   }
