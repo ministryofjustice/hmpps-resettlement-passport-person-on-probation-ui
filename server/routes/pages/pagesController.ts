@@ -55,4 +55,8 @@ export default class PagesController {
   cookies: RequestHandler = async (req, res) => {
     await this.renderSinglePage(req, res, 'cookies', 'pages/contentfulPage')
   }
+
+  privacy: RequestHandler = async (req, res) => {
+    await this.renderSinglePage(req, res, 'privacy-notice', 'pages/contentfulPage')
+  }
 }

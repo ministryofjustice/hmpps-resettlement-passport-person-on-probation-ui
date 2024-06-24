@@ -13,9 +13,9 @@ context('Static pages', () => {
   })
 
   it('Should see the privacy policy link', () => {
-    cy.get('[data-qa="privacy-policy-link"]')
-      .should('have.attr', 'href')
-      .and('include', 'https://www.gov.uk/help/privacy-notice')
+    cy.get('[data-qa="privacy-policy-link"]').should('have.attr', 'href').and('include', '/privacy')
+    cy.get('[data-qa="privacy-policy-link"]').click()
+    cy.contains('Privacy notice')
   })
 
   it('Should see the cookies page link', () => {
