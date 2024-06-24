@@ -101,7 +101,6 @@
     ]
   },
   "dependencies": {
-    "@axe-core/playwright": "^4.9.1",
     "@contentful/rich-text-html-renderer": "^16.5.2",
     "@contentful/rich-text-types": "^16.5.2",
     "@cucumber/cucumber": "^9.3.0",
@@ -150,6 +149,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.9.1",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.9",
     "@types/compression": "^1.7.5",
