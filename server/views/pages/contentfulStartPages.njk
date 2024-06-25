@@ -81,46 +81,6 @@
             </nav>
         </div>
 
-        {% if page.relatedContent or page.helpAndAdvice %}
-            <div class="govuk-grid-column-one-third">
-                <div class="gem-c-contextual-sidebar">
-                    <div class="gem-c-related-navigation">
-                        <br>
-                        {% if page.relatedContent %}
-                        <aside class="govuk-prototype-kit-common-templates-related-items">
-                            <h3 class="govuk-heading-s" id="subsection-title1">{{ t('generic-page-related') }}</h3>
-                            <nav>
-                                <ul class="govuk-list govuk-!-font-size-16">
-                                    {% for relatedLink in page.relatedContent %}
-                                        <li>
-                                            <a href="{{relatedLink.link}}">
-                                                {{relatedLink.text}}
-                                            </a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </nav>
-                        </aside>
-                        {% endif %}
-                        {% if page.helpAndAdvice %}
-                        <aside class="govuk-prototype-kit-common-templates-related-items">
-                            <h3 class="govuk-heading-s" id="subsection-title2">{{ t('generic-page-help') }}</h3>
-                            <nav>
-                                <ul class="govuk-list govuk-!-font-size-16">
-                                    {% for helpLink in page.helpAndAdvice %}
-                                        <li>
-                                            <a href="{{helpLink.link}}">
-                                                {{helpLink.text}}
-                                            </a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </nav>
-                        </aside>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        {% endif %}
+        {% include "../partials/contentfulRelatedLinks.njk" %}
     </div>
 {% endblock %}

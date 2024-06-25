@@ -7,4 +7,5 @@ export default (router: Router) => {
   router.get('/pages/:id', [pagesController.index])
   router.get('/accessibility', [pagesController.accessibility])
   router.get('/cookies', [pagesController.cookies])
+  router.get('/privacy', [pagesController.privacy])
 }
