@@ -442,7 +442,7 @@ workflows:
   cms-accessibility:
     triggers:
       - schedule:
-          cron: "24 9 * * 1-5"
+          cron: "* 0,6,12,18 * * *"
           filters:
             branches:
               only:
