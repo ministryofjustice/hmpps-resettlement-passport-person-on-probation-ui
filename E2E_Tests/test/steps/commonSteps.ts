@@ -19,7 +19,8 @@ import SettingsPage from '../../pageObjects/settingsPage'
 import GovOneChangedOTP from '../../pageObjects/govOne/govOneChangedOTP'
 import GovOneSecurityDetails from '../../pageObjects/govOne/govOneYourDetailsSecuityPage'
 import { getFirstTimeIdCode, getDobArray } from '../helpers/firstTimeIdCode'
-import exp from 'constants'
+
+
 
 setDefaultTimeout(20000)
 let page: Page;
@@ -75,6 +76,32 @@ Then('the user revisits plan your future', async function () {
 
 Then('they should see the start page', async function () {
   await homePage.clickStart();
+
+})
+
+Then('the user views all content as listed in contents and scans page accessibility for each page', async function () {
+  
+  var contentList = await homePage.contentsList.innerText();
+  console.log(contentList);
+  let contents: string[] = contentList.split("\n");
+  console.log(contents);
+  let contentsReverse : string[] = [];
+  contents.slice().reverse().forEach(x => contentsReverse.push(x));
+  console.log(contentsReverse);
+
+  console.log(contentsReverse.length);
+  var contentLength = contentsReverse.length;
+  for (const content of contentsReverse) {
+    var pageTitle = await homePage.pageContentsTitle.innerText();
+    expect(content).toEqual(pageTitle); 
+    console.log('Analysing Page '+ content);
+    await homePage.scanPageAccessibilty();
+    // will page through until end of contents list
+    if (contentLength > 1){
+      await pageFixture.page.locator('[data-qa="prev-btn"]').click();
+    }
+    contentLength --;
+  }
 
 })
 
