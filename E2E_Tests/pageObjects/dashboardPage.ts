@@ -7,7 +7,7 @@ export default class DashboardPage {
   
     constructor(page: Page) {
       this.page = page;
-      this.pageHeader = page.locator('h1', { hasText: 'Resettle after prison' });
+      this.pageHeader = page.locator('[data-qa="pyf-overview-title"]', { hasText: 'Plan your future'});
   
     }
   
