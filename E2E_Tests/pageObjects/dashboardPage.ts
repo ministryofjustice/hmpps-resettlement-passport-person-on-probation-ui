@@ -7,7 +7,7 @@ export default class DashboardPage {
   
     constructor(page: Page) {
       this.page = page;
-      this.pageHeader = page.locator('h2:has-text("Plan your future")');
+      this.pageHeader = page.locator('h1', { hasText: 'Resettle after prison' });
   
     }
   
