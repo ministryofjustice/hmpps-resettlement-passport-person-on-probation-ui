@@ -26,7 +26,7 @@ export default class OverviewController {
         return res.redirect(verificationData)
       }
       // TODO: temp code will remove
-      const viewAppointmentFlag = this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
+      const viewAppointmentFlag = await this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
       logger.info('FeatureFlags.VIEW_APPOINTMENTS: ', viewAppointmentFlag)
 
       const personalData = await this.userService.getByNomsId(verificationData.nomsId, urn, sessionId)
