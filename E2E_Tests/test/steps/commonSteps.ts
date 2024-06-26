@@ -17,6 +17,7 @@ import DashboardPage from '../../pageObjects/dashboardPage'
 import NavigationPage from '../../pageObjects/navigationPage'
 import SettingsPage from '../../pageObjects/settingsPage'
 import GovOneChangedOTP from '../../pageObjects/govOne/govOneChangedOTP'
+import PyfFooter from '../../pageObjects/pyfFooter'
 import GovOneSecurityDetails from '../../pageObjects/govOne/govOneYourDetailsSecuityPage'
 import { getFirstTimeIdCode, getDobArray } from '../helpers/firstTimeIdCode'
 
@@ -26,6 +27,7 @@ setDefaultTimeout(20000)
 let page: Page;
 let homePage: HomePage;
 let govOneLogin: GovOneLogin;
+let pyfFooter: PyfFooter;
 //create account
 let govOneCheckEmail: GovOneCheckEmail;
 let govOneCreatePassword: GovOneCreatePassword;
@@ -102,6 +104,19 @@ Then('the user views all content as listed in contents and scans page accessibil
     }
     contentLength --;
   }
+
+})
+
+Then('the user views all policies and scans page accessibility for each page', async function () {
+  
+  pyfFooter = new PyfFooter(pageFixture.page);
+  await pyfFooter.accessibilityStatementLink.click();
+  await homePage.scanPageAccessibilty();
+  await pyfFooter.cookiesLink.click();
+  await homePage.scanPageAccessibilty();
+  await pyfFooter.giveFeedbackLink.click();
+  await homePage.scanPageAccessibilty();
+  await pyfFooter.privacyPolicyLink.click();
 
 })
 
