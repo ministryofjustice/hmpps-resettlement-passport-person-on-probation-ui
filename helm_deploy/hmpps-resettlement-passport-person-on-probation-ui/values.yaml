@@ -65,6 +65,8 @@ generic-service:
       CONTENTFUL_ACCESS_TOKEN: "CONTENTFUL_ACCESS_TOKEN"
       CONTENTFUL_PREVIEW_TOKEN: "CONTENTFUL_PREVIEW_TOKEN"
       CONTENTFUL_SPACE_ID: "CONTENTFUL_SPACE_ID"
+    s3-bucket-output:
+      FEATURE_FLAG_BUCKET: "bucket_name"
       
   allowlist: null
 
