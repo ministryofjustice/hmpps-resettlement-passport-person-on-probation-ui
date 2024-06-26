@@ -3,6 +3,8 @@
 
 generic-service:
   
+  serviceAccountName: hmpps-resettlement-passport-prod-irsa
+
   ingress:
     host: plan-your-future.service.justice.gov.uk
     modsecurity_enabled: true
