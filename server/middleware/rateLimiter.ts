@@ -1,4 +1,5 @@
 import express, { Router, Request, Response, NextFunction } from 'express'
+import config from '../config'
 
 const rateLimitedPaths = ['/feedback/complete', '/otp/verify']
 
@@ -21,7 +22,7 @@ export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFun
   }
   const { ip } = req
   const now = Date.now()
-  const limit = 10 // Limit to 10 requests per minute
+  const limit = config.rateLimitPerMinute // Limit to x requests per minute
   const window = 60000 // 1 minute in milliseconds
 
   // initialise or increase

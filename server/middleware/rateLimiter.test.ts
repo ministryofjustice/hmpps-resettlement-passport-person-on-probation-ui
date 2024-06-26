@@ -2,6 +2,7 @@ import { addSeconds } from 'date-fns'
 import { Request, Response, NextFunction } from 'express'
 import { createRequest, createResponse, MockRequest, MockResponse } from 'node-mocks-http'
 import { rateLimiterMiddleware } from './rateLimiter'
+import config from '../config'
 
 jest.mock('express')
 
@@ -14,6 +15,7 @@ describe('rateLimiterMiddleware', () => {
   const realDate = Date.now
 
   beforeEach(() => {
+    config.rateLimitPerMinute = 10
     global.Date.now = jest.fn(() => fakeDate.getTime())
     resMock = createResponse()
     nextMock = jest.fn()

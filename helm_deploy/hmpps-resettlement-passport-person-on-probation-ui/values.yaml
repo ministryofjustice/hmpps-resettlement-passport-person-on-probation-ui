@@ -39,6 +39,7 @@ generic-service:
     CONTENTFUL_ENABLED: "true"
     CONTENTFUL_SHOW_PREVIEW: "false"
     CONTENTFUL_REFRESH_SECONDS: 60
+    RATE_LIMIT_PER_MINUTE: 20
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:

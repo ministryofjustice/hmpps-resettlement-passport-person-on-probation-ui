@@ -24,6 +24,7 @@ generic-service:
     WEB_SESSION_INACTIVITY_IN_MINUTES: 5
     CONTENTFUL_SHOW_PREVIEW: "true"
     CONTENTFUL_REFRESH_SECONDS: 10
+    RATE_LIMIT_PER_MINUTE: 50
 
 generic-prometheus-alerts:
   alertSeverity: hmpps-resettlement-passport-non-prod
