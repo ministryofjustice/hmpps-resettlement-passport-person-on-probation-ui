@@ -7,6 +7,7 @@ export default (router: Router, services: Services) => {
     services.appointmentService,
     services.userService,
     services.licenceConditionService,
+    services.featureFlagsService
   )
   router.get('/overview', [controller.index])
 }

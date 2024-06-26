@@ -5,12 +5,15 @@ import requireUser from '../requireUser'
 import AppointmentService from '../../services/appointmentService'
 import { getFutureAppointments, isDateInPast } from '../../utils/utils'
 import LicenceConditionsService from '../../services/licenceConditionsService'
+import FeatureFlagsService, { FeatureFlags } from '../../services/featureFlagsService'
+import logger from '../../../logger'
 
 export default class OverviewController {
   constructor(
     private readonly appointmentService: AppointmentService,
     private readonly userService: UserService,
     private readonly licenceConditionsService: LicenceConditionsService,
+    private readonly featureFlagsService: FeatureFlagsService
   ) {}
 
   index: RequestHandler = async (req, res, next) => {
@@ -22,6 +25,10 @@ export default class OverviewController {
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)
       }
+      // TODO: temp code will remove
+      const viewAppointmentFlag = this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
+      logger.info("FeatureFlags.VIEW_APPOINTMENTS: ", viewAppointmentFlag)
+
       const personalData = await this.userService.getByNomsId(verificationData.nomsId, urn, sessionId)
 
       const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId, sessionId)
