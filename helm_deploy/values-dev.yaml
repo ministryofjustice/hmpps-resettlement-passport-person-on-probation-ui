@@ -4,6 +4,8 @@
 generic-service:
   replicaCount: 2
 
+  serviceAccountName: hmpps-resettlement-passport-dev-irsa
+  
   ingress:
     host: person-on-probation-user-ui-dev.hmpps.service.justice.gov.uk
     annotations:
@@ -25,6 +27,7 @@ generic-service:
     CONTENTFUL_SHOW_PREVIEW: "true"
     CONTENTFUL_REFRESH_SECONDS: 10
     RATE_LIMIT_PER_MINUTE: 50
+    FEATURE_FLAG_ENABLED: "true"
 
 generic-prometheus-alerts:
   alertSeverity: hmpps-resettlement-passport-non-prod
