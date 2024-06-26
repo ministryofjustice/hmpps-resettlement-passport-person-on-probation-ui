@@ -13,7 +13,7 @@ export default class OverviewController {
     private readonly appointmentService: AppointmentService,
     private readonly userService: UserService,
     private readonly licenceConditionsService: LicenceConditionsService,
-    private readonly featureFlagsService: FeatureFlagsService
+    private readonly featureFlagsService: FeatureFlagsService,
   ) {}
 
   index: RequestHandler = async (req, res, next) => {
@@ -27,7 +27,7 @@ export default class OverviewController {
       }
       // TODO: temp code will remove
       const viewAppointmentFlag = this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
-      logger.info("FeatureFlags.VIEW_APPOINTMENTS: ", viewAppointmentFlag)
+      logger.info('FeatureFlags.VIEW_APPOINTMENTS: ', viewAppointmentFlag)
 
       const personalData = await this.userService.getByNomsId(verificationData.nomsId, urn, sessionId)
 
