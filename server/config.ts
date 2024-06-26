@@ -116,4 +116,18 @@ export default {
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   enableApplicationInsights,
   environmentName: get('ENVIRONMENT_NAME', ''),
+  s3: {
+    featureFlag: {
+      enabled: get('FEATURE_FLAG_ENABLED', 'true') === 'true',
+      region: get('FEATURE_FLAG_AWS_REGION', 'eu-west-2'),
+      bucketName: get('FEATURE_FLAG_BUCKET', 'hmpps-resettlement-passport-ui-config'),
+      path: get('FEATURE_FLAG_PATH', 'feature-flags'),
+      filename: get('FEATURE_FLAG_PATH_FILENAME', 'flags.json'),
+    },
+  },
+  local: {
+    featureFlag: {
+      filename: get('LOCAL_FEATURE_FLAG_PATH_FILENAME', 'localstack/flags.json'),
+    },
+  },
 }

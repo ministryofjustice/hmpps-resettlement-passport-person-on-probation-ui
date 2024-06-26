@@ -126,3 +126,9 @@ Then click 'View More Insights' for the last 30 minutes (for example).
 
 Scroll to EVENT STATISTICS and filter by name, enter 'PYF' enter and you should see some results.
 
+
+## Feature flags
+
+This app makes use of feature flags stored in a S3 bucket, it can default to a local file by setting the env variable `FEATURE_FLAG_ENABLED="false"`
+
+To amend flags on the S3 bucket make use of the `k_exec_cp` alias, your team should be able to provide you with this.
