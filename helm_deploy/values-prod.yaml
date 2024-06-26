@@ -24,6 +24,7 @@ generic-service:
     APPOINTMENTS_CACHE_IN_MINUTES: 5
     GOVUK_ONE_LOGIN_JWKS_URL: "https://oidc.account.gov.uk/.well-known/jwks.json"
     ENVIRONMENT_NAME: PRODUCTION
+    FEATURE_FLAG_ENABLED: "false"
 
 generic-prometheus-alerts:
   alertSeverity: hmpps-resettlement-passport-prod
