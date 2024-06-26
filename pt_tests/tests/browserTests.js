@@ -75,13 +75,17 @@ export async function mainDevBrowserTest() {
     )
     myTrend.add(totalActionTime)
 
-    await Promise.all([page.waitForNavigation(), navigationBar.appointments.click()])
-    describe('getAppointments', async () => {
-      page.screenshot({ path: `${screenshot}appointments.png` })
-      testVal = appointments.header.innerText()
-      expect(testVal).to.equal('Appointments')
-      console.log('testAppointments')
-    })
+    console.log('this is the appointment flag value '+ __ENV.APPOINTMENT_FLAG)
+
+    if ((__ENV.APPOINTMENT_FLAG == 'true')) {
+      await Promise.all([page.waitForNavigation(), navigationBar.appointments.click()])
+      describe('getAppointments', async () => {
+        page.screenshot({ path: `${screenshot}appointments.png` })
+        testVal = appointments.header.innerText()
+        expect(testVal).to.equal('Appointments')
+        console.log('testAppointments')
+      })
+    }
 
     await Promise.all([page.waitForNavigation(), navigationBar.licenceConditions.click()])
     await describe('getLicenceConditions', () => {
@@ -114,13 +118,15 @@ export async function mainDevBrowserTest() {
       console.log('testDash')
     })
 
-    await Promise.all([page.waitForNavigation(), dashboard.appointmentsTile.click()])
-    describe('getAppointmentsTile', async () => {
-      page.screenshot({ path: `${screenshot}appointmentsTile.png` })
-      testVal = appointments.header.innerText()
-      expect(testVal).to.equal('Appointments')
-      console.log('testAppointmentsTile')
-    })
+    if ((__ENV.APPOINTMENT_FLAG == 'true')) {
+      await Promise.all([page.waitForNavigation(), dashboard.appointmentsTile.click()])
+      describe('getAppointmentsTile', async () => {
+        page.screenshot({ path: `${screenshot}appointmentsTile.png` })
+        testVal = appointments.header.innerText()
+        expect(testVal).to.equal('Appointments')
+        console.log('testAppointmentsTile')
+      })
+    }
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()])
     describe('getDashboard', () => {
@@ -224,13 +230,15 @@ export async function mainPreProdBrowserTest() {
     )
     myTrend.add(totalActionTime)
 
-    await Promise.all([page.waitForNavigation(), navigationBar.appointments.click()])
-    describe('getAppointments', async () => {
-      page.screenshot({ path: `${screenshot}appointments.png` })
-      testVal = appointments.header.innerText()
-      expect(testVal).to.equal('Appointments')
-      console.log('testAppointments')
-    })
+    if ((__ENV.APPOINTMENT_FLAG == 'true')) {
+      await Promise.all([page.waitForNavigation(), navigationBar.appointments.click()])
+      describe('getAppointments', async () => {
+        page.screenshot({ path: `${screenshot}appointments.png` })
+        testVal = appointments.header.innerText()
+        expect(testVal).to.equal('Appointments')
+        console.log('testAppointments')
+      })
+    }
 
     await Promise.all([page.waitForNavigation(), navigationBar.licenceConditions.click()])
     await describe('getLicenceConditions', () => {
@@ -263,13 +271,15 @@ export async function mainPreProdBrowserTest() {
       console.log('testDash')
     })
 
-    await Promise.all([page.waitForNavigation(), dashboard.appointmentsTile.click()])
-    describe('getAppointmentsTile', async () => {
-      page.screenshot({ path: `${screenshot}appointmentsTile.png` })
-      testVal = appointments.header.innerText()
-      expect(testVal).to.equal('Appointments')
-      console.log('testAppointmentsTile')
-    })
+    if ((__ENV.APPOINTMENT_FLAG == 'true')) {
+      await Promise.all([page.waitForNavigation(), dashboard.appointmentsTile.click()])
+      describe('getAppointmentsTile', async () => {
+        page.screenshot({ path: `${screenshot}appointmentsTile.png` })
+        testVal = appointments.header.innerText()
+        expect(testVal).to.equal('Appointments')
+        console.log('testAppointmentsTile')
+      })
+    }
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()])
     describe('getDashboard', () => {
