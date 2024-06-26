@@ -17,7 +17,7 @@ export const enum FeatureFlags {
 export default class FeatureFlagsService {
   private s3 = new S3({ region: config.s3.featureFlag.region, forcePathStyle: true })
 
-  async getFeatureFlag(flag: string): Promise<boolean> {
+  async getFeatureFlag(flag: FeatureFlags): Promise<boolean> {
     const flags = await this.getFeatureFlags()
     logger.info('Fetched flags: ', JSON.stringify(flags))
     const featureEnabled = flags?.find(x => x.feature === flag)?.enabled
