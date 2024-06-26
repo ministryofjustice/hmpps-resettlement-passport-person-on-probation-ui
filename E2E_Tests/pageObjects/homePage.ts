@@ -29,10 +29,10 @@ export default class HomePage {
 
   async scanPageAccessibilty() {
     const page = this.page
-    var accessibilityScanResults = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+    var accessibilityScanResult = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
     .analyze();
     console.log('axe is running')
-    console.log(accessibilityScanResults.violations);
-    expect(accessibilityScanResults.violations).toEqual([]);
+    console.log(accessibilityScanResult.violations);
+    expect(accessibilityScanResult.violations).toEqual([]);
   }
 }
