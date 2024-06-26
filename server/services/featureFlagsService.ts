@@ -9,14 +9,15 @@ export interface Feature {
   enabled: boolean
 }
 
-export enum Flags {
-  VIEW_APPOINTMENTS = 'viewAppointmentsEndUser'
+// eslint-disable-next-line no-shadow
+export const enum FeatureFlags {
+  VIEW_APPOINTMENTS = 'viewAppointmentsEndUser',
 }
 
 export default class FeatureFlagsService {
   private s3 = new S3({ region: config.s3.featureFlag.region, forcePathStyle: true })
 
-  async getFeatureFlag(flag: Flags): Promise<boolean> {
+  async getFeatureFlag(flag: string): Promise<boolean> {
     const flags = await this.getFeatureFlags()
     logger.info('Fetched flags: ', JSON.stringify(flags))
     const featureEnabled = flags?.find(x => x.feature === flag)?.enabled
