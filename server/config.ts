@@ -116,6 +116,7 @@ export default {
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   enableApplicationInsights,
   environmentName: get('ENVIRONMENT_NAME', ''),
+  rateLimitPerMinute: Number(get('RATE_LIMIT_PER_MINUTE', 10)),
   s3: {
     featureFlag: {
       enabled: get('FEATURE_FLAG_ENABLED', 'true') === 'true',
