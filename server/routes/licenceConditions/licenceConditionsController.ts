@@ -66,7 +66,13 @@ export default class LicenceConditionsController {
         req.sessionID,
       )
 
-      return res.render('pages/licenceConditionsDetails', { user: req.user, condition, image, viewAppointmentFlag, queryParams })
+      return res.render('pages/licenceConditionsDetails', {
+        user: req.user,
+        condition,
+        image,
+        viewAppointmentFlag,
+        queryParams,
+      })
     } catch (err) {
       return next(err)
     }

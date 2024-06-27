@@ -6,7 +6,6 @@ import AppointmentService from '../../services/appointmentService'
 import { getFutureAppointments, isDateInPast } from '../../utils/utils'
 import LicenceConditionsService from '../../services/licenceConditionsService'
 import FeatureFlagsService, { FeatureFlags } from '../../services/featureFlagsService'
-import logger from '../../../logger'
 import { Appointment } from '../../data/resettlementPassportData'
 
 export default class OverviewController {

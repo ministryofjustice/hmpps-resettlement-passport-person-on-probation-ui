@@ -17,7 +17,6 @@ const flagsDisabled = [
   },
 ]
 
-
 const overwriteFlags = (content: string): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     fs.writeFile(flagFilePath, content, 'utf8', err => {
@@ -33,8 +32,8 @@ const overwriteFlags = (content: string): Promise<boolean> => {
 const disableAppointmentFlag = (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     overwriteFlags(JSON.stringify(flagsDisabled))
-          .then(() => resolve(true))
-          .catch(err2 => reject(err2))
+      .then(() => resolve(true))
+      .catch(err2 => reject(err2))
   })
 }
 
@@ -88,7 +87,7 @@ export default defineConfig({
         },
         restoreFlags,
         overwriteFlags,
-        disableAppointmentFlag
+        disableAppointmentFlag,
       })
     },
     baseUrl: 'http://localhost:3007',
