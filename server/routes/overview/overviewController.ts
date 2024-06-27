@@ -7,6 +7,7 @@ import { getFutureAppointments, isDateInPast } from '../../utils/utils'
 import LicenceConditionsService from '../../services/licenceConditionsService'
 import FeatureFlagsService, { FeatureFlags } from '../../services/featureFlagsService'
 import logger from '../../../logger'
+import { Appointment } from '../../data/resettlementPassportData'
 
 export default class OverviewController {
   constructor(
@@ -25,18 +26,18 @@ export default class OverviewController {
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)
       }
-      // TODO: temp code will remove
       const viewAppointmentFlag = await this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
-      logger.info('FeatureFlags.VIEW_APPOINTMENTS: ', viewAppointmentFlag)
 
       const personalData = await this.userService.getByNomsId(verificationData.nomsId, urn, sessionId)
-
-      const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId, sessionId)
-      const nextAppointment = getFutureAppointments(appointments.results)?.[0]
-
-      const tomorrowAppointments = appointments?.results?.filter(x => isTomorrow(new Date(x.date)))
-      const todayAppointments = appointments?.results?.filter(x => isToday(new Date(x.date)))
-
+      let nextAppointment: Appointment = null
+      let tomorrowAppointments: Appointment[] = []
+      let todayAppointments: Appointment[] = []
+      if (viewAppointmentFlag) {
+        const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId, sessionId)
+        nextAppointment = getFutureAppointments(appointments.results)?.[0]
+        tomorrowAppointments = appointments?.results?.filter(x => isTomorrow(new Date(x.date)))
+        todayAppointments = appointments?.results?.filter(x => isToday(new Date(x.date)))
+      }
       const licence = await this.licenceConditionsService.getLicenceConditionsByNomsId(
         verificationData.nomsId,
         sessionId,
@@ -51,6 +52,7 @@ export default class OverviewController {
         licenceExpiryDate: licence?.expiryDate,
         isLicenceExpired: isDateInPast(licence?.expiryDate),
         isLicenceChanged: licence?.changeStatus,
+        viewAppointmentFlag,
         queryParams,
       })
     } catch (err) {

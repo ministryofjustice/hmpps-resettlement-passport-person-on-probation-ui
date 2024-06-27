@@ -25,19 +25,24 @@ export default class FeatureFlagsService {
   }
 
   private async loadLocalFlags(): Promise<Array<Feature>> {
-    const localFlags = await readFile(config.local.featureFlag.filename, { encoding: 'utf-8' })
-    return JSON.parse(localFlags)
+    try {
+      const localFlags = await readFile(config.local.featureFlag.filename, { encoding: 'utf-8' })
+      return JSON.parse(localFlags)
+    } catch (err) {
+      logger.error(err, 'Error getting feature flags from filesystem')
+      return []
+    }
   }
 
   private async getFeatureFlags(): Promise<Feature[]> {
+    if (!config.s3.featureFlag.enabled) {
+      logger.warn('Using local feature flags')
+      return this.loadLocalFlags()
+    }
     const tokenStore = tokenStoreFactory()
     const flagsCached = await tokenStore.getToken(`feature-flags`)
     if (!flagsCached) {
       try {
-        if (!config.s3.featureFlag.enabled) {
-          logger.warn('Using local feature flags')
-          return this.loadLocalFlags()
-        }
         const command = await this.s3.getObject({
           Bucket: config.s3.featureFlag.bucketName,
           Key: `${config.s3.featureFlag.path}/${config.s3.featureFlag.filename}`.toLowerCase(),

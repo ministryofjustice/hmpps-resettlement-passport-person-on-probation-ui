@@ -4,15 +4,22 @@ import AppointmentService from '../../services/appointmentService'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
 import { isFutureDate, getFutureAppointments } from '../../utils/utils'
+import FeatureFlagsService, { FeatureFlags } from '../../services/featureFlagsService'
 
 export default class AppointmentController {
   constructor(
     private readonly appointmentService: AppointmentService,
     private readonly userService: UserService,
+    private readonly featureFlagsService: FeatureFlagsService,
   ) {}
 
   index: RequestHandler = async (req, res, next) => {
     try {
+      const viewAppointmentFlag = await this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
+      if (!viewAppointmentFlag) {
+        return res.redirect('overview')
+      }
+
       const queryParams = req.query
       const sessionId = req.sessionID
       const verificationData = await requireUser(req.user?.sub, this.userService, sessionId)
@@ -31,6 +38,7 @@ export default class AppointmentController {
         user: req.user,
         futureAppointments,
         oldAppointments,
+        viewAppointmentFlag,
         queryParams,
       })
     } catch (err) {
