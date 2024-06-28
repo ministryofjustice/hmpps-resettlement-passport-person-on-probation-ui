@@ -51,6 +51,8 @@ const restoreFlags = (): Promise<boolean> => {
   })
 }
 
+const retries = process.env.CYPRESS_RETRIES || "1"
+
 export default defineConfig({
   chromeWebSecurity: false,
   fixturesFolder: 'integration_tests/fixtures',
@@ -61,7 +63,7 @@ export default defineConfig({
     configFile: 'reporter-config.json',
   },
   retries: {
-    runMode: 0,
+    runMode: parseInt(retries),
     openMode: 0,
   },
   taskTimeout: 60000,
