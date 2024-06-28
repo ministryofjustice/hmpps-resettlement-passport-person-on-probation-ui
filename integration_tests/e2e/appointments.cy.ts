@@ -1,6 +1,7 @@
 import AppointmentsPage from '../pages/appointment'
 import StartPage from '../pages/start'
 import Page from '../pages/page'
+import OverviewPage from '../pages/overview'
 
 context('Appointments', () => {
   beforeEach(() => {
@@ -16,6 +17,7 @@ context('Appointments', () => {
   afterEach(() => {
     cy.get('[data-qa="signOut"]').click()
     Page.verifyOnPage(StartPage)
+    cy.task('restoreFlags')
   })
 
   it('Should render no appointments for 404 responses', () => {
@@ -24,6 +26,14 @@ context('Appointments', () => {
     // click sub navigation menu for appointments
     cy.get(':nth-child(2) > .moj-sub-navigation__link').click()
     cy.contains('Currently you have no future appointments')
+  })
+
+  it('Should redirect to overview when appointments disabled', () => {
+    cy.task('stubGetAppointments')
+    cy.task('disableAppointmentFlag')
+    cy.signIn()
+    cy.visit('/appointments')
+    Page.verifyOnPage(OverviewPage)
   })
 
   it('Should be able to see future and past Appointments from the appointment list', () => {

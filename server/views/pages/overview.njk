@@ -2,7 +2,6 @@
 {% import "../partials/alertBoxMacro.njk" as alertBox %}
 
 {% set pageTitle = "Overview" + titleHeading %}
-
 {% block beforeContent %}
   {% set activePage = 'overview' %}
   {% include "../partials/subnavigation.njk" %}
@@ -22,6 +21,7 @@
     </div>
 
     <!-- appointment tile -->
+    {% if viewAppointmentFlag %}
       <div class="govuk-grid-column-one-third">
 
         <div id="appointments-tile" class="card">
@@ -68,6 +68,7 @@
         </div>
 
       </div>
+      {% endif %}
 
     <!-- licence condition tile -->
       <div class="govuk-grid-column-one-third">

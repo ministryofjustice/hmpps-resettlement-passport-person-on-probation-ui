@@ -18,7 +18,8 @@
       text: t('subnav-appointments'),
       href: '/appointments' + appendLanguage(queryParams),
       active: activePage == 'appointments',
-      attributes: {'data-qa': 'appointments-nav-link', 'track-tag-id': "navBarAppointmentsLink", "track-event-name": "NavBarClick"}
+      attributes: {'data-qa': 'appointments-nav-link', 'track-tag-id': "navBarAppointmentsLink", "track-event-name": "NavBarClick"},
+      classes: hiddenClassOnFlag(viewAppointmentFlag)
     }, {
       text: t('subnav-licence-conditions'),
       href: '/licence-conditions' + appendLanguage(queryParams),

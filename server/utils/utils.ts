@@ -47,6 +47,12 @@ export const appendLanguage = (
   }>,
 ): string => appendLang(queryParams?.lang)
 
+export const hiddenClassOnFlag = (flag?: string): string => {
+  if (flag) {
+    return ''
+  }
+  return 'hidden'
+}
 export const formatLicenceDate = (dateString: string, lang?: string): string => {
   if (!dateString || dateString?.length < 1) return null
   const date = parse(dateString, 'dd/MM/yyyy', new Date())
