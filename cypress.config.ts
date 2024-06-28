@@ -13,7 +13,7 @@ const flagRestoreFilePath = './integration_tests/flags.restore.json'
 const flagsDisabled = [
   {
     feature: 'viewAppointmentsEndUser',
-    enabled: true,
+    enabled: false,
   },
 ]
 
@@ -61,7 +61,7 @@ export default defineConfig({
     configFile: 'reporter-config.json',
   },
   retries: {
-    runMode: 1,
+    runMode: 0,
     openMode: 0,
   },
   taskTimeout: 60000,
