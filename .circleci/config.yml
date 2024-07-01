@@ -181,6 +181,7 @@ jobs:
           environment:
             EXECUTION_TYPE: apiSmoke
             PROCESS: dev
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
   
   api_test:
     circleci_ip_ranges: true
@@ -193,7 +194,8 @@ jobs:
             k6 run -e CLIENT_ID=${API_CLIENT_ID} -e CLIENT_SECRET=${API_CLIENT_SECRET} pt_tests/tests/run.js
           environment:
             EXECUTION_TYPE: api
-            PROCESS: dev            
+            PROCESS: dev
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG} 
 
   browser_smoke_test:
     circleci_ip_ranges: true
@@ -207,6 +209,7 @@ jobs:
           environment:
             EXECUTION_TYPE: smoke
             PROCESS: dev
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
 
   browser_smoke_test_preprod:
     circleci_ip_ranges: true
@@ -219,7 +222,8 @@ jobs:
             k6 run pt_tests/tests/run.js --no-setup
           environment:
             EXECUTION_TYPE: smokePreProd
-            PROCESS: preprod                 
+            PROCESS: preprod
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}        
 
   browser_stress_test:
     circleci_ip_ranges: true
@@ -233,6 +237,7 @@ jobs:
           environment:
             EXECUTION_TYPE: stress
             PROCESS: dev
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
 
   browser_load_test:
     circleci_ip_ranges: true
@@ -246,6 +251,7 @@ jobs:
           environment:
             EXECUTION_TYPE: load
             PROCESS: dev
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
 
   browser_soak_test:
     circleci_ip_ranges: true
@@ -259,6 +265,7 @@ jobs:
           environment:
             EXECUTION_TYPE: soak
             PROCESS: dev
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
 
   integration_test:
     executor:
@@ -333,14 +340,14 @@ workflows:
                 - main
           requires:
             - deploy_dev
-      - browser_load_test:
-          filters:
-            branches:
-              only:
-                - main
-          requires:
-            - e2e_test
-            - zap_test
+      - browser_load_test
+       #   filters:
+       #     branches:
+       #       only:
+       #         - main
+       #   requires:
+       #     - e2e_test
+       #     - zap_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
