@@ -333,13 +333,6 @@ workflows:
                 - main
           requires:
             - deploy_dev
-      - zap_test:
-          filters:
-            branches:
-              only:
-                - main
-          requires:
-            - deploy_dev
       - browser_load_test:
           filters:
             branches:
@@ -347,7 +340,6 @@ workflows:
                 - main
           requires:
             - e2e_test
-            - zap_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
@@ -456,6 +448,21 @@ workflows:
                 - main
     jobs:
       - cms_test:
+          filters:
+            branches:
+              only:
+                - main    
+
+  security-daily:
+    triggers:
+      - schedule:
+          cron: "1 12 * * 1-5"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - zap_test:
           filters:
             branches:
               only:
