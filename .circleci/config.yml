@@ -340,14 +340,14 @@ workflows:
                 - main
           requires:
             - deploy_dev
-      - browser_load_test
-       #   filters:
-       #     branches:
-       #       only:
-       #         - main
-       #   requires:
-       #     - e2e_test
-       #     - zap_test
+      - browser_load_test:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - e2e_test
+            - zap_test
       - hmpps/helm_lint:
           name: helm_lint
       - hmpps/build_docker:
