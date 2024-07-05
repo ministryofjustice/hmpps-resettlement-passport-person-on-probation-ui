@@ -37,6 +37,19 @@ context('Licence conditions', () => {
     )
   })
 
+  it('Should see the additional licence conditions statement for home detention', () => {
+    cy.task('stubGetLicenceConditions')
+    cy.task('stubGetPopUserDetailsWithHomeDetention')
+    cy.signIn()
+
+    // click sub navigation menu for licence conditions
+    cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(LicencePage)
+
+    // date start and end should be visivle
+    cy.get('[data-qa="home-detention-heading"]').contains('Additional licence conditions')
+  })
+
   it('Should see alternative text when licence conditions missing', () => {
     cy.task('stubGetLicenceConditionsMissing')
     cy.signIn()

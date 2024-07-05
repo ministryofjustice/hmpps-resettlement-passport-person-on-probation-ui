@@ -62,6 +62,7 @@ export interface PersonalDetails {
     mobile?: string
     telephone?: string
     email?: string
+    isHomeDetention?: boolean
   }
 }
 

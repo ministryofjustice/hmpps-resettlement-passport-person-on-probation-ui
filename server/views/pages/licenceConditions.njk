@@ -41,9 +41,21 @@
                 text: t('licence-conditions-warning'),
                 iconFallbackText: "Warning"
                 }) }}
-                <p>{{ t('licence-conditions-p1') }}</p>
-                <p>{{ t('licence-conditions-p2') }}</p>
-                <p>{{ t('licence-conditions-p3') }}</p>
+
+                {% if isHomeDetention %}
+                    <p>{{ t('licence-conditions-home-dentention-p1') }}</p>
+                    <h2 class="govuk-heading-m govuk-!-margin-top-8" data-qa="home-detention-heading">{{ t('licence-conditions-home-dentention-h2') }}</h2>
+                    <p>{{ t('licence-conditions-home-dentention-ul') }}</p>
+                    <ul class="govuk-body-m govuk-!-margin-top-4">
+                            <li>{{ t('licence-conditions-home-dentention-li1') }}</li>
+                            <li>{{ t('licence-conditions-home-dentention-li2') }}</li>
+                    </ul>
+                    <p>{{ t('licence-conditions-home-dentention-p2') }}</p>
+                {% else %}
+                    <p>{{ t('licence-conditions-p1') }}</p>
+                    <p>{{ t('licence-conditions-p2') }}</p>
+                    <p>{{ t('licence-conditions-p3') }}</p>
+                {% endif %}
             </div>
         </div>
 

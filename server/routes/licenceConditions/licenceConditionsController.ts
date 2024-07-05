@@ -28,12 +28,15 @@ export default class LicenceConditionsController {
         sessionId,
       )
 
+      const prisoner = await this.userService.getByNomsId(verificationData.nomsId, req.user?.sub, sessionId)
+
       return res.render('pages/licenceConditions', {
         user: req.user,
         licence,
         isExpired: isDateInPast(licence?.expiryDate),
         isLicenceChanged: licence?.changeStatus,
         viewAppointmentFlag,
+        isHomeDetention: prisoner?.personalDetails?.isHomeDetention,
         queryParams,
       })
     } catch (err) {
