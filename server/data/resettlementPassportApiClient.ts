@@ -110,4 +110,19 @@ export default class ResettlementPassportApiClient {
     }
     return null
   }
+
+  async confirmLicenceConditions(nomsId: string, version: number, sessionId: string): Promise<void> {
+    try {
+      logger.debug(`SessionId: ${sessionId}. confirmLicenceConditions()`)
+      await this.restClient.patch({
+        path: `/prisoner/${nomsId}/licence-condition/seen?version=${version}`,
+        headers: {
+          SessionID: sessionId,
+        },
+      })
+    } catch (error) {
+      logger.error(`SessionId: ${sessionId}. Licence condition version '${version}' not found:`, error)
+      checkError(error)
+    }
+  }
 }

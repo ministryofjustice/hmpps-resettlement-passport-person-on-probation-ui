@@ -44,6 +44,23 @@ export default class LicenceConditionsController {
     }
   }
 
+  confirm: RequestHandler = async (req, res, next) => {
+    try {
+      const { version } = req.body
+      const sessionId = req.sessionID
+      const verificationData = await requireUser(req.user?.sub, this.userService, sessionId)
+      if (typeof verificationData === 'string') {
+        return res.redirect(verificationData)
+      }
+
+      await this.licenceConditionsService.confirmLicenceConditions(verificationData.nomsId, version, sessionId)
+
+      return res.redirect('licence-conditions')
+    } catch (err) {
+      return next(err)
+    }
+  }
+
   view: RequestHandler = async (req, res, next) => {
     try {
       const queryParams = req.query

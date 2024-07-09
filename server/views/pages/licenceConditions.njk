@@ -1,5 +1,6 @@
 {% extends "../partials/layout.njk" %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "moj/components/ticket-panel/macro.njk" import mojTicketPanel %}
 {% import "../partials/alertBoxMacro.njk" as alertBox %}
 
 {% set pageTitle = "Licence Conditions" + titleHeading %}
@@ -26,14 +27,6 @@
             </div>
         </div>
     {% else %}
-
-        {% if isLicenceChanged %}
-            <div class="govuk-grid-row govuk-!-padding-bottom-4">
-                <div class="govuk-grid-column-full">
-                    {{ alertBox.render([], [], false, true) }}
-                </div>
-            </div>
-        {% endif %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
@@ -47,8 +40,8 @@
                     <h2 class="govuk-heading-m govuk-!-margin-top-8" data-qa="home-detention-heading">{{ t('licence-conditions-home-dentention-h2') }}</h2>
                     <p>{{ t('licence-conditions-home-dentention-ul') }}</p>
                     <ul class="govuk-body-m govuk-!-margin-top-4">
-                            <li>{{ t('licence-conditions-home-dentention-li1') }}</li>
-                            <li>{{ t('licence-conditions-home-dentention-li2') }}</li>
+                        <li>{{ t('licence-conditions-home-dentention-li1') }}</li>
+                        <li>{{ t('licence-conditions-home-dentention-li2') }}</li>
                     </ul>
                     <p>{{ t('licence-conditions-home-dentention-p2') }}</p>
                 {% else %}
@@ -102,10 +95,33 @@
                 {% endif %}
             </div>
         </div>
+
+        {% if isLicenceChanged %}
+          <form class="form" action="/licence-conditions" method="post">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+          <input type="hidden" name="version" value="{{ licence.version }}"/>
+            <div class="govuk-grid-row govuk-!-margin-bottom-8">
+                <div class="govuk-grid-column-two-thirds">
+                    {{ mojTicketPanel({
+                        items: [{
+                            html: '<h2 class="govuk-heading-m govuk-!-margin-bottom-2">' + t('licence-conditions-confirm-title') + '</h2>
+                            <button type="submit" class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button" 
+                                data-qa="licence-conditions-confirm-btn" track-tag-id="licenceConditionsConfirmBtn" track-event-name="LicenceUpdateConfirmed">' 
+                            + t('licence-conditions-confirm-btn') + '</button>',
+                            attributes: {
+                            'aria-label': t('licence-conditions-confirm-btn')
+                            },
+                            classes: 'moj-ticket-panel__content--blue'
+                        }]
+                    }) }}
+                </div>
+            </div>
+            </form>
+        {% endif %}
     {% endif %}
 
 {% endblock %}
 
 {% block bodyEnd %}
-  <script src="/assets/sessionMonitor.js"></script>
+    <script src="/assets/sessionMonitor.js"></script>
 {% endblock %}

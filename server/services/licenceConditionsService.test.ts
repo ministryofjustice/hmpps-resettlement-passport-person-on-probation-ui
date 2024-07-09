@@ -60,4 +60,12 @@ describe('LicenceConditionsService', () => {
     expect(loggerSpy).toHaveBeenCalledWith(`Get licence conditions by nomsId`)
     expect(redisClient.get).toHaveBeenCalledWith(`${nomsId}-licence-conditions-data`)
   })
+
+  it('should confirm a licence condition update has been seen and remove the cached data', async () => {
+    const nomsId = 'A8731DY'
+    resettlementPassportApiClient.confirmLicenceConditions.mockResolvedValue()
+    await licenceConditionsService.confirmLicenceConditions(nomsId, 1, 'session')
+    expect(loggerSpy).toHaveBeenCalledWith(`confirm licence conditions seen`)
+    expect(redisClient.set).toHaveBeenCalledWith(`${nomsId}-licence-conditions-data`, '', { EX: 1 })
+  })
 })

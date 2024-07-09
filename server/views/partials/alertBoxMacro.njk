@@ -30,7 +30,8 @@
                         </p>
                     {% elif isLicenceChanged %}
                         <p class="govuk-notification-banner__heading" data-qa="alert-box-licence-changed-msg">
-                            {{ t('licence-conditions-changed') }}
+                            {{ t('licence-conditions-changed-1') }}
+                            <a href="/licence-conditions">{{ t('licence-conditions-changed-2') }}</a>
                         </p>
                     {% endif %}
                 </div>
