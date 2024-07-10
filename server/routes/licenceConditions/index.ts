@@ -9,5 +9,6 @@ export default (router: Router, services: Services) => {
     services.featureFlagsService,
   )
   router.get('/licence-conditions', [controller.index])
+  router.post('/licence-conditions', [controller.confirm])
   router.get('/licence-conditions/:licenceId/condition/:conditionId', [controller.view])
 }

@@ -13,9 +13,11 @@ export default class LicenceConditionsService {
     this.tokenStore = tokenStoreFactory()
   }
 
+  private getCacheKey = (nomsId: string) => `${nomsId}-licence-conditions-data`
+
   async getLicenceConditionsByNomsId(nomsId: string, sessionId: string): Promise<LicenceConditionData> {
     logger.info(`Get licence conditions by nomsId`)
-    const key = `${nomsId}-licence-conditions-data`
+    const key = this.getCacheKey(nomsId)
 
     // read from cache
     if (config.redis.enabled) {
@@ -54,5 +56,13 @@ export default class LicenceConditionsService {
       sessionId,
     )
     return Promise.resolve(fetchedImage)
+  }
+
+  async confirmLicenceConditions(nomsId: string, version: number, sessionId: string): Promise<void> {
+    logger.info('confirm licence conditions seen')
+    // expire cache
+    await this.tokenStore.removeToken(this.getCacheKey(nomsId))
+    // confirm
+    await this.resettlementPassportClient.confirmLicenceConditions(nomsId, version, sessionId)
   }
 }

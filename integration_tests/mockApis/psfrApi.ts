@@ -38,6 +38,7 @@ const mockedLicenceConditions = (expiryDate, changed = false) => {
       },
     ],
     changeStatus: changed,
+    version: 1,
   }
 }
 

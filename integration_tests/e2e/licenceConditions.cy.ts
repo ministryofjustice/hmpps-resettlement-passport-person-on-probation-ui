@@ -77,7 +77,7 @@ context('Licence conditions', () => {
     cy.contains('Your licence conditions ended on 12 July 1999.')
   })
 
-  it('Should see alternative text when licence conditions changed', () => {
+  it('Should see confirmation prompt when licence conditions changed', () => {
     cy.task('stubGetLicenceConditionsChanged')
     cy.signIn()
 
@@ -85,7 +85,7 @@ context('Licence conditions', () => {
     cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
     Page.verifyOnPage(LicencePage)
 
-    cy.contains('Your licence conditions have been updated.')
+    cy.get('[data-qa="licence-conditions-confirm-btn"]').should('exist')
   })
 
   it('Should not see alert message when licence conditions changed and expired', () => {
