@@ -37,6 +37,7 @@ export default class LicenceConditionsController {
         isLicenceChanged: licence?.changeStatus,
         viewAppointmentFlag,
         isHomeDetention: prisoner?.personalDetails?.isHomeDetention,
+        isRecall: prisoner?.personalDetails?.isRecall,
         queryParams,
       })
     } catch (err) {
