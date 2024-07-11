@@ -63,6 +63,7 @@ export interface PersonalDetails {
     telephone?: string
     email?: string
     isHomeDetention?: boolean
+    isRecall?: boolean
   }
 }
 

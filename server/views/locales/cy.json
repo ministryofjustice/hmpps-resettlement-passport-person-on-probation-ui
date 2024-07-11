@@ -129,6 +129,8 @@
     "licence-conditions-expiry": "Your licence expires:",
     "licence-conditions-updated": "Licence last updated:",
     "licence-conditions-expired": "Your licence conditions ended on",
+    "licence-conditions-recall-h": "We cannot show your licence conditions.", 
+    "licence-conditions-recall-p": "A replacement document will be provided by your probation officer.",
     "licence-conditions-changed-1": "Your",
     "licence-conditions-changed-2": "licence conditions have been updated.",
     "licence-conditions-must": "You must:",

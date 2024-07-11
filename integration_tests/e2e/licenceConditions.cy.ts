@@ -50,6 +50,20 @@ context('Licence conditions', () => {
     cy.get('[data-qa="home-detention-heading"]').contains('Additional licence conditions')
   })
 
+  it('Should see the additional licence conditions statement for recall', () => {
+    cy.task('stubGetLicenceConditions')
+    cy.task('stubGetPopUserDetailsWithRecall')
+    cy.signIn()
+
+    // click sub navigation menu for licence conditions
+    cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(LicencePage)
+
+    cy.get('[data-qa="licence-conditions-recall"]').contains(
+      'We cannot show your licence conditions. A replacement document will be provided by your probation officer.',
+    )
+  })
+
   it('Should see alternative text when licence conditions missing', () => {
     cy.task('stubGetLicenceConditionsMissing')
     cy.signIn()

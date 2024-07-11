@@ -218,6 +218,23 @@ export default {
         },
       },
     }),
+  stubGetPopUserDetailsWithRecall: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: {
+          personalDetails: {
+            isRecall: true,
+            ...mockedUserDetailsResponse.personalDetails,
+          },
+        },
+      },
+    }),
   stubGetAppointmentsMissing: (): SuperAgentRequest =>
     stubFor({
       request: {

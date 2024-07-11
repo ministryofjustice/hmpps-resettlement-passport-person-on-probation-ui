@@ -12,7 +12,23 @@
 
 {% block content %}
 
-    {% if isExpired %}
+    {% if isRecall %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
+            </div>
+        </div>
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds" data-qa="licence-conditions-recall">
+                {{ govukWarningText({
+                    text: t('licence-conditions-recall-h'),
+                    iconFallbackText: t('generic-page-warning')
+                }) }}
+                 <p>{{ t('licence-conditions-recall-p') }}</p>
+            </div>
+        </div>
+    {% elif isExpired %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
