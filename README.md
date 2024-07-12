@@ -55,15 +55,7 @@ Set the values with:
 
 
 ### Running the app for development
-To start the main services excluding the example typescript template app: 
-
-`docker compose up -d`
-
-And then, to build the assets and start the app with nodemon:
-
-`npm run start:dev`
-
-=> Simplified script: `./dev`
+Run `./dev`
 
 ### Run linter
 
@@ -73,29 +65,17 @@ And then, to build the assets and start the app with nodemon:
 
 `npm run format`
 
+### Run required deps ugprade check
+
+`npm run outdated-required`
+
 ### Run tests
 
 `npm run test`
 
 ### Running integration tests
 
-For local running, start a test db and wiremock instance by:
-
-`docker compose -f docker-compose-test.yml up`
-
-Then run the server in test mode by:
-
-`npm run start-feature` (or `npm run start-feature:dev` to run with nodemon)
-
-And then either, run tests in headless mode with:
-
-`npm run int-test`
- 
-Or run tests with the cypress UI:
-
-`npm run int-test-ui`
-
-=> Simplified script: `./int-test`
+Run: `./int-test`
 
 Integration tests (Cypress) instructions [here](./integration_tests/README.md)
 
@@ -129,6 +109,18 @@ Scroll to EVENT STATISTICS and filter by name, enter 'PYF' enter and you should 
 
 ## Feature flags
 
-This app makes use of feature flags stored in a S3 bucket, it can default to a local file by setting the env variable `FEATURE_FLAG_ENABLED="false"`
+This app makes use of feature flags stored in an S3 bucket. It can default to a local file by setting the environment variable `FEATURE_FLAG_ENABLED="false"`, which will use the local file `localstack/flags.json` so you can test turning features on or off locally.
 
-To amend flags on the S3 bucket make use of the `k_exec_cp` alias, your team should be able to provide you with this.
+There is another file called `integration_tests/flags.restore.json`, which is used by integration tests to change and restore the flag values for testing. For example, you can change the appointments feature flag and test the service with the flag turned on or off.
+
+To amend flags in the S3 bucket, make use of the `k_exec_cp` utility. You can set this in you `.bashrc` or `.zshrc`
+```
+function k_exec_cp() {
+  echo "##### You are on $(kubectl config view --minify -o jsonpath='{..namespace}' | sed "s/.*-//") #####"
+  echo "Useful commands:"
+  echo "aws s3 cp s3://$(kubectl get secret s3-bucket-output -o jsonpath='{.data.bucket_name}' | base64 --decode)/feature-flags/flags.json flags.json"
+  echo "aws s3 cp flags.json s3://$(kubectl get secret s3-bucket-output -o jsonpath='{.data.bucket_name}' | base64 --decode)/feature-flags/flags.json"
+  PODNAME=$(kubectl get pods | grep "cloud-platform-" | cut -d " " -f1 2>&1)
+  kubectl exec --stdin --tty ${PODNAME} -- /bin/sh -c "cd /tmp && /bin/sh"
+}
+```
