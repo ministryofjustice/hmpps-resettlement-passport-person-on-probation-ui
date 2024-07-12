@@ -27,7 +27,7 @@ export default class OverviewController {
       }
       const viewAppointmentFlag = await this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
 
-      const personalData = await this.userService.getByNomsId(verificationData.nomsId, urn, sessionId)
+      const prisoner = await this.userService.getByNomsId(verificationData.nomsId, urn, sessionId)
       let nextAppointment: Appointment = null
       let tomorrowAppointments: Appointment[] = []
       let todayAppointments: Appointment[] = []
@@ -41,16 +41,17 @@ export default class OverviewController {
         verificationData.nomsId,
         sessionId,
       )
+      const isRecall = prisoner?.personalDetails?.isRecall
 
       return res.render('pages/overview', {
         user: req.user,
-        personalData,
+        prisoner,
         nextAppointment,
         tomorrowAppointments,
         todayAppointments,
         licenceExpiryDate: licence?.expiryDate,
         isLicenceExpired: isDateInPast(licence?.expiryDate),
-        isLicenceChanged: licence?.changeStatus,
+        isLicenceChanged: !isRecall && licence?.changeStatus,
         viewAppointmentFlag,
         queryParams,
       })
