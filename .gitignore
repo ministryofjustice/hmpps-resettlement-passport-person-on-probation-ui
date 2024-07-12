@@ -137,7 +137,6 @@ token
 
 # E2E test files
 test-results
-e2e
 credentials.json
 otp.txt
 token.json
