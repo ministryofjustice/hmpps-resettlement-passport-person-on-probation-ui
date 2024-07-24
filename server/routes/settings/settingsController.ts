@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
 import config from '../../config'
-import FeatureFlagsService, { FeatureFlags } from '../../services/featureFlagsService'
+import FeatureFlagsService from '../../services/featureFlagsService'
 
 export default class SettingsController {
   constructor(
@@ -18,10 +18,10 @@ export default class SettingsController {
         return res.redirect(verificationData)
       }
 
-      const viewAppointmentFlag = await this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
+      const flags = await this.featureFlagsService.getFeatureFlags()
 
       const oneloginUrl = config.apis.govukOneLogin.homeUrl
-      return res.render('pages/settings', { oneloginUrl, viewAppointmentFlag, queryParams })
+      return res.render('pages/settings', { oneloginUrl, flags, queryParams })
     } catch (err) {
       return next(err)
     }

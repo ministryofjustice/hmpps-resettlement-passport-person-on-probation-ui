@@ -6,6 +6,7 @@ import logger from '../../logger'
 import type {
   AppointmentData,
   LicenceConditionData,
+  DocumentMeta,
   OtpDetailsResponse,
   OtpRequest,
   PersonalDetails,
@@ -122,6 +123,37 @@ export default class ResettlementPassportApiClient {
       })
     } catch (error) {
       logger.error(`SessionId: ${sessionId}. Licence condition version '${version}' not found:`, error)
+      checkError(error)
+    }
+  }
+
+  async getLicenceConditionsDocuments(nomsId: string, sessionId: string): Promise<DocumentMeta[]> {
+    try {
+      logger.debug(`SessionId: ${sessionId}. getLicenceConditionsDocuments()`)
+      return this.restClient.get<DocumentMeta[]>({
+        path: `/prisoner/${nomsId}/documents?category=LICENCE_CONDITIONS`,
+        headers: {
+          SessionID: sessionId,
+        },
+      })
+    } catch (error) {
+      logger.error(`SessionId: ${sessionId}. Error fetching documents list:`, error)
+      checkError(error)
+      return []
+    }
+  }
+
+  async pipeLicenceConditionsDocument(nomsId: string, docId: number, sessionId: string, pipeTo: NodeJS.WritableStream) {
+    try {
+      logger.debug(`SessionId: ${sessionId}. getLicenceConditionsDocument(${docId})`)
+      await this.restClient.pipe(pipeTo, {
+        path: `/prisoner/${nomsId}/documents/${docId}/download`,
+        headers: {
+          SessionID: sessionId,
+        },
+      })
+    } catch (error) {
+      logger.error(`SessionId: ${sessionId}. Error fetching documents ${docId} for ${nomsId}`, error)
       checkError(error)
     }
   }

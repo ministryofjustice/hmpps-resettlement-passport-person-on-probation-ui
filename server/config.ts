@@ -92,7 +92,7 @@ export default {
       enabled: get('POP_API_ENABLED', 'true') === 'true',
     },
     resettlementPassportApi: {
-      url: get('PSFR_API_URL', 'http://localhost:8080', requiredInProduction),
+      url: get('PSFR_API_URL', 'http://localhost:8080/resettlement-passport', requiredInProduction),
       timeout: {
         response: Number(get('PSFR_API_TIMEOUT_RESPONSE', 20000)),
         deadline: Number(get('PSFR_API_TIMEOUT_DEADLINE', 20000)),

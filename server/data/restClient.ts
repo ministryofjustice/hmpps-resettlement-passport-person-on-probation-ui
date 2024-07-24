@@ -1,5 +1,3 @@
-import { Readable } from 'stream'
-
 import Agent, { HttpsAgent } from 'agentkeepalive'
 import superagent from 'superagent'
 
@@ -248,35 +246,19 @@ export default class RestClient {
     }
   }
 
-  async stream({ path = null, headers = {} }: StreamRequest = {}): Promise<Readable> {
-    logger.info(`${this.name} streaming: ${path}`)
-
+  async pipe(writeable: NodeJS.WritableStream, { path = null, headers = {} }: StreamRequest = {}) {
     const token = await this.getCachedTokenOrRefresh()
-    return new Promise((resolve, reject) => {
-      superagent
-        .get(`${this.apiUrl()}${path}`)
-        .agent(this.agent)
-        .auth(token, { type: 'bearer' })
-        .use(restClientMetricsMiddleware)
-        .retry(2, (err, res) => {
-          if (err) logger.info(`Retry handler found ${this.name} API error with ${err.code} ${err.message}`)
-          return undefined // retry handler only for logging retries, not to influence retry logic
-        })
-        .timeout(this.timeoutConfig())
-        .set(headers)
-        .end((error, response) => {
-          if (error) {
-            logger.warn(sanitiseError(error), `Error calling ${this.name}`)
-            reject(error)
-          } else if (response) {
-            const s = new Readable()
-            // eslint-disable-next-line no-underscore-dangle,@typescript-eslint/no-empty-function
-            s._read = () => {}
-            s.push(response.body)
-            s.push(null)
-            resolve(s)
-          }
-        })
-    })
+    superagent
+      .get(`${this.apiUrl()}${path}`)
+      .agent(this.agent)
+      .auth(token, { type: 'bearer' })
+      .use(restClientMetricsMiddleware)
+      .retry(2, (err, res) => {
+        if (err) logger.info(`Retry handler found ${this.name} API error with ${err.code} ${err.message}`)
+        return undefined // retry handler only for logging retries, not to influence retry logic
+      })
+      .timeout(this.timeoutConfig())
+      .set(headers)
+      .pipe(writeable)
   }
 }

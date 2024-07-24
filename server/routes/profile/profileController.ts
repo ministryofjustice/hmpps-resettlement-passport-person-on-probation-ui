@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
-import FeatureFlagsService, { FeatureFlags } from '../../services/featureFlagsService'
+import FeatureFlagsService from '../../services/featureFlagsService'
 
 export default class ProfileController {
   constructor(
@@ -18,7 +18,7 @@ export default class ProfileController {
         return res.redirect(verificationData)
       }
 
-      const viewAppointmentFlag = await this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
+      const flags = await this.featureFlagsService.getFeatureFlags()
 
       const profile = await this.userService.getByNomsId(verificationData.nomsId, req.user?.sub, sessionId)
       const fullName = [
@@ -31,7 +31,7 @@ export default class ProfileController {
         mobile: profile.personalDetails.mobile,
         email: profile.personalDetails.email,
         fullName,
-        viewAppointmentFlag,
+        flags,
         queryParams,
       })
     } catch (err) {

@@ -1,12 +1,13 @@
 import { RequestHandler } from 'express'
-import { isTomorrow, isToday } from 'date-fns'
+import { isToday, isTomorrow } from 'date-fns'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
 import AppointmentService from '../../services/appointmentService'
 import { getFutureAppointments, isDateInPast } from '../../utils/utils'
 import LicenceConditionsService from '../../services/licenceConditionsService'
-import FeatureFlagsService, { FeatureFlags } from '../../services/featureFlagsService'
+import FeatureFlagsService from '../../services/featureFlagsService'
 import { Appointment } from '../../data/resettlementPassportData'
+import { FeatureFlagKey } from '../../services/featureFlags'
 
 export default class OverviewController {
   constructor(
@@ -25,13 +26,13 @@ export default class OverviewController {
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)
       }
-      const viewAppointmentFlag = await this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
+      const flags = await this.featureFlagsService.getFeatureFlags()
 
       const prisoner = await this.userService.getByNomsId(verificationData.nomsId, urn, sessionId)
       let nextAppointment: Appointment = null
       let tomorrowAppointments: Appointment[] = []
       let todayAppointments: Appointment[] = []
-      if (viewAppointmentFlag) {
+      if (flags.isEnabled(FeatureFlagKey.VIEW_APPOINTMENTS)) {
         const appointments = await this.appointmentService.getAllByNomsId(verificationData.nomsId, sessionId)
         nextAppointment = getFutureAppointments(appointments.results)?.[0]
         tomorrowAppointments = appointments?.results?.filter(x => isTomorrow(new Date(x.date)))
@@ -52,7 +53,7 @@ export default class OverviewController {
         licenceExpiryDate: licence?.expiryDate,
         isLicenceExpired: isDateInPast(licence?.expiryDate),
         isLicenceChanged: !isRecall && licence?.changeStatus,
-        viewAppointmentFlag,
+        flags,
         queryParams,
       })
     } catch (err) {

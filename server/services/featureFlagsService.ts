@@ -3,25 +3,14 @@ import { readFile } from 'node:fs/promises'
 import config from '../config'
 import logger from '../../logger'
 import { tokenStoreFactory } from '../data/tokenStore/tokenStore'
-
-export interface Feature {
-  feature: string
-  enabled: boolean
-}
-
-// eslint-disable-next-line no-shadow
-export const enum FeatureFlags {
-  VIEW_APPOINTMENTS = 'viewAppointmentsEndUser',
-}
+import { FeatureFlags, Feature } from './featureFlags'
 
 export default class FeatureFlagsService {
   private s3 = new S3({ region: config.s3.featureFlag.region, forcePathStyle: true })
 
-  async getFeatureFlag(flag: FeatureFlags): Promise<boolean> {
-    const flags = await this.getFeatureFlags()
-    logger.info('Fetched flags: ', JSON.stringify(flags))
-    const featureEnabled = flags?.find(x => x.feature === flag)?.enabled
-    return !!featureEnabled
+  async getFeatureFlags(): Promise<FeatureFlags> {
+    const flags = await this.loadFeatureFlags()
+    return new FeatureFlags(flags)
   }
 
   private async loadLocalFlags(): Promise<Array<Feature>> {
@@ -34,7 +23,7 @@ export default class FeatureFlagsService {
     }
   }
 
-  private async getFeatureFlags(): Promise<Feature[]> {
+  private async loadFeatureFlags(): Promise<Feature[]> {
     if (!config.s3.featureFlag.enabled) {
       logger.warn('Using local feature flags')
       return this.loadLocalFlags()
@@ -49,11 +38,13 @@ export default class FeatureFlagsService {
         })
         const jsonString = await command.Body.transformToString()
         await tokenStore.setToken(`feature-flags`, jsonString, 120)
-        return JSON.parse(jsonString) as Promise<Feature[]>
+        const flags = JSON.parse(jsonString) as Feature[]
+        logger.info('Fetched flags: ', JSON.stringify(flags))
+        return flags
       } catch (err) {
         logger.error(err, 'Error getting feature flags from S3')
       }
-      return null
+      return []
     }
     return JSON.parse(flagsCached)
   }

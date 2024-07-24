@@ -1,13 +1,15 @@
- {%- from "moj/components/sub-navigation/macro.njk" import mojSubNavigation -%}
- 
-  <aside role="complementary">
-    {% include "./phasebanner.njk" %}
-    {% block aside %}{% endblock %}
-  </aside>
+{%- from "moj/components/sub-navigation/macro.njk" import mojSubNavigation -%}
 
-  <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
+<aside role="complementary">
+  {% include "./phasebanner.njk" %}
+  {% block aside %}
+  {% endblock %}
+</aside>
 
-  {{ mojSubNavigation({
+<span class="govuk-visually-hidden" id="{{ pageId }}"></span>
+
+{{
+  mojSubNavigation({
     label: t('subnav-label'),
     items: [{
       text: t('subnav-home'),
@@ -19,12 +21,18 @@
       href: '/appointments' + appendLanguage(queryParams),
       active: activePage == 'appointments',
       attributes: {'data-qa': 'appointments-nav-link', 'track-tag-id': "navBarAppointmentsLink", "track-event-name": "NavBarClick"},
-      classes: hiddenClassOnFlag(viewAppointmentFlag)
+      classes: hiddenClassOnFlag('viewAppointmentsEndUser', flags)
     }, {
       text: t('subnav-licence-conditions'),
       href: '/licence-conditions' + appendLanguage(queryParams),
       active: activePage == 'licence-conditions',
       attributes: {'data-qa': 'licence-conditions-nav-link', 'track-tag-id': "navBarLicenceLink", "track-event-name": "NavBarClick"}
+    }, {
+      text: t('subnav-documents'),
+      href: '/documents' + appendLanguage(queryParams),
+      active: activePage == 'documents',
+      attributes: {'data-qa': 'documents-nav-link', 'track-tag-id': "navBarDocumentsLink", "track-event-name": "NavBarClick"},
+      classes: hiddenClassOnFlag('viewDocuments', flags)
     }, {
       text: t('subnav-profile'),
       href: '/profile' + appendLanguage(queryParams),
@@ -40,4 +48,5 @@
       href: '/sign-out' + appendLanguage(queryParams),
       attributes: {'data-qa': "signOut", 'track-tag-id': "navBarSignoutLink", "track-event-name": "UserSignOut"}
     }]
-  }) }}
+  })
+}}

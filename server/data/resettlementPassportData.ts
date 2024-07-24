@@ -84,3 +84,8 @@ export interface LicenceConditionData {
   changeStatus?: boolean
   version?: number
 }
+
+export type DocumentMeta = {
+  id: number
+  originalDocumentFileName?: string
+}

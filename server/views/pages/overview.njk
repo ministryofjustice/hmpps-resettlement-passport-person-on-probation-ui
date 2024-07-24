@@ -1,6 +1,5 @@
 {% extends "../partials/layout.njk" %}
 {% import "../partials/alertBoxMacro.njk" as alertBox %}
-
 {% set pageTitle = "Overview" + titleHeading %}
 {% block beforeContent %}
   {% set activePage = 'overview' %}
@@ -8,14 +7,15 @@
 {% endblock %}
 
 {% block content %}
-
-{% set licenceExpiryDateFormatted = licenceExpiryDate | formatLicenceDate(queryParams.lang) %}
+  {% set licenceExpiryDateFormatted = licenceExpiryDate | formatLicenceDate(queryParams.lang) %}
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-full">
       {{ alertBox.render(tomorrowAppointments, todayAppointments, licenceExpiryDateFormatted if isLicenceExpired, isLicenceChanged) }}
       <p class="hmrc-caption govuk-caption-xl">
-        <span class="govuk-visually-hidden">{{ t('overview-hidden-content') }} </span><span data-qa="pyf-overview-title">{{applicationName}}</span></p>
+        <span class="govuk-visually-hidden">{{ t('overview-hidden-content') }} </span
+        ><span data-qa="pyf-overview-title">{{ applicationName }}</span>
+      </p>
 
       <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="pyf-overview-h1">{{ t('overview-h1') }}</h1>
     </div>
@@ -23,88 +23,121 @@
     <!-- appointment tile -->
     {% if viewAppointmentFlag %}
       <div class="govuk-grid-column-one-third">
-
         <div id="appointments-tile" class="card">
           <div class="card-body active govuk-!-padding-bottom-6">
             <h2 class="govuk-heading-m card-heading govuk-!-padding-bottom-2">
-              <a href="/appointments{{appendLanguage(queryParams)}}" data-qa="appointments-tile-title" track-tag-id="viewAppointmentTileLink" track-event-name="AppointmentTileLink">{{ t('appointments-h1') }} </a>
+              <a
+                href="/appointments{{ appendLanguage(queryParams) }}"
+                data-qa="appointments-tile-title"
+                track-tag-id="viewAppointmentTileLink"
+                track-event-name="AppointmentTileLink"
+                >{{ t('appointments-h1') }}
+              </a>
             </h2>
 
             {% if nextAppointment %}
-            <h3 class="govuk-heading-s" id="next-appointment-heading">{{ t('overview-next-appointment') }}</h3>
+              <h3 class="govuk-heading-s" id="next-appointment-heading">{{ t('overview-next-appointment') }}</h3>
 
-            <p class="govuk-body-m govuk-!-margin-0">
-              {{nextAppointment.date | formatDate(queryParams.lang) }}
-            </p>
-            <p class="govuk-body-m govuk-!-margin-0">{{nextAppointment.time | formatTime(0, queryParams.lang) }}
-            {% if nextAppointment.duration %}
-              - {{ nextAppointment.time | formatTime(nextAppointment.duration, queryParams.lang) }}
-            {% endif %}
-            </p>
+              <p class="govuk-body-m govuk-!-margin-0">{{ nextAppointment.date | formatDate(queryParams.lang) }}</p>
+              <p class="govuk-body-m govuk-!-margin-0">
+                {{ nextAppointment.time | formatTime(0, queryParams.lang) }}
+                {% if nextAppointment.duration %}
+                  - {{ nextAppointment.time | formatTime(nextAppointment.duration, queryParams.lang) }}
+                {% endif %}
+              </p>
 
-            <h3 class="govuk-heading-s govuk-!-margin-top-6">{{ t('overview-next-appointment-type') }}</h3>
+              <h3 class="govuk-heading-s govuk-!-margin-top-6">{{ t('overview-next-appointment-type') }}</h3>
 
-            <p id="next-appointment-title" class="govuk-!-margin-0">{{nextAppointment.title}}</p>
+              <p id="next-appointment-title" class="govuk-!-margin-0">{{ nextAppointment.title }}</p>
 
-            <h3 class="govuk-heading-s govuk-!-margin-top-6">{{ t('overview-next-appointment-location') }}</h3>
-            <p class="govuk-body-m govuk-!-margin-0" data-qa="appointments-tile-location">
-              {% if nextAppointment.location | formatAppointmentLocation %}
-                {{ nextAppointment.location | formatAppointmentLocation }}
-              {% else %}
-                {{ t('appointment-no-address') }}
-              {% endif %}
-            </p>
-
+              <h3 class="govuk-heading-s govuk-!-margin-top-6">{{ t('overview-next-appointment-location') }}</h3>
+              <p class="govuk-body-m govuk-!-margin-0" data-qa="appointments-tile-location">
+                {% if nextAppointment.location | formatAppointmentLocation %}
+                  {{ nextAppointment.location | formatAppointmentLocation }}
+                {% else %}
+                  {{ t('appointment-no-address') }}
+                {% endif %}
+              </p>
             {% else %}
               <div data-qa="appointment-tile-no-content" class="govuk-heading-s govuk-!-margin-0">
-                <p>
-                  {{ t('overview-no-future-appointment') }}
-                </p>
-                <p>{{ t('overview-check-appointment') }}
-                </p>
+                <p>{{ t('overview-no-future-appointment') }}</p>
+                <p>{{ t('overview-check-appointment') }}</p>
               </div>
             {% endif %}
           </div>
         </div>
-
       </div>
-      {% endif %}
+    {% endif %}
 
     <!-- licence condition tile -->
-      <div class="govuk-grid-column-one-third">
-        <div class="card" id="licence-conditions-tile">
-          <div id="licence-conditions-tile-body" class="card-body active govuk-!-padding-bottom-6">
-            <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
-              <a class="govuk-link card-link" href="/licence-conditions{{appendLanguage(queryParams)}}" data-qa="licence-conditions-tile-title" track-tag-id="viewLicenceConditionTileLink" track-event-name="LicenceConditionTileLink">  {{ t('licence-conditions-h1') }}</a>
-            </h2>
-            {% if isLicenceExpired %}
-                <p class="govuk-body">{{ t('overview-licence-conditions-none') }}</p>
-            {% elif licenceExpiryDate %}
-                <p class="govuk-body">{{ t('overview-licence-conditions-p1') }}</p>
-                <p>{{ t('overview-licence-conditions-p2') }} {{licenceExpiryDateFormatted }}.</p>
-            {% else %}
-                <p class="govuk-body">{{ t('licence-conditions-not-found') }}</p> 
-            {% endif %}
-          </div>
+    <div class="govuk-grid-column-one-third">
+      <div class="card" id="licence-conditions-tile">
+        <div id="licence-conditions-tile-body" class="card-body active govuk-!-padding-bottom-6">
+          <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
+            <a
+              class="govuk-link card-link"
+              href="/licence-conditions{{ appendLanguage(queryParams) }}"
+              data-qa="licence-conditions-tile-title"
+              track-tag-id="viewLicenceConditionTileLink"
+              track-event-name="LicenceConditionTileLink"
+            >
+              {{ t('licence-conditions-h1') }}</a
+            >
+          </h2>
+          {% if isLicenceExpired %}
+            <p class="govuk-body">{{ t('overview-licence-conditions-none') }}</p>
+          {% elif licenceExpiryDate %}
+            <p class="govuk-body">{{ t('overview-licence-conditions-p1') }}</p>
+            <p>{{ t('overview-licence-conditions-p2') }} {{ licenceExpiryDateFormatted }}.</p>
+          {% else %}
+            <p class="govuk-body">{{ t('licence-conditions-not-found') }}</p>
+          {% endif %}
         </div>
       </div>
+    </div>
+
+    <!-- Documents tile -->
+    <div class="govuk-grid-column-one-third">
+      <div class="card" id="documents-tile">
+        <div class="card-body active">
+          <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
+            <a
+              class="govuk-link card-link"
+              href="/documents{{ appendLanguage(queryParams) }}"
+              track-tag-id="viewDocumentsTileLink"
+              track-event-name="DocumentTileLink"
+              data-qa="document-tile-title"
+            >
+              {{ t('documents-h1') }}
+            </a>
+          </h2>
+          <p class="govuk-body">{{ t('overview-documents-p1') }}</p>
+          <br />
+        </div>
+      </div>
+    </div>
 
     <!-- profile tile -->
     <div class="govuk-grid-column-one-third">
-        <div class="card" id="profile-tile">
-            <div class="card-body active">
-                <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
-                    <a class="govuk-link card-link" href="/profile{{appendLanguage(queryParams)}}" track-tag-id="viewProfileTileLink" track-event-name="ProfileTileLink" data-qa="profile-tile-title">
-                        {{ t('profile-h1') }}
-                    </a>
-                </h2>
-                <p class="govuk-body">{{ t('overview-profile-p1') }}</p>
-                <br>
-            </div>
+      <div class="card" id="profile-tile">
+        <div class="card-body active">
+          <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
+            <a
+              class="govuk-link card-link"
+              href="/profile{{ appendLanguage(queryParams) }}"
+              track-tag-id="viewProfileTileLink"
+              track-event-name="ProfileTileLink"
+              data-qa="profile-tile-title"
+            >
+              {{ t('profile-h1') }}
+            </a>
+          </h2>
+          <p class="govuk-body">{{ t('overview-profile-p1') }}</p>
+          <br />
         </div>
+      </div>
     </div>
   </div>
-
 {% endblock %}
 
 {% block bodyEnd %}
