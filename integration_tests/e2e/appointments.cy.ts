@@ -2,6 +2,7 @@ import AppointmentsPage from '../pages/appointment'
 import StartPage from '../pages/start'
 import Page from '../pages/page'
 import OverviewPage from '../pages/overview'
+import { FeatureFlagKey } from '../../server/services/featureFlags'
 
 context('Appointments', () => {
   beforeEach(() => {
@@ -30,7 +31,7 @@ context('Appointments', () => {
 
   it('Should redirect to overview when appointments disabled', () => {
     cy.task('stubGetAppointments')
-    cy.task('disableAppointmentFlag')
+    cy.task('disableFlag', FeatureFlagKey.VIEW_APPOINTMENTS)
     cy.signIn()
     cy.visit('/appointments')
     Page.verifyOnPage(OverviewPage)

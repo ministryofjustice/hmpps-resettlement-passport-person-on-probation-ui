@@ -1,6 +1,7 @@
 import OverviewPage from '../pages/overview'
 import StartPage from '../pages/start'
 import Page from '../pages/page'
+import { FeatureFlagKey } from '../../server/services/featureFlags'
 
 context('Overview', () => {
   beforeEach(() => {
@@ -22,7 +23,7 @@ context('Overview', () => {
 
   it('Should not see nav link for appointments on any page when appointments disabled', () => {
     cy.signIn()
-    cy.task('disableAppointmentFlag')
+    cy.task('disableFlag', FeatureFlagKey.VIEW_APPOINTMENTS)
     // home
     cy.get('[data-qa="home-nav-link"]').click()
     cy.get('[data-qa="appointments-nav-link"]').should('not.be.visible')
@@ -61,7 +62,7 @@ context('Overview', () => {
   })
 
   it('Should not render alert box for todays appointments when flag disabled', () => {
-    cy.task('disableAppointmentFlag')
+    cy.task('disableFlag', FeatureFlagKey.VIEW_APPOINTMENTS)
     cy.task('stubGetAppointmentsToday')
     cy.signIn()
     Page.verifyOnPage(OverviewPage)
@@ -143,7 +144,7 @@ context('Overview', () => {
   })
 
   it('Should not be able to see the Appointments Tile when flag disabled', () => {
-    cy.task('disableAppointmentFlag')
+    cy.task('disableFlag', FeatureFlagKey.VIEW_APPOINTMENTS)
     cy.task('stubGetAppointments')
     cy.signIn()
 

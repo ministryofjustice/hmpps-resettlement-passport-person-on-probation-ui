@@ -22,7 +22,7 @@ context('Profile', () => {
     cy.signIn()
 
     // click sub navigation menu for profile
-    cy.get(':nth-child(4) > .moj-sub-navigation__link').click()
+    cy.get('[data-qa="profile-nav-link"]').click()
     cy.get('.govuk-heading-xl').contains('Profile')
 
     // fullname

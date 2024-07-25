@@ -21,8 +21,7 @@ context('Settings', () => {
   it('Should be able to see settings page and links', () => {
     cy.signIn()
 
-    // click sub navigation menu for profile
-    cy.get(':nth-child(5) > .moj-sub-navigation__link').click()
+    cy.get('[data-qa="settings-nav-link"]').click()
     cy.get('.govuk-heading-xl').contains('Settings')
 
     // change security link is set correctly

@@ -21,7 +21,7 @@
     </div>
 
     <!-- appointment tile -->
-    {% if viewAppointmentFlag %}
+    {% if flags.isEnabled('viewAppointmentsEndUser') %}
       <div class="govuk-grid-column-one-third">
         <div id="appointments-tile" class="card">
           <div class="card-body active govuk-!-padding-bottom-6">
