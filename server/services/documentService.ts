@@ -10,7 +10,11 @@ export default class DocumentService {
     return this.resettlementPassportClient.getLicenceConditionsDocuments(nomsId, sessionId)
   }
 
-  async pipeLicenceConditionsDocument(nomsId: string, docId: number, sessionId: string, pipeTo: NodeJS.WritableStream) {
-    await this.resettlementPassportClient.pipeLicenceConditionsDocument(nomsId, docId, sessionId, pipeTo)
+  async getLicenceConditionsDocument(
+    nomsId: string,
+    docId: number,
+    sessionId: string,
+  ): Promise<ReadableStream<Uint8Array>> {
+    return this.resettlementPassportClient.getLicenceConditionsDocument(nomsId, docId, sessionId)
   }
 }

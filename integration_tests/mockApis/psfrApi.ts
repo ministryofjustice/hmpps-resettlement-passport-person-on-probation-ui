@@ -367,4 +367,48 @@ export default {
         jsonBody: getBinaryResponse('R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='), // this is the base64 for a white image
       },
     }),
+  stubGetDocuments: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: '/rpApi/prisoner/G4161UF/documents?category=LICENCE_CONDITIONS',
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: [
+          {
+            id: 1,
+            fileName: 'conditions.pdf',
+          },
+        ],
+      },
+    }),
+  stubGetDocumentError: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: '/rpApi/prisoner/G4161UF/documents/1/download',
+      },
+      response: {
+        status: 500,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: {
+          status: 500,
+          userMessage: 'Something went wrong',
+        },
+      },
+    }),
+  stubGetDocument: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: '/rpApi/prisoner/G4161UF/documents/1/download',
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/pdf' },
+        body: 'fake pdf content',
+      },
+    }),
 }

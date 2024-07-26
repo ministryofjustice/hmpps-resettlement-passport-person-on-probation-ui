@@ -15,7 +15,7 @@ export default class DocumentsController {
     // no-op
   }
 
-  index: RequestHandler = async (req, res, next) => {
+  index: RequestHandler = async (req, res, _) => {
     const sessionId = req.sessionID
     const flags = await this.featureFlagsService.getFeatureFlags()
     if (!flags.isEnabled(FeatureFlagKey.DOCUMENTS)) {
@@ -56,7 +56,20 @@ export default class DocumentsController {
       return res.render('pages/notfound')
     }
 
-    res.setHeader('Content-Type', 'application/pdf')
-    return this.documentService.pipeLicenceConditionsDocument(verificationData.nomsId, docId, sessionId, res)
+    try {
+      const docResponse = await this.documentService.getLicenceConditionsDocument(
+        verificationData.nomsId,
+        docId,
+        sessionId,
+      )
+      res.setHeader('Content-Type', 'application/pdf')
+
+      for await (const chunk of docResponse) {
+        res.write(chunk)
+      }
+      return res.end()
+    } catch (error) {
+      return next(error)
+    }
   }
 }

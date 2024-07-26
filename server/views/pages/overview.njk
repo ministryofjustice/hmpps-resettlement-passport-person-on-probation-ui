@@ -97,26 +97,27 @@
     </div>
 
     <!-- Documents tile -->
-    <div class="govuk-grid-column-one-third">
-      <div class="card" id="documents-tile">
-        <div class="card-body active">
-          <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
-            <a
-              class="govuk-link card-link"
-              href="/documents{{ appendLanguage(queryParams) }}"
-              track-tag-id="viewDocumentsTileLink"
-              track-event-name="DocumentTileLink"
-              data-qa="document-tile-title"
-            >
-              {{ t('documents-h1') }}
-            </a>
-          </h2>
-          <p class="govuk-body">{{ t('overview-documents-p1') }}</p>
-          <br />
+    {% if flags.isEnabled('viewDocuments') %}
+      <div class="govuk-grid-column-one-third">
+        <div class="card" id="documents-tile">
+          <div class="card-body active">
+            <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
+              <a
+                class="govuk-link card-link"
+                href="/documents{{ appendLanguage(queryParams) }}"
+                track-tag-id="viewDocumentsTileLink"
+                track-event-name="DocumentTileLink"
+                data-qa="document-tile-title"
+              >
+                {{ t('documents-h1') }}
+              </a>
+            </h2>
+            <p class="govuk-body">{{ t('overview-documents-p1') }}</p>
+            <br />
+          </div>
         </div>
       </div>
-    </div>
-
+    {% endif %}
     <!-- profile tile -->
     <div class="govuk-grid-column-one-third">
       <div class="card" id="profile-tile">

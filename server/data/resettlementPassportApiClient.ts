@@ -143,10 +143,14 @@ export default class ResettlementPassportApiClient {
     }
   }
 
-  async pipeLicenceConditionsDocument(nomsId: string, docId: number, sessionId: string, pipeTo: NodeJS.WritableStream) {
+  async getLicenceConditionsDocument(
+    nomsId: string,
+    docId: number,
+    sessionId: string,
+  ): Promise<ReadableStream<Uint8Array>> {
     try {
       logger.debug(`SessionId: ${sessionId}. getLicenceConditionsDocument(${docId})`)
-      await this.restClient.pipe(pipeTo, {
+      return this.restClient.download({
         path: `/prisoner/${nomsId}/documents/${docId}/download`,
         headers: {
           SessionID: sessionId,
@@ -154,7 +158,7 @@ export default class ResettlementPassportApiClient {
       })
     } catch (error) {
       logger.error(`SessionId: ${sessionId}. Error fetching documents ${docId} for ${nomsId}`, error)
-      checkError(error)
+      throw error
     }
   }
 }
