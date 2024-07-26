@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { Services } from '../../services'
 import OverviewController from './overviewController'
+import asyncWrapper from '../../middleware/asyncWrapper'
 
 export default (router: Router, services: Services) => {
   const controller = new OverviewController(
@@ -9,5 +10,5 @@ export default (router: Router, services: Services) => {
     services.licenceConditionService,
     services.featureFlagsService,
   )
-  router.get('/overview', [controller.index])
+  router.get('/overview', [asyncWrapper(controller.index)])
 }

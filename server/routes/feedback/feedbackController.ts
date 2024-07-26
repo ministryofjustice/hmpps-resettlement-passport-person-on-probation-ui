@@ -89,7 +89,7 @@ export default class FeedbackController {
   submitReview: RequestHandler = async (req, res, next) => {
     try {
       if (!req.session.feedback) {
-        throw new Error('Missing feedback session data')
+        next(new Error('Missing feedback session data'))
       }
       const queryParams = req.query
       const { feedback } = req.session

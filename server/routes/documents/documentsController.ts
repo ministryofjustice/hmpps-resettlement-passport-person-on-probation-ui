@@ -56,20 +56,16 @@ export default class DocumentsController {
       return res.render('pages/notfound')
     }
 
-    try {
-      const docResponse = await this.documentService.getLicenceConditionsDocument(
-        verificationData.nomsId,
-        docId,
-        sessionId,
-      )
-      res.setHeader('Content-Type', 'application/pdf')
+    const docResponse = await this.documentService.getLicenceConditionsDocument(
+      verificationData.nomsId,
+      docId,
+      sessionId,
+    )
+    res.setHeader('Content-Type', 'application/pdf')
 
-      for await (const chunk of docResponse) {
-        res.write(chunk)
-      }
-      return res.end()
-    } catch (error) {
-      return next(error)
+    for await (const chunk of docResponse) {
+      res.write(chunk)
     }
+    return res.end()
   }
 }

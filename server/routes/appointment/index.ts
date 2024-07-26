@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { Services } from '../../services'
 import AppointmentController from './appointmentController'
+import asyncWrapper from '../../middleware/asyncWrapper'
 
 export default (router: Router, services: Services) => {
   const controller = new AppointmentController(
@@ -8,6 +9,6 @@ export default (router: Router, services: Services) => {
     services.userService,
     services.featureFlagsService,
   )
-  router.get('/appointments', [controller.index])
-  router.get('/appointments/:id', [controller.show])
+  router.get('/appointments', [asyncWrapper(controller.index)])
+  router.get('/appointments/:id', [asyncWrapper(controller.show)])
 }

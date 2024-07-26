@@ -22,7 +22,7 @@ export default async function requireUser(
   if (!isActive) {
     return '/sign-out-timed'
   }
-  setUserActivity(urn)
+  await setUserActivity(urn)
 
   return verificationData
 }

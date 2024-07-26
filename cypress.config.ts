@@ -73,6 +73,7 @@ export default defineConfig({
         overwriteFlags,
         disableFlag,
       })
+      on('after:run', () => restoreFlags())
     },
     baseUrl: 'http://localhost:3007',
     excludeSpecPattern: '**/!(*.cy).ts',
