@@ -15,7 +15,7 @@ export default class DocumentsController {
     // no-op
   }
 
-  index: RequestHandler = async (req, res, next) => {
+  index: RequestHandler = async (req, res, _) => {
     const sessionId = req.sessionID
     const flags = await this.featureFlagsService.getFeatureFlags()
     if (!flags.isEnabled(FeatureFlagKey.DOCUMENTS)) {
