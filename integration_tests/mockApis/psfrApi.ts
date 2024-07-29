@@ -388,7 +388,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: '/rpApi/prisoner/G4161UF/documents/1/download',
+        url: '/rpApi/prisoner/G4161UF/documents/latest/download?category=LICENCE_CONDITIONS',
       },
       response: {
         status: 500,
@@ -403,7 +403,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: '/rpApi/prisoner/G4161UF/documents/1/download',
+        url: '/rpApi/prisoner/G4161UF/documents/latest/download?category=LICENCE_CONDITIONS',
       },
       response: {
         status: 200,

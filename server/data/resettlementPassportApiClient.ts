@@ -3,13 +3,14 @@ import RestClient from './restClient'
 import config from '../config'
 import logger from '../../logger'
 
-import type {
+import {
   AppointmentData,
   LicenceConditionData,
   DocumentMeta,
   OtpDetailsResponse,
   OtpRequest,
   PersonalDetails,
+  UserDocumentType,
 } from './resettlementPassportData'
 import { checkError } from './checkError'
 
@@ -143,21 +144,17 @@ export default class ResettlementPassportApiClient {
     }
   }
 
-  async getLicenceConditionsDocument(
-    nomsId: string,
-    docId: number,
-    sessionId: string,
-  ): Promise<ReadableStream<Uint8Array>> {
+  async getDocument(nomsId: string, docType: UserDocumentType, sessionId: string): Promise<ReadableStream<Uint8Array>> {
     try {
-      logger.debug(`SessionId: ${sessionId}. getLicenceConditionsDocument(${docId})`)
+      logger.debug(`SessionId: ${sessionId}. getLicenceConditionsDocument(${docType})`)
       return this.restClient.download({
-        path: `/prisoner/${nomsId}/documents/${docId}/download`,
+        path: `/prisoner/${nomsId}/documents/latest/download?category=${docType}`,
         headers: {
           SessionID: sessionId,
         },
       })
     } catch (error) {
-      logger.error(`SessionId: ${sessionId}. Error fetching documents ${docId} for ${nomsId}`, error)
+      logger.error(`SessionId: ${sessionId}. Error fetching documents ${docType} for ${nomsId}`, error)
       throw error
     }
   }

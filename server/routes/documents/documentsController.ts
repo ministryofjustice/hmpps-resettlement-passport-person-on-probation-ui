@@ -1,10 +1,14 @@
 import { RequestHandler } from 'express'
-import type { DocumentMeta } from '../../data/resettlementPassportData'
+import { DocumentMeta, UserDocumentType } from '../../data/resettlementPassportData'
 import { FeatureFlagKey } from '../../services/featureFlags'
 import FeatureFlagsService from '../../services/featureFlagsService'
 import DocumentService from '../../services/documentService'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
+
+const docTypes: Record<string, UserDocumentType> = {
+  'licence-conditions.pdf': UserDocumentType.LICENCE_CONDITIONS,
+}
 
 export default class DocumentsController {
   constructor(
@@ -51,16 +55,12 @@ export default class DocumentsController {
       return res.redirect(verificationData)
     }
 
-    const docId = typeof req.params.docId === 'string' ? parseInt(req.params.docId, 10) : undefined
-    if (!docId) {
+    const requestedDocType = docTypes[req.params.docType]
+    if (!requestedDocType) {
       return res.render('pages/notfound')
     }
 
-    const docResponse = await this.documentService.getLicenceConditionsDocument(
-      verificationData.nomsId,
-      docId,
-      sessionId,
-    )
+    const docResponse = await this.documentService.getDocument(verificationData.nomsId, requestedDocType, sessionId)
     res.setHeader('Content-Type', 'application/pdf')
 
     for await (const chunk of docResponse) {

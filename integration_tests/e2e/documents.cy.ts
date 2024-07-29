@@ -40,21 +40,21 @@ context('Documents', () => {
     cy.get('.govuk-table__body > tr > td').eq(1).should('contain.text', 'Licence conditions')
     cy.get('.govuk-table__body > tr > td > a')
       .should('have.text', 'View document')
-      .should('have.attr', 'href', '/documents/1')
+      .should('have.attr', 'href', '/documents/licence-conditions.pdf')
   })
 
   it('Should redirect to error page when download fails', () => {
     cy.signIn()
     cy.task('stubGetDocumentError')
 
-    cy.visit('/documents/1')
+    cy.visit('/documents/licence-conditions.pdf')
     Page.verifyOnPage(ErrorPage)
   })
 
   it('Should download document', () => {
     cy.signIn()
     cy.task('stubGetDocument')
-    cy.request('/documents/1').should(response => {
+    cy.request('/documents/licence-conditions.pdf').should(response => {
       expect(response.headers['content-type']).eq('application/pdf')
       expect(response.body).eq('fake pdf content')
     })

@@ -10,5 +10,5 @@ export default (router: Router, services: Services) => {
     services.userService,
   )
   router.get('/documents', [asyncWrapper(controller.index)])
-  router.get('/documents/:docId', [asyncWrapper(controller.viewDocument)])
+  router.get('/documents/:docType', [asyncWrapper(controller.viewDocument)])
 }
