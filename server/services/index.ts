@@ -4,6 +4,7 @@ import FeatureFlagsService from './featureFlagsService'
 import LicenceConditionsService from './licenceConditionsService'
 import UserService from './userService'
 import ZendeskService from './zendeskService'
+import DocumentService from './documentService'
 
 export const services = () => {
   const { applicationInfo, resettlementPassportApiClient, personOnProbationUserApiClient, appInsightsClient } =
@@ -14,6 +15,7 @@ export const services = () => {
   const licenceConditionService = new LicenceConditionsService(resettlementPassportApiClient)
   const zendeskService = new ZendeskService()
   const featureFlagsService = new FeatureFlagsService()
+  const documentService = new DocumentService(resettlementPassportApiClient)
 
   return {
     applicationInfo,
@@ -23,6 +25,7 @@ export const services = () => {
     zendeskService,
     appInsightsClient,
     featureFlagsService,
+    documentService,
   }
 }
 

@@ -59,7 +59,7 @@
     }
   ],
 
-  "extends": ["airbnb-base", "plugin:prettier/recommended", "prettier"],
+  "extends": ["plugin:prettier/recommended", "prettier"],
 
   "rules": {
     "no-unused-vars": [
@@ -98,6 +98,7 @@
         "semi": false
       }
     ],
-    "no-empty-function": ["error", { "allow": ["constructors", "arrowFunctions"] }]
+    "no-empty-function": ["error", { "allow": ["constructors", "arrowFunctions"] }],
+    "no-restricted-syntax": 0
   }
 }

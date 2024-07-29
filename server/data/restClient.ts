@@ -1,8 +1,7 @@
-import { Readable } from 'stream'
-
 import Agent, { HttpsAgent } from 'agentkeepalive'
 import superagent from 'superagent'
 
+import { minutesToMilliseconds } from 'date-fns'
 import logger from '../../logger'
 import sanitiseError from '../sanitisedError'
 import type { ApiConfig } from '../config'
@@ -92,7 +91,7 @@ export default class RestClient {
         .query(query)
         .agent(this.agent)
         .use(restClientMetricsMiddleware)
-        .retry(2, (err, res) => {
+        .retry(2, (err, _) => {
           if (err) logger.info(`Retry handler found ${this.name} API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
@@ -125,7 +124,7 @@ export default class RestClient {
         .agent(this.agent)
         .query(query)
         .use(restClientMetricsMiddleware)
-        .retry(2, (err, res) => {
+        .retry(2, (err, _) => {
           if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
@@ -159,7 +158,7 @@ export default class RestClient {
         .agent(this.agent)
         .query(query)
         .use(restClientMetricsMiddleware)
-        .retry(2, (err, res) => {
+        .retry(2, (err, _) => {
           if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
@@ -188,7 +187,7 @@ export default class RestClient {
         .send(data)
         .agent(this.agent)
         .use(restClientMetricsMiddleware)
-        .retry(2, (err, res) => {
+        .retry(2, (err, _) => {
           if (retry === false) {
             return false
           }
@@ -231,7 +230,7 @@ export default class RestClient {
         .query(query)
         .agent(this.agent)
         .use(restClientMetricsMiddleware)
-        .retry(2, (err, res) => {
+        .retry(2, (err, _) => {
           if (err) logger.info(`Retry handler found ${this.name} API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
@@ -248,35 +247,20 @@ export default class RestClient {
     }
   }
 
-  async stream({ path = null, headers = {} }: StreamRequest = {}): Promise<Readable> {
-    logger.info(`${this.name} streaming: ${path}`)
-
+  async download({ path = null, headers = {} }: StreamRequest = {}): Promise<ReadableStream<Uint8Array>> {
     const token = await this.getCachedTokenOrRefresh()
-    return new Promise((resolve, reject) => {
-      superagent
-        .get(`${this.apiUrl()}${path}`)
-        .agent(this.agent)
-        .auth(token, { type: 'bearer' })
-        .use(restClientMetricsMiddleware)
-        .retry(2, (err, res) => {
-          if (err) logger.info(`Retry handler found ${this.name} API error with ${err.code} ${err.message}`)
-          return undefined // retry handler only for logging retries, not to influence retry logic
-        })
-        .timeout(this.timeoutConfig())
-        .set(headers)
-        .end((error, response) => {
-          if (error) {
-            logger.warn(sanitiseError(error), `Error calling ${this.name}`)
-            reject(error)
-          } else if (response) {
-            const s = new Readable()
-            // eslint-disable-next-line no-underscore-dangle,@typescript-eslint/no-empty-function
-            s._read = () => {}
-            s.push(response.body)
-            s.push(null)
-            resolve(s)
-          }
-        })
+    const response = await fetch(`${this.apiUrl()}${path}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        ...headers,
+      },
+      keepalive: true,
+      signal: AbortSignal.timeout(minutesToMilliseconds(5)),
     })
+
+    if (response.ok) {
+      return response.body
+    }
+    throw new Error(`Request failed with ${response.status} ${response.statusText}`)
   }
 }

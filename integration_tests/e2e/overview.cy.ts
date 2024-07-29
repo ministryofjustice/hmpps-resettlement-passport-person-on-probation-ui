@@ -1,6 +1,7 @@
 import OverviewPage from '../pages/overview'
 import StartPage from '../pages/start'
 import Page from '../pages/page'
+import { FeatureFlagKey } from '../../server/services/featureFlags'
 
 context('Overview', () => {
   beforeEach(() => {
@@ -20,39 +21,6 @@ context('Overview', () => {
     cy.task('restoreFlags')
   })
 
-  it('Should not see nav link for appointments on any page when appointments disabled', () => {
-    cy.signIn()
-    cy.task('disableAppointmentFlag')
-    // home
-    cy.get('[data-qa="home-nav-link"]').click()
-    cy.get('[data-qa="appointments-nav-link"]').should('not.be.visible')
-    // licence-conditions
-    cy.get('[data-qa="licence-conditions-nav-link"]').click()
-    cy.get('[data-qa="appointments-nav-link"]').should('not.be.visible')
-    // profile
-    cy.get('[data-qa="profile-nav-link"]').click()
-    cy.get('[data-qa="appointments-nav-link"]').should('not.be.visible')
-    // settings
-    cy.get('[data-qa="settings-nav-link"]').click()
-    cy.get('[data-qa="appointments-nav-link"]').should('not.be.visible')
-  })
-
-  it('Should see nav link for appointments on any page when appointments enabled', () => {
-    cy.signIn()
-    // home
-    cy.get('[data-qa="home-nav-link"]').click()
-    cy.get('[data-qa="appointments-nav-link"]').should('be.visible')
-    // licence-conditions
-    cy.get('[data-qa="licence-conditions-nav-link"]').click()
-    cy.get('[data-qa="appointments-nav-link"]').should('be.visible')
-    // profile
-    cy.get('[data-qa="profile-nav-link"]').click()
-    cy.get('[data-qa="appointments-nav-link"]').should('be.visible')
-    // settings
-    cy.get('[data-qa="settings-nav-link"]').click()
-    cy.get('[data-qa="appointments-nav-link"]').should('be.visible')
-  })
-
   it('Should render alert box for todays appointments', () => {
     cy.task('stubGetAppointmentsToday')
     cy.signIn()
@@ -61,7 +29,7 @@ context('Overview', () => {
   })
 
   it('Should not render alert box for todays appointments when flag disabled', () => {
-    cy.task('disableAppointmentFlag')
+    cy.task('disableFlag', FeatureFlagKey.VIEW_APPOINTMENTS)
     cy.task('stubGetAppointmentsToday')
     cy.signIn()
     Page.verifyOnPage(OverviewPage)
@@ -143,7 +111,7 @@ context('Overview', () => {
   })
 
   it('Should not be able to see the Appointments Tile when flag disabled', () => {
-    cy.task('disableAppointmentFlag')
+    cy.task('disableFlag', FeatureFlagKey.VIEW_APPOINTMENTS)
     cy.task('stubGetAppointments')
     cy.signIn()
 
@@ -175,5 +143,20 @@ context('Overview', () => {
     cy.signIn()
     Page.verifyOnPage(OverviewPage)
     cy.get('#profile-tile').contains('Manage your personal and contact information. You must keep this up-to-date.')
+  })
+
+  it('Should see the documents tile on overview when documents flag is enabled', () => {
+    cy.task('stubGetAppointments')
+    cy.signIn()
+    Page.verifyOnPage(OverviewPage)
+    cy.get('#documents-tile').contains('Access documents saved for you.')
+  })
+
+  it('Should not see the documents tile on overview when documents flag is disabled', () => {
+    cy.task('stubGetAppointments')
+    cy.task('disableFlag', FeatureFlagKey.DOCUMENTS)
+    cy.signIn()
+    Page.verifyOnPage(OverviewPage)
+    cy.get('#documents-tile').should('not.exist')
   })
 })

@@ -4,7 +4,8 @@ import AppointmentService from '../../services/appointmentService'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
 import { isFutureDate, getFutureAppointments } from '../../utils/utils'
-import FeatureFlagsService, { FeatureFlags } from '../../services/featureFlagsService'
+import FeatureFlagsService from '../../services/featureFlagsService'
+import { FeatureFlagKey } from '../../services/featureFlags'
 
 export default class AppointmentController {
   constructor(
@@ -15,8 +16,8 @@ export default class AppointmentController {
 
   index: RequestHandler = async (req, res, next) => {
     try {
-      const viewAppointmentFlag = await this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
-      if (!viewAppointmentFlag) {
+      const flags = await this.featureFlagsService.getFeatureFlags()
+      if (!flags.isEnabled(FeatureFlagKey.VIEW_APPOINTMENTS)) {
         return res.redirect('overview')
       }
 
@@ -38,7 +39,7 @@ export default class AppointmentController {
         user: req.user,
         futureAppointments,
         oldAppointments,
-        viewAppointmentFlag,
+        flags,
         queryParams,
       })
     } catch (err) {

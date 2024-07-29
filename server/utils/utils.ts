@@ -2,6 +2,7 @@
 import { addMinutes, compareAsc, format, isBefore, isFuture, isSameDay, isValid, parse } from 'date-fns'
 import { cy, enGB } from 'date-fns/locale'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
+import { FeatureFlags, FeatureFlagKey } from '../services/featureFlags'
 
 const properCase = (word: string): string =>
   word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
@@ -47,8 +48,8 @@ export const appendLanguage = (
   }>,
 ): string => appendLang(queryParams?.lang)
 
-export const hiddenClassOnFlag = (flag?: string): string => {
-  if (flag) {
+export const hiddenClassOnFlag = (flag: FeatureFlagKey, featureFlags: FeatureFlags): string => {
+  if (featureFlags.isEnabled(flag)) {
     return ''
   }
   return 'hidden'

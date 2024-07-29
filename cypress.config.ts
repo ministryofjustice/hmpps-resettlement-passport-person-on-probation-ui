@@ -1,54 +1,36 @@
 import { defineConfig } from 'cypress'
-import fs from 'fs'
+import fs from 'fs/promises'
 import { resetStubs } from './integration_tests/mockApis/wiremock'
 import govukOneLogin from './integration_tests/mockApis/govukOneLogin'
 import psfrApi from './integration_tests/mockApis/psfrApi'
 import popApi from './integration_tests/mockApis/popApi'
 import hmppsAuth from './integration_tests/mockApis/hmppsAuth'
 import zendeskApi from './integration_tests/mockApis/zendeskApi'
+import { Feature } from './server/services/featureFlags'
 
 const flagFilePath = './localstack/flags.json'
 const flagRestoreFilePath = './integration_tests/flags.restore.json'
 
-const flagsDisabled = [
-  {
-    feature: 'viewAppointmentsEndUser',
-    enabled: false,
-  },
-]
-
-const overwriteFlags = (content: string): Promise<boolean> => {
-  return new Promise((resolve, reject) => {
-    fs.writeFile(flagFilePath, content, 'utf8', err => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(true)
-      }
-    })
-  })
+const overwriteFlags = async (content: string): Promise<void> => {
+  await fs.writeFile(flagFilePath, content, { encoding: 'utf-8' })
 }
 
-const disableAppointmentFlag = (): Promise<boolean> => {
-  return new Promise((resolve, reject) => {
-    overwriteFlags(JSON.stringify(flagsDisabled))
-      .then(() => resolve(true))
-      .catch(err2 => reject(err2))
-  })
+const disableFlag = async (flagKey: string): Promise<boolean> => {
+  const flagsData = await fs.readFile(flagRestoreFilePath, { encoding: 'utf-8' })
+  const flags: Feature[] = JSON.parse(flagsData)
+  const flag = flags.find(f => f.feature === flagKey)
+
+  if (!flag) {
+    throw Error(`No flag ${flagKey} to disable`)
+  }
+  flag.enabled = false
+  await overwriteFlags(JSON.stringify(flags))
+  return true
 }
 
-const restoreFlags = (): Promise<boolean> => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(flagRestoreFilePath, 'utf8', (err, data) => {
-      if (err) {
-        reject(err)
-      } else {
-        overwriteFlags(data)
-          .then(() => resolve(true))
-          .catch(err2 => reject(err2))
-      }
-    })
-  })
+const restoreFlags = async (): Promise<boolean> => {
+  await fs.copyFile(flagRestoreFilePath, flagFilePath)
+  return true
 }
 
 const retries = process.env.CYPRESS_RETRIES || '1'
@@ -89,7 +71,7 @@ export default defineConfig({
         },
         restoreFlags,
         overwriteFlags,
-        disableAppointmentFlag,
+        disableFlag,
       })
     },
     baseUrl: 'http://localhost:3007',

@@ -3,7 +3,7 @@ import UserService from '../../services/userService'
 import requireUser from '../requireUser'
 import LicenceConditionsService from '../../services/licenceConditionsService'
 import { isDateInPast } from '../../utils/utils'
-import FeatureFlagsService, { FeatureFlags } from '../../services/featureFlagsService'
+import FeatureFlagsService from '../../services/featureFlagsService'
 
 export default class LicenceConditionsController {
   constructor(
@@ -21,7 +21,7 @@ export default class LicenceConditionsController {
         return res.redirect(verificationData)
       }
 
-      const viewAppointmentFlag = await this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
+      const flags = await this.featureFlagsService.getFeatureFlags()
 
       const licence = await this.licenceConditionsService.getLicenceConditionsByNomsId(
         verificationData.nomsId,
@@ -35,7 +35,7 @@ export default class LicenceConditionsController {
         licence,
         isExpired: isDateInPast(licence?.expiryDate),
         isLicenceChanged: licence?.changeStatus,
-        viewAppointmentFlag,
+        flags,
         isHomeDetention: prisoner?.personalDetails?.isHomeDetention,
         isRecall: prisoner?.personalDetails?.isRecall,
         queryParams,
@@ -71,7 +71,7 @@ export default class LicenceConditionsController {
         return res.redirect(verificationData)
       }
 
-      const viewAppointmentFlag = await this.featureFlagsService.getFeatureFlag(FeatureFlags.VIEW_APPOINTMENTS)
+      const flags = await this.featureFlagsService.getFeatureFlags()
       const licenceId = typeof req.params.licenceId === 'string' ? parseInt(req.params.licenceId, 10) : -1
       const conditionId = typeof req.params.conditionId === 'string' ? parseInt(req.params.conditionId, 10) : -1
 
@@ -91,7 +91,7 @@ export default class LicenceConditionsController {
         user: req.user,
         condition,
         image,
-        viewAppointmentFlag,
+        flags,
         queryParams,
       })
     } catch (err) {

@@ -14,6 +14,7 @@
 	"subnav-home": "Overview",
 	"subnav-appointments": "Appointments",
 	"subnav-licence-conditions": "Licence conditions",
+	"subnav-documents": "Documents",
 	"subnav-profile": "Profile",
 	"subnav-settings": "Settings",
 	"subnav-signout": "Sign out",
@@ -165,5 +166,11 @@
     "timedout-h1": "You have been signed out",
     "timedout-p1": "For your privacy and security you have been signed out.",
     "timedout-p2": "If you want to continue using Plan your future, you’ll need to go back to the start and sign in again.",
-    "timedout-link": "Return to start page"
+    "timedout-link": "Return to start page",
+    "documents-h1": "Your documents",
+    "overview-documents-p1": "Access documents saved for you.",
+    "documents-table-header-name": "Document name",
+    "documents-table-header-category": "Category",
+    "documents-table-header-action":  "Action",
+    "documents-table-view-doc": "View document"
 }

@@ -11,6 +11,7 @@ import feedbackRoutes from './feedback'
 import timeoutRoutes from './timeout'
 import analyticsRoutes from './analytics'
 import pagesRoutes from './pages'
+import documentsRoute from './documents/documentsRoute'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function routes(service: Services): Router {
@@ -25,5 +26,6 @@ export default function routes(service: Services): Router {
   timeoutRoutes(router, service)
   analyticsRoutes(router, service)
   pagesRoutes(router)
+  documentsRoute(router, service)
   return router
 }

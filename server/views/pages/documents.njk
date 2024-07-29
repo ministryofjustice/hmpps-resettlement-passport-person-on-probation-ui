@@ -1,0 +1,50 @@
+{% extends "../partials/layout.njk" %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "moj/components/ticket-panel/macro.njk" import mojTicketPanel %}
+{% import "../partials/alertBoxMacro.njk" as alertBox %}
+{% set pageTitle = "Licence Conditions" + titleHeading %}
+
+{% block beforeContent %}
+  {% set activePage = 'documents' %}
+  {% include "../partials/subnavigation.njk" %}
+{% endblock %}
+
+{% block content %}
+  <div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">{{ t('documents-h1') }}</h1>
+      </div>
+    </div>
+  </div>
+  {% if documents.length > 0 %}
+    {% set latest = documents[0] %}
+
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-full govuk-grid-column-two-thirds-from-desktop">
+        <br />
+
+        <table class="govuk-table">
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">{{ t('documents-table-header-name') }}</th>
+              <th scope="row" class="govuk-table__header">{{ t('documents-table-header-category') }}</th>
+              <th scope="row" class="govuk-table__header">{{ t('documents-table-header-action') }}</th>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">{{ latest.fileName }}</td>
+              <td class="govuk-table__cell">Licence conditions</td>
+              <td class="govuk-table__cell">
+                <a href="/documents/{{ latest.id }}" target="_blank" rel="noopener noreferrer">{{ t('documents-table-view-doc') }}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block bodyEnd %}
+  <script src="/assets/sessionMonitor.js"></script>
+{% endblock %}
