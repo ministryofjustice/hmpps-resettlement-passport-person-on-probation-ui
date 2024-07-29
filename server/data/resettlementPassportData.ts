@@ -89,3 +89,7 @@ export type DocumentMeta = {
   id: number
   originalDocumentFileName?: string
 }
+
+export const enum UserDocumentType {
+  LICENCE_CONDITIONS = 'LICENCE_CONDITIONS',
+}

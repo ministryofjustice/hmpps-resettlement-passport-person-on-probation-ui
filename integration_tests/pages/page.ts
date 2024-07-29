@@ -7,7 +7,7 @@ export default abstract class Page {
     return new constructor()
   }
 
-  constructor(
+  protected constructor(
     private readonly title: string,
     private readonly options: { axeTest?: boolean } = {
       axeTest: true,

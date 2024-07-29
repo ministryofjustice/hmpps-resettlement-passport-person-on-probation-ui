@@ -1,5 +1,5 @@
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
-import { DocumentMeta } from '../data/resettlementPassportData'
+import { DocumentMeta, UserDocumentType } from '../data/resettlementPassportData'
 
 export default class DocumentService {
   constructor(private readonly resettlementPassportClient: ResettlementPassportApiClient) {
@@ -10,11 +10,7 @@ export default class DocumentService {
     return this.resettlementPassportClient.getLicenceConditionsDocuments(nomsId, sessionId)
   }
 
-  async getLicenceConditionsDocument(
-    nomsId: string,
-    docId: number,
-    sessionId: string,
-  ): Promise<ReadableStream<Uint8Array>> {
-    return this.resettlementPassportClient.getLicenceConditionsDocument(nomsId, docId, sessionId)
+  async getDocument(nomsId: string, docId: UserDocumentType, sessionId: string): Promise<ReadableStream<Uint8Array>> {
+    return this.resettlementPassportClient.getDocument(nomsId, docId, sessionId)
   }
 }
