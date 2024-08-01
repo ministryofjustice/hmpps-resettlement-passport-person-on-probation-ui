@@ -1,5 +1,5 @@
 import { Given, setDefaultTimeout, Then } from '@cucumber/cucumber'
-import { expect, Page,BrowserContext } from '@playwright/test'
+import { expect, Page } from '@playwright/test'
 import { pageFixture } from '../../hooks/pageFixtures'
 import HomePage from '../../pageObjects/homePage'
 import {returnSecurityCode, returnCurrentCount, returnAccountClosed} from '../helpers/mailClient'
@@ -50,7 +50,6 @@ let dashboardPage: DashboardPage;
 let navigationPage: NavigationPage;
 let settingsPage: SettingsPage;
 let documentsPage: DocumentsPage;
-let context: BrowserContext
 
 const email = process.env.USEREMAIL
 const password = process.env.USERPASSWORD
