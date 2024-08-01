@@ -10,6 +10,7 @@ export default class NavigationPage {
   readonly profileLink: Locator;
   readonly settingsLink: Locator;
   readonly signOutLink: Locator;
+  readonly documentsLink: Locator;
   
 
   constructor(page: Page) {
@@ -20,6 +21,7 @@ export default class NavigationPage {
     this.licenceConditionsLink = page.locator('[data-qa="licence-conditions-nav-link"]');
     this.profileLink = page.locator('[data-qa="profile-nav-link"]');
     this.settingsLink = page.locator('[data-qa="settings-nav-link"]');
+    this.documentsLink = page.locator('[data-qa="documents-nav-link"]');
     this.signOutLink = page.locator('[data-qa="signOut"]');
   }
 

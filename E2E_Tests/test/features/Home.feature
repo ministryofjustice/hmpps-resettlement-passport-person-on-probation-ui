@@ -77,6 +77,12 @@ Feature: Home
     Then the user logs into their account who has completed account setup email "+1@gmail.com"
     Then the user Logs Out of the service
 
+@pdf
+  Scenario: 11) User logs into PYF in pre-existing account (only used for troubleshooting)
+    Given the user visit plan your future
+    Then the user logs into their account who has completed account setup email "+4@gmail.com"
+    Then the user views their Licence Conditions PDF
+    Then the user Logs Out of the service
 
 
 

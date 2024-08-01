@@ -1,5 +1,5 @@
 import { Given, setDefaultTimeout, Then } from '@cucumber/cucumber'
-import { expect, Page } from '@playwright/test'
+import { expect, Page,BrowserContext } from '@playwright/test'
 import { pageFixture } from '../../hooks/pageFixtures'
 import HomePage from '../../pageObjects/homePage'
 import {returnSecurityCode, returnCurrentCount, returnAccountClosed} from '../helpers/mailClient'
@@ -16,6 +16,7 @@ import CompleteAccountPage from '../../pageObjects/completeAccountPage'
 import DashboardPage from '../../pageObjects/dashboardPage'
 import NavigationPage from '../../pageObjects/navigationPage'
 import SettingsPage from '../../pageObjects/settingsPage'
+import DocumentsPage from '../../pageObjects/documentsPage'
 import GovOneChangedOTP from '../../pageObjects/govOne/govOneChangedOTP'
 import PyfFooter from '../../pageObjects/pyfFooter'
 import GovOneSecurityDetails from '../../pageObjects/govOne/govOneYourDetailsSecuityPage'
@@ -48,6 +49,8 @@ let completeAccountPage: CompleteAccountPage;
 let dashboardPage: DashboardPage;
 let navigationPage: NavigationPage;
 let settingsPage: SettingsPage;
+let documentsPage: DocumentsPage;
+let context: BrowserContext
 
 const email = process.env.USEREMAIL
 const password = process.env.USERPASSWORD
@@ -407,5 +410,27 @@ Then('delete account housekeeping email {string}', async function (gmail) {
   // no need to delete account if not in if statement.
   console.log('no account was to be deleted');
   }
+
+})
+
+Then('the user views their Licence Conditions PDF', async function () {
+
+  navigationPage = new NavigationPage(pageFixture.page);
+  documentsPage = new DocumentsPage(pageFixture.page);
+  await sleep(500)
+  await navigationPage.documentsLink.click();
+  await documentsPage.shouldFindTitle();
+  await documentsPage.viewDocumentLink.click();
+  console.log('viewDocuments link clicked');
+  
+  const pagePromise = pageFixture.page.context().waitForEvent('page');
+  const newPage = await pagePromise;
+  await sleep(5000)
+  console.log(newPage.url());
+  const url = newPage.url();
+  expect(url).toEqual('https://person-on-probation-user-ui-dev.hmpps.service.justice.gov.uk/documents/licence-conditions.pdf')  
+  await newPage.close();
+  await navigationPage.overviewLink.click();
+
 
 })
