@@ -1,4 +1,4 @@
-import { browser } from 'k6/experimental/browser'
+import { browser } from 'k6/browser'
 import { describe, expect } from 'https://jslib.k6.io/k6chaijs/4.3.4.3/index.js'
 import { sleep } from 'k6'
 import { Trend } from 'k6/metrics'
