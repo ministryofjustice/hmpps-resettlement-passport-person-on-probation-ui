@@ -4,12 +4,15 @@ import requireUser from '../requireUser'
 import LicenceConditionsService from '../../services/licenceConditionsService'
 import { isDateInPast } from '../../utils/utils'
 import FeatureFlagsService from '../../services/featureFlagsService'
+import DocumentService from '../../services/documentService'
+import { FeatureFlagKey } from '../../services/featureFlags'
 
 export default class LicenceConditionsController {
   constructor(
     private readonly licenceConditionsService: LicenceConditionsService,
     private readonly userService: UserService,
     private readonly featureFlagsService: FeatureFlagsService,
+    private readonly documentService: DocumentService,
   ) {}
 
   index: RequestHandler = async (req, res, next) => {
@@ -21,14 +24,20 @@ export default class LicenceConditionsController {
         return res.redirect(verificationData)
       }
 
-      const flags = await this.featureFlagsService.getFeatureFlags()
+      const [flags, licence, prisoner] = await Promise.all([
+        this.featureFlagsService.getFeatureFlags(),
+        this.licenceConditionsService.getLicenceConditionsByNomsId(verificationData.nomsId, sessionId),
+        this.userService.getByNomsId(verificationData.nomsId, req.user?.sub, sessionId),
+      ])
 
-      const licence = await this.licenceConditionsService.getLicenceConditionsByNomsId(
-        verificationData.nomsId,
-        sessionId,
-      )
-
-      const prisoner = await this.userService.getByNomsId(verificationData.nomsId, req.user?.sub, sessionId)
+      const isRecall = prisoner?.personalDetails?.isRecall === true
+      const isInactive = licence?.status !== 'ACTIVE'
+      let showDocument = false
+      if (flags.isEnabled(FeatureFlagKey.DOCUMENTS) && (isInactive || isDateInPast(licence?.expiryDate) || isRecall)) {
+        // Only look this up if there is no active licence conditions as we won't use it otherwise
+        const docs = await this.documentService.getLicenceConditionsDocuments(verificationData.nomsId, sessionId)
+        showDocument = docs?.length > 0
+      }
 
       return res.render('pages/licenceConditions', {
         user: req.user,
@@ -37,8 +46,10 @@ export default class LicenceConditionsController {
         isLicenceChanged: licence?.changeStatus,
         flags,
         isHomeDetention: prisoner?.personalDetails?.isHomeDetention,
-        isRecall: prisoner?.personalDetails?.isRecall,
+        isRecall,
         queryParams,
+        isInactive,
+        showDocument,
       })
     } catch (err) {
       return next(err)

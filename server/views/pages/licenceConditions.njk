@@ -11,8 +11,23 @@
 {% endblock %}
 
 {% block content %}
-
-    {% if isRecall %}
+    {% if showDocument  %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-xl" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
+            </div>
+        </div>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <p data-qa="licence-conditions-document-link">
+                    {{ t('licence-conditions-document-part1') }} <a href="/documents/licence-conditions.pdf" target="_blank" rel="noopener noreferrer">{{ t('licence-conditions-document-link') }}</a>.
+                </p>
+                <p data-qa="licence-conditions-document-message">
+                    {{ t('licence-conditions-document-part2') }}
+                </p>
+            </div>
+        </div>
+    {% elif isRecall or isInactive %}
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
@@ -20,12 +35,9 @@
         </div>
 
         <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds" data-qa="licence-conditions-recall">
-                {{ govukWarningText({
-                    text: t('licence-conditions-recall-h'),
-                    iconFallbackText: t('generic-page-warning')
-                }) }}
-                 <p>{{ t('licence-conditions-recall-p') }}</p>
+            <div class="govuk-grid-column-two-thirds" data-qa="licence-conditions-unavailable">
+                 <p> {{ t('licence-conditions-unavailable-1') }}</p>
+                 <p>{{ t('licence-conditions-unavailable-2') }}</p>
             </div>
         </div>
     {% elif isExpired %}
@@ -52,14 +64,14 @@
                 }) }}
 
                 {% if isHomeDetention %}
-                    <p>{{ t('licence-conditions-home-dentention-p1') }}</p>
-                    <h2 class="govuk-heading-m govuk-!-margin-top-8" data-qa="home-detention-heading">{{ t('licence-conditions-home-dentention-h2') }}</h2>
-                    <p>{{ t('licence-conditions-home-dentention-ul') }}</p>
+                    <p>{{ t('licence-conditions-home-detention-p1') }}</p>
+                    <h2 class="govuk-heading-m govuk-!-margin-top-8" data-qa="home-detention-heading">{{ t('licence-conditions-home-detention-h2') }}</h2>
+                    <p>{{ t('licence-conditions-home-detention-ul') }}</p>
                     <ul class="govuk-body-m govuk-!-margin-top-4">
-                        <li>{{ t('licence-conditions-home-dentention-li1') }}</li>
-                        <li>{{ t('licence-conditions-home-dentention-li2') }}</li>
+                        <li>{{ t('licence-conditions-home-detention-li1') }}</li>
+                        <li>{{ t('licence-conditions-home-detention-li2') }}</li>
                     </ul>
-                    <p>{{ t('licence-conditions-home-dentention-p2') }}</p>
+                    <p>{{ t('licence-conditions-home-detention-p2') }}</p>
                 {% else %}
                     <p>{{ t('licence-conditions-p1') }}</p>
                     <p>{{ t('licence-conditions-p2') }}</p>
@@ -121,8 +133,8 @@
                     {{ mojTicketPanel({
                         items: [{
                             html: '<h2 class="govuk-heading-m govuk-!-margin-bottom-2">' + t('licence-conditions-confirm-title') + '</h2>
-                            <button type="submit" class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button" 
-                                data-qa="licence-conditions-confirm-btn" track-tag-id="licenceConditionsConfirmBtn" track-event-name="LicenceUpdateConfirmed">' 
+                            <button type="submit" class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button"
+                                data-qa="licence-conditions-confirm-btn" track-tag-id="licenceConditionsConfirmBtn" track-event-name="LicenceUpdateConfirmed">'
                             + t('licence-conditions-confirm-btn') + '</button>',
                             attributes: {
                             'aria-label': t('licence-conditions-confirm-btn')

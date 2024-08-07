@@ -8,6 +8,7 @@ export default (router: Router, services: Services) => {
     services.licenceConditionService,
     services.userService,
     services.featureFlagsService,
+    services.documentService,
   )
   router.get('/licence-conditions', [asyncWrapper(controller.index)])
   router.post('/licence-conditions', [asyncWrapper(controller.confirm)])
