@@ -52,6 +52,7 @@ context('Licence conditions', () => {
 
   it('Should see the additional licence conditions statement for recall', () => {
     cy.task('stubGetLicenceConditions')
+    cy.task('stubGetDocumentsEmpty')
     cy.task('stubGetPopUserDetailsWithRecall')
     cy.signIn()
 
@@ -59,13 +60,14 @@ context('Licence conditions', () => {
     cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
     Page.verifyOnPage(LicencePage)
 
-    cy.get('[data-qa="licence-conditions-recall"]').contains(
-      'We cannot show your licence conditions. A replacement document will be provided by your probation officer.',
+    cy.get('[data-qa="licence-conditions-unavailable"]').contains(
+      'We are not able to show your licence conditions. Please check your paper copy or speak to your probation worker if you have questions about your licence conditions.',
     )
   })
 
   it('Should see alternative text when licence conditions missing', () => {
     cy.task('stubGetLicenceConditionsMissing')
+    cy.task('stubGetDocumentsEmpty')
     cy.signIn()
 
     // click sub navigation menu for licence conditions
@@ -74,13 +76,14 @@ context('Licence conditions', () => {
 
     cy.get('[data-qa="licence-conditions-dates"]').should('not.exist')
 
-    cy.get('[data-qa="licence-conditions-not-found-msg"]').contains(
-      'We cannot show your licence conditions. Ask your probation officer for details.',
+    cy.get('[data-qa="licence-conditions-unavailable').contains(
+      'We are not able to show your licence conditions. Please check your paper copy or speak to your probation worker if you have questions about your licence conditions.',
     )
   })
 
   it('Should see alternative text when licence conditions expired', () => {
     cy.task('stubGetLicenceConditionsExpired')
+    cy.task('stubGetDocumentsEmpty')
     cy.signIn()
 
     // click sub navigation menu for licence conditions
@@ -104,6 +107,7 @@ context('Licence conditions', () => {
 
   it('Should not see alert message when licence conditions changed and expired', () => {
     cy.task('stubGetLicenceConditionsChangedAndExpired')
+    cy.task('stubGetDocumentsEmpty')
     cy.signIn()
 
     // click sub navigation menu for licence conditions
@@ -112,6 +116,58 @@ context('Licence conditions', () => {
 
     cy.contains('Your licence conditions ended on 12 July 1999.')
     cy.get('alert-box-licence-changed-msg').should('not.exist')
+  })
+
+  it('should see link to document when licence conditions are inactive and document is available', () => {
+    cy.task('stubGetLicenceConditions')
+    cy.task('stubGetPopUserDetailsWithRecall')
+    cy.task('stubGetDocuments')
+    cy.signIn()
+
+    // click sub navigation menu for licence conditions
+    cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(LicencePage)
+
+    cy.get('[data-qa="licence-conditions-document-link"]').contains('You can download your licence conditions.')
+    cy.get('[data-qa="licence-conditions-document-link"] > a').should(
+      'have.attr',
+      'href',
+      '/documents/licence-conditions.pdf',
+    )
+  })
+
+  it('should see link to document when licence conditions are expired and document is available', () => {
+    cy.task('stubGetLicenceConditionsChangedAndExpired')
+    cy.task('stubGetDocuments')
+    cy.signIn()
+
+    // click sub navigation menu for licence conditions
+    cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(LicencePage)
+
+    cy.get('[data-qa="licence-conditions-document-link"]').contains('You can download your licence conditions.')
+    cy.get('[data-qa="licence-conditions-document-link"] > a').should(
+      'have.attr',
+      'href',
+      '/documents/licence-conditions.pdf',
+    )
+  })
+
+  it('should see link to document when user has been recalled previously and document is available', () => {
+    cy.task('stubGetLicenceConditionsChangedAndExpired')
+    cy.task('stubGetDocuments')
+    cy.signIn()
+
+    // click sub navigation menu for licence conditions
+    cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(LicencePage)
+
+    cy.get('[data-qa="licence-conditions-document-link"]').contains('You can download your licence conditions.')
+    cy.get('[data-qa="licence-conditions-document-link"] > a').should(
+      'have.attr',
+      'href',
+      '/documents/licence-conditions.pdf',
+    )
   })
 
   it('Should see licence conditions details', () => {

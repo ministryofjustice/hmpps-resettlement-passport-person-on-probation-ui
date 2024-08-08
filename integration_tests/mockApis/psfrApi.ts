@@ -15,10 +15,10 @@ const getYesterdaysDate = () => {
   return yesterday
 }
 
-const mockedLicenceConditions = (expiryDate, changed = false) => {
+const mockedLicenceConditions = (expiryDate, changed = false, status = 'ACTIVE') => {
   return {
     licenceId: 101,
-    status: 'ACTIVE',
+    status: status,
     startDate: '20/08/2023',
     expiryDate,
     standardLicenceConditions: [
@@ -319,6 +319,18 @@ export default {
         jsonBody: mockedLicenceConditions('12/07/2199', true),
       },
     }),
+  stubGetLicenceConditionsInactive: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: mockedLicenceConditions('12/07/2199', false, 'INACTIVE'),
+      },
+    }),
   stubGetLicenceConditionsChangedAndExpired: (): SuperAgentRequest =>
     stubFor({
       request: {
@@ -382,6 +394,18 @@ export default {
             fileName: 'conditions.pdf',
           },
         ],
+      },
+    }),
+  stubGetDocumentsEmpty: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: '/rpApi/prisoner/G4161UF/documents?category=LICENCE_CONDITIONS',
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: [],
       },
     }),
   stubGetDocumentError: (): SuperAgentRequest =>
