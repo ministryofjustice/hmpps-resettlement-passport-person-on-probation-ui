@@ -29,6 +29,7 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'Plan your future'
   app.locals.titleHeading = ` - ${app.locals.applicationName} - GOV.UK`
+  app.locals.enableApplicationInsights = config.enableApplicationInsights
 
   // will add a no-index meta tag unless the environment is production
   if (config.environmentName !== 'PRODUCTION') {
