@@ -28,5 +28,13 @@ generic-service:
     ENVIRONMENT_NAME: PRODUCTION
     FEATURE_FLAG_ENABLED: "true"
 
+  allowlist:
+    groups:
+      - internal
+      - prisons
+      - private_prisons
+
 generic-prometheus-alerts:
   alertSeverity: hmpps-resettlement-passport-prod
+
+  
