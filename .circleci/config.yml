@@ -363,7 +363,7 @@ workflows:
       - request-preprod-approval:
           type: approval
           requires:
-            - e2e_test
+            - deploy_dev
       - hmpps/deploy_env:
           name: deploy_preprod
           env: "preprod"
