@@ -35,6 +35,7 @@ generic-service:
       - internal
       - prisons
       - private_prisons
+      - circleci
 
 generic-prometheus-alerts:
   alertSeverity: hmpps-resettlement-passport-non-prod
