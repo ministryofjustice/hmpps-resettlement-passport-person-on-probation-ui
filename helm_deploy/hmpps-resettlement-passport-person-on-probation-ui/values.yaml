@@ -69,7 +69,6 @@ generic-service:
     s3-bucket-output:
       FEATURE_FLAG_BUCKET: "bucket_name"
       
-  allowlist: null
 
 generic-prometheus-alerts:
   targetApplication: hmpps-resettlement-passport-person-on-probation-ui

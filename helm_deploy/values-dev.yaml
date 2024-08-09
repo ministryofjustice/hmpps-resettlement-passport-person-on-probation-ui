@@ -39,9 +39,3 @@ generic-prometheus-alerts:
   alertSeverity: hmpps-resettlement-passport-non-prod
 
 deploy_grafana_dashboards: true
-
-  allowlist:
-    groups:
-      - internal
-      - prisons
-      - private_prisons
