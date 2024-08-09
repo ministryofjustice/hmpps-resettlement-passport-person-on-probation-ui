@@ -30,5 +30,13 @@ generic-service:
     GOVUK_ONE_LOGIN_JWKS_URL: "https://oidc.integration.account.gov.uk/.well-known/jwks.json"
     FEATURE_FLAG_ENABLED: "true"
 
+  allowlist:
+    groups:
+      - internal
+      - prisons
+      - private_prisons
+
 generic-prometheus-alerts:
   alertSeverity: hmpps-resettlement-passport-non-prod
+
+
