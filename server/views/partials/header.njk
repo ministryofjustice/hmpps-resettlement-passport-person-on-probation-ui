@@ -1,8 +1,10 @@
 {% from "govuk/components/tag/macro.njk" import govukTag %}
 {% from "govuk/components/header/macro.njk" import govukHeader %}
 
-{{ govukHeader({
-  homepageUrl: "https://www.gov.uk",
-  serviceName: applicationName,
-  serviceUrl: "/"
-}) }}
+{{
+  govukHeader({
+    homepageUrl: "https://www.gov.uk",
+    serviceName: applicationName,
+    serviceUrl: "/"
+  })
+}}

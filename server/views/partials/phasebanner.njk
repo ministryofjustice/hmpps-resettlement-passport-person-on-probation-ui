@@ -1,8 +1,10 @@
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
-{{ govukPhaseBanner({
-    tag: {
-        text: "BETA"
-    },
-    html: t('phase-banner-text')
-}) }}
-<hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-0 ">
+{{
+  govukPhaseBanner({
+      tag: {
+          text: "BETA"
+      },
+      html: t('phase-banner-text')
+  })
+}}
+<hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-0 " />

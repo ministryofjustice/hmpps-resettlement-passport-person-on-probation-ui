@@ -1,42 +1,46 @@
 {% extends "../partials/layout.njk" %}
-
 {% set pageTitle = "Licence Conditions" + titleHeading %}
 
 {% block beforeContent %}
-    {% set activePage = 'licence-conditions' %}
-    {% include "../partials/subnavigation.njk" %}
+  {% set activePage = 'licence-conditions' %}
+  {% include "../partials/subnavigation.njk" %}
 {% endblock %}
 
 {% block content %}
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full govuk-!-padding-bottom-6">
-            <a id="back-licence-details-link" href="/licence-conditions{{appendLanguage(queryParams)}}">{{ t('licence-conditions-back') }}</a>
-        </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-!-padding-bottom-6">
+      <a id="back-licence-details-link" href="/licence-conditions{{ appendLanguage(queryParams) }}"
+        >{{ t('licence-conditions-back') }}</a
+      >
     </div>
+  </div>
 
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-            <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="licence-conditions-details-page-title">{{ t('licence-conditions-map-h1') }}</h1>
-        </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="licence-conditions-details-page-title">
+        {{ t('licence-conditions-map-h1') }}
+      </h1>
     </div>
+  </div>
 
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-8">
-            <p>{{ t('licence-conditions-restrictions-p1') }}</p>
-            <p>{{ t('licence-conditions-restrictions-p2') }}</p>
-            <div class="govuk-!-padding-bottom-6">
-                <img id="licence-conditions-map" src="data:image/png;base64,{{image}}" class="govuk-!-margin-bottom-4" alt="{{ t('licence-conditions-restrictions-img') }}"/>
-                <h2 class="govuk-heading-m">{{ t('licence-conditions-restrictions-h2') }}</h2>
-                <div class="govuk-inset-text">
-                    <p id="licence-conditions-text">
-                        {{condition.text}}
-                    </p>
-                </div>
-            </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-8">
+      <p>{{ t('licence-conditions-restrictions-p1') }}</p>
+      <p>{{ t('licence-conditions-restrictions-p2') }}</p>
+      <div class="govuk-!-padding-bottom-6">
+        <img
+          id="licence-conditions-map"
+          src="data:image/png;base64,{{ image }}"
+          class="govuk-!-margin-bottom-4"
+          alt="{{ t('licence-conditions-restrictions-img') }}"
+        />
+        <h2 class="govuk-heading-m">{{ t('licence-conditions-restrictions-h2') }}</h2>
+        <div class="govuk-inset-text">
+          <p id="licence-conditions-text">{{ condition.text }}</p>
         </div>
-
+      </div>
     </div>
-
+  </div>
 {% endblock %}
 
 {% block bodyEnd %}

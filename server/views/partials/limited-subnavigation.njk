@@ -1,21 +1,24 @@
-  {%- from "moj/components/sub-navigation/macro.njk" import mojSubNavigation -%}
-  
-  <aside role="complementary">
-    {% include "./phasebanner.njk" %}
-    {% block aside %}{% endblock %}
-  </aside>
+{%- from "moj/components/sub-navigation/macro.njk" import mojSubNavigation -%}
 
-  <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
+<aside role="complementary">
+  {% include "./phasebanner.njk" %}
+  {% block aside %}
+  {% endblock %}
+</aside>
 
- {% if user %}
-    {{ mojSubNavigation({
+<span class="govuk-visually-hidden" id="{{ pageId }}"></span>
+
+{% if user %}
+  {{
+    mojSubNavigation({
       label: t('subnav-label'),
       items: [{
         text: t('subnav-signout'),
         href: '/sign-out',
         attributes: {'data-qa': "signOut", 'track-tag-id': "navBarSignoutLink", "track-event-name": "UserSignOut" }
       }]
-    }) }}
-  {% else %}
-    <p class="govuk-!-margin-bottom-6"></p>
-  {% endif %}
+    })
+  }}
+{% else %}
+  <p class="govuk-!-margin-bottom-6"></p>
+{% endif %}

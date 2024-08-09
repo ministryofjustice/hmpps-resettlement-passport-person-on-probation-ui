@@ -1,22 +1,16 @@
 {% extends "../partials/layout.njk" %}
-
 {% set pageTitle = page.title + titleHeading %}
 
 {% block content %}
-
-    <div class="govuk-grid-row govuk-!-margin-top-8">
-        <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-xl" data-qa="accessibility-page-title">{{ page.title }}</h1>
-        </div>
+  <div class="govuk-grid-row govuk-!-margin-top-8">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl" data-qa="accessibility-page-title">{{ page.title }}</h1>
     </div>
+  </div>
 
-    <div class="govuk-grid-row govuk-!-padding-bottom-4">
+  <div class="govuk-grid-row govuk-!-padding-bottom-4">
+    <div class="govuk-grid-column-two-thirds">{{ page.bodyText | safe }}</div>
 
-        <div class="govuk-grid-column-two-thirds">
-            {{ page.bodyText | safe }}
-        </div>
-        
-        {% include "../partials/contentfulRelatedLinks.njk" %}
-    </div>
-
+    {% include "../partials/contentfulRelatedLinks.njk" %}
+  </div>
 {% endblock %}

@@ -1,5 +1,4 @@
 {% extends "../partials/layout.njk" %}
-
 {% set pageTitle = "Settings" + titleHeading %}
 
 {% block beforeContent %}
@@ -8,7 +7,6 @@
 {% endblock %}
 
 {% block content %}
-
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl" data-qa="settings-page-title">{{ t('settings-h1') }}</h1>
@@ -16,18 +14,18 @@
   </div>
 
   <div class="govuk-grid-row govuk-!-padding-bottom-8">
-
     <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">
-      {{ t('settings-h2') }}
-    </h2>
-     <p>{{ t('settings-p1') }} <a href="{{oneloginUrl}}/security?lng={{queryParams.lang}}" target+"_blank"  data-qa="change-onelogin-link">{{ t('settings-p1-btn') }}</a>.</p>
-     <p>{{ t('settings-p2') }}</p>
-     <p>{{ t('settings-p3') }}</p>
-
+      <h2 class="govuk-heading-m">{{ t('settings-h2') }}</h2>
+      <p>
+        {{ t('settings-p1') }}
+        <a href="{{ oneloginUrl }}/security?lng={{ queryParams.lang }}" target="_blank" data-qa="change-onelogin-link"
+          >{{ t('settings-p1-btn') }}</a
+        >.
+      </p>
+      <p>{{ t('settings-p2') }}</p>
+      <p>{{ t('settings-p3') }}</p>
     </div>
   </div>
-
 {% endblock %}
 
 {% block bodyEnd %}

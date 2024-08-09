@@ -1,62 +1,66 @@
 {% extends "govuk/template.njk" %}
 
 {% block head %}
-  <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>
+  <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet" />
   {% if addNoIndexTag %}
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="robots" content="noindex, nofollow" />
   {% endif %}
   {% if enableApplicationInsights %}
     {% include "./applicationInsightsScript.njk" %}
   {% endif %}
   <script src="/assets/analytics.js" nonce="{{ cspNonce }}"></script>
-
 {% endblock %}
 
-{% block pageTitle %}{{pageTitle | default(applicationName)}}
+{% block pageTitle %}
+  {{ pageTitle | default(applicationName) }}
 {% endblock %}
 
 {% block header %}
   {% include "./header.njk" %}
-  <meta name="csrf-token" content="{{ csrfToken }}">
+  <meta name="csrf-token" content="{{ csrfToken }}" />
 {% endblock %}
 
-{% block bodyStart %}{% endblock %}
+{% block bodyStart %}
+{% endblock %}
 
 {% block beforeContent %}
-    <aside role="complementary">
-      {% include "./phasebanner.njk" %}
-      {% block aside %}{% endblock %}
-    </aside>
-    <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
+  <aside role="complementary">
+    {% include "./phasebanner.njk" %}
+    {% block aside %}
+    {% endblock %}
+  </aside>
+  <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
 {% endblock %}
 
 {% block footer %}
-  {{ govukFooter({
-    meta: {
-      items: [
-        {
-          href: "/accessibility" + appendLanguage(queryParams),
-          text: t('footer-accessibility'),
-          attributes: {'data-qa': 'accessibility-link'}
-        },
-        {
-          href: "/cookies" + appendLanguage(queryParams),
-          text: t('footer-cookies'),
-          attributes: {'data-qa': 'cookies-link'}
-        },
-        {
-          href: "/feedback" + appendLanguage(queryParams),
-          text: t('footer-feedback'),
-          attributes: {'data-qa': 'feedback-link'}
-        },
-        {
-          href: "/privacy" + appendLanguage(queryParams),
-          text: t('footer-privacy'),
-          attributes: {'data-qa': 'privacy-policy-link'}
-        }
-      ]
-    }
-  }) }}
+  {{
+    govukFooter({
+      meta: {
+        items: [
+          {
+            href: "/accessibility" + appendLanguage(queryParams),
+            text: t('footer-accessibility'),
+            attributes: {'data-qa': 'accessibility-link'}
+          },
+          {
+            href: "/cookies" + appendLanguage(queryParams),
+            text: t('footer-cookies'),
+            attributes: {'data-qa': 'cookies-link'}
+          },
+          {
+            href: "/feedback" + appendLanguage(queryParams),
+            text: t('footer-feedback'),
+            attributes: {'data-qa': 'feedback-link'}
+          },
+          {
+            href: "/privacy" + appendLanguage(queryParams),
+            text: t('footer-privacy'),
+            attributes: {'data-qa': 'privacy-policy-link'}
+          }
+        ]
+      }
+    })
+  }}
 {% endblock %}
 
 {% block bodyEnd %}

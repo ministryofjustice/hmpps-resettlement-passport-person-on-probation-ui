@@ -2,154 +2,173 @@
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 {% from "moj/components/ticket-panel/macro.njk" import mojTicketPanel %}
 {% import "../partials/alertBoxMacro.njk" as alertBox %}
-
 {% set pageTitle = "Licence Conditions" + titleHeading %}
 
 {% block beforeContent %}
-    {% set activePage = 'licence-conditions' %}
-    {% include "../partials/subnavigation.njk" %}
+  {% set activePage = 'licence-conditions' %}
+  {% include "../partials/subnavigation.njk" %}
 {% endblock %}
 
 {% block content %}
-    {% if showDocument  %}
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-xl" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
-            </div>
-        </div>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <p data-qa="licence-conditions-document-link">
-                    {{ t('licence-conditions-document-part1') }} <a href="/documents/licence-conditions.pdf" target="_blank" rel="noopener noreferrer">{{ t('licence-conditions-document-link') }}</a>.
-                </p>
-                <p data-qa="licence-conditions-document-message">
-                    {{ t('licence-conditions-document-part2') }}
-                </p>
-            </div>
-        </div>
-    {% elif isRecall or isInactive %}
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-xl" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
-            </div>
-        </div>
+  {% if showDocument %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
+      </div>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <p data-qa="licence-conditions-document-link">
+          {{ t('licence-conditions-document-part1') }}
+          <a href="/documents/licence-conditions.pdf" target="_blank" rel="noopener noreferrer"
+            >{{ t('licence-conditions-document-link') }}</a
+          >.
+        </p>
+        <p data-qa="licence-conditions-document-message">{{ t('licence-conditions-document-part2') }}</p>
+      </div>
+    </div>
+  {% elif isRecall or isInactive %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
+      </div>
+    </div>
 
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds" data-qa="licence-conditions-unavailable">
-                 <p> {{ t('licence-conditions-unavailable-1') }}</p>
-                 <p>{{ t('licence-conditions-unavailable-2') }}</p>
-            </div>
-        </div>
-    {% elif isExpired %}
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-xl" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
-            </div>
-        </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds" data-qa="licence-conditions-unavailable">
+        <p>{{ t('licence-conditions-unavailable-1') }}</p>
+        <p>{{ t('licence-conditions-unavailable-2') }}</p>
+      </div>
+    </div>
+  {% elif isExpired %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
+      </div>
+    </div>
 
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <p data-qa="licence-conditions-expired">{{ t('licence-conditions-expired') }}
-                    {{licence.expiryDate | formatLicenceDate(queryParams.lang) }}.
-                </p>
-            </div>
-        </div>
-    {% else %}
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="licence-conditions-page-title">{{ t('licence-conditions-h1') }}</h1>
-                {{ govukWarningText({
-                text: t('licence-conditions-warning'),
-                iconFallbackText: "Warning"
-                }) }}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <p data-qa="licence-conditions-expired">
+          {{ t('licence-conditions-expired') }}
+          {{ licence.expiryDate | formatLicenceDate(queryParams.lang) }}.
+        </p>
+      </div>
+    </div>
+  {% else %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="licence-conditions-page-title">
+          {{ t('licence-conditions-h1') }}
+        </h1>
+        {{
+          govukWarningText({
+          text: t('licence-conditions-warning'),
+          iconFallbackText: "Warning"
+          })
+        }}
 
-                {% if isHomeDetention %}
-                    <p>{{ t('licence-conditions-home-detention-p1') }}</p>
-                    <h2 class="govuk-heading-m govuk-!-margin-top-8" data-qa="home-detention-heading">{{ t('licence-conditions-home-detention-h2') }}</h2>
-                    <p>{{ t('licence-conditions-home-detention-ul') }}</p>
-                    <ul class="govuk-body-m govuk-!-margin-top-4">
-                        <li>{{ t('licence-conditions-home-detention-li1') }}</li>
-                        <li>{{ t('licence-conditions-home-detention-li2') }}</li>
-                    </ul>
-                    <p>{{ t('licence-conditions-home-detention-p2') }}</p>
-                {% else %}
-                    <p>{{ t('licence-conditions-p1') }}</p>
-                    <p>{{ t('licence-conditions-p2') }}</p>
-                    <p>{{ t('licence-conditions-p3') }}</p>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="govuk-grid-row govuk-!-margin-top-8">
-
-            <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-8">
-                {% if licence %}
-                    <h2 class="govuk-heading-m" data-qa="licence-conditions-dates">{{ t('licence-conditions-expiry') }}
-                        {{licence.expiryDate | formatLicenceDate(queryParams.lang) }}</h2>
-                    <p>{{ t('licence-conditions-must') }}</p>
-                    <ul class="govuk-list govuk-list--spaced test">
-                        {% for x in licence.standardLicenceConditions %}
-                            <li>
-                                <div class="govuk-grid-row govuk-!-padding-bottom-6">
-                                    <div class="govuk-grid-column-full" data-qa="{{loop.index}}-licence-conditions-item">
-                                        {{loop.index}}. {{x.text}}
-                                    </div>
-                                </div>
-                                <hr>
-                            </li>
-                        {% endfor %}
-
-                        {% for y in licence.otherLicenseConditions %}
-                            <li>
-                                <div class="govuk-grid-row govuk-!-padding-bottom-6">
-                                    <div class="govuk-grid-column-full" data-qa="{{loop.index + licence.standardLicenceConditions.length }}-licence-conditions-item">
-                                        {{loop.index + licence.standardLicenceConditions.length }}. {{y.text}}
-                                    </div>
-                                    {% if y.image %}
-                                        <div class="govuk-grid-column-full govuk-!-margin-top-2">
-                                            <p>
-                                                <a id="condition-image-{{y.id}}-link" data-qa="{{loop.index + licence.standardLicenceConditions.length }}-licence-conditions-link" track-tag-id="viewLicenceConditionMapLink" track-event-name="LicenceConditionMap" href="/licence-conditions/{{licence.licenceId}}/condition/{{y.id}}{{appendLanguage(queryParams)}}">{{ t('licence-conditions-details') }}</a>
-                                            </p>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                <hr>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <p>{{ t('licence-conditions-p4') }}</p>
-                {% else %}
-                    <p data-qa="licence-conditions-not-found-msg">{{ t('licence-conditions-not-found') }}</p>
-                {% endif %}
-            </div>
-        </div>
-
-        {% if isLicenceChanged %}
-          <form class="form" action="/licence-conditions" method="post">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
-          <input type="hidden" name="version" value="{{ licence.version }}"/>
-            <div class="govuk-grid-row govuk-!-margin-bottom-8">
-                <div class="govuk-grid-column-two-thirds">
-                    {{ mojTicketPanel({
-                        items: [{
-                            html: '<h2 class="govuk-heading-m govuk-!-margin-bottom-2">' + t('licence-conditions-confirm-title') + '</h2>
-                            <button type="submit" class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button"
-                                data-qa="licence-conditions-confirm-btn" track-tag-id="licenceConditionsConfirmBtn" track-event-name="LicenceUpdateConfirmed">'
-                            + t('licence-conditions-confirm-btn') + '</button>',
-                            attributes: {
-                            'aria-label': t('licence-conditions-confirm-btn')
-                            },
-                            classes: 'moj-ticket-panel__content--blue'
-                        }]
-                    }) }}
-                </div>
-            </div>
-            </form>
+        {% if isHomeDetention %}
+          <p>{{ t('licence-conditions-home-detention-p1') }}</p>
+          <h2 class="govuk-heading-m govuk-!-margin-top-8" data-qa="home-detention-heading">
+            {{ t('licence-conditions-home-detention-h2') }}
+          </h2>
+          <p>{{ t('licence-conditions-home-detention-ul') }}</p>
+          <ul class="govuk-body-m govuk-!-margin-top-4">
+            <li>{{ t('licence-conditions-home-detention-li1') }}</li>
+            <li>{{ t('licence-conditions-home-detention-li2') }}</li>
+          </ul>
+          <p>{{ t('licence-conditions-home-detention-p2') }}</p>
+        {% else %}
+          <p>{{ t('licence-conditions-p1') }}</p>
+          <p>{{ t('licence-conditions-p2') }}</p>
+          <p>{{ t('licence-conditions-p3') }}</p>
         {% endif %}
-    {% endif %}
+      </div>
+    </div>
 
+    <div class="govuk-grid-row govuk-!-margin-top-8">
+      <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-8">
+        {% if licence %}
+          <h2 class="govuk-heading-m" data-qa="licence-conditions-dates">
+            {{ t('licence-conditions-expiry') }}
+            {{ licence.expiryDate | formatLicenceDate(queryParams.lang) }}
+          </h2>
+          <p>{{ t('licence-conditions-must') }}</p>
+          <ul class="govuk-list govuk-list--spaced test">
+            {% for x in licence.standardLicenceConditions %}
+              <li>
+                <div class="govuk-grid-row govuk-!-padding-bottom-6">
+                  <div class="govuk-grid-column-full" data-qa="{{ loop.index }}-licence-conditions-item">
+                    {{ loop.index }}. {{ x.text }}
+                  </div>
+                </div>
+                <hr />
+              </li>
+            {% endfor %}
+
+            {% for y in licence.otherLicenseConditions %}
+              <li>
+                <div class="govuk-grid-row govuk-!-padding-bottom-6">
+                  <div
+                    class="govuk-grid-column-full"
+                    data-qa="{{ loop.index + licence.standardLicenceConditions.length }}-licence-conditions-item"
+                  >
+                    {{ loop.index + licence.standardLicenceConditions.length }}. {{ y.text }}
+                  </div>
+                  {% if y.image %}
+                    <div class="govuk-grid-column-full govuk-!-margin-top-2">
+                      <p>
+                        <a
+                          id="condition-image-{{ y.id }}-link"
+                          data-qa="{{ loop.index + licence.standardLicenceConditions.length }}-licence-conditions-link"
+                          track-tag-id="viewLicenceConditionMapLink"
+                          track-event-name="LicenceConditionMap"
+                          href="/licence-conditions/{{ licence.licenceId }}/condition/{{ y.id }}{{ appendLanguage(queryParams) }}"
+                          >{{ t('licence-conditions-details') }}</a
+                        >
+                      </p>
+                    </div>
+                  {% endif %}
+                </div>
+                <hr />
+              </li>
+            {% endfor %}
+          </ul>
+          <p>{{ t('licence-conditions-p4') }}</p>
+        {% else %}
+          <p data-qa="licence-conditions-not-found-msg">{{ t('licence-conditions-not-found') }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if isLicenceChanged %}
+      <form class="form" action="/licence-conditions" method="post">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        <input type="hidden" name="version" value="{{ licence.version }}" />
+        <div class="govuk-grid-row govuk-!-margin-bottom-8">
+          <div class="govuk-grid-column-two-thirds">
+            {{
+              mojTicketPanel({
+                  items: [{
+                      html: '<h2 class="govuk-heading-m govuk-!-margin-bottom-2">' + t('licence-conditions-confirm-title') + '</h2>
+                      <button type="submit" class="govuk-button govuk-!-margin-bottom-1" data-module="govuk-button"
+                          data-qa="licence-conditions-confirm-btn" track-tag-id="licenceConditionsConfirmBtn" track-event-name="LicenceUpdateConfirmed">'
+                      + t('licence-conditions-confirm-btn') + '</button>',
+                      attributes: {
+                      'aria-label': t('licence-conditions-confirm-btn')
+                      },
+                      classes: 'moj-ticket-panel__content--blue'
+                  }]
+              })
+            }}
+          </div>
+        </div>
+      </form>
+    {% endif %}
+  {% endif %}
 {% endblock %}
 
 {% block bodyEnd %}
-    <script src="/assets/sessionMonitor.js"></script>
+  <script src="/assets/sessionMonitor.js"></script>
 {% endblock %}
