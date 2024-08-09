@@ -1,6 +1,5 @@
 {% extends "../partials/layout.njk" %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-
 {% set pageTitle = "Profile" + titleHeading %}
 
 {% block beforeContent %}
@@ -9,9 +8,6 @@
 {% endblock %}
 
 {% block content %}
-
-
-
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl" data-qa="profile-page-title">{{ t('profile-h1') }}</h1>
@@ -22,41 +18,41 @@
 
   <div class="govuk-grid-row govuk-!-padding-bottom-8">
     <div class="govuk-grid-column-two-thirds">
-    {{ govukSummaryList({
-        rows: [
-          {
-            key: {
-              text: t('profile-name')
+      {{
+        govukSummaryList({
+          rows: [
+            {
+              key: {
+                text: t('profile-name')
+              },
+              value: {
+                text: fullName | toProperCase,
+                classes: "profile-name"
+              }
             },
-            value: {
-              text: fullName | toProperCase,
-              classes: "profile-name"
-            }
-          },
-          {
-            key: {
-              text: t('profile-email')
+            {
+              key: {
+                text: t('profile-email')
+              },
+              value: {
+                html: email | orElse(t('profile-not-available')),
+                classes: "profile-email"
+              }
             },
-            value: {
-              html: email | orElse(t('profile-not-available')),
-              classes: "profile-email"
+            {
+              key: {
+                text: t('profile-mobile')
+              },
+              value: {
+                html: mobile | orElse(t('profile-not-available')),
+                classes: "profile-mobile"
+              }
             }
-          },
-          {
-            key: {
-              text: t('profile-mobile')
-            },
-            value: {
-              html: mobile | orElse(t('profile-not-available')),
-              classes: "profile-mobile"
-            }
-          }
-        ]
-      }) }}
-
+          ]
+        })
+      }}
     </div>
   </div>
-
 {% endblock %}
 
 {% block bodyEnd %}

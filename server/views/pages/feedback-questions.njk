@@ -3,8 +3,6 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
-
-
 {% set pageTitle = "Feedback" + titleHeading %}
 
 {% macro errorClass(field) -%}
@@ -17,25 +15,28 @@
 
 {% block content %}
 
-    {% if errors | length > 0 %}
-      {{ govukErrorSummary({
-    titleText: t('generic-error-summary'),
-    errorList: errors
-  }) }}
-    {% endif %}
+  {% if errors | length > 0 %}
+    {{
+      govukErrorSummary({
+        titleText: t('generic-error-summary'),
+        errorList: errors
+      })
+    }}
+  {% endif %}
 
-    <div class="govuk-grid-row govuk-!-padding-bottom-6">
-      <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl" data-qa="feedback-questions-page-title">{{ t('feedback-questions-feedback-page-title') }}</h1>
-        <form class="form" action="/feedback/questions/submit" method="post">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+  <div class="govuk-grid-row govuk-!-padding-bottom-6">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl" data-qa="feedback-questions-page-title">
+        {{ t('feedback-questions-feedback-page-title') }}
+      </h1>
+      <form class="form" action="/feedback/questions/submit" method="post">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
-          <p>
-          {{ t('feedback-questions-feedback-text') }}
-        </p>
+        <p>{{ t('feedback-questions-feedback-text') }}</p>
 
-          <div class="govuk-!-padding-top-8">
-            {{ govukRadios({
+        <div class="govuk-!-padding-top-8">
+          {{
+            govukRadios({
               id: "score",
               name: "score",
               fieldset: {
@@ -71,27 +72,31 @@
                   text: t('feedback-questions-very-dissatisfied')
                 }
               ]
-            }) }}
-          </div>
+            })
+          }}
+        </div>
 
-          <div class="govuk-!-padding-top-8">
-            {{ govukTextarea({
-                name: "details",
-                id: "details",
-                label: {
-                  text: t('feedback-questions-comments'),
-                  classes: "govuk-label--l",
-                  isPageHeading: true
-                },
-                hint: {
-                  text: t('feedback-questions-personal-information')
-                },
-                value: feedback.details
-              }) }}
-          </div>
+        <div class="govuk-!-padding-top-8">
+          {{
+            govukTextarea({
+              name: "details",
+              id: "details",
+              label: {
+                text: t('feedback-questions-comments'),
+                classes: "govuk-label--l",
+                isPageHeading: true
+              },
+              hint: {
+                text: t('feedback-questions-personal-information')
+              },
+              value: feedback.details
+            })
+          }}
+        </div>
 
-          <div class="govuk-!-padding-top-8">
-            {{ govukInput({
+        <div class="govuk-!-padding-top-8">
+          {{
+            govukInput({
               label: {
                 text: t('feedback-questions-name'),
                 classes: "govuk-label--l",
@@ -100,11 +105,13 @@
               id: "name",
               name: "name",
               value: feedback.name
-            }) }}
-          </div>
+            })
+          }}
+        </div>
 
-          <div class="govuk-!-padding-top-8">
-            {{ govukInput({
+        <div class="govuk-!-padding-top-8">
+          {{
+            govukInput({
               label: {
                 text:t('feedback-questions-email'),
                 classes: "govuk-label--l",
@@ -116,17 +123,16 @@
               errorMessage: {
                     text: emailError.message
               } if emailError
-            }) }}
-          </div>
+            })
+          }}
+        </div>
 
-          <div class="govuk-!-padding-top-4">
-            <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="feedback-questions-btn">
-          {{ t('feedback-questions-continue-btn') }}
-        </button>
-          </div>
-
-        </form>
-      </div>
+        <div class="govuk-!-padding-top-4">
+          <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="feedback-questions-btn">
+            {{ t('feedback-questions-continue-btn') }}
+          </button>
+        </div>
+      </form>
     </div>
-
-  {% endblock %}
+  </div>
+{% endblock %}

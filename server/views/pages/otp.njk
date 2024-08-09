@@ -2,7 +2,6 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
-
 {% set pageTitle = "Complete your account setup securely" + titleHeading %}
 
 {% macro errorClass(field) -%}
@@ -15,98 +14,97 @@
 
 {% block content %}
   {% if errors | length > 0 %}
-    {{ govukErrorSummary({
-    titleText: t('generic-error-summary'),
-    errorList: errors
-  }) }}
+    {{
+      govukErrorSummary({
+        titleText: t('generic-error-summary'),
+        errorList: errors
+      })
+    }}
   {% endif %}
 
   <div class="govuk-grid-row govuk-!-padding-bottom-6">
     <div class="govuk-grid-column-two-thirds">
-
       <form class="form" action="/otp/verify" method="post">
-        <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
         <h1 class="govuk-heading-xl">{{ t('otp-h1') }}</h1>
-        <div class="govuk-inset-text">
-          {{ t('otp-inset-1') }}
-        </div>
+        <div class="govuk-inset-text">{{ t('otp-inset-1') }}</div>
 
         <div class="govuk-!-margin-bottom-8">
-
           <div>
-            {{ govukInput({
-              hint: {
-                text: t('otp-hint-1')
-              },
-              inputmode: "text",
-              label: {
-                text: t('otp-label-1'),
-                isPageHeading: false,
-                classes: "govuk-fieldset__legend--m"
-              },
-              spellcheck: false,
-              errorMessage: {
-                text: otpError.message
-              } if otpError,
-              classes: "govuk-input--width-5",
-              name: "otp",
-              id: "otp"
-            }) }}
+            {{
+              govukInput({
+                hint: {
+                  text: t('otp-hint-1')
+                },
+                inputmode: "text",
+                label: {
+                  text: t('otp-label-1'),
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--m"
+                },
+                spellcheck: false,
+                errorMessage: {
+                  text: otpError.message
+                } if otpError,
+                classes: "govuk-input--width-5",
+                name: "otp",
+                id: "otp"
+              })
+            }}
           </div>
         </div>
 
         <div class="govuk-!-margin-bottom-8">
-        {{ govukDateInput({
-          id: "dob",
-          errorMessage: {
-            text: dobError.message
-          } if dobError,
-          namePrefix: "dob",
-          fieldset: {
-            legend: {
-              text: t('otp-label-2'),
-              isPageHeading: false,
-              classes: "govuk-fieldset__legend--m"
-            }
-          },
-          hint: {
-            text: t('otp-hint-2')
-          },
-          items: [
-            {
-              id: "dobDay",
-              name: "dobDay",
-              label: t('otp-input-day'),
-              classes: "govuk-input--width-2" + errorClass('dob'),
-              autocomplete: "bday-day"
-            },
-            {
-              id: "dobMonth",
-              name: "dobMonth",
-              label: t('otp-input-month'),
-              classes: "govuk-input--width-2" + errorClass('dob'),
-              autocomplete: "bday-month"
-            },
-            {
-              id: "dobYear",
-              name: "dobYear",
-              label: t('otp-input-year'),
-              classes: "govuk-input--width-4" + errorClass('dob'),
-              autocomplete: "bday-year"
-            }
-          ]
-        }) }}
-
+          {{
+            govukDateInput({
+              id: "dob",
+              errorMessage: {
+                text: dobError.message
+              } if dobError,
+              namePrefix: "dob",
+              fieldset: {
+                legend: {
+                  text: t('otp-label-2'),
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--m"
+                }
+              },
+              hint: {
+                text: t('otp-hint-2')
+              },
+              items: [
+                {
+                  id: "dobDay",
+                  name: "dobDay",
+                  label: t('otp-input-day'),
+                  classes: "govuk-input--width-2" + errorClass('dob'),
+                  autocomplete: "bday-day"
+                },
+                {
+                  id: "dobMonth",
+                  name: "dobMonth",
+                  label: t('otp-input-month'),
+                  classes: "govuk-input--width-2" + errorClass('dob'),
+                  autocomplete: "bday-month"
+                },
+                {
+                  id: "dobYear",
+                  name: "dobYear",
+                  label: t('otp-input-year'),
+                  classes: "govuk-input--width-4" + errorClass('dob'),
+                  autocomplete: "bday-year"
+                }
+              ]
+            })
+          }}
         </div>
 
         <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="otp-submit-btn">
           {{ t('otp-btn') }}
         </button>
-
       </form>
     </div>
   </div>
-
 {% endblock %}
 
 {% block bodyEnd %}

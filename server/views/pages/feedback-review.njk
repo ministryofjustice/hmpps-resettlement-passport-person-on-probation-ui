@@ -1,7 +1,6 @@
 {% extends "../partials/layout.njk" %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-
 {% set pageTitle = "Feedback" + titleHeading %}
 
 {% block beforeContent %}
@@ -9,102 +8,101 @@
 {% endblock %}
 
 {% block content %}
-    <div class="govuk-grid-row govuk-!-padding-bottom-6">
-      <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-row govuk-!-padding-bottom-6">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl" data-qa="feedback-review-page-title">
+        {{ t('feedback-questions-review-page-title') }}
+      </h1>
 
-        <h1 class="govuk-heading-xl" data-qa="feedback-review-page-title">{{ t('feedback-questions-review-page-title') }}</h1>
+      <form class="form" action="/feedback/complete" method="post">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
 
-        <form class="form" action="/feedback/complete" method="post">
-          <input type="hidden" name="_csrf" value="{{ csrfToken }}"/>
+        <div>
+          {{
+            govukSummaryList({
+              classes: "govuk-!-margin-bottom-9",
+              rows: [
+                {
+                  key: {
+                    text:  t('feedback-questions-overall-satisfaction')
+                  },
+                  value: {
+                    text: feedback.score
+                  },
+                  actions: {
+                    items: [
+                      {
+                        href: "/feedback/questions#rate",
+                        text:  t('feedback-questions-change'),
+                        visuallyHiddenText: t('feedback-questions-visually-hidden-satisfaction')
+                      }
+                    ]
+                  }
+                },
+                {
+                  key: {
+                    text: t('feedback-questions-comments')
+                  },
+                  value: {
+                    text: feedback.details
+                  },
+                  actions: {
+                    items: [
+                      {
+                        href: "/feedback/questions#details",
+                        text: t('feedback-questions-change'),
+                        visuallyHiddenText: t('feedback-questions-visually-hidden-comments')
+                      }
+                    ]
+                  }
+                },
+                {
+                  key: {
+                    text: t('feedback-questions-name')
+                  },
+                  value: {
+                    text: feedback.name
+                  },
+                  actions: {
+                    items: [
+                      {
+                        href: "/feedback/questions#name",
+                        text: t('feedback-questions-change'),
+                        visuallyHiddenText: t('feedback-questions-visually-hidden-name')
+                      }
+                    ]
+                  }
+                },
+                {
+                  key: {
+                    text: t('feedback-questions-email')
+                  },
+                  value: {
+                    text: feedback.email
+                  },
+                  actions: {
+                    items: [
+                      {
+                        href: "/feedback/questions#email",
+                        text: t('feedback-questions-change'),
+                        visuallyHiddenText: t('feedback-questions-visually-hidden-email')
+                      }
+                    ]
+                  }
+                }
+              ]
+            })
+          }}
+        </div>
 
-          <div>
-            {{ govukSummaryList({
-            classes: "govuk-!-margin-bottom-9",
-            rows: [
-              {
-                key: {
-                  text:  t('feedback-questions-overall-satisfaction')
-                },
-                value: {
-                  text: feedback.score
-                },
-                actions: {
-                  items: [
-                    {
-                      href: "/feedback/questions#rate",
-                      text:  t('feedback-questions-change'),
-                      visuallyHiddenText: t('feedback-questions-visually-hidden-satisfaction')
-                    }
-                  ]
-                }
-              },
-              {
-                key: {
-                  text: t('feedback-questions-comments')
-                },
-                value: {
-                  text: feedback.details
-                },
-                actions: {
-                  items: [
-                    {
-                      href: "/feedback/questions#details",
-                      text: t('feedback-questions-change'),
-                      visuallyHiddenText: t('feedback-questions-visually-hidden-comments')
-                    }
-                  ]
-                }
-              },
-              {
-                key: {
-                  text: t('feedback-questions-name')
-                },
-                value: {
-                  text: feedback.name
-                },
-                actions: {
-                  items: [
-                    {
-                      href: "/feedback/questions#name",
-                      text: t('feedback-questions-change'),
-                      visuallyHiddenText: t('feedback-questions-visually-hidden-name')
-                    }
-                  ]
-                }
-              },
-              {
-                key: {
-                  text: t('feedback-questions-email')
-                },
-                value: {
-                  text: feedback.email
-                },
-                actions: {
-                  items: [
-                    {
-                      href: "/feedback/questions#email",
-                      text: t('feedback-questions-change'),
-                      visuallyHiddenText: t('feedback-questions-visually-hidden-email')
-                    }
-                  ]
-                }
-              }
-            ]
-          }) }}
-          </div>
-
-          <div class="govuk-!-padding-bottom-6">
-        
+        <div class="govuk-!-padding-bottom-6">
           <p><b>{{ t('feedback-questions-before-submit') }}</b></p>
           <p>{{ t('feedback-questions-personal-information') }}</p>
-
-          </div>
-          <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="feedback-review-btn">
-         {{ t('feedback-questions-submit') }}
+        </div>
+        <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="feedback-review-btn">
+          {{ t('feedback-questions-submit') }}
         </button>
-
-        </form>
-      </div>
+      </form>
     </div>
-
-  {% endblock %}
+  </div>
+{% endblock %}

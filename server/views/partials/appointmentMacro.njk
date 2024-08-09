@@ -1,14 +1,13 @@
 {% macro render(appointment, loopIndex, lang) %}
-
   <div data-qa="appointment-box">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-full">
         <section id="appointment-details-section" class="govuk-summary-card govuk-!-margin-bottom-0">
           <header class="govuk-summary-card__title-wrapper">
-            <h3 class="govuk-heading-m govuk-summary-card__title" data-qa="{{loopIndex}}-appointment-duration">
-              {{appointment.time | formatTime(0, lang) }}
+            <h3 class="govuk-heading-m govuk-summary-card__title" data-qa="{{ loopIndex }}-appointment-duration">
+              {{ appointment.time | formatTime(0, lang) }}
               {% if appointment.duration %}
-                         - {{ appointment.time | formatTime(appointment.duration, lang) }}
+                - {{ appointment.time | formatTime(appointment.duration, lang) }}
               {% endif %}
             </h3>
           </header>
@@ -17,40 +16,55 @@
               <!-- Title -->
               <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">{{ t('appointments-sub-title') }}</dt>
-                <dd class="govuk-summary-list__value" data-qa="{{loopIndex}}-appointment-title">{{appointment.title}}</dd>
+                <dd class="govuk-summary-list__value" data-qa="{{ loopIndex }}-appointment-title">
+                  {{ appointment.title }}
+                </dd>
               </div>
               <!-- Location -->
               <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">{{ t('appointments-sub-location') }}</dt>
                 <dd class="govuk-summary-list__value">
                   {% if appointment.location | formatAppointmentLocation %}
-                    <span class="govuk-body-m" data-qa="{{loopIndex}}-appointment-location">
+                    <span class="govuk-body-m" data-qa="{{ loopIndex }}-appointment-location">
                       {{ appointment.location | formatAppointmentLocation }}
                     </span>
                     <p class="govuk-body">
-                      <a href="{{ appointment.location | mapsLinkFromAppointmentLocation }}" target="_blank" data-qa="{{loopIndex}}-appointment-map-link" track-tag-id="googleMapsLink" track-event-name="GoogleMapsLink" >
-                        {{ t('appointment-view-maps') }}</a>
+                      <a
+                        href="{{ appointment.location | mapsLinkFromAppointmentLocation }}"
+                        target="_blank"
+                        data-qa="{{ loopIndex }}-appointment-map-link"
+                        track-tag-id="googleMapsLink"
+                        track-event-name="GoogleMapsLink"
+                      >
+                        {{ t('appointment-view-maps') }}</a
+                      >
                     </p>
                   {% else %}
-                    <span class="govuk-body-m" data-qa="{{loopIndex}}-appointment-no-location">{{ t('appointment-no-address') }}</span>
+                    <span class="govuk-body-m" data-qa="{{ loopIndex }}-appointment-no-location"
+                      >{{ t('appointment-no-address') }}</span
+                    >
                   {% endif %}
-
                 </dd>
               </div>
               <!-- Contact -->
               <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">{{ t('appointments-sub-contact') }}</dt>
-                <dd class="govuk-summary-list__value" data-qa="{{loopIndex}}-appointment-contact">{{appointment.contact}}
+                <dd class="govuk-summary-list__value" data-qa="{{ loopIndex }}-appointment-contact">
+                  {{ appointment.contact }}
                   {% if appointment.contactEmail %}
-                ({{ t('appointment-email') }}
-                    <a href="mailto:{{appointment.contactEmail}}">{{appointment.contactEmail}}</a>)
-                {% endif %}
+                    ({{ t('appointment-email') }}
+                    <a href="mailto:{{ appointment.contactEmail }}">{{ appointment.contactEmail }}</a>)
+                  {% endif %}
                 </dd>
               </div>
               <!-- View Details HIDDEN: PLT-282, will be re-worked on in the near future
                 {% if showDetails == true %}
-                  <a href="/appointments/{{appointment.id}}{{appendLang(lang)}}" data-qa="{{loopIndex}}-appointment-details-link">{{ t('appointment-details') }}</a>
-                {% endif %}
+                <a
+                  href="/appointments/{{ appointment.id }}{{ appendLang(lang) }}"
+                  data-qa="{{ loopIndex }}-appointment-details-link"
+                  >{{ t('appointment-details') }}</a
+                >
+              {% endif %}
                 -->
             </dl>
           </div>

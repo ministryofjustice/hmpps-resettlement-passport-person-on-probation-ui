@@ -21,7 +21,7 @@
     "start-feature:dev": "concurrently -k -p \"[{name}]\" -n \"Views,TypeScript,Node,Sass,Json\" -c \"yellow.bold,cyan.bold,green.bold,blue.bold\" \"npm run watch-views\" \"npm run watch-ts\" \"npm run watch-node-feature\" \"npm run watch-sass\"",
     "lint": "eslint . --cache --max-warnings 0",
     "lint:fix": "npm run lint -- --fix",
-    "prettier": "npx prettier 'server/**/*.ts' 'integration_tests/**/*.ts' --check",
+    "prettier": "npx prettier 'server/**/*.ts' 'server/**/*.njk' 'integration_tests/**/*.ts' --check",
     "prettier:fix": "npm run prettier -- --write",
     "format": "npm run prettier:fix && npm run lint:fix",
     "typecheck": "tsc && tsc -p integration_tests",

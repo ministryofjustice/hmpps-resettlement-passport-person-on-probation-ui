@@ -1,6 +1,5 @@
 {% extends "../partials/layout.njk" %}
 {% import "../partials/appointmentMacro.njk" as appointmentMacro %}
-
 {% set pageTitle = "Appointments" + titleHeading %}
 
 {% block beforeContent %}
@@ -9,7 +8,6 @@
 {% endblock %}
 
 {% block content %}
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl" data-qa="appointments-page-title">{{ t('appointments-h1') }}</h1>
@@ -32,17 +30,18 @@
       </div>
     {% endif %}
     {% for item in futureAppointments %}
-    <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
+      <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
+        {% set currentFormatDate = item.date | formatDate(queryParams.lang) %}
+        {% set previousFormatDate = futureAppointments[loop.index0 - 1].date | formatDate(queryParams.lang) if loop.index0 > 0 else null %}
 
-      {% set currentFormatDate = item.date | formatDate(queryParams.lang) %}
-      {% set previousFormatDate = futureAppointments[loop.index0 - 1].date | formatDate(queryParams.lang) if loop.index0 > 0 else null %}
+        {% if loop.index0 == 0 or currentFormatDate != previousFormatDate %}
+          <h2 class="govuk-heading-m govuk-!-margin-top-4" data-qa="{{ loop.index }}-appointment-date">
+            {{ currentFormatDate }}
+          </h2>
+        {% endif %}
 
-      {% if loop.index0 == 0 or currentFormatDate != previousFormatDate %}
-        <h2 class="govuk-heading-m govuk-!-margin-top-4" data-qa="{{ loop.index }}-appointment-date">{{ currentFormatDate }}</h2>
-      {% endif %}
-
-      {{ appointmentMacro.render(item, loop.index, true, queryParams.lang) }}
-    </div>
+        {{ appointmentMacro.render(item, loop.index, true, queryParams.lang) }}
+      </div>
     {% endfor %}
 
     <!-- Past appointments -->
@@ -50,7 +49,13 @@
       <div class="govuk-grid-column-two-thirds govuk-!-padding-top-8">
         <details class="govuk-details" data-module="govuk-details">
           <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text" data-qa="view-older-appointments" track-tag-id="oldAppointmentsLink" track-event-name="OldAppointmentView">{{ t('appointments-view-older-appointments-text') }}</span>
+            <span
+              class="govuk-details__summary-text"
+              data-qa="view-older-appointments"
+              track-tag-id="oldAppointmentsLink"
+              track-event-name="OldAppointmentView"
+              >{{ t('appointments-view-older-appointments-text') }}</span
+            >
           </summary>
           <div class="govuk-details__text">
             {% for oldItem in oldAppointments %}
@@ -58,22 +63,23 @@
               {% set previousFormatDate = oldAppointments[loop.index0 - 1].date | formatDate(queryParams.lang) if loop.index0 > 0 else null %}
 
               {% if loop.index0 == 0 or currentFormatDate != previousFormatDate %}
-                <h2 class="govuk-heading-m govuk-!-margin-top-4" data-qa="{{ loop.index }}-old-appointment-date">{{ currentFormatDate }}</h2>
+                <h2 class="govuk-heading-m govuk-!-margin-top-4" data-qa="{{ loop.index }}-old-appointment-date">
+                  {{ currentFormatDate }}
+                </h2>
               {% endif %}
-              
+
               {{ appointmentMacro.render(oldItem, loop.index, queryParams.lang) }}
               {% if loop.index < oldAppointments.length %}
-              </br>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </details>
-    </div>
-  {% endif %}
-</div>
-
+                <br />
+              {% endif %}
+            {% endfor %}
+          </div>
+        </details>
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}
 
 {% block bodyEnd %}
-<script src="/assets/sessionMonitor.js"></script>
+  <script src="/assets/sessionMonitor.js"></script>
 {% endblock %}
