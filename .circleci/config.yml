@@ -102,6 +102,8 @@ jobs:
             pip install -r ./security_test/requirements.txt
             playwright install --with-deps
             python3 ./security_test/test_security.py
+      - store_artifacts:
+          path: test_results/zap_report.html
 
   e2e_test:
     circleci_ip_ranges: true
