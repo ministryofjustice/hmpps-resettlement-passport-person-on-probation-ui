@@ -49,11 +49,18 @@ Feature: Home
     Then the user deletes their Gov One Account after logging in
 
 @ignore
-  Scenario: 11) User logs into PYF in pre-existing account (only used for troubleshooting)
+  Scenario: 0) User logs into PYF in pre-existing account (only used for troubleshooting)
     Given the user visit plan your future
     Then the user logs into their account who has completed account setup email "+1@gmail.com"
     Then the user Logs Out of the service
 
+@pdf
+  Scenario: 7) User uploads Licence Conditions file in PSFR and views in PYF
+    Given the user uploads a licence conditions document for a prisoner
+    When the user visit plan your future
+    Then the user logs into their account who has completed account setup email "+5@gmail.com"
+    Then the user views their Licence Conditions PDF
+    Then the user Logs Out of the service
 
 
 
