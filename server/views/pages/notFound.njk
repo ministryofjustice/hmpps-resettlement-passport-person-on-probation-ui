@@ -1,12 +1,9 @@
 {% extends "../partials/layout.njk" %}
-
 {% set pageTitle = "Not Found" + titleHeading %}
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
-
   <h1 class="govuk-heading-xl govuk-!-margin-top-4" data-qa="notfound-page-title">{{ t('not-found-h1') }}</h1>
   <p>{{ t('not-found-p1') }}</p>
   <p>{{ t('not-found-p2') }}</p>
-
 {% endblock %}

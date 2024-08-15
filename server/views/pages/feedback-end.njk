@@ -1,6 +1,5 @@
 {% extends "../partials/layout.njk" %}
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
-
 {% set pageTitle = "Feedback" + titleHeading %}
 
 {% block beforeContent %}
@@ -8,24 +7,19 @@
 {% endblock %}
 
 {% block content %}
-
-
   <div class="govuk-grid-row govuk-!-padding-bottom-6">
     <div class="govuk-grid-column-two-thirds">
+      {{
+        govukPanel({
+          titleText: t('feedback-end-title'),
+          html: t('feedback-end-p'),
+          attributes: {'data-qa': 'feedback-success-panel'}
+        })
+      }}
 
-      {{ govukPanel({
-        titleText: t('feedback-end-title'),
-        html: t('feedback-end-p'),
-        attributes: {'data-qa': 'feedback-success-panel'}
-      }) }}
-
-        <div class="govuk-!-padding-top-4">
-          <p> <a href="/" data-qa="feedback-end-return-link">{{ t('feedback-end-link') }}</a></p>
-        </div>
-
-
-  
+      <div class="govuk-!-padding-top-4">
+        <p><a href="/" data-qa="feedback-end-return-link">{{ t('feedback-end-link') }}</a></p>
+      </div>
     </div>
   </div>
-
 {% endblock %}

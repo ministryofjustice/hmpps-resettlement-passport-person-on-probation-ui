@@ -245,12 +245,21 @@ Then('the user deletes their Gov One Account', async function () {
   const count = await returnCurrentCount();
   navigationPage = new NavigationPage(pageFixture.page);
   settingsPage = new SettingsPage(pageFixture.page);
-  govOneSecurityDetails = new GovOneSecurityDetails(pageFixture.page);
   await sleep(500)
   await navigationPage.settingsLink.click();
   await settingsPage.shouldFindTitle();
   await settingsPage.govOneLink.click();
   console.log('govOnelinkClicked');
+
+  const pagePromise = pageFixture.page.context().waitForEvent('page');
+  const newPage = await pagePromise;
+
+  govOneSecurityDetails = new GovOneSecurityDetails(newPage);
+
+  await sleep(5000)
+  console.log(newPage.url());
+  const url = newPage.url();
+  expect(url).toEqual('https://home.integration.account.gov.uk/security?lng=')  
 
   await govOneSecurityDetails.shouldFindTitle();
   await govOneSecurityDetails.gotoDeleteAccount();
@@ -267,16 +276,26 @@ Then('the user deletes their Gov One Account after logging in', async function (
   var count = await returnCurrentCount();
   navigationPage = new NavigationPage(pageFixture.page);
   settingsPage = new SettingsPage(pageFixture.page);
-  govOneEnterOTPSecurityCode = new GovOneEnterOTPSecurityCode(pageFixture.page);
-  govOneCheckEmail = new GovOneCheckEmail(pageFixture.page);
-  govOneSelectOTPMethod = new GovOneSelectOTPMethod(pageFixture.page);
-  govOneChangedOTP = new GovOneChangedOTP(pageFixture.page);
-  govOneSecurityDetails = new GovOneSecurityDetails(pageFixture.page);
+
   await sleep(500)
   await navigationPage.settingsLink.click();
   await settingsPage.shouldFindTitle();
   await settingsPage.govOneLink.click();
   console.log('govOnelinkClicked');
+
+  const pagePromise = pageFixture.page.context().waitForEvent('page');
+  const newPage = await pagePromise;
+
+  govOneEnterOTPSecurityCode = new GovOneEnterOTPSecurityCode(newPage);
+  govOneCheckEmail = new GovOneCheckEmail(newPage);
+  govOneSelectOTPMethod = new GovOneSelectOTPMethod(newPage);
+  govOneChangedOTP = new GovOneChangedOTP(newPage);
+  govOneSecurityDetails = new GovOneSecurityDetails(newPage);
+
+  await sleep(5000)
+  console.log(newPage.url());
+  const url = newPage.url();
+  expect(url).toEqual('https://signin.integration.account.gov.uk/enter-authenticator-app-code')  
 
   await govOneEnterOTPSecurityCode.gotoResetOTP();
   console.log('should have redirected to check email');
@@ -377,6 +396,20 @@ Then('delete account housekeeping email {string}', async function (gmail) {
         await settingsPage.shouldFindTitle();
         await settingsPage.govOneLink.click();
         console.log('govOnelinkClicked');
+
+        const pagePromise = pageFixture.page.context().waitForEvent('page');
+        const newPage = await pagePromise;
+      
+        govOneEnterOTPSecurityCode = new GovOneEnterOTPSecurityCode(newPage);
+        govOneCheckEmail = new GovOneCheckEmail(newPage);
+        govOneSelectOTPMethod = new GovOneSelectOTPMethod(newPage);
+        govOneChangedOTP = new GovOneChangedOTP(newPage);
+        govOneSecurityDetails = new GovOneSecurityDetails(newPage);
+      
+        await sleep(5000)
+        console.log(newPage.url());
+        const url = newPage.url();
+        expect(url).toEqual('https://signin.integration.account.gov.uk/enter-authenticator-app-code')  
 
         await govOneEnterOTPSecurityCode.gotoResetOTP();
         count = await returnCurrentCount();

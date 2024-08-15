@@ -1,5 +1,4 @@
 {% extends "../partials/layout.njk" %}
-
 {% set pageTitle = "Error" + titleHeading %}
 {% set mainClasses = "app-container govuk-body" %}
 
@@ -8,16 +7,15 @@
 {% endblock %}
 
 {% block content %}
- <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl govuk-!-margin-top-4" data-qa="error-page-title">{{ t('error-h1') }}</h1>
-    <p data-qa="error-page-message">{{ message }}</p>
-    {% if user %}
-      <p>{{ t('authorisation-error-p-with-user') }}</p>
-    {% endif %}
-    <h2>{{ status }}</h2>
-    <pre>{{ stack }}</pre>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl govuk-!-margin-top-4" data-qa="error-page-title">{{ t('error-h1') }}</h1>
+      <p data-qa="error-page-message">{{ message }}</p>
+      {% if user %}
+        <p>{{ t('authorisation-error-p-with-user') }}</p>
+      {% endif %}
+      <h2>{{ status }}</h2>
+      <pre>{{ stack }}</pre>
+    </div>
   </div>
-</div>
-
 {% endblock %}
