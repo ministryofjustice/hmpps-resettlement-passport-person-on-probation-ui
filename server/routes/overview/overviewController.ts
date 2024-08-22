@@ -8,6 +8,7 @@ import LicenceConditionsService from '../../services/licenceConditionsService'
 import FeatureFlagsService from '../../services/featureFlagsService'
 import { Appointment } from '../../data/resettlementPassportData'
 import { FeatureFlagKey } from '../../services/featureFlags'
+import { fetchNavigation } from '../../services/contentfulService'
 
 export default class OverviewController {
   constructor(
@@ -23,6 +24,7 @@ export default class OverviewController {
       const urn = req.user?.sub
       const sessionId = req.sessionID
       const verificationData = await requireUser(urn, this.userService, sessionId)
+      const lang = req.query.lang || 'en'
       if (typeof verificationData === 'string') {
         return res.redirect(verificationData)
       }
@@ -43,6 +45,13 @@ export default class OverviewController {
         sessionId,
       )
       const isRecall = prisoner?.personalDetails?.isRecall
+      const contentPages = await fetchNavigation(lang?.toString())
+      const linksRest = contentPages.map(page => {
+        return {
+          slug: page.slug,
+          title: page.title,
+        }
+      })
 
       return res.render('pages/overview', {
         user: req.user,
@@ -55,6 +64,7 @@ export default class OverviewController {
         isLicenceChanged: !isRecall && licence?.changeStatus,
         flags,
         queryParams,
+        linksRest,
       })
     } catch (err) {
       return next(err)

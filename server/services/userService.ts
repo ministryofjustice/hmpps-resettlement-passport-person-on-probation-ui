@@ -38,18 +38,17 @@ export default class UserService {
       const personalDetailsString = await this.tokenStore.getToken(key)
       if (personalDetailsString) {
         logger.info('Personal details found in cache')
-        const personalDetails = JSON.parse(personalDetailsString) as PersonalDetails
-        return Promise.resolve(personalDetails)
+        return JSON.parse(personalDetailsString) as PersonalDetails
       }
     }
 
     logger.info('Fetching data from Api')
     const fetchedPersonalDetails = await this.resettlementPassportClient.getByNomsId(nomsId, sessionId)
-    if (fetchedPersonalDetails) {
+    if (fetchedPersonalDetails && config.redis.enabled) {
       // store to cache
       await this.tokenStore.setToken(key, JSON.stringify(fetchedPersonalDetails), config.session.expiryMinutes * 60)
     }
-    return Promise.resolve(fetchedPersonalDetails)
+    return fetchedPersonalDetails
   }
 
   async isVerified(urn: string, sessionId: string): Promise<UserDetailsResponse> {

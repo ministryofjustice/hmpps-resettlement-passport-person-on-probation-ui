@@ -47,13 +47,12 @@ export default class ResettlementPassportApiClient {
   async getLicenceConditionsByNomsId(nomsId: string, sessionId: string): Promise<LicenceConditionData> {
     try {
       logger.debug(`SessionId: ${sessionId}. getLicenceConditionsByNomsId(${nomsId})`)
-      const response = await this.restClient.get<LicenceConditionData>({
+      return this.restClient.get<LicenceConditionData>({
         path: `/prisoner/${nomsId}/licence-condition?includeChangeNotify=true`,
         headers: {
           SessionID: sessionId,
         },
       })
-      return response
     } catch (error) {
       logger.error(`SessionId: ${sessionId}. Licence conditions not found:`, error)
       checkError(error)
@@ -64,13 +63,12 @@ export default class ResettlementPassportApiClient {
   async getByNomsId(nomsId: string, sessionId: string): Promise<PersonalDetails> {
     try {
       logger.debug(`SessionId: ${sessionId}. getByNomsId(${nomsId})`)
-      const response = await this.restClient.get<PersonalDetails>({
+      return this.restClient.get<PersonalDetails>({
         path: `/prisoner/${nomsId}`,
         headers: {
           SessionID: sessionId,
         },
       })
-      return response
     } catch (error) {
       logger.error(`SessionId: ${sessionId}. Prisoner not found:`, error)
       checkError(error)
@@ -81,13 +79,12 @@ export default class ResettlementPassportApiClient {
   async getAppointments(nomsId: string, sessionId: string): Promise<AppointmentData> {
     try {
       logger.debug(`SessionId: ${sessionId}. getAppointments(${nomsId})`)
-      const response = await this.restClient.get<AppointmentData>({
+      return await this.restClient.get<AppointmentData>({
         path: `/prisoner/${nomsId}/appointments?futureOnly=false&includePreRelease=false`,
         headers: {
           SessionID: sessionId,
         },
       })
-      return response
     } catch (error) {
       logger.error(`SessionId: ${sessionId}. Prisoner appointments not found:`, error)
       checkError(error)
@@ -98,14 +95,13 @@ export default class ResettlementPassportApiClient {
   async submitUserOtp(otpRequest: OtpRequest, sessionId: string): Promise<OtpDetailsResponse> {
     try {
       logger.debug(`SessionId: ${sessionId}. submitUserOtp()`)
-      const response = await this.restClient.post<OtpDetailsResponse>({
+      return this.restClient.post<OtpDetailsResponse>({
         path: `/popUser/onelogin/verify`,
         data: otpRequest,
         headers: {
           SessionID: sessionId,
         },
       })
-      return response
     } catch (error) {
       logger.error(`SessionId: ${sessionId}. OTP not found:`, error)
       checkError(error)
