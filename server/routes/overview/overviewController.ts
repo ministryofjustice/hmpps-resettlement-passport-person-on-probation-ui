@@ -8,7 +8,7 @@ import LicenceConditionsService from '../../services/licenceConditionsService'
 import FeatureFlagsService from '../../services/featureFlagsService'
 import { Appointment } from '../../data/resettlementPassportData'
 import { FeatureFlagKey } from '../../services/featureFlags'
-import { fetchNavigation } from '../../services/contentfulService'
+import { findPersonalisedContent } from '../../services/personalisationService'
 
 export default class OverviewController {
   constructor(
@@ -45,13 +45,11 @@ export default class OverviewController {
         sessionId,
       )
       const isRecall = prisoner?.personalDetails?.isRecall
-      const contentPages = await fetchNavigation(lang?.toString())
-      const linksRest = contentPages.map(page => {
-        return {
-          slug: page.slug,
-          title: page.title,
-        }
-      })
+
+      const { personalLinks, otherLinks } = await findPersonalisedContent(
+        prisoner.profile?.tags ?? [],
+        lang?.toString(),
+      )
 
       return res.render('pages/overview', {
         user: req.user,
@@ -64,7 +62,8 @@ export default class OverviewController {
         isLicenceChanged: !isRecall && licence?.changeStatus,
         flags,
         queryParams,
-        linksRest,
+        personalLinks,
+        otherLinks,
       })
     } catch (err) {
       return next(err)

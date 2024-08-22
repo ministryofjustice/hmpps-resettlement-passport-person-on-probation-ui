@@ -64,7 +64,7 @@ export default class ResettlementPassportApiClient {
     try {
       logger.debug(`SessionId: ${sessionId}. getByNomsId(${nomsId})`)
       return this.restClient.get<PersonalDetails>({
-        path: `/prisoner/${nomsId}`,
+        path: `/prisoner/${nomsId}?includeProfileTags=true`,
         headers: {
           SessionID: sessionId,
         },
