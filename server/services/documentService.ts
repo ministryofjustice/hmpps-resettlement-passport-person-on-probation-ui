@@ -1,3 +1,4 @@
+import { ReadableStream } from 'node:stream/web'
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
 import { DocumentMeta, UserDocumentType } from '../data/resettlementPassportData'
 

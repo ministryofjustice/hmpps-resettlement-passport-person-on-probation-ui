@@ -32,7 +32,7 @@ export default class PagesController {
     const page = await fetchPageBySlug(slug, lang?.toString())
     if (!page) {
       logger.error(`Contentful page with slug: '${slug}' not found. Fix content at source.`)
-      return res.render('pages/notFound')
+      return res.status(404).render('pages/notFound')
     }
 
     return res.render(template, { page, queryParams })

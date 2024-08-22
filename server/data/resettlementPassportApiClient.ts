@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ReadableStream } from 'node:stream/web'
 import RestClient from './restClient'
 import config from '../config'
 import logger from '../../logger'

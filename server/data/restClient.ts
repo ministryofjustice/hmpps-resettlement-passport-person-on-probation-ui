@@ -1,3 +1,4 @@
+import { ReadableStream } from 'node:stream/web'
 import Agent, { HttpsAgent } from 'agentkeepalive'
 import superagent from 'superagent'
 
