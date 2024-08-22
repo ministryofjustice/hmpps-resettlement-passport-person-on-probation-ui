@@ -79,88 +79,88 @@ export async function mainDevBrowserTest() {
 
     if ((__ENV.APPOINTMENT_FLAG == 'true')) {
       await Promise.all([page.waitForNavigation(), navigationBar.appointments.click()]);
-      describe('getAppointments', async () => {
-        page.screenshot({ path: `${screenshot}appointments.png` });
-        testVal = await appointments.header.innerText();
+      page.screenshot({ path: `${screenshot}appointments.png` });
+      testVal = await appointments.header.innerText();
+      describe('getAppointments', () => {
         expect(testVal).to.equal('Appointments');
         console.log('testAppointments');
       });
     }
 
     await Promise.all([page.waitForNavigation(), navigationBar.licenceConditions.click()]);
-    await describe('getLicenceConditions', async () => {
-      page.screenshot({ path: `${screenshot}licence.png` });
-      testVal = await licenceConditions.header.innerText();
+    page.screenshot({ path: `${screenshot}licence.png` });
+    testVal = await licenceConditions.header.innerText();
+    await describe('getLicenceConditions', () => {
       expect(testVal).to.equal('Licence conditions');
       console.log('testLicence');
     });
 
     await Promise.all([page.waitForNavigation(), navigationBar.profile.click()]);
-    describe('getProfile', async () => {
-      page.screenshot({ path: `${screenshot}profile.png` });
-      testVal = await profile.header.innerText();
+    page.screenshot({ path: `${screenshot}profile.png` });
+    testVal = await profile.header.innerText();
+    describe('getProfile', () => {
       expect(testVal).to.equal('Profile');
       console.log('testProfile');
     });
 
     await Promise.all([page.waitForNavigation(), navigationBar.settings.click()]);
-    describe('getSettings', async () => {
-      page.screenshot({ path: `${screenshot}settings.png` });
-      testVal = await settings.header.innerText();
+    page.screenshot({ path: `${screenshot}settings.png` });
+    testVal = await settings.header.innerText();
+    describe('getSettings', () => {
       expect(testVal).to.equal('Settings');
       console.log('testSettings');
     });
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()]);
-    describe('getDashboard', async () => {
-      testVal = await dashboard.header.innerText();
+    testVal = await dashboard.header.innerText();
+    describe('getDashboard', () => {
       expect(testVal).to.equal('Overview');
       console.log('testDash');
     });
 
     if ((__ENV.APPOINTMENT_FLAG == 'true')) {
       await Promise.all([page.waitForNavigation(), dashboard.appointmentsTile.click()]);
-      describe('getAppointmentsTile', async () => {
-        page.screenshot({ path: `${screenshot}appointmentsTile.png` });
-        testVal = await appointments.header.innerText();
+      page.screenshot({ path: `${screenshot}appointmentsTile.png` });
+      testVal = await appointments.header.innerText();
+      describe('getAppointmentsTile', () => {
         expect(testVal).to.equal('Appointments');
         console.log('testAppointmentsTile');
       });
     }
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()]);
-    describe('getDashboard', async () => {
-      testVal = await dashboard.header.innerText();
+    testVal = await dashboard.header.innerText();
+    describe('getDashboard', () => {
       expect(testVal).to.equal('Overview');
       console.log('testDash');
     });
 
     await Promise.all([page.waitForNavigation(), dashboard.licenceConditionsTile.click()]);
-    describe('getLicenceConditionsTile', async () => {
-      page.screenshot({ path: `${screenshot}licenceTile.png` });
-      testVal = await licenceConditions.header.innerText();
+    page.screenshot({ path: `${screenshot}licenceTile.png` });
+    testVal = await licenceConditions.header.innerText();
+    describe('getLicenceConditionsTile', () => {
       expect(testVal).to.equal('Licence conditions');
       console.log('testLicenceTile');
     });
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()]);
-    describe('getDashboard', async () => {
-      testVal = await dashboard.header.innerText();
+    testVal = await dashboard.header.innerText();
+    describe('getDashboard', () => {
       expect(testVal).to.equal('Overview');
       console.log('testDash');
     });
 
     await Promise.all([page.waitForNavigation(), dashboard.profileTile.click()]);
-    describe('getProfileTile', async () => {
-      page.screenshot({ path: `${screenshot}profile.png` });
-      testVal = await profile.header.innerText();
+    page.screenshot({ path: `${screenshot}profile.png` });
+    testVal = await profile.header.innerText();
+    describe('getProfileTile', () => {
       expect(testVal).to.equal('Profile');
       console.log('testProfileTile');
     });
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()]);
-    describe('getDashboard', async () => {
-      testVal = await dashboard.header.innerText();
+    testVal = await dashboard.header.innerText();
+    describe('getDashboard', () => {
       expect(testVal).to.equal('Overview');
       console.log('testDash');
     });
@@ -215,8 +215,8 @@ export async function mainPreProdBrowserTest() {
     await page.evaluate(() => window.performance.mark('page-visit'));
     console.log('loggedIn');
     page.screenshot({ path: `${screenshot}dashboard.png` });
-    describe('getDashboard', async () => {
-      testVal = await dashboard.header.innerText();
+    testVal = await dashboard.header.innerText();
+    describe('getDashboard', () => {
       expect(testVal).to.equal('Overview');
       console.log('testDash');
     });
@@ -232,88 +232,88 @@ export async function mainPreProdBrowserTest() {
 
     if ((__ENV.APPOINTMENT_FLAG == 'true')) {
       await Promise.all([page.waitForNavigation(), navigationBar.appointments.click()]);
-      describe('getAppointments', async () => {
-        page.screenshot({ path: `${screenshot}appointments.png` });
-        testVal = await appointments.header.innerText();
+      page.screenshot({ path: `${screenshot}appointments.png` });
+      testVal = await appointments.header.innerText();
+      describe('getAppointments', () => {
         expect(testVal).to.equal('Appointments');
         console.log('testAppointments');
       });
     }
 
     await Promise.all([page.waitForNavigation(), navigationBar.licenceConditions.click()]);
-    await describe('getLicenceConditions', async () => {
-      page.screenshot({ path: `${screenshot}licence.png` });
-      testVal = await licenceConditions.header.innerText();
+    page.screenshot({ path: `${screenshot}licence.png` });
+    testVal = await licenceConditions.header.innerText();
+    await describe('getLicenceConditions', () => {
       expect(testVal).to.equal('Licence conditions');
       console.log('testLicence');
     });
 
     await Promise.all([page.waitForNavigation(), navigationBar.profile.click()]);
-    describe('getProfile', async () => {
-      page.screenshot({ path: `${screenshot}profile.png` });
-      testVal = profile.header.innerText();
+    page.screenshot({ path: `${screenshot}profile.png` });
+    testVal = profile.header.innerText();
+    describe('getProfile', () => {
       expect(testVal).to.equal('Profile');
       console.log('testProfile');
     });
 
     await Promise.all([page.waitForNavigation(), navigationBar.settings.click()]);
-    describe('getSettings', async () => {
-      page.screenshot({ path: `${screenshot}settings.png` });
-      testVal = await settings.header.innerText();
+    page.screenshot({ path: `${screenshot}settings.png` });
+    testVal = await settings.header.innerText();
+    describe('getSettings', () => {
       expect(testVal).to.equal('Settings');
       console.log('testSettings');
     });
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()]);
-    describe('getDashboard', async () => {
-      testVal = await dashboard.header.innerText();
+    testVal = await dashboard.header.innerText();
+    describe('getDashboard', () => {
       expect(testVal).to.equal('Overview');
       console.log('testDash');
     });
 
     if ((__ENV.APPOINTMENT_FLAG == 'true')) {
       await Promise.all([page.waitForNavigation(), dashboard.appointmentsTile.click()]);
-      describe('getAppointmentsTile', async () => {
-        page.screenshot({ path: `${screenshot}appointmentsTile.png` });
-        testVal = appointments.header.innerText();
+      page.screenshot({ path: `${screenshot}appointmentsTile.png` });
+      testVal = appointments.header.innerText();
+      describe('getAppointmentsTile', () => {
         expect(testVal).to.equal('Appointments');
         console.log('testAppointmentsTile');
       });
     }
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()]);
-    describe('getDashboard', async () => {
-      testVal = dashboard.header.innerText();
+    testVal = dashboard.header.innerText();
+    describe('getDashboard', () => {
       expect(testVal).to.equal('Overview');
       console.log('testDash');
     });
 
     await Promise.all([page.waitForNavigation(), dashboard.licenceConditionsTile.click()]);
-    describe('getLicenceConditionsTile', async () => {
-      page.screenshot({ path: `${screenshot}licenceTile.png` });
-      testVal = await licenceConditions.header.innerText();
+    page.screenshot({ path: `${screenshot}licenceTile.png` });
+    testVal = await licenceConditions.header.innerText();
+    describe('getLicenceConditionsTile', () => {
       expect(testVal).to.equal('Licence conditions');
       console.log('testLicenceTile');
     });
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()]);
-    describe('getDashboard', async () => {
-      testVal = await dashboard.header.innerText();
+    testVal = await dashboard.header.innerText();
+    describe('getDashboard', () => {
       expect(testVal).to.equal('Overview');
       console.log('testDash');
     });
 
     await Promise.all([page.waitForNavigation(), dashboard.profileTile.click()]);
-    describe('getProfileTile', async () => {
-      page.screenshot({ path: `${screenshot}profile.png` });
-      testVal = await profile.header.innerText();
+    page.screenshot({ path: `${screenshot}profile.png` });
+    testVal = await profile.header.innerText();
+    describe('getProfileTile', () => {
       expect(testVal).to.equal('Profile');
       console.log('testProfileTile');
     });
 
     await Promise.all([page.waitForNavigation(), navigationBar.home.click()]);
-    describe('getDashboard', async () => {
-      testVal = await dashboard.header.innerText();
+    testVal = await dashboard.header.innerText();
+    describe('getDashboard', () => {
       expect(testVal).to.equal('Overview');
       console.log('testDash');
     });
