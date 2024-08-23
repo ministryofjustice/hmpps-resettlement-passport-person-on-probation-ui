@@ -1,19 +1,19 @@
 import { fetchNavigation } from './contentfulService'
 import { PersonalisationTag } from './contentfulTypes'
 
-export type ContentLink = {
+export type ContentPageLink = {
   slug: string
   title: string
 }
 
-export type ContentLinks = {
-  personalLinks: ContentLink[]
-  otherLinks: ContentLink[]
+export type ContentPageLinks = {
+  personalLinks: ContentPageLink[]
+  otherLinks: ContentPageLink[]
 }
 
-export type ContentWithTags = ContentLink & { tags: PersonalisationTag[] }
+export type ContentWithTags = ContentPageLink & { tags: PersonalisationTag[] }
 
-export async function findPersonalisedContent(tags: string[], lang: string): Promise<ContentLinks> {
+export async function findPersonalisedContent(tags: string[], lang: string): Promise<ContentPageLinks> {
   const contentPages = await fetchNavigation(lang)
   const mappedTags = mapProfileTagsToContentfulTags(tags)
   const allContent = contentPages.map(page => {
@@ -23,18 +23,17 @@ export async function findPersonalisedContent(tags: string[], lang: string): Pro
       tags: page.personalisationTags,
     }
   })
-  console.log(mappedTags, JSON.stringify(allContent, null, 2))
   return {
     personalLinks: getPersonalLinks(mappedTags, allContent),
     otherLinks: getOtherLinks(mappedTags, allContent),
   }
 }
 
-export function getPersonalLinks(tags: Set<string>, content: ContentWithTags[]): ContentLink[] {
+export function getPersonalLinks(tags: Set<string>, content: ContentWithTags[]): ContentPageLink[] {
   return content.filter(l => l.tags.some(tag => tags.has(tag)))
 }
 
-export function getOtherLinks(tags: Set<string>, content: ContentWithTags[]): ContentLink[] {
+export function getOtherLinks(tags: Set<string>, content: ContentWithTags[]): ContentPageLink[] {
   return content.filter(l => !l.tags.some(tag => tags.has(tag)))
 }
 

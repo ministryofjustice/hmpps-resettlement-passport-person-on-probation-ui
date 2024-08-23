@@ -1,4 +1,4 @@
-import { ContentLink, ContentWithTags, getOtherLinks, getPersonalLinks } from './personalisationService'
+import { ContentPageLink, ContentWithTags, getOtherLinks, getPersonalLinks } from './personalisationService'
 
 const content: ContentWithTags[] = [
   {
@@ -26,6 +26,6 @@ describe('should filter links into personal and other', () => {
   })
 })
 
-function slugsOf(content: ContentLink[]) {
+function slugsOf(content: ContentPageLink[]) {
   return content.map(c => c.slug)
 }
