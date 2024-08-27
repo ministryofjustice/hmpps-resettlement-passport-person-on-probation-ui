@@ -90,6 +90,11 @@ export default class LicenceConditionsController {
         verificationData.nomsId,
         sessionId,
       )
+
+      if (licence.licenceId !== licenceId) {
+        return res.status(404).render('pages/notFound', { user: req.user })
+      }
+
       const condition = licence.otherLicenseConditions.find(x => x.id === conditionId)
       const image = await this.licenceConditionsService.getLicenceConditionsImage(
         verificationData.nomsId,
