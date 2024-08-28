@@ -198,11 +198,19 @@ context('Licence conditions', () => {
     Page.verifyOnPage(LicencePage)
   })
 
-  it('Should see not found if ask for details of licence that is not assigned to user', () => {
+  it('Should see not found if ask for details of licence id that is not assigned to user', () => {
     cy.task('stubGetLicenceConditions')
     cy.signIn()
 
-    cy.visit({ url: 'licence-conditions/123/condition/1', failOnStatusCode: false })
+    cy.visit({ url: 'licence-conditions/123/condition/1001', failOnStatusCode: false })
+    Page.verifyOnPage(NotFoundPage)
+  })
+
+  it('Should see not found if ask for details of condition id that is not assigned to user', () => {
+    cy.task('stubGetLicenceConditions')
+    cy.signIn()
+
+    cy.visit({ url: 'licence-conditions/101/condition/1002', failOnStatusCode: false })
     Page.verifyOnPage(NotFoundPage)
   })
 })

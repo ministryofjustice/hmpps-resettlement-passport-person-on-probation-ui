@@ -91,7 +91,11 @@ export default class LicenceConditionsController {
         sessionId,
       )
 
-      if (licence.licenceId !== licenceId) {
+      const standardConditionIds = licence.standardLicenceConditions.map(cond => cond.id)
+      const otherConditionIds = licence.otherLicenseConditions.map(cond => cond.id)
+      const allConditionIds = new Set(standardConditionIds.concat(otherConditionIds))
+
+      if (licence.licenceId !== licenceId || !allConditionIds.has(conditionId)) {
         return res.status(404).render('pages/notFound', { user: req.user })
       }
 
