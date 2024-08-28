@@ -1,6 +1,7 @@
 import StartPage from '../pages/start'
 import LicencePage from '../pages/licence'
 import Page from '../pages/page'
+import NotFoundPage from '../pages/notFoundPage'
 
 context('Licence conditions', () => {
   beforeEach(() => {
@@ -195,5 +196,21 @@ context('Licence conditions', () => {
     // and should be able to go back
     cy.get('#back-licence-details-link').click()
     Page.verifyOnPage(LicencePage)
+  })
+
+  it('Should see not found if ask for details of licence id that is not assigned to user', () => {
+    cy.task('stubGetLicenceConditions')
+    cy.signIn()
+
+    cy.visit({ url: 'licence-conditions/123/condition/1001', failOnStatusCode: false })
+    Page.verifyOnPage(NotFoundPage)
+  })
+
+  it('Should see not found if ask for details of condition id that is not assigned to user', () => {
+    cy.task('stubGetLicenceConditions')
+    cy.signIn()
+
+    cy.visit({ url: 'licence-conditions/101/condition/1002', failOnStatusCode: false })
+    Page.verifyOnPage(NotFoundPage)
   })
 })

@@ -90,6 +90,15 @@ export default class LicenceConditionsController {
         verificationData.nomsId,
         sessionId,
       )
+
+      const standardConditionIds = licence.standardLicenceConditions.map(cond => cond.id)
+      const otherConditionIds = licence.otherLicenseConditions.map(cond => cond.id)
+      const allConditionIds = new Set(standardConditionIds.concat(otherConditionIds))
+
+      if (licence.licenceId !== licenceId || !allConditionIds.has(conditionId)) {
+        return res.status(404).render('pages/notFound', { user: req.user })
+      }
+
       const condition = licence.otherLicenseConditions.find(x => x.id === conditionId)
       const image = await this.licenceConditionsService.getLicenceConditionsImage(
         verificationData.nomsId,

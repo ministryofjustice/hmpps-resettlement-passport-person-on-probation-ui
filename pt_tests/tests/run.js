@@ -1,14 +1,14 @@
-import { Trend, Rate, Counter, Gauge } from 'k6/metrics'
+import { Trend, Rate, Counter, Gauge } from 'k6/metrics';
 
-export { resettlementPassportApi } from './apiTestsAuth.js'
-export { setup } from './apiTestsAuth.js'
-export { mainDevBrowserTest, mainPreProdBrowserTest } from './browserTests.js'
+export { resettlementPassportApi } from './apiTestsAuth.js';
+export { setup } from './apiTestsAuth.js';
+export { mainDevBrowserTest, mainPreProdBrowserTest } from './browserTests.js';
 
-export const errorRate = new Rate('errors')
-const executionType = __ENV.EXECUTION_TYPE
-console.log(__ENV.EXECUTION_TYPE)
+export const errorRate = new Rate('errors');
+const executionType = __ENV.EXECUTION_TYPE;
+console.log(__ENV.EXECUTION_TYPE);
 
-const ExecutionOptions_Scenarious = getScenarios(executionType)
+const ExecutionOptions_Scenarious = getScenarios(executionType);
 
 export const options = {
   scenarios: ExecutionOptions_Scenarious,
