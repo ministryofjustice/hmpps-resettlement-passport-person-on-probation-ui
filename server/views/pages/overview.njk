@@ -140,36 +140,40 @@
     </div>
   </div>
   {% if personalLinks.length > 0 %}
-    <div class="govuk-grid-row govuk-!-padding-top-4">
-      <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">For you</h2>
+    <section id="personalised-links">
+      <div class="govuk-grid-row govuk-!-padding-top-4">
+        <div class="govuk-grid-column-full">
+          <h2 class="govuk-heading-m">For you</h2>
+        </div>
+        <div class="govuk-grid-column-one-third-from-desktop">
+          <ul class="govuk-list govuk-list--bullet">
+            {% for link in personalLinks %}
+              <li>
+                <a href="/pages/{{ link.slug }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
-      <div class="govuk-grid-column-one-third-from-desktop">
-        <ul class="govuk-list govuk-list--bullet">
-          {% for link in personalLinks %}
-            <li>
-              <a href="/pages/{{ link.slug }}">{{ link.title }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
+    </section>
   {% endif %}
   {% if otherLinks.length > 0 %}
-    <div class="govuk-grid-row govuk-!-padding-top-4">
-      <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">All resettlement topics</h2>
+    <section id="content-links">
+      <div class="govuk-grid-row govuk-!-padding-top-4">
+        <div class="govuk-grid-column-full">
+          <h2 class="govuk-heading-m">All resettlement topics</h2>
+        </div>
+        <div class="govuk-grid-column-one-third-from-desktop">
+          <ul class="govuk-list govuk-list--bullet">
+            {% for link in otherLinks %}
+              <li>
+                <a href="/pages/{{ link.slug }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
-      <div class="govuk-grid-column-one-third-from-desktop">
-        <ul class="govuk-list govuk-list--bullet">
-          {% for link in otherLinks %}
-            <li>
-              <a href="/pages/{{ link.slug }}">{{ link.title }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
+    </section>
   {% endif %}
 {% endblock %}
 

@@ -159,4 +159,24 @@ context('Overview', () => {
     Page.verifyOnPage(OverviewPage)
     cy.get('#documents-tile').should('not.exist')
   })
+
+  it('Shows personalised content block', () => {
+    cy.task('stubGetAppointments')
+    cy.signIn()
+    Page.verifyOnPage(OverviewPage)
+    cy.get('#personalised-links').should('contain.text', 'For you')
+    cy.get('#personalised-links')
+      .find('ul')
+      .should(items => expect(items.length).gte(1))
+  })
+
+  it('Shows all resettlement content block', () => {
+    cy.task('stubGetAppointments')
+    cy.signIn()
+    Page.verifyOnPage(OverviewPage)
+    cy.get('#content-links').should('contain.text', 'All resettlement topics')
+    cy.get('#content-links')
+      .find('ul')
+      .should(items => expect(items.length).gte(1))
+  })
 })

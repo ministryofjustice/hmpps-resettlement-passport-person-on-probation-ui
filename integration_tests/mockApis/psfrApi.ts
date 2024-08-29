@@ -170,6 +170,9 @@ const mockedUserDetailsResponse = {
     telephone: '0198765432',
     email: 'john@test.com',
   },
+  profile: {
+    tags: ['NO_FIXED_ABODE'],
+  },
 }
 
 const getBinaryResponse = (base64Image: string) => {
