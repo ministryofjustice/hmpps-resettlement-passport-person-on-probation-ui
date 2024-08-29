@@ -47,7 +47,7 @@ export default class ResettlementPassportApiClient {
   async getLicenceConditionsByNomsId(nomsId: string, sessionId: string): Promise<LicenceConditionData> {
     try {
       logger.debug(`SessionId: ${sessionId}. getLicenceConditionsByNomsId(${nomsId})`)
-      return this.restClient.get<LicenceConditionData>({
+      return await this.restClient.get<LicenceConditionData>({
         path: `/prisoner/${nomsId}/licence-condition?includeChangeNotify=true`,
         headers: {
           SessionID: sessionId,
@@ -63,7 +63,7 @@ export default class ResettlementPassportApiClient {
   async getByNomsId(nomsId: string, sessionId: string): Promise<PersonalDetails> {
     try {
       logger.debug(`SessionId: ${sessionId}. getByNomsId(${nomsId})`)
-      return this.restClient.get<PersonalDetails>({
+      return await this.restClient.get<PersonalDetails>({
         path: `/prisoner/${nomsId}?includeProfileTags=true`,
         headers: {
           SessionID: sessionId,
@@ -95,7 +95,7 @@ export default class ResettlementPassportApiClient {
   async submitUserOtp(otpRequest: OtpRequest, sessionId: string): Promise<OtpDetailsResponse> {
     try {
       logger.debug(`SessionId: ${sessionId}. submitUserOtp()`)
-      return this.restClient.post<OtpDetailsResponse>({
+      return await this.restClient.post<OtpDetailsResponse>({
         path: `/popUser/onelogin/verify`,
         data: otpRequest,
         headers: {
@@ -127,7 +127,7 @@ export default class ResettlementPassportApiClient {
   async getLicenceConditionsDocuments(nomsId: string, sessionId: string): Promise<DocumentMeta[]> {
     try {
       logger.debug(`SessionId: ${sessionId}. getLicenceConditionsDocuments()`)
-      return this.restClient.get<DocumentMeta[]>({
+      return await this.restClient.get<DocumentMeta[]>({
         path: `/prisoner/${nomsId}/documents?category=LICENCE_CONDITIONS`,
         headers: {
           SessionID: sessionId,

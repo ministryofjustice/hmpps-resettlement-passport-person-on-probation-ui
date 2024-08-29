@@ -193,7 +193,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF`,
+        url: `/rpApi/prisoner/G4161UF?includeProfileTags=true`,
       },
       response: {
         status: 200,
@@ -205,7 +205,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF`,
+        url: `/rpApi/prisoner/G4161UF?includeProfileTags=true`,
       },
       response: {
         status: 200,
@@ -222,7 +222,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF`,
+        url: `/rpApi/prisoner/G4161UF?includeProfileTags=true`,
       },
       response: {
         status: 200,

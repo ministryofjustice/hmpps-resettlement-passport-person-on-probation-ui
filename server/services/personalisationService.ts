@@ -20,7 +20,7 @@ export async function findPersonalisedContent(tags: string[], lang: string): Pro
     return {
       slug: page.slug,
       title: page.title,
-      tags: page.personalisationTags,
+      tags: page.personalisationTags ?? [],
     }
   })
   return {
