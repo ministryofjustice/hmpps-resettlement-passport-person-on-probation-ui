@@ -47,12 +47,14 @@ export default {
     tls_enabled: get('REDIS_TLS_ENABLED', 'false'),
   },
   contentful: {
-    enabled: get('CONTENTFUL_ENABLED', 'true'),
+    enabled: get('CONTENTFUL_ENABLED', 'true') === 'true',
     accessToken: get('CONTENTFUL_ACCESS_TOKEN', ''),
-    showPreview: get('CONTENTFUL_SHOW_PREVIEW', 'false'),
+    showPreview: get('CONTENTFUL_SHOW_PREVIEW', 'false') === 'true',
     previewToken: get('CONTENTFUL_PREVIEW_TOKEN', ''),
     spaceId: get('CONTENTFUL_SPACE_ID', ''),
+    enableCache: get('CONTENTFUL_CACHE_ENABLED', 'true') === 'true',
     refreshSeconds: Number(get('CONTENTFUL_REFRESH_SECONDS', 30)),
+    environment: get('CONTENTFUL_ENVIRONMENT', 'master'),
   },
   session: {
     secret: get('SESSION_SECRET', 'app-insecure-default-session', requiredInProduction),

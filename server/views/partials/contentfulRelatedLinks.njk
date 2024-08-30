@@ -1,9 +1,12 @@
-{% if page.relatedContent or page.helpAndAdvice %}
+{% set relatedContentAvailable = page.relatedContent?.length > 0 %}
+{% set helpAndAdviceAvailable = page.helpAndAdvice?.length > 0 %}
+
+{% if relatedContentAvailable or helpAndAdviceAvailable %}
   <div class="govuk-grid-column-one-third">
     <div class="gem-c-contextual-sidebar">
       <div class="gem-c-related-navigation">
         <br />
-        {% if page.relatedContent %}
+        {% if relatedContentAvailable %}
           <aside class="govuk-prototype-kit-common-templates-related-items">
             <h3 class="govuk-heading-s" id="subsection-title1">{{ t('generic-page-related') }}</h3>
             <nav>
@@ -17,7 +20,7 @@
             </nav>
           </aside>
         {% endif %}
-        {% if page.helpAndAdvice %}
+        {% if helpAndAdviceAvailable %}
           <aside class="govuk-prototype-kit-common-templates-related-items">
             <h3 class="govuk-heading-s" id="subsection-title2">{{ t('generic-page-help') }}</h3>
             <nav>

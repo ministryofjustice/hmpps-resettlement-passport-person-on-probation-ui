@@ -65,6 +65,9 @@ export interface PersonalDetails {
     isHomeDetention?: boolean
     isRecall?: boolean
   }
+  profile?: {
+    tags?: string[]
+  }
 }
 
 export interface ConditionInfo {

@@ -170,6 +170,9 @@ const mockedUserDetailsResponse = {
     telephone: '0198765432',
     email: 'john@test.com',
   },
+  profile: {
+    tags: ['NO_FIXED_ABODE'],
+  },
 }
 
 const getBinaryResponse = (base64Image: string) => {
@@ -193,7 +196,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF`,
+        url: `/rpApi/prisoner/G4161UF?includeProfileTags=true`,
       },
       response: {
         status: 200,
@@ -205,7 +208,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF`,
+        url: `/rpApi/prisoner/G4161UF?includeProfileTags=true`,
       },
       response: {
         status: 200,
@@ -222,7 +225,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF`,
+        url: `/rpApi/prisoner/G4161UF?includeProfileTags=true`,
       },
       response: {
         status: 200,
