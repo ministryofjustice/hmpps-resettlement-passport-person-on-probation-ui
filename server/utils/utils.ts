@@ -1,4 +1,3 @@
-/* eslint-disable import/no-duplicates */
 import { addMinutes, compareAsc, format, isBefore, isFuture, isSameDay, isValid, parse } from 'date-fns'
 import { cy, enGB } from 'date-fns/locale'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'

@@ -1,4 +1,2 @@
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 NODE_ENV=dev && npm run build && npm run typecheck && npm run lint

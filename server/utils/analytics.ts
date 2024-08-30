@@ -1,6 +1,5 @@
 import { TelemetryClient } from 'applicationinsights'
 
-// eslint-disable-next-line no-shadow
 export enum PyfEvent {
   TIMEOUT_EVENT = 'PYF_SessionTimeout',
   REGISTRATION_ERROR_EVENT = 'PYF_FirstTimeRegistrationError',
@@ -19,9 +18,8 @@ export const trackEvent = (
   sessionId: string,
 ) => {
   if (name && appInsightsClient) {
-    // eslint-disable-next-line no-param-reassign
     appInsightsClient.context.tags[appInsightsClient.context.keys.userId] = userId
-    // eslint-disable-next-line no-param-reassign
+
     appInsightsClient.context.tags[appInsightsClient.context.keys.sessionId] = sessionId
 
     appInsightsClient.trackEvent({ name, properties })

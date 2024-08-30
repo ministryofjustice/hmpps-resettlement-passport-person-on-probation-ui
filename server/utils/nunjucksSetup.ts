@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import path from 'path'
 import nunjucks from 'nunjucks'
 import express from 'express'
@@ -83,9 +82,9 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   njkEnv.addGlobal('appendLang', appendLang)
   njkEnv.addGlobal('appendLanguage', appendLanguage)
   njkEnv.addGlobal('hiddenClassOnFlag', hiddenClassOnFlag)
-  // eslint-disable-next-line no-underscore-dangle
+
   njkEnv.addGlobal('t', i18n.__)
-  // eslint-disable-next-line no-underscore-dangle
+
   njkEnv.addGlobal('__', i18n.__)
 
   return njkEnv
