@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import crypto from 'crypto'
 import { addHours, addMinutes } from 'date-fns'
 import logger from '../../logger'

@@ -21,7 +21,6 @@ describe('App Insights', () => {
 
   describe('initialiseAppInsights', () => {
     it('should set up application insights if connection string is present', () => {
-      // eslint-disable-next-line no-console
       console.log = jest.fn()
       const setupMock = appInsights.setup as jest.Mock
       setupMock.mockReturnValue({
@@ -32,7 +31,6 @@ describe('App Insights', () => {
 
       initialiseAppInsights()
 
-      // eslint-disable-next-line no-console
       expect(console.log).toHaveBeenCalledWith('Enabling azure application insights')
       expect(setupMock).toHaveBeenCalled()
     })

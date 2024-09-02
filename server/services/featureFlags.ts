@@ -3,7 +3,6 @@ export interface Feature {
   enabled: boolean
 }
 
-// eslint-disable-next-line no-shadow
 export const enum FeatureFlagKey {
   VIEW_APPOINTMENTS = 'viewAppointmentsEndUser',
   DOCUMENTS = 'viewDocuments',

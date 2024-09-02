@@ -17,7 +17,6 @@ export type ContextObject = {
 
 export function initialiseAppInsights(): void {
   if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-    // eslint-disable-next-line no-console
     console.log('Enabling azure application insights')
     setup().setDistributedTracingMode(DistributedTracingModes.AI_AND_W3C).start()
   }
@@ -43,7 +42,7 @@ function addUserDataToRequests(envelope: EnvelopeTelemetry, contextObjects: Cont
     const { urn, email } = contextObjects?.['http.ServerRequest']?.res?.locals?.user || {}
     if (urn) {
       const { properties } = envelope.data.baseData
-      // eslint-disable-next-line no-param-reassign
+
       envelope.data.baseData.properties = {
         urn,
         email,
@@ -57,7 +56,7 @@ function addUserDataToRequests(envelope: EnvelopeTelemetry, contextObjects: Cont
 function parameterisePaths(envelope: EnvelopeTelemetry, contextObjects: ContextObject) {
   const operationNameOverride = contextObjects.correlationContext?.customProperties?.getProperty('operationName')
   if (operationNameOverride) {
-    envelope.tags['ai.operation.name'] = envelope.data.baseData.name = operationNameOverride // eslint-disable-line no-param-reassign,no-multi-assign
+    envelope.tags['ai.operation.name'] = envelope.data.baseData.name = operationNameOverride
   }
   return true
 }

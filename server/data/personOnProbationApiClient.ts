@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import RestClient from './restClient'
 import config from '../config'
 import logger from '../../logger'
