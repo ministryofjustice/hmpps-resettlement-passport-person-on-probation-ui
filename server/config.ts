@@ -101,6 +101,7 @@ export default {
       },
       agent: new AgentConfig(Number(get('PERSON_ON_PROBATION_USER_API_TIMEOUT_RESPONSE', 20000))),
       enabled: get('PSFR_API_ENABLED', 'true') === 'true',
+      cacheExpirySeconds: Number(get('PSFR_API_CACHE_EXPIRY_SECONDS', 20 * 60)),
     },
     zendesk: {
       url: get('ZENDESK_API_URL', 'http://localhost:8101', requiredInProduction),

@@ -28,6 +28,7 @@ generic-service:
     CONTENTFUL_REFRESH_SECONDS: 10
     RATE_LIMIT_PER_MINUTE: 50
     FEATURE_FLAG_ENABLED: "true"
+    PSFR_API_CACHE_EXPIRY_SECONDS: 10
 
   allowlist:
     groups:
