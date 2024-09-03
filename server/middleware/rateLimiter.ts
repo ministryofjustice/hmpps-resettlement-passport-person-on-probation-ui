@@ -1,20 +1,20 @@
 import express, { Router, Request, Response, NextFunction } from 'express'
 import config from '../config'
+import { minutesToMilliseconds } from 'date-fns'
 
 const rateLimitedPaths = ['/feedback/complete', '/otp/verify']
 
-interface RateLimiter {
-  [ip: string]: {
-    count: number
-    lastRequest: number
-  }
+type IPAddress = string
+
+interface RequestHistory {
+  count: number
+  windowStart: number
 }
 
-const rateLimiters: RateLimiter = {}
+const requestCounts = new Map<IPAddress, RequestHistory>()
+const windowLengthMs = config.rateLimit.windowMinutes * 60000 // convert to millis
 
-const isWindowLapsed = (now: number, ip: string, window: number) => now - rateLimiters[ip].lastRequest >= window
-
-const isLimitExceeded = (ip: string, limit: number) => rateLimiters[ip].count > limit
+const isWindowLapsed = (now: number, windowStart: number) => now - windowStart >= windowLengthMs
 
 export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (rateLimitedPaths.indexOf(req.path) < 0) {
@@ -22,25 +22,24 @@ export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFun
   }
   const { ip } = req
   const now = Date.now()
-  const limit = config.rateLimitPerMinute // Limit to x requests per minute
-  const window = 60000 // 1 minute in milliseconds
 
   // initialise or increase
-  if (!rateLimiters[ip]) {
-    rateLimiters[ip] = { count: 1, lastRequest: now }
+  let requestHistory = requestCounts.get(ip)
+  if (requestHistory) {
+    requestHistory.count += 1
   } else {
-    rateLimiters[ip].count += 1
+    requestHistory = { count: 1, windowStart: now }
+    requestCounts.set(ip, requestHistory)
   }
 
   // reset counter
-  if (isLimitExceeded(ip, limit) && isWindowLapsed(now, ip, window)) {
-    rateLimiters[ip].count = 0
+  if (isWindowLapsed(now, requestHistory.windowStart)) {
+    requestHistory.count = 1
+    requestHistory.windowStart = now
   }
 
-  rateLimiters[ip].lastRequest = now
-
   // deny
-  if (isLimitExceeded(ip, limit)) {
+  if (requestHistory.count > config.rateLimit.maxRequests) {
     return res.status(429).send('Too Many Requests')
   }
 
@@ -48,8 +47,19 @@ export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFun
   return next()
 }
 
+function cleanupOldRecords() {
+  const now = Date.now()
+
+  for (const [key, value] of requestCounts.entries()) {
+    if (isWindowLapsed(now, value.windowStart)) {
+      requestCounts.delete(key)
+    }
+  }
+}
+
 export function setupRateLimiter(): Router {
   const router = express.Router()
   router.use(rateLimiterMiddleware)
+  setInterval(() => cleanupOldRecords(), minutesToMilliseconds(config.rateLimit.cleanupIntervalMinutes))
   return router
 }

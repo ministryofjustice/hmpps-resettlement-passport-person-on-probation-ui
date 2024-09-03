@@ -15,7 +15,8 @@ describe('rateLimiterMiddleware', () => {
   const realDate = Date.now
 
   beforeEach(() => {
-    config.rateLimitPerMinute = 10
+    config.rateLimit.maxRequests = 10
+    config.rateLimit.windowMinutes = 1
     global.Date.now = jest.fn(() => fakeDate.getTime())
     resMock = createResponse()
     nextMock = jest.fn()
@@ -104,6 +105,39 @@ describe('rateLimiterMiddleware', () => {
     global.Date.now = jest.fn(() => fakeDatePlusOneMinute.getTime())
 
     // call again for the 12th time
+    rateLimiterMiddleware(reqMock, resMock, nextMock)
+    expect(resMock.statusCode).toBe(200)
+    expect(nextMock).toHaveBeenCalled()
+  })
+
+  it('counter should reset after 1 minute elapsed from the first call', () => {
+    reqMock = createRequest({
+      method: 'POST',
+      path: '/otp/verify',
+      ip: '444.0.0.2',
+    })
+    Array.from({ length: 9 }).forEach(() => {
+      rateLimiterMiddleware(reqMock, resMock, nextMock)
+    })
+    expect(resMock.statusCode).toBe(200)
+
+    // fake 30 seconds passed
+    resMock = createResponse()
+    nextMock = jest.fn()
+    const fakeDatePlus30 = addSeconds(fakeDate, 30)
+    global.Date.now = jest.fn(() => fakeDatePlus30.getTime())
+
+    rateLimiterMiddleware(reqMock, resMock, nextMock)
+    expect(resMock.statusCode).toBe(200)
+    expect(nextMock).toHaveBeenCalled()
+
+    // fake 30 seconds passed again
+    resMock = createResponse()
+    nextMock = jest.fn()
+    const fakeDatePlus60 = addSeconds(fakeDate, 60)
+    global.Date.now = jest.fn(() => fakeDatePlus60.getTime())
+
+    // 11th call should still work as the window should have lapsed
     rateLimiterMiddleware(reqMock, resMock, nextMock)
     expect(resMock.statusCode).toBe(200)
     expect(nextMock).toHaveBeenCalled()
