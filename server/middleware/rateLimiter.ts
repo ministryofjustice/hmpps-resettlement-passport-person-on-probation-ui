@@ -1,6 +1,7 @@
 import express, { Router, Request, Response, NextFunction } from 'express'
 import config from '../config'
 import { minutesToMilliseconds } from 'date-fns'
+import logger from '../../logger'
 
 const rateLimitedPaths = ['/feedback/complete', '/otp/verify']
 
@@ -48,13 +49,18 @@ export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFun
 }
 
 function cleanupOldRecords() {
+  logger.info('Cleaning up rate limiter records')
   const now = Date.now()
+  let count = 0
 
   for (const [key, value] of requestCounts.entries()) {
     if (isWindowLapsed(now, value.windowStart)) {
       requestCounts.delete(key)
+      count++
     }
   }
+
+  logger.info('Cleanup finished, cleaned %d records in %d ms', count, Date.now() - now)
 }
 
 export function setupRateLimiter(): Router {
