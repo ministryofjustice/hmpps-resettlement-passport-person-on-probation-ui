@@ -46,7 +46,11 @@ export default class UserService {
     const fetchedPersonalDetails = await this.resettlementPassportClient.getByNomsId(nomsId, sessionId)
     if (fetchedPersonalDetails && config.redis.enabled) {
       // store to cache
-      await this.tokenStore.setToken(key, JSON.stringify(fetchedPersonalDetails), config.session.expiryMinutes * 60)
+      await this.tokenStore.setToken(
+        key,
+        JSON.stringify(fetchedPersonalDetails),
+        config.apis.resettlementPassportApi.cacheExpirySeconds,
+      )
     }
     return fetchedPersonalDetails
   }
@@ -69,7 +73,11 @@ export default class UserService {
     const fetchedUser = await this.personOnProbationUserApiClient.getUserByUrn(urn, sessionId)
     if (fetchedUser) {
       // store to cache
-      await this.tokenStore.setToken(key, JSON.stringify(fetchedUser), config.session.expiryMinutes * 60)
+      await this.tokenStore.setToken(
+        key,
+        JSON.stringify(fetchedUser),
+        config.apis.resettlementPassportApi.cacheExpirySeconds,
+      )
     }
 
     return Promise.resolve(fetchedUser)
