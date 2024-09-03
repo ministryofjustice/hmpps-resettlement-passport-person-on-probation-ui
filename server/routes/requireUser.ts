@@ -14,7 +14,7 @@ export default async function requireUser(
   if (!authenticationData) {
     return '/sign-out'
   }
-  const verificationData = await userService.isVerified(urn, sessionId)
+  const verificationData = await userService.getUserDetails(urn, sessionId)
   if (!verificationData?.verified === true) {
     return '/otp'
   }

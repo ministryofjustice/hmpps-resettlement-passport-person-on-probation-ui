@@ -35,6 +35,18 @@ const restoreFlags = async (): Promise<boolean> => {
 
 const retries = process.env.CYPRESS_RETRIES || '1'
 
+function stubForDefaultLoggedInUser(): Promise<unknown> {
+  return Promise.all([
+    govukOneLogin.stubSignIn(),
+    hmppsAuth.stubHmppsToken(),
+    psfrApi.stubGetPopUserOtp(),
+    psfrApi.stubGetPopUserDetails(),
+    psfrApi.stubGetLicenceConditions(),
+    psfrApi.stubGetAppointmentsMissing(),
+    popApi.stubGetPopUserByUrn(),
+  ])
+}
+
 export default defineConfig({
   chromeWebSecurity: false,
   fixturesFolder: 'integration_tests/fixtures',
@@ -59,6 +71,7 @@ export default defineConfig({
         ...psfrApi,
         ...popApi,
         ...zendeskApi,
+        stubForDefaultLoggedInUser,
         log(message) {
           console.log(message)
           return null

@@ -1,22 +1,12 @@
-import Page from '../pages/page'
-import StartPage from '../pages/start'
 import { FeatureFlagKey } from '../../server/services/featureFlags'
 
 context('Nav', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
-    cy.task('stubGetPopUserOtp')
-    cy.task('stubGetPopUserDetails')
-    cy.task('stubHmppsToken')
-    cy.task('stubGetPopUserByUrn')
-    cy.task('stubGetLicenceConditions')
-    cy.task('stubGetLicenceConditionImage')
+    cy.task('stubForDefaultLoggedInUser')
   })
 
   afterEach(() => {
-    cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(StartPage)
     cy.task('restoreFlags')
   })
 

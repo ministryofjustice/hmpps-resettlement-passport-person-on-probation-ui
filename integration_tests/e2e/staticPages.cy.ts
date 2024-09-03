@@ -9,7 +9,7 @@ context('Static pages', () => {
   })
 
   it('Should see the start page', () => {
-    Page.verifyOnPage(StartPage)
+    Page.verifyOnPage(StartPage).runAxe()
   })
 
   it('Should see the privacy policy link', () => {
@@ -21,12 +21,12 @@ context('Static pages', () => {
   it('Should see the cookies page link', () => {
     cy.get('[data-qa="cookies-link"]').should('have.attr', 'href').and('include', '/cookies')
     cy.get('[data-qa="cookies-link"]').click()
-    Page.verifyOnPage(CookiesPage)
+    Page.verifyOnPage(CookiesPage).runAxe()
   })
 
   it('Should see the accessibility page link', () => {
     cy.get('[data-qa="accessibility-link"]').should('have.attr', 'href').and('include', '/accessibility')
     cy.get('[data-qa="accessibility-link"]').click()
-    Page.verifyOnPage(AccessibilityPage)
+    Page.verifyOnPage(AccessibilityPage).runAxe()
   })
 })

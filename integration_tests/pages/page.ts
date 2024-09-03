@@ -7,17 +7,8 @@ export default abstract class Page {
     return new constructor()
   }
 
-  protected constructor(
-    private readonly title: string,
-    private readonly options: { axeTest?: boolean } = {
-      axeTest: true,
-    },
-  ) {
+  protected constructor(private readonly title: string) {
     this.checkOnPage()
-
-    if (options.axeTest) {
-      this.runAxe()
-    }
   }
 
   checkOnPage(): void {
@@ -34,5 +25,41 @@ export default abstract class Page {
       logAccessibilityViolations,
       false, // skipFailures
     )
+  }
+}
+
+export class Profile extends Page {
+  constructor() {
+    super('Profile')
+  }
+}
+
+export class TimedOutPage extends Page {
+  constructor() {
+    super('You have been signed out')
+  }
+}
+
+export class SettingsPage extends Page {
+  constructor() {
+    super('Settings')
+  }
+}
+
+export class LicenceConditionsDetailsPage extends Page {
+  constructor() {
+    super('Map of the area you cannot enter')
+  }
+}
+
+export class FeedbackPage extends Page {
+  constructor() {
+    super('Plan your future feedback')
+  }
+}
+
+export class QuestionsPage extends Page {
+  constructor() {
+    super('Send us feedback')
   }
 }

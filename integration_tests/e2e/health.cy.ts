@@ -1,9 +1,5 @@
 context('Healthcheck', () => {
   context('All healthy', () => {
-    beforeEach(() => {
-      cy.task('reset')
-    })
-
     it('Health check page is visible and UP', () => {
       cy.request('/health').its('body.status').should('equal', 'UP')
     })

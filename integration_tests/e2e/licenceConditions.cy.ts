@@ -1,21 +1,11 @@
-import StartPage from '../pages/start'
 import LicencePage from '../pages/licence'
-import Page from '../pages/page'
+import Page, { LicenceConditionsDetailsPage } from '../pages/page'
 import NotFoundPage from '../pages/notFoundPage'
 
 context('Licence conditions', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
-    cy.task('stubGetPopUserOtp')
-    cy.task('stubGetPopUserDetails')
-    cy.task('stubHmppsToken')
-    cy.task('stubGetPopUserByUrn')
-  })
-
-  afterEach(() => {
-    cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(StartPage)
+    cy.task('stubForDefaultLoggedInUser')
   })
 
   it('Should see licence conditions', () => {
@@ -212,5 +202,17 @@ context('Licence conditions', () => {
 
     cy.visit({ url: 'licence-conditions/101/condition/1002', failOnStatusCode: false })
     Page.verifyOnPage(NotFoundPage)
+  })
+
+  it('licence conditions pages should be accessible', () => {
+    cy.task('stubGetLicenceConditions')
+    cy.task('stubGetLicenceConditionImage')
+    cy.signIn()
+
+    cy.get(':nth-child(3) > .moj-sub-navigation__link').click()
+    Page.verifyOnPage(LicencePage).runAxe()
+
+    cy.get('#condition-image-1008-link').click()
+    Page.verifyOnPage(LicenceConditionsDetailsPage)
   })
 })

@@ -1,23 +1,14 @@
 import OverviewPage from '../pages/overview'
-import StartPage from '../pages/start'
 import Page from '../pages/page'
 import { FeatureFlagKey } from '../../server/services/featureFlags'
 
 context('Overview', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
-    cy.task('stubGetPopUserOtp')
-    cy.task('stubGetPopUserDetails')
-    cy.task('stubHmppsToken')
-    cy.task('stubGetPopUserByUrn')
-    cy.task('stubGetLicenceConditions')
-    cy.task('stubGetLicenceConditionImage')
+    cy.task('stubForDefaultLoggedInUser')
   })
 
   afterEach(() => {
-    cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(StartPage)
     cy.task('restoreFlags')
   })
 
@@ -178,5 +169,11 @@ context('Overview', () => {
     cy.get('#content-links')
       .find('ul')
       .should(items => expect(items.length).gte(1))
+  })
+
+  it('Should be accessible', () => {
+    cy.task('stubGetAppointments')
+    cy.signIn()
+    Page.verifyOnPage(OverviewPage).runAxe()
   })
 })

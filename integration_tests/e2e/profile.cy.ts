@@ -1,21 +1,9 @@
-import StartPage from '../pages/start'
-import Page from '../pages/page'
+import Page, { Profile } from '../pages/page'
 
 context('Profile', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
-    cy.task('stubGetPopUserOtp')
-    cy.task('stubGetPopUserDetails')
-    cy.task('stubHmppsToken')
-    cy.task('stubGetLicenceConditions')
-    cy.task('stubGetPopUserByUrn')
-    cy.task('stubGetAppointments')
-  })
-
-  afterEach(() => {
-    cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(StartPage)
+    cy.task('stubForDefaultLoggedInUser')
   })
 
   it('Should be able to see profile page and profile data', () => {
@@ -23,7 +11,7 @@ context('Profile', () => {
 
     // click sub navigation menu for profile
     cy.get('[data-qa="profile-nav-link"]').click()
-    cy.get('.govuk-heading-xl').contains('Profile')
+    Page.verifyOnPage(Profile)
 
     // fullname
     cy.get('.profile-name').contains('John Paul Smith')
@@ -31,5 +19,13 @@ context('Profile', () => {
     cy.get('.profile-email').contains('john@test.com')
     // Mobile
     cy.get('.profile-mobile').contains('0798654321')
+  })
+
+  it('Should be accessible', () => {
+    cy.signIn()
+
+    // click sub navigation menu for profile
+    cy.get('[data-qa="profile-nav-link"]').click()
+    Page.verifyOnPage(Profile).runAxe()
   })
 })

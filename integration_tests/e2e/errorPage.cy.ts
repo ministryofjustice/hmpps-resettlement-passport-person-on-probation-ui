@@ -1,19 +1,7 @@
-import StartPage from '../pages/start'
-import Page from '../pages/page'
-
 context('Error', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
-    cy.task('stubGetPopUserOtp')
-    cy.task('stubGetPopUserDetails')
-    cy.task('stubHmppsToken')
-    cy.task('stubGetPopUserByUrn')
-  })
-
-  afterEach(() => {
-    cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(StartPage)
+    cy.task('stubForDefaultLoggedInUser')
   })
 
   it('Should render error when a 500 response is received', () => {

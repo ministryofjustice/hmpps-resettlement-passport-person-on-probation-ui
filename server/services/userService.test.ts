@@ -87,7 +87,7 @@ describe('UserService', () => {
 
   it('should check an email is verified', async () => {
     personOnProbationUserApiClient.getUserByUrn.mockResolvedValue(mockedUserResponse)
-    const result = await userService.isVerified(oneLoginTestUrn, sessionId)
+    const result = await userService.getUserDetails(oneLoginTestUrn, sessionId)
     expect(result).toBe(mockedUserResponse)
     expect(loggerSpy).toHaveBeenCalledWith(`User verification`)
     expect(redisClient.get).toHaveBeenCalledWith(`${oneLoginTestUrn}-popuser-data`)

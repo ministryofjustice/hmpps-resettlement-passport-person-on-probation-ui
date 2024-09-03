@@ -4,12 +4,7 @@ import Page from '../pages/page'
 context('NotFound', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
-    cy.task('stubGetPopUserOtp')
-    cy.task('stubGetPopUserDetails')
-    cy.task('stubHmppsToken')
-    cy.task('stubGetPopUserByUrn')
-    cy.task('stubGetLicenceConditions')
+    cy.task('stubForDefaultLoggedInUser')
   })
 
   it('Should render page not found when logged in', () => {

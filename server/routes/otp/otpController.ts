@@ -16,6 +16,10 @@ export default class HomeController {
     if (!req.isAuthenticated()) {
       return res.redirect('/sign-in')
     }
+    if (await this.userService.isVerified(req.user?.sub, req.sessionID)) {
+      return res.redirect('/overview')
+    }
+
     return res.render('pages/otp', { user: req.user, queryParams })
   }
 
@@ -23,6 +27,9 @@ export default class HomeController {
     const queryParams = req.query
     if (!req.isAuthenticated()) {
       return res.redirect('/sign-in')
+    }
+    if (await this.userService.isVerified(req.user?.sub, req.sessionID)) {
+      return res.redirect('/overview')
     }
     try {
       const { otp, 'dob-dobDay': dobDay, 'dob-dobMonth': dobMonth, 'dob-dobYear': dobYear } = req.body
