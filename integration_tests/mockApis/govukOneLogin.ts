@@ -60,12 +60,12 @@ const getSignInUrl = (nonce?: string): Promise<string> =>
   getMatchingRequests({
     method: 'GET',
     urlPath: '/govukOneLogin/authorize',
-  }).then(data => {
+  }).then(async data => {
     const { requests } = data.body
     const stateValue = requests[requests.length - 1].queryParams.state.values[0]
     const nonceForToken = nonce || requests[requests.length - 1].queryParams.nonce.values[0]
     // set up /token response while we have access to the nonce
-    Promise.resolve(token(nonceForToken))
+    await token(nonceForToken)
     return `/auth/callback?code=AUTHORIZATION_CODE&state=${stateValue}`
   })
 

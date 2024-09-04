@@ -55,7 +55,7 @@ export default class UserService {
     return fetchedPersonalDetails
   }
 
-  async isVerified(urn: string, sessionId: string): Promise<UserDetailsResponse> {
+  async getUserDetails(urn: string, sessionId: string): Promise<UserDetailsResponse> {
     logger.info(`User verification`)
     const key = `${urn}-popuser-data`
 
@@ -81,6 +81,11 @@ export default class UserService {
     }
 
     return Promise.resolve(fetchedUser)
+  }
+
+  async isVerified(urn: string, sessionId: string): Promise<boolean> {
+    const details = await this.getUserDetails(urn, sessionId)
+    return details?.verified ?? false
   }
 
   async isAuthenticated(urn: string): Promise<boolean> {

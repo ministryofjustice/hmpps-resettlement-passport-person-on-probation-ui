@@ -1,6 +1,6 @@
-import StartPage from '../pages/start'
 import OtpPage from '../pages/otp'
 import Page from '../pages/page'
+import OverviewPage from '../pages/overview'
 
 context('OTP verification', () => {
   const enterValidOtp = () => {
@@ -19,11 +19,6 @@ context('OTP verification', () => {
     cy.task('stubHmppsToken')
   })
 
-  afterEach(() => {
-    cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(StartPage)
-  })
-
   it('Should not continue to Dashboard after validating Date (invalid)', () => {
     cy.signIn()
     cy.visit('/otp')
@@ -40,11 +35,11 @@ context('OTP verification', () => {
   })
 
   it('Should continue to Dashboard after validating OTP (valid)', () => {
-    cy.task('stubGetPopUserByUrn')
+    cy.task('stubGetPopUserByUrnUnverified')
     cy.signIn()
     cy.visit('/otp')
     Page.verifyOnPage(OtpPage)
-
+    cy.task('stubGetPopUserByUrn')
     enterValidOtp()
     cy.contains('Overview')
   })
@@ -57,5 +52,20 @@ context('OTP verification', () => {
 
     enterValidOtp()
     Page.verifyOnPage(OtpPage)
+  })
+
+  it('should redirect to overview if user is already verified', () => {
+    cy.task('stubGetPopUserByUrn')
+    cy.signIn()
+    cy.visit('/otp')
+
+    Page.verifyOnPage(OverviewPage)
+  })
+
+  it('OTP page accessibility', () => {
+    cy.task('stubGetPopUserByUrnUnverified')
+    cy.signIn()
+    cy.visit('/overview')
+    Page.verifyOnPage(OtpPage).runAxe()
   })
 })

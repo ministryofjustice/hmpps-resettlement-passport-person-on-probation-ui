@@ -1,5 +1,5 @@
 import StartPage from '../pages/start'
-import Page from '../pages/page'
+import Page, { TimedOutPage } from '../pages/page'
 import OverviewPage from '../pages/overview'
 
 context('TimedOut', () => {
@@ -20,7 +20,7 @@ context('TimedOut', () => {
     // simulate a 'timed sign-out' event
     cy.visit('/sign-out-timed')
 
-    cy.get('[data-qa="timedout-page-title"]').contains('You have been signed out')
+    Page.verifyOnPage(TimedOutPage).runAxe()
     cy.get('[data-qa="timedout-return-link"]').click()
     Page.verifyOnPage(StartPage)
   })

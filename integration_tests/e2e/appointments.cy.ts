@@ -1,5 +1,4 @@
 import AppointmentsPage from '../pages/appointment'
-import StartPage from '../pages/start'
 import Page from '../pages/page'
 import OverviewPage from '../pages/overview'
 import { FeatureFlagKey } from '../../server/services/featureFlags'
@@ -7,17 +6,10 @@ import { FeatureFlagKey } from '../../server/services/featureFlags'
 context('Appointments', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
-    cy.task('stubGetPopUserOtp')
-    cy.task('stubGetPopUserDetails')
-    cy.task('stubHmppsToken')
-    cy.task('stubGetLicenceConditions')
-    cy.task('stubGetPopUserByUrn')
+    cy.task('stubForDefaultLoggedInUser')
   })
 
   afterEach(() => {
-    cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(StartPage)
     cy.task('restoreFlags')
   })
 
@@ -63,33 +55,12 @@ context('Appointments', () => {
     cy.get('[data-qa="1-old-appointment-date"]').should('exist')
   })
 
-  // Removed in PLT-282 will be re-instated in the near future
-  it.skip('Should be able to see the Appointments details', () => {
+  it('should be accessible', () => {
     cy.task('stubGetAppointments')
     cy.signIn()
 
     // click sub navigation menu for appointments
     cy.get(':nth-child(2) > .moj-sub-navigation__link').click()
-    Page.verifyOnPage(AppointmentsPage)
-
-    // future appointments should be visible
-    cy.get('[data-qa="1-appointment-details-link"]').click()
-
-    // appointment details page should be visible for the selected appointment
-    cy.get('.govuk-heading-xl').contains('Appointment details')
-    cy.contains('This is a future appointment')
-
-    // appointment navigation should be present
-    cy.get('#all-navigation-link').should('exist')
-    cy.get('#previous-navigation-link').should('not.exist')
-    cy.get('#next-navigation-link').should('exist')
-
-    // next link takes me to another view
-    cy.get('#next-navigation-link').click()
-    cy.contains('This is another future appointment')
-    cy.get('#all-navigation-link').should('exist')
-    cy.get('#previous-navigation-link').should('exist')
-    cy.get('#next-navigation-link').should('not.exist')
-    cy.get('[data-qa="1-appointment-details-link"]').should('not.exist')
+    Page.verifyOnPage(AppointmentsPage).runAxe()
   })
 })

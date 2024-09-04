@@ -1,5 +1,4 @@
 import DocumentsPage from '../pages/documents'
-import StartPage from '../pages/start'
 import Page from '../pages/page'
 import OverviewPage from '../pages/overview'
 import { FeatureFlagKey } from '../../server/services/featureFlags'
@@ -8,18 +7,10 @@ import ErrorPage from '../pages/errorPage'
 context('Documents', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
-    cy.task('stubGetPopUserOtp')
-    cy.task('stubGetPopUserDetails')
-    cy.task('stubHmppsToken')
-    cy.task('stubGetPopUserByUrn')
-    cy.task('stubGetDocuments')
-    cy.task('stubGetLicenceConditions')
+    cy.task('stubForDefaultLoggedInUser')
   })
 
   afterEach(() => {
-    cy.get('[data-qa="signOut"]').click()
-    Page.verifyOnPage(StartPage)
     cy.task('restoreFlags')
   })
 
@@ -58,5 +49,12 @@ context('Documents', () => {
       expect(response.headers['content-type']).eq('application/pdf')
       expect(response.body).eq('fake pdf content')
     })
+  })
+
+  it('should be accessible', () => {
+    cy.signIn()
+    cy.task('stubGetDocument')
+    cy.visit('/documents')
+    Page.verifyOnPage(DocumentsPage).runAxe()
   })
 })

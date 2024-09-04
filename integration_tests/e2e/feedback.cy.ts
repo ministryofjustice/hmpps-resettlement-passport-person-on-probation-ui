@@ -1,5 +1,5 @@
 import StartPage from '../pages/start'
-import Page from '../pages/page'
+import Page, { FeedbackPage, QuestionsPage } from '../pages/page'
 
 context('Feedback', () => {
   beforeEach(() => {
@@ -13,7 +13,7 @@ context('Feedback', () => {
     cy.get('[data-qa="feedback-link"]').click()
 
     // start feedback
-    cy.get('[data-qa="feedback-page-title"]').contains('Plan your future feedback')
+    Page.verifyOnPage(FeedbackPage)
     cy.get('[data-qa="feedback-start-btn"]').click()
 
     // type answers
@@ -43,6 +43,7 @@ context('Feedback', () => {
   it('Should be able to change answers', () => {
     Page.verifyOnPage(StartPage)
     cy.get('[data-qa="feedback-link"]').click()
+    Page.verifyOnPage(FeedbackPage)
 
     // start feedback
     cy.get('[data-qa="feedback-start-btn"]').click()
@@ -95,6 +96,7 @@ context('Feedback', () => {
     Page.verifyOnPage(StartPage)
     cy.get('[data-qa="feedback-link"]').click()
 
+    Page.verifyOnPage(FeedbackPage)
     // start feedback
     cy.get('[data-qa="feedback-start-btn"]').click()
 
@@ -117,6 +119,7 @@ context('Feedback', () => {
   it('Should strip unsafe html input', () => {
     Page.verifyOnPage(StartPage)
     cy.get('[data-qa="feedback-link"]').click()
+    Page.verifyOnPage(FeedbackPage)
 
     // start feedback
     cy.get('[data-qa="feedback-start-btn"]').click()
@@ -140,5 +143,13 @@ context('Feedback', () => {
 
     // success
     cy.get('[data-qa="feedback-success-panel"]').should('exist')
+  })
+
+  it('should be accessible', () => {
+    Page.verifyOnPage(StartPage)
+    cy.get('[data-qa="feedback-link"]').click()
+    Page.verifyOnPage(FeedbackPage).runAxe()
+    cy.get('[data-qa="feedback-start-btn"]').click()
+    Page.verifyOnPage(QuestionsPage).runAxe()
   })
 })
