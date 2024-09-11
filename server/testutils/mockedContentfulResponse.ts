@@ -1,4 +1,3 @@
-/* eslint-disable */
 export const mockedPage = {
   metadata: {},
   sys: {
@@ -42,7 +41,7 @@ export const mockedPage = {
               content: [
                 {
                   data: {},
-                  // @ts-expect-error
+                  // @ts-expect-error not sure why it complains about this line
                   content: [{ data: {}, marks: [], value: 'view your licence conditions', nodeType: 'text' }],
                   nodeType: 'paragraph',
                 },
@@ -68,12 +67,10 @@ export const mockedPage = {
         {
           data: {},
           content: [
-            // @ts-expect-error
             { data: {}, marks: [], value: '', nodeType: 'text' },
             {
               data: {
                 target: {
-                  // @ts-expect-error
                   metadata: { tags: [] },
                   sys: {
                     space: { sys: { type: 'Link', linkType: 'Space', id: 'p38k4c668chw' } },
@@ -95,7 +92,6 @@ export const mockedPage = {
                   },
                 },
               },
-              // @ts-expect-error
               content: [],
               nodeType: 'embedded-entry-inline',
             },
