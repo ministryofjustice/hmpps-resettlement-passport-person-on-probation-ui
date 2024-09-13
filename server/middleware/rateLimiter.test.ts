@@ -47,7 +47,7 @@ describe('rateLimiterMiddleware', () => {
   })
 
   it.each([
-    ['/otp/verify', '222.0.0.1'],
+    ['/sign-up/otp/verify', '222.0.0.1'],
     ['/feedback/complete', '222.0.0.2'],
   ])('should restrict path %s with more than 10 requests in 1 minute', (path: string, ip: string) => {
     reqMock = createRequest({
@@ -68,7 +68,7 @@ describe('rateLimiterMiddleware', () => {
     Array.from({ length: 5 }).forEach((_, i: number) => {
       reqMock = createRequest({
         method: 'GET',
-        path: '/otp/verify',
+        path: '/sign-up/otp/verify',
         ip: `333.0.0.${i}`,
       })
 
@@ -89,7 +89,7 @@ describe('rateLimiterMiddleware', () => {
   it('counter should reset after 1 minute', () => {
     reqMock = createRequest({
       method: 'POST',
-      path: '/otp/verify',
+      path: '/sign-up/otp/verify',
       ip: '444.0.0.1',
     })
     // make more than 10 calls per minute
@@ -113,7 +113,7 @@ describe('rateLimiterMiddleware', () => {
   it('counter should reset after 1 minute elapsed from the first call', () => {
     reqMock = createRequest({
       method: 'POST',
-      path: '/otp/verify',
+      path: '/sign-up/otp/verify',
       ip: '444.0.0.2',
     })
     Array.from({ length: 9 }).forEach(() => {
@@ -146,7 +146,7 @@ describe('rateLimiterMiddleware', () => {
   it('counter should not reset after 59 seconds', () => {
     reqMock = createRequest({
       method: 'POST',
-      path: '/otp/verify',
+      path: '/sign-up/otp/verify',
       ip: '555.0.0.1',
     })
     // make more than 10 calls per minute

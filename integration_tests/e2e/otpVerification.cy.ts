@@ -21,7 +21,7 @@ context('OTP verification', () => {
 
   it('Should not continue to Dashboard after validating Date (invalid)', () => {
     cy.signIn()
-    cy.visit('/otp')
+    cy.visit('/sign-up/otp')
     Page.verifyOnPage(OtpPage)
 
     // invalid format
@@ -37,7 +37,7 @@ context('OTP verification', () => {
   it('Should continue to Dashboard after validating OTP (valid)', () => {
     cy.task('stubGetPopUserByUrnUnverified')
     cy.signIn()
-    cy.visit('/otp')
+    cy.visit('/sign-up/otp')
     Page.verifyOnPage(OtpPage)
     cy.task('stubGetPopUserByUrn')
     enterValidOtp()
@@ -57,7 +57,7 @@ context('OTP verification', () => {
   it('should redirect to overview if user is already verified', () => {
     cy.task('stubGetPopUserByUrn')
     cy.signIn()
-    cy.visit('/otp')
+    cy.visit('/sign-up/otp')
 
     Page.verifyOnPage(OverviewPage)
   })

@@ -1,10 +1,14 @@
 [
   {
-   "feature": "viewAppointmentsEndUser",
-   "enabled": true
+    "feature": "viewAppointmentsEndUser",
+    "enabled": true
   },
   {
     "feature": "viewDocuments",
+    "enabled": true
+  },
+  {
+    "feature": "knowledgeVerification",
     "enabled": true
   }
 ]

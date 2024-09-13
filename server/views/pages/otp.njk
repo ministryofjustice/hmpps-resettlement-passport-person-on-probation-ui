@@ -24,7 +24,7 @@
 
   <div class="govuk-grid-row govuk-!-padding-bottom-6">
     <div class="govuk-grid-column-two-thirds">
-      <form class="form" action="/otp/verify" method="post">
+      <form class="form" action="/sign-up/otp/verify" method="post">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
         <h1 class="govuk-heading-xl">{{ t('otp-h1') }}</h1>
         <div class="govuk-inset-text">{{ t('otp-inset-1') }}</div>
@@ -105,6 +105,14 @@
       </form>
     </div>
   </div>
+
+  {% if flags.isEnabled('knowledgeVerification') %}
+    <div class="govuk-grid-row govuk-!-padding-bottom-6">
+      <div class="govuk-grid-column-two-thirds">
+        <a href="/user/verify">I don't have a one time password</a>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block bodyEnd %}

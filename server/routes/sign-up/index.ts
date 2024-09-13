@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import { Services } from '../../services'
-import OtpController from './otpController'
+import OtpController from './signUpController'
 import asyncWrapper from '../../middleware/asyncWrapper'
 
 export default (router: Router, services: Services) => {
   const otpController = new OtpController(services.userService, services.appInsightsClient)
-  router.get('/otp', [asyncWrapper(otpController.index)])
-  router.post('/otp/verify', [asyncWrapper(otpController.create)])
+  router.get('/sign-up/otp', [asyncWrapper(otpController.index)])
+  router.post('/sign-up/otp/verify', [asyncWrapper(otpController.create)])
 }
