@@ -3,15 +3,18 @@ import { isPast } from 'date-fns'
 import { TelemetryClient } from 'applicationinsights'
 import UserService from '../../services/userService'
 import { getDobDate, getDobDateString, isValidOtp } from '../../utils/utils'
-import { trackEvent, errorProperties, PyfEvent } from '../../utils/analytics'
+import { errorProperties, PyfEvent, trackEvent } from '../../utils/analytics'
+import FeatureFlagsService from '../../services/featureFlagsService'
+import { FeatureFlagKey } from '../../services/featureFlags'
 
-export default class HomeController {
+export default class SignupController {
   constructor(
     private readonly userService: UserService,
     private readonly appInsightClient: TelemetryClient,
+    private readonly featureFlagsService: FeatureFlagsService,
   ) {}
 
-  index: RequestHandler = async (req, res) => {
+  otp: RequestHandler = async (req, res) => {
     const queryParams = req.query
     if (!req.isAuthenticated()) {
       return res.redirect('/sign-in')
@@ -19,8 +22,9 @@ export default class HomeController {
     if (await this.userService.isVerified(req.user?.sub, req.sessionID)) {
       return res.redirect('/overview')
     }
+    const flags = await this.featureFlagsService.getFeatureFlags()
 
-    return res.render('pages/otp', { user: req.user, queryParams })
+    return res.render('pages/otp', { user: req.user, queryParams, flags })
   }
 
   create: RequestHandler = async (req, res, next) => {
@@ -48,16 +52,14 @@ export default class HomeController {
           text: req.t('otp-error-date-1'),
           href: '#dob',
         })
+      } else if (!isPast(dobDate)) {
+        errors.push({
+          text: req.t('otp-error-date-2'),
+          href: '#dob',
+        })
       }
 
       if (dobDate) {
-        if (!isPast(dobDate)) {
-          errors.push({
-            text: req.t('otp-error-date-2'),
-            href: '#dob',
-          })
-        }
-
         const dobDateString = getDobDateString(dobDay, dobMonth, dobYear)
 
         if (isValidOtp(otp)) {
@@ -99,5 +101,13 @@ export default class HomeController {
     } catch (err) {
       return next(err)
     }
+  }
+
+  verify: RequestHandler = async (req, res, next) => {
+    const flags = await this.featureFlagsService.getFeatureFlags()
+    if (!flags.isEnabled(FeatureFlagKey.KNOWLEDGE_VERIFICATION)) {
+      return res.redirect('/sign-up/otp')
+    }
+    return res.render('pages/verification', { flags })
   }
 }

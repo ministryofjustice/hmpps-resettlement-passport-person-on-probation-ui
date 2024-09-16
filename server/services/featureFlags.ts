@@ -6,6 +6,7 @@ export interface Feature {
 export const enum FeatureFlagKey {
   VIEW_APPOINTMENTS = 'viewAppointmentsEndUser',
   DOCUMENTS = 'viewDocuments',
+  KNOWLEDGE_VERIFICATION = 'knowledgeVerification',
 }
 
 export class FeatureFlags {

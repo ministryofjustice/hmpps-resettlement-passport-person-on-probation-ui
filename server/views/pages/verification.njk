@@ -8,6 +8,8 @@
   {{ ' govuk-input--error' if errors | hasErrorWithPrefix([field, 'dobError']) else '' }}
 {%- endmacro %}
 
+
+
 {% block beforeContent %}
   {% include "../partials/limited-subnavigation.njk" %}
 {% endblock %}
@@ -21,34 +23,53 @@
       })
     }}
   {% endif %}
-
   <div class="govuk-grid-row govuk-!-padding-bottom-6">
     <div class="govuk-grid-column-two-thirds">
-      <form class="form" action="/sign-up/otp/verify" method="post">
+      <form class="form" action="/sign-up/verify" method="post">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
-        <h1 class="govuk-heading-xl">{{ t('otp-h1') }}</h1>
-        <div class="govuk-inset-text">{{ t('otp-inset-1') }}</div>
+        <h1 class="govuk-heading-xl">{{ t('verification-h1') }}</h1>
 
         <div class="govuk-!-margin-bottom-8">
           <div>
             {{
               govukInput({
-                hint: {
-                  text: t('otp-hint-1')
-                },
                 inputmode: "text",
                 label: {
-                  text: t('otp-label-1'),
+                  text: t('verification-label-first-name'),
                   isPageHeading: false,
                   classes: "govuk-fieldset__legend--m"
                 },
                 spellcheck: false,
                 errorMessage: {
-                  text: otpError.message
-                } if otpError,
-                classes: "govuk-input--width-5",
-                name: "otp",
-                id: "otp"
+                  text: validationErrors.firstName
+                } if validationErrors.firstName,
+                classes: "govuk-input--width-20",
+                name: "firstName",
+                id: "firstName",
+                autocomplete: 'given-name'
+              })
+            }}
+          </div>
+        </div>
+
+        <div class="govuk-!-margin-bottom-8">
+          <div>
+            {{
+              govukInput({
+                inputmode: "text",
+                label: {
+                  text: t('verification-label-last-name'),
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--m"
+                },
+                spellcheck: false,
+                errorMessage: {
+                  text: validationErrors.lastName
+                } if validationErrors.lastName,
+                classes: "govuk-input--width-20",
+                name: "lastName",
+                id: "lastName",
+                autocomplete: 'family-name'
               })
             }}
           </div>
@@ -59,38 +80,38 @@
             govukDateInput({
               id: "dob",
               errorMessage: {
-                text: dobError.message
-              } if dobError,
+                text: validationErrors.dateOfBirth
+              } if validationErrors.dateOfBirth,
               namePrefix: "dob",
               fieldset: {
                 legend: {
-                  text: t('otp-label-2'),
+                  text: t('verification-label-dob'),
                   isPageHeading: false,
                   classes: "govuk-fieldset__legend--m"
                 }
               },
               hint: {
-                text: t('otp-hint-2')
+                text: t('verification-hint-dob')
               },
               items: [
                 {
                   id: "dobDay",
                   name: "dobDay",
-                  label: t('otp-input-day'),
+                  label: t('verification-input-day'),
                   classes: "govuk-input--width-2" + errorClass('dob'),
                   autocomplete: "bday-day"
                 },
                 {
                   id: "dobMonth",
                   name: "dobMonth",
-                  label: t('otp-input-month'),
+                  label: t('verification-input-month'),
                   classes: "govuk-input--width-2" + errorClass('dob'),
                   autocomplete: "bday-month"
                 },
                 {
                   id: "dobYear",
                   name: "dobYear",
-                  label: t('otp-input-year'),
+                  label: t('verification-input-year'),
                   classes: "govuk-input--width-4" + errorClass('dob'),
                   autocomplete: "bday-year"
                 }
@@ -99,20 +120,37 @@
           }}
         </div>
 
-        <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="otp-submit-btn">
-          {{ t('otp-btn') }}
+        <div class="govuk-!-margin-bottom-8">
+          <div>
+            {{
+              govukInput({
+                inputmode: "text",
+                label: {
+                  text: t('verification-label-prisoner-number'),
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--m"
+                },
+                hint: {
+                  text: t('verification-hint-prisoner-number')
+                },
+                spellcheck: false,
+                errorMessage: {
+                  text: validationErors.prisonerNumber
+                } if validationErrors.prisonerNumber,
+                classes: "govuk-input--width-5",
+                name: "prisonerNumber",
+                id: "prisonerNumber"
+              })
+            }}
+          </div>
+        </div>
+
+        <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="verification-submit-btn">
+          {{ t('verification-btn') }}
         </button>
       </form>
     </div>
   </div>
-
-  {% if flags.isEnabled('knowledgeVerification') %}
-    <div class="govuk-grid-row govuk-!-padding-bottom-6">
-      <div class="govuk-grid-column-two-thirds">
-        <a href="/sign-up/verify">I don't have a one time password</a>
-      </div>
-    </div>
-  {% endif %}
 {% endblock %}
 
 {% block bodyEnd %}

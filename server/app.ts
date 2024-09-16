@@ -20,6 +20,7 @@ import routes from './routes'
 import type { Services } from './services'
 import { setupRateLimiter } from './middleware/rateLimiter'
 import { appInsightsMiddleware } from './utils/azureAppInsights'
+import { featureFlagsMiddleware } from './middleware/featureFlagsMiddleware'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -57,6 +58,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setupGovukOneLogin())
   app.use(setUpCsrf())
   app.use(setupRateLimiter())
+  app.use(featureFlagsMiddleware(services.featureFlagsService))
 
   app.use(routes(services))
 
