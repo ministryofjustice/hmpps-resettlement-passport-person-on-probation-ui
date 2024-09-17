@@ -6,10 +6,11 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky",
-    "copy-views": "rsync -ru server/views dist/server/",
+    "copy-views": "cp -R server/views dist/server/",
+    "copy-views-watch": "rsync -ru server/views dist/server/",
     "compile-sass": "sass --quiet-deps --no-source-map --load-path=node_modules/govuk-frontend/dist --load-path=node_modules/@ministryofjustice/frontend --load-path=. assets/scss/application.scss:./assets/stylesheets/application.css --style compressed",
     "watch-ts": "tsc -w --incremental",
-    "watch-views": "nodemon -d 0 --watch server/views -e html,njk,json -x npm run copy-views",
+    "watch-views": "nodemon -d 0 --watch server/views -e html,njk,json -x npm run copy-views-watch",
     "watch-node": "DEBUG=gov-starter-server* nodemon --enable-source-maps -r dotenv/config --watch dist/ dist/server.js --ignore '**/*.njk' --ignore '**/*.test.*' --ignore '**/tsconfig.tsbuildinfo' | bunyan -o short",
     "watch-sass": "npm run compile-sass -- --watch",
     "build": "npm run compile-sass && tsc && npm run copy-views",
