@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import type { Services } from '../services'
-import signUpRoutes from './sign-up'
+import signUpRoutes from './sign-up/signUpRoutes'
 import overviewRoutes from './overview'
 import appointmentRoutes from './appointment'
 import licenceConditionsRoutes from './licenceConditions'

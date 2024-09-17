@@ -148,7 +148,7 @@ export default class SignupController {
     return res.render('pages/verification', { previousSubmission: req.body, validationResult })
   }
 
-  private async checkForRedirects(req: Express.Request): Promise<string> {
+  private async checkForRedirects(req: Express.Request): Promise<string | null> {
     const flags = await this.featureFlagsService.getFeatureFlags()
     if (!req.isAuthenticated()) {
       return '/sign-in'
@@ -229,6 +229,7 @@ export function validateSubmission(req: Express.Request): ValidationResult {
       href: '#prisoner-number',
     })
     result.prisonerNumber = message
+    console.log('hello')
   }
   //TODO: validate prisoner number content
 

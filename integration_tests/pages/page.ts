@@ -63,3 +63,9 @@ export class QuestionsPage extends Page {
     super('Send us feedback')
   }
 }
+
+export class VerificationPage extends Page {
+  constructor() {
+    super('Sample text')
+  }
+}

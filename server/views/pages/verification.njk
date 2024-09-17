@@ -2,6 +2,8 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
 {% set pageTitle = "Complete your account setup securely" + titleHeading %}
 
 {% macro errorClass(field) -%}
@@ -95,7 +97,7 @@
               },
               items: [
                 {
-                  id: "dobDay",
+                  id: "dob-day",
                   name: "day",
                   label: t('verification-input-day'),
                   classes: "govuk-input--width-2" + errorClass('dob'),
@@ -103,7 +105,7 @@
                   value: previousSubmission['dob-day']
                 },
                 {
-                  id: "dobMonth",
+                  id: "dob-month",
                   name: "month",
                   label: t('verification-input-month'),
                   classes: "govuk-input--width-2" + errorClass('dob'),
@@ -111,7 +113,7 @@
                   value: previousSubmission['dob-month']
                 },
                 {
-                  id: "dobYear",
+                  id: "dob-year",
                   name: "year",
                   label: t('verification-input-year'),
                   classes: "govuk-input--width-4" + errorClass('dob'),
@@ -138,7 +140,7 @@
                 },
                 spellcheck: false,
                 errorMessage: {
-                  text: validationErors.prisonerNumber
+                  text: validationResult.prisonerNumber
                 } if validationResult.prisonerNumber,
                 classes: "govuk-input--width-5",
                 name: "prisonerNumber",
@@ -149,9 +151,11 @@
           </div>
         </div>
 
-        <button type="submit" class="govuk-button" data-module="govuk-button" data-qa="verification-submit-btn">
-          {{ t('verification-btn') }}
-        </button>
+        {{ govukButton({
+          id: 'submit',
+          text: t('verification-btn'),
+          preventDoubleClick: true
+        }) }}
       </form>
     </div>
   </div>
