@@ -96,3 +96,12 @@ export type DocumentMeta = {
 export const enum UserDocumentType {
   LICENCE_CONDITIONS = 'LICENCE_CONDITIONS',
 }
+
+export type VerificationData = {
+  urn: string
+  email: string
+  firstName: string
+  lastName: string
+  dateOfBirth: string
+  nomsId: string
+}

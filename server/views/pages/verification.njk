@@ -5,21 +5,19 @@
 {% set pageTitle = "Complete your account setup securely" + titleHeading %}
 
 {% macro errorClass(field) -%}
-  {{ ' govuk-input--error' if errors | hasErrorWithPrefix([field, 'dobError']) else '' }}
+  {{ ' govuk-input--error' if validationResult.dateOfBirth }}
 {%- endmacro %}
-
-
 
 {% block beforeContent %}
   {% include "../partials/limited-subnavigation.njk" %}
 {% endblock %}
 
 {% block content %}
-  {% if errors | length > 0 %}
+  {% if validationResult.errors | length > 0 %}
     {{
       govukErrorSummary({
         titleText: t('generic-error-summary'),
-        errorList: errors
+        errorList: validationResult.errors
       })
     }}
   {% endif %}
@@ -41,12 +39,13 @@
                 },
                 spellcheck: false,
                 errorMessage: {
-                  text: validationErrors.firstName
-                } if validationErrors.firstName,
+                  text: validationResult.firstName
+                } if validationResult.firstName,
                 classes: "govuk-input--width-20",
                 name: "firstName",
-                id: "firstName",
-                autocomplete: 'given-name'
+                id: "first-name",
+                autocomplete: 'given-name',
+                value: previousSubmission.firstName
               })
             }}
           </div>
@@ -64,12 +63,13 @@
                 },
                 spellcheck: false,
                 errorMessage: {
-                  text: validationErrors.lastName
-                } if validationErrors.lastName,
+                  text: validationResult.lastName
+                } if validationResult.lastName,
                 classes: "govuk-input--width-20",
                 name: "lastName",
-                id: "lastName",
-                autocomplete: 'family-name'
+                id: "last-name",
+                autocomplete: 'family-name',
+                value: previousSubmission.lastName
               })
             }}
           </div>
@@ -80,8 +80,8 @@
             govukDateInput({
               id: "dob",
               errorMessage: {
-                text: validationErrors.dateOfBirth
-              } if validationErrors.dateOfBirth,
+                text: validationResult.dateOfBirth
+              } if validationResult.dateOfBirth,
               namePrefix: "dob",
               fieldset: {
                 legend: {
@@ -96,24 +96,27 @@
               items: [
                 {
                   id: "dobDay",
-                  name: "dobDay",
+                  name: "day",
                   label: t('verification-input-day'),
                   classes: "govuk-input--width-2" + errorClass('dob'),
-                  autocomplete: "bday-day"
+                  autocomplete: "bday-day",
+                  value: previousSubmission['dob-day']
                 },
                 {
                   id: "dobMonth",
-                  name: "dobMonth",
+                  name: "month",
                   label: t('verification-input-month'),
                   classes: "govuk-input--width-2" + errorClass('dob'),
-                  autocomplete: "bday-month"
+                  autocomplete: "bday-month",
+                  value: previousSubmission['dob-month']
                 },
                 {
                   id: "dobYear",
-                  name: "dobYear",
+                  name: "year",
                   label: t('verification-input-year'),
                   classes: "govuk-input--width-4" + errorClass('dob'),
-                  autocomplete: "bday-year"
+                  autocomplete: "bday-year",
+                  value: previousSubmission['dob-year']
                 }
               ]
             })
@@ -136,10 +139,11 @@
                 spellcheck: false,
                 errorMessage: {
                   text: validationErors.prisonerNumber
-                } if validationErrors.prisonerNumber,
+                } if validationResult.prisonerNumber,
                 classes: "govuk-input--width-5",
                 name: "prisonerNumber",
-                id: "prisonerNumber"
+                id: "prisoner-number",
+                value: previousSubmission.prisonerNumber
               })
             }}
           </div>

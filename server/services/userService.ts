@@ -2,7 +2,7 @@ import logger from '../../logger'
 import config from '../config'
 import PersonOnProbationUserApiClient, { UserDetailsResponse } from '../data/personOnProbationApiClient'
 import ResettlementPassportApiClient from '../data/resettlementPassportApiClient'
-import type { OtpRequest, PersonalDetails } from '../data/resettlementPassportData'
+import { OtpRequest, PersonalDetails, VerificationData } from '../data/resettlementPassportData'
 import { TokenStore, tokenStoreFactory } from '../data/tokenStore/tokenStore'
 
 export default class UserService {
@@ -93,5 +93,10 @@ export default class UserService {
     const tokenStore = tokenStoreFactory()
     const tokenValue = await tokenStore.getToken(urn)
     return Promise.resolve(!!tokenValue)
+  }
+
+  async verifyUser(submission: VerificationData, sessionId: string): Promise<boolean> {
+    const response = await this.resettlementPassportClient.verifyUser(submission, sessionId)
+    return response && response.verified === true
   }
 }

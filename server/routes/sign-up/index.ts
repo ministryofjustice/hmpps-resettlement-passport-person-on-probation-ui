@@ -11,5 +11,6 @@ export default (router: Router, services: Services) => {
   )
   router.get('/sign-up/otp', [asyncWrapper(otpController.otp)])
   router.post('/sign-up/otp/verify', [asyncWrapper(otpController.create)])
-  router.get('/sign-up/verify', [asyncWrapper(otpController.verify)])
+  router.get('/sign-up/verify', [asyncWrapper(otpController.verifyPage)])
+  router.post('/sign-up/verify', [asyncWrapper(otpController.verifySubmit)])
 }

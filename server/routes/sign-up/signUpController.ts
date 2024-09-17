@@ -6,6 +6,7 @@ import { getDobDate, getDobDateString, isValidOtp } from '../../utils/utils'
 import { errorProperties, PyfEvent, trackEvent } from '../../utils/analytics'
 import FeatureFlagsService from '../../services/featureFlagsService'
 import { FeatureFlagKey } from '../../services/featureFlags'
+import { VerificationData } from '../../data/resettlementPassportData'
 
 export default class SignupController {
   constructor(
@@ -103,11 +104,133 @@ export default class SignupController {
     }
   }
 
-  verify: RequestHandler = async (req, res, next) => {
-    const flags = await this.featureFlagsService.getFeatureFlags()
-    if (!flags.isEnabled(FeatureFlagKey.KNOWLEDGE_VERIFICATION)) {
-      return res.redirect('/sign-up/otp')
+  verifyPage: RequestHandler = async (req, res, _) => {
+    const redirect = await this.checkForRedirects(req)
+    if (redirect) {
+      return res.redirect(redirect)
     }
-    return res.render('pages/verification', { flags })
+
+    return res.render('pages/verification')
   }
+
+  verifySubmit: RequestHandler = async (req, res, _) => {
+    const redirect = await this.checkForRedirects(req)
+    if (redirect) {
+      return res.redirect(redirect)
+    }
+    let validationResult = validateSubmission(req)
+    if (validationResult.errors.length > 0) {
+      return res.render('pages/verification', { validationResult, previousSubmission: req.body })
+    }
+
+    const submission: VerificationData = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      urn: req.user.sub,
+      email: req.user.email,
+      dateOfBirth: getDobDateString(req.body['dob-day'], req.body['dob-month'], req.body['dob-year']),
+      nomsId: req.body.prisonerNumber,
+    }
+
+    const verified = await this.userService.verifyUser(submission, req.sessionID)
+    if (verified) {
+      return res.redirect('/overview')
+    }
+
+    validationResult = {
+      errors: [
+        {
+          text: req.t('verification-error-details-incorrect'),
+          href: '',
+        },
+      ],
+    }
+    return res.render('pages/verification', { previousSubmission: req.body, validationResult })
+  }
+
+  private async checkForRedirects(req: Express.Request): Promise<string> {
+    const flags = await this.featureFlagsService.getFeatureFlags()
+    if (!req.isAuthenticated()) {
+      return '/sign-in'
+    }
+    if (!flags.isEnabled(FeatureFlagKey.KNOWLEDGE_VERIFICATION)) {
+      return '/sign-up/otp'
+    }
+    if (await this.userService.isVerified(req.user?.sub, req.sessionID)) {
+      return '/overview'
+    }
+    return null
+  }
+}
+
+export type VerifyFormBody = {
+  firstName?: string
+  lastName?: string
+  'dob-day'?: string
+  'dob-month'?: string
+  'dob-year'?: string
+  prisonerNumber?: string
+}
+
+type ValidationResult = {
+  errors: Express.ValidationError[]
+  firstName?: string
+  lastName?: string
+  dateOfBirth?: string
+  prisonerNumber?: string
+}
+
+export function validateSubmission(req: Express.Request): ValidationResult {
+  const errors: Express.ValidationError[] = []
+  const body: VerifyFormBody = req.body
+  const result: ValidationResult = {
+    errors,
+  }
+
+  if (!body.firstName?.length) {
+    const message = req.t('verification-error-first-name')
+    errors.push({
+      text: message,
+      href: '#first-name',
+    })
+    result.firstName = message
+  }
+
+  if (!body.lastName) {
+    const message = req.t('verification-error-last-name')
+    errors.push({
+      text: message,
+      href: '#last-name',
+    })
+    result.lastName = message
+  }
+
+  const dateOfBirth = getDobDate(body['dob-day'], body['dob-month'], body['dob-year'])
+  if (!dateOfBirth) {
+    const message = req.t('verification-error-date-1')
+    errors.push({
+      text: message,
+      href: '#dob',
+    })
+    result.dateOfBirth = message
+  } else if (!isPast(dateOfBirth)) {
+    const message = req.t('verification-error-date-2')
+    errors.push({
+      text: message,
+      href: '#dob',
+    })
+    result.dateOfBirth = message
+  }
+
+  if (!body.prisonerNumber) {
+    const message = req.t('verification-error-prisoner-number')
+    errors.push({
+      text: message,
+      href: '#prisoner-number',
+    })
+    result.prisonerNumber = message
+  }
+  //TODO: validate prisoner number content
+
+  return result
 }

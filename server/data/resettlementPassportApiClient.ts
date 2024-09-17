@@ -11,6 +11,7 @@ import {
   OtpRequest,
   PersonalDetails,
   UserDocumentType,
+  VerificationData,
 } from './resettlementPassportData'
 import { checkError } from './checkError'
 
@@ -153,5 +154,22 @@ export default class ResettlementPassportApiClient {
       logger.error(`SessionId: ${sessionId}. Error fetching documents ${docType} for ${nomsId}`, error)
       throw error
     }
+  }
+
+  async verifyUser(submission: VerificationData, sessionId: string): Promise<OtpDetailsResponse> {
+    try {
+      logger.debug(`SessionId: ${sessionId}. verifyUser()`)
+      return await this.restClient.post<OtpDetailsResponse>({
+        path: '/popUser/onelogin/verify-answers',
+        data: submission,
+        headers: {
+          SessionID: sessionId,
+        },
+      })
+    } catch (error) {
+      logger.error(`SessionId: ${sessionId}. Verification failed:`, error)
+      checkError(error)
+    }
+    return null
   }
 }
