@@ -192,5 +192,6 @@
   "verification-error-details-incorrect": "These details could not be matched against our records (Sample text)",
   "verification-error-first-name": "Enter your first name",
   "verification-error-last-name": "Enter your last name",
-  "verification-error-prisoner-number": "Enter your prison number"
+  "verification-error-prisoner-number": "Enter your prison number",
+  "verification-error-prisoner-number-2": "Prison number must only include letters A to Z and digits"
 }

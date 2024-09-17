@@ -229,9 +229,14 @@ export function validateSubmission(req: Express.Request): ValidationResult {
       href: '#prisoner-number',
     })
     result.prisonerNumber = message
-    console.log('hello')
+  } else if (!body.prisonerNumber.match(/[a-zA-Z0-9]+/)) {
+    const message = req.t('verification-error-prisoner-number-2')
+    errors.push({
+      text: message,
+      href: '#prisoner-number',
+    })
+    result.prisonerNumber = message
   }
-  //TODO: validate prisoner number content
 
   return result
 }

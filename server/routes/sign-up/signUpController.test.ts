@@ -126,6 +126,18 @@ describe('sign up validation', () => {
     ])
     expect(validationResult.dateOfBirth).toEqual('verification-error-date-2')
   })
+
+  it('Should give error if prisoner number contains special char', () => {
+    const invalidPrisonerNumber = { ...validInput, prisonerNumber: '~!' }
+    const validationResult = validateSubmission(request(invalidPrisonerNumber))
+    expect(validationResult.errors).toEqual([
+      {
+        text: 'verification-error-prisoner-number-2',
+        href: '#prisoner-number',
+      },
+    ])
+    expect(validationResult.prisonerNumber).toEqual('verification-error-prisoner-number-2')
+  })
 })
 
 function request(body: VerifyFormBody): Express.Request {

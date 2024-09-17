@@ -145,7 +145,8 @@
                 classes: "govuk-input--width-5",
                 name: "prisonerNumber",
                 id: "prisoner-number",
-                value: previousSubmission.prisonerNumber
+                value: previousSubmission.prisonerNumber,
+                pattern: '[a-zA-Z0-9]+'
               })
             }}
           </div>
