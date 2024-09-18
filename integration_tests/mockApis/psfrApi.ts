@@ -1,5 +1,6 @@
 import { SuperAgentRequest } from 'superagent'
 import { stubFor } from './wiremock'
+import { oneLoginUrn } from './govukOneLogin'
 
 const getTomorrowsDate = () => {
   const tomorrow = new Date()
@@ -436,6 +437,58 @@ export default {
         status: 200,
         headers: { 'Content-Type': 'application/pdf' },
         body: 'fake pdf content',
+      },
+    }),
+
+  stubVerifyNotFound: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'POST',
+        url: '/rpApi/popUser/onelogin/verify-answers',
+        bodyPatterns: [
+          {
+            equalToJson: JSON.stringify({
+              firstName: 'John',
+              lastName: 'Smith',
+              urn: oneLoginUrn,
+              email: 'user1@example.com',
+              dateOfBirth: '1982-10-24',
+              nomsId: 'G4161UF',
+            }),
+            ignoreArrayOrder: true,
+          },
+        ],
+      },
+      response: {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' },
+        jsonBody: {},
+      },
+    }),
+
+  stubVerifySuccess: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'POST',
+        url: '/rpApi/popUser/onelogin/verify-answers',
+        bodyPatterns: [
+          {
+            equalToJson: JSON.stringify({
+              firstName: 'John',
+              lastName: 'Smith',
+              urn: oneLoginUrn,
+              email: 'user1@example.com',
+              dateOfBirth: '1982-10-24',
+              nomsId: 'G4161UF',
+            }),
+            ignoreArrayOrder: true,
+          },
+        ],
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+        jsonBody: mockedOtpResponse,
       },
     }),
 }

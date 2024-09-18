@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import type { Services } from '../services'
-import otpRoutes from './otp'
+import signUpRoutes from './sign-up/signUpRoutes'
 import overviewRoutes from './overview'
 import appointmentRoutes from './appointment'
 import licenceConditionsRoutes from './licenceConditions'
@@ -15,7 +15,7 @@ import documentsRoute from './documents/documentsRoute'
 
 export default function routes(service: Services): Router {
   const router = Router()
-  otpRoutes(router, service)
+  signUpRoutes(router, service)
   overviewRoutes(router, service)
   appointmentRoutes(router, service)
   licenceConditionsRoutes(router, service)

@@ -1,0 +1,167 @@
+{% extends "../partials/layout.njk" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set pageTitle = "Complete your account setup securely" + titleHeading %}
+
+{% macro errorClass(field) -%}
+  {{ ' govuk-input--error' if validationResult.dateOfBirth }}
+{%- endmacro %}
+
+{% block beforeContent %}
+  {% include "../partials/limited-subnavigation.njk" %}
+{% endblock %}
+
+{% block content %}
+  {% if validationResult.errors | length > 0 %}
+    {{
+      govukErrorSummary({
+        titleText: t('generic-error-summary'),
+        errorList: validationResult.errors
+      })
+    }}
+  {% endif %}
+  <div class="govuk-grid-row govuk-!-padding-bottom-6">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/sign-up/verify" method="post">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        <h1 class="govuk-heading-xl">{{ t('verification-h1') }}</h1>
+
+        <div class="govuk-!-margin-bottom-8">
+          <div>
+            {{
+              govukInput({
+                inputmode: "text",
+                label: {
+                  text: t('verification-label-first-name'),
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--m"
+                },
+                spellcheck: false,
+                errorMessage: {
+                  text: validationResult.firstName
+                } if validationResult.firstName,
+                classes: "govuk-input--width-20",
+                name: "firstName",
+                id: "first-name",
+                autocomplete: 'given-name',
+                value: previousSubmission.firstName
+              })
+            }}
+          </div>
+        </div>
+
+        <div class="govuk-!-margin-bottom-8">
+          <div>
+            {{
+              govukInput({
+                inputmode: "text",
+                label: {
+                  text: t('verification-label-last-name'),
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--m"
+                },
+                spellcheck: false,
+                errorMessage: {
+                  text: validationResult.lastName
+                } if validationResult.lastName,
+                classes: "govuk-input--width-20",
+                name: "lastName",
+                id: "last-name",
+                autocomplete: 'family-name',
+                value: previousSubmission.lastName
+              })
+            }}
+          </div>
+        </div>
+
+        <div class="govuk-!-margin-bottom-8">
+          {{
+            govukDateInput({
+              id: "dob",
+              errorMessage: {
+                text: validationResult.dateOfBirth
+              } if validationResult.dateOfBirth,
+              namePrefix: "dob",
+              fieldset: {
+                legend: {
+                  text: t('verification-label-dob'),
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--m"
+                }
+              },
+              hint: {
+                text: t('verification-hint-dob')
+              },
+              items: [
+                {
+                  id: "dob-day",
+                  name: "day",
+                  label: t('verification-input-day'),
+                  classes: "govuk-input--width-2" + errorClass('dob'),
+                  autocomplete: "bday-day",
+                  value: previousSubmission['dob-day']
+                },
+                {
+                  id: "dob-month",
+                  name: "month",
+                  label: t('verification-input-month'),
+                  classes: "govuk-input--width-2" + errorClass('dob'),
+                  autocomplete: "bday-month",
+                  value: previousSubmission['dob-month']
+                },
+                {
+                  id: "dob-year",
+                  name: "year",
+                  label: t('verification-input-year'),
+                  classes: "govuk-input--width-4" + errorClass('dob'),
+                  autocomplete: "bday-year",
+                  value: previousSubmission['dob-year']
+                }
+              ]
+            })
+          }}
+        </div>
+
+        <div class="govuk-!-margin-bottom-8">
+          <div>
+            {{
+              govukInput({
+                inputmode: "text",
+                label: {
+                  text: t('verification-label-prisoner-number'),
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--m"
+                },
+                hint: {
+                  text: t('verification-hint-prisoner-number')
+                },
+                spellcheck: false,
+                errorMessage: {
+                  text: validationResult.prisonerNumber
+                } if validationResult.prisonerNumber,
+                classes: "govuk-input--width-5",
+                name: "prisonerNumber",
+                id: "prisoner-number",
+                value: previousSubmission.prisonerNumber,
+                pattern: '[a-zA-Z0-9]+'
+              })
+            }}
+          </div>
+        </div>
+
+        {{ govukButton({
+          id: 'submit',
+          text: t('verification-btn'),
+          preventDoubleClick: true
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block bodyEnd %}
+  <script src="/assets/sessionMonitor.js"></script>
+{% endblock %}

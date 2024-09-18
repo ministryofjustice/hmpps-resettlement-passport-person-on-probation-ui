@@ -3,7 +3,10 @@ import superagent, { SuperAgentRequest, Response } from 'superagent'
 const url = 'http://localhost:9091/__admin'
 
 const stubFor = (mapping: Record<string, unknown>): SuperAgentRequest =>
-  superagent.post(`${url}/mappings`).send(mapping)
+  superagent
+    .post(`${url}/mappings`)
+    .send(mapping)
+    .on('error', error => console.log(error))
 
 const getMatchingRequests = body => superagent.post(`${url}/requests/find`).send(body)
 

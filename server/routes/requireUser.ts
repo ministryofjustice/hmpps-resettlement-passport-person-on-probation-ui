@@ -16,7 +16,7 @@ export default async function requireUser(
   }
   const verificationData = await userService.getUserDetails(urn, sessionId)
   if (!verificationData?.verified === true) {
-    return '/otp'
+    return '/sign-up/otp'
   }
   const isActive = await hasUserActivity(urn)
   if (!isActive) {

@@ -30,6 +30,7 @@ export declare global {
       id: string
       logout(done: (err: unknown) => void): void
       t: (s: string) => string
+      body: unknown
     }
 
     interface Locals {

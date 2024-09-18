@@ -16,7 +16,7 @@ context('Sign in with GOV.UK One Login', () => {
   })
 
   it('Unauthenticated user redirected to GOV.UK One Login - OTP', () => {
-    cy.visit('/otp')
+    cy.visit('/sign-up/otp')
     Page.verifyOnPage(GovukOneLoginPage)
   })
 

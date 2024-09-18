@@ -3,7 +3,7 @@ import config from '../config'
 import { minutesToMilliseconds } from 'date-fns'
 import logger from '../../logger'
 
-const rateLimitedPaths = ['/feedback/complete', '/otp/verify']
+const rateLimitedPaths = ['/feedback/complete', '/sign-up/otp/verify']
 
 type IPAddress = string
 

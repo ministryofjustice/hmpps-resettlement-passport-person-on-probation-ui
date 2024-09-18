@@ -6,5 +6,9 @@
   {
     "feature": "viewDocuments",
     "enabled": true
+  },
+  {
+    "feature": "knowledgeVerification",
+    "enabled": true
   }
 ]
