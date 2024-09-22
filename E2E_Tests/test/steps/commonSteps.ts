@@ -55,6 +55,9 @@ let documentsPage: DocumentsPage;
 
 const email = process.env.USEREMAIL
 const password = process.env.USERPASSWORD
+const firstName = process.env.FIRSTNAME
+const lastName = process.env.LASTNAME
+const prisonerNumber = process.env.PRISONERNUMBER
 
 
 function sleep(ms: number | undefined) {
@@ -231,12 +234,16 @@ Then('the user completes the account setup with first-time ID code', async funct
 
 Then('the user completes the account setup without first-time ID code', async function () {
   alternateCompleteAccountPage = new AlternateCompleteAccountPage(pageFixture.page);
+  completeAccountPage = new CompleteAccountPage(pageFixture.page);
   dashboardPage = new DashboardPage(pageFixture.page);
   await sleep(500)
+  await completeAccountPage.clickNoOneTimePasswordLink();
   await alternateCompleteAccountPage.shouldFindTitle();
   // const firstTimeIdCode = await getFirstTimeIdCode();
   // await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
-  await alternateCompleteAccountPage.enterFirstName('John');
+  await alternateCompleteAccountPage.submitFirstName(firstName);
+  await alternateCompleteAccountPage.submitLastName(lastName);
+  await alternateCompleteAccountPage.submitPrisonerNumber(prisonerNumber);
   const dob = getDobArray
   await completeAccountPage.submitDay(getDobArray[0]);
   await completeAccountPage.submitMonth(getDobArray[1]);

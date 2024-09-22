@@ -9,7 +9,6 @@ export default class AlternateCompleteAccountPage {
   readonly enterMonth: Locator;
   readonly enterYear: Locator;
   readonly continue: Locator;
-  readonly selectAlternateLogin: Locator;
   readonly enterFirstName: Locator;
   readonly enterLastName: Locator;
   readonly enterPrisonerNumber: Locator;
