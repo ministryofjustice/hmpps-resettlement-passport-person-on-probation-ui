@@ -13,6 +13,7 @@ import GovOneCreatedAccount from '../../pageObjects/govOne/govOneCreatedAccount'
 import GovOneCheckEmail from '../../pageObjects/govOne/govOneCheckEmail'
 import GovOneSelectOTPMethod from '../../pageObjects/govOne/govOneSelectOTPMethod'
 import CompleteAccountPage from '../../pageObjects/completeAccountPage'
+import AlternateCompleteAccountPage from '../../pageObjects/alternateCompleteAccountPage'
 import DashboardPage from '../../pageObjects/dashboardPage'
 import NavigationPage from '../../pageObjects/navigationPage'
 import SettingsPage from '../../pageObjects/settingsPage'
@@ -44,6 +45,7 @@ let govOneSecurityDetails: GovOneSecurityDetails;
 let govOneEnterEmail: GovOneEnterEmail;
 let govOneEnterPassword: GovOneEnterPassword;
 let completeAccountPage: CompleteAccountPage;
+let alternateCompleteAccountPage: AlternateCompleteAccountPage;
 
 //pyf pages
 let dashboardPage: DashboardPage;
@@ -219,6 +221,22 @@ Then('the user completes the account setup with first-time ID code', async funct
   await completeAccountPage.shouldFindTitle();
   const firstTimeIdCode = await getFirstTimeIdCode();
   await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
+  const dob = getDobArray
+  await completeAccountPage.submitDay(getDobArray[0]);
+  await completeAccountPage.submitMonth(getDobArray[1]);
+  await completeAccountPage.submitYear(getDobArray[2]);
+  await sleep(500)
+  await dashboardPage.shouldFindTitle();
+})
+
+Then('the user completes the account setup without first-time ID code', async function () {
+  alternateCompleteAccountPage = new AlternateCompleteAccountPage(pageFixture.page);
+  dashboardPage = new DashboardPage(pageFixture.page);
+  await sleep(500)
+  await alternateCompleteAccountPage.shouldFindTitle();
+  // const firstTimeIdCode = await getFirstTimeIdCode();
+  // await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
+  await alternateCompleteAccountPage.enterFirstName('John');
   const dob = getDobArray
   await completeAccountPage.submitDay(getDobArray[0]);
   await completeAccountPage.submitMonth(getDobArray[1]);
