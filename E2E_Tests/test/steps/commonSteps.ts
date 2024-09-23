@@ -53,12 +53,11 @@ let navigationPage: NavigationPage;
 let settingsPage: SettingsPage;
 let documentsPage: DocumentsPage;
 
-const email = process.env.USEREMAIL
-const password = process.env.USERPASSWORD
-const firstName = process.env.FIRSTNAME
-const lastName = process.env.LASTNAME
-const prisonerNumber = process.env.PRISONERNUMBER
-
+const email = process.env.USEREMAIL;
+const password = process.env.USERPASSWORD;
+const firstName = "John";
+const lastName = "Smith"
+const prisonerNumber = "A8731DY";
 
 function sleep(ms: number | undefined) {
   console.log('waiting')
@@ -237,6 +236,7 @@ Then('the user completes the account setup without one time password', async fun
   completeAccountPage = new CompleteAccountPage(pageFixture.page);
   dashboardPage = new DashboardPage(pageFixture.page);
   await sleep(500)
+  await completeAccountPage.shouldFindTitle();
   await completeAccountPage.clickNoOneTimePasswordLink();
   await alternateCompleteAccountPage.submitFirstName(firstName);
   await alternateCompleteAccountPage.submitLastName(lastName);
