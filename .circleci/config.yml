@@ -158,6 +158,9 @@ jobs:
             export BASEURL=${DEV_BASEURL}
             export PSFRURL=${DEV_PSFRURL}
             export USEREMAIL=${E2E_USEREMAIL}
+            export FIRSTNAME=${E2E_FIRSTNAME}
+            export LASTNAME=${E2E_LASTNAME}
+            export PRISONERNUMBER=${E2E_PRISONERNUMBER}
             export USERPASSWORD=${E2E_USERPASSWORD}
             export GMAIL_CLIENT_ID=${E2E_GMAIL_CLIENT_ID}
             export GMAIL_CLIENT_SECRET=${E2E_GMAIL_CLIENT_SECRET}
