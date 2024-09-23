@@ -239,8 +239,8 @@ Then('the user completes the account setup without first-time ID code', async fu
   await sleep(500)
   await completeAccountPage.clickNoOneTimePasswordLink();
   await alternateCompleteAccountPage.shouldFindTitle();
-  // const firstTimeIdCode = await getFirstTimeIdCode();
-  // await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
+  const firstTimeIdCode = await getFirstTimeIdCode();
+  await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
   await alternateCompleteAccountPage.submitFirstName(firstName);
   await alternateCompleteAccountPage.submitLastName(lastName);
   await alternateCompleteAccountPage.submitPrisonerNumber(prisonerNumber);
