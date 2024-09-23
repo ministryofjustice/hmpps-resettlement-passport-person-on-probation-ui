@@ -1,5 +1,6 @@
 Feature: Home
 
+@test
   Scenario Outline: 1-3) User Housekeeping if failure of tests
     Given the user has access to their first-time ID code
     Given the user visit plan your future
