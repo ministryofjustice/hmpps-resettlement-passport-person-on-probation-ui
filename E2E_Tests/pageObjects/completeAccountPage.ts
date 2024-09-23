@@ -1,6 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test'
 
-export default class CompleteAccourtPage {
+export default class CompleteAccountPage {
   private page: Page
 
   readonly pageHeader: Locator
