@@ -238,16 +238,13 @@ Then('the user completes the account setup without one time password', async fun
   dashboardPage = new DashboardPage(pageFixture.page);
   await sleep(500)
   await completeAccountPage.clickNoOneTimePasswordLink();
-  await alternateCompleteAccountPage.shouldFindTitle();
-  const firstTimeIdCode = await getFirstTimeIdCode();
-  await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
   await alternateCompleteAccountPage.submitFirstName(firstName);
   await alternateCompleteAccountPage.submitLastName(lastName);
   await alternateCompleteAccountPage.submitPrisonerNumber(prisonerNumber);
   const dob = getDobArray
-  await completeAccountPage.submitDay(getDobArray[0]);
-  await completeAccountPage.submitMonth(getDobArray[1]);
-  await completeAccountPage.submitYear(getDobArray[2]);
+  await alternateCompleteAccountPage.submitDay(getDobArray[0]);
+  await alternateCompleteAccountPage.submitMonth(getDobArray[1]);
+  await alternateCompleteAccountPage.submitYear(getDobArray[2]);
   await sleep(500)
   await dashboardPage.shouldFindTitle();
 })
