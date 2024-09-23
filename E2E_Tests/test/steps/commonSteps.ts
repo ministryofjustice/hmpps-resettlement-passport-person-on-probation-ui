@@ -232,7 +232,7 @@ Then('the user completes the account setup with first-time ID code', async funct
   await dashboardPage.shouldFindTitle();
 })
 
-Then('the user completes the account setup without first-time ID code', async function () {
+Then('the user completes the account setup without one time password', async function () {
   alternateCompleteAccountPage = new AlternateCompleteAccountPage(pageFixture.page);
   completeAccountPage = new CompleteAccountPage(pageFixture.page);
   dashboardPage = new DashboardPage(pageFixture.page);
