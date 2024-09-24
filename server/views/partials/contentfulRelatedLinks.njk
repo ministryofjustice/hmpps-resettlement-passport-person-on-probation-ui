@@ -1,6 +1,5 @@
-{% set relatedContentAvailable = page.relatedContent?.length > 0 %}
-{% set helpAndAdviceAvailable = page.helpAndAdvice?.length > 0 %}
-
+{% set relatedContentAvailable = page.relatedContent.length > 0 %}
+{% set helpAndAdviceAvailable = page.helpAndAdvice.length > 0 %}
 {% if relatedContentAvailable or helpAndAdviceAvailable %}
   <div class="govuk-grid-column-one-third">
     <div class="gem-c-contextual-sidebar">
