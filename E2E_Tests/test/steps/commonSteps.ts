@@ -56,7 +56,7 @@ let documentsPage: DocumentsPage;
 const email = process.env.USEREMAIL;
 const password = process.env.USERPASSWORD;
 const firstName = "John";
-const lastName = "Smith"
+const lastName = "Smith";
 const prisonerNumber = "A8731DY";
 
 function sleep(ms: number | undefined) {
