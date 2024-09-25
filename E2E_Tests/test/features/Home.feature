@@ -11,6 +11,8 @@ Feature: Home
     | "+130@gmail.com" |
     | "+131@gmail.com" |
     | "+132@gmail.com" |
+    | "+133@gmail.com" |
+
 
 @test
   Scenario: 4) Full E2E registration Gov One then completed PYF then delete account
@@ -54,17 +56,18 @@ Feature: Home
     When the user visit plan your future
     Then the user logs into their account who has completed account setup email "+5@gmail.com"
     Then the user views their Licence Conditions PDF
-    Then the user Logs Out of the service    
+    Then the user Logs Out of the service  
+
+@test
+Scenario: 8) Full E2E registration Gov One without one time password then completed PYF then delete account
+    Given the user has access to their first-time ID code
+    When the user visit plan your future
+    Then they create an account with Gov One Login email "+133@gmail.com"
+    Then the user completes the account setup without one time password
+    Then the user deletes their Gov One Account  
 
 @ignore
   Scenario: 0) User logs into PYF in pre-existing account (only used for troubleshooting)
     Given the user visit plan your future
     Then the user logs into their account who has completed account setup email "+1@gmail.com"
     Then the user Logs Out of the service
-
-
-
-
-
-
-  

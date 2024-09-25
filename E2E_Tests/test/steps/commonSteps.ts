@@ -13,6 +13,7 @@ import GovOneCreatedAccount from '../../pageObjects/govOne/govOneCreatedAccount'
 import GovOneCheckEmail from '../../pageObjects/govOne/govOneCheckEmail'
 import GovOneSelectOTPMethod from '../../pageObjects/govOne/govOneSelectOTPMethod'
 import CompleteAccountPage from '../../pageObjects/completeAccountPage'
+import AlternateCompleteAccountPage from '../../pageObjects/alternateCompleteAccountPage'
 import DashboardPage from '../../pageObjects/dashboardPage'
 import NavigationPage from '../../pageObjects/navigationPage'
 import SettingsPage from '../../pageObjects/settingsPage'
@@ -44,6 +45,7 @@ let govOneSecurityDetails: GovOneSecurityDetails;
 let govOneEnterEmail: GovOneEnterEmail;
 let govOneEnterPassword: GovOneEnterPassword;
 let completeAccountPage: CompleteAccountPage;
+let alternateCompleteAccountPage: AlternateCompleteAccountPage;
 
 //pyf pages
 let dashboardPage: DashboardPage;
@@ -51,9 +53,11 @@ let navigationPage: NavigationPage;
 let settingsPage: SettingsPage;
 let documentsPage: DocumentsPage;
 
-const email = process.env.USEREMAIL
-const password = process.env.USERPASSWORD
-
+const email = process.env.USEREMAIL;
+const password = process.env.USERPASSWORD;
+const firstName = "John";
+const lastName = "Smith";
+const prisonerNumber = "A8731DY";
 
 function sleep(ms: number | undefined) {
   console.log('waiting')
@@ -223,6 +227,24 @@ Then('the user completes the account setup with first-time ID code', async funct
   await completeAccountPage.submitDay(getDobArray[0]);
   await completeAccountPage.submitMonth(getDobArray[1]);
   await completeAccountPage.submitYear(getDobArray[2]);
+  await sleep(500)
+  await dashboardPage.shouldFindTitle();
+})
+
+Then('the user completes the account setup without one time password', async function () {
+  alternateCompleteAccountPage = new AlternateCompleteAccountPage(pageFixture.page);
+  completeAccountPage = new CompleteAccountPage(pageFixture.page);
+  dashboardPage = new DashboardPage(pageFixture.page);
+  await sleep(500)
+  await completeAccountPage.shouldFindTitle();
+  await completeAccountPage.clickNoOneTimePasswordLink();
+  await alternateCompleteAccountPage.submitFirstName(firstName);
+  await alternateCompleteAccountPage.submitLastName(lastName);
+  await alternateCompleteAccountPage.submitPrisonerNumber(prisonerNumber);
+  const dob = getDobArray
+  await alternateCompleteAccountPage.submitDay(getDobArray[0]);
+  await alternateCompleteAccountPage.submitMonth(getDobArray[1]);
+  await alternateCompleteAccountPage.submitYear(getDobArray[2]);
   await sleep(500)
   await dashboardPage.shouldFindTitle();
 })

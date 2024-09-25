@@ -1,6 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test'
 
-export default class CompleteAccourtPage {
+export default class CompleteAccountPage {
   private page: Page
 
   readonly pageHeader: Locator
@@ -10,24 +10,23 @@ export default class CompleteAccourtPage {
   readonly enterYear: Locator;
   readonly continue: Locator;
   readonly warning: Locator;
+  readonly noOneTimePassword: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.pageHeader = page.locator('h1', { hasText: 'Complete your account setup securely'});
+    this.pageHeader = page.locator('h1', { hasText: 'Complete your account setup securely' });
     this.enterFirstTimeIdCode = page.locator('//*[@id="otp"]');
     this.enterDay = page.locator('//*[@id="dobDay"]');
     this.enterMonth = page.locator('//*[@id="dobMonth"]');
     this.enterYear = page.locator('//*[@id="dobYear"]');
     this.continue = page.locator('//*[@id="main-content"]/div/div/form/button');
     this.warning = page.locator('//*[@id="main-content"]/div[1]/div/div/ul/li/a');
-
+    this.noOneTimePassword = page.locator('#main-content > div:nth-child(2) > div > a')
   }
-
 
   async shouldFindTitle() {
     await expect(this.pageHeader).toBeVisible();
   }
-
 
   async submitFirstTimeIdCode(id: string) {
     await this.enterFirstTimeIdCode.fill(id);
@@ -41,5 +40,8 @@ export default class CompleteAccourtPage {
   async submitYear(year: string) {
     await this.enterYear.fill(year);
     await this.continue.click();
+  }
+  async clickNoOneTimePasswordLink() {
+    await this.noOneTimePassword.click();
   }
 }
