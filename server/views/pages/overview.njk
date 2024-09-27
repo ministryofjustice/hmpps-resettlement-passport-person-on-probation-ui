@@ -38,7 +38,7 @@
             {% if nextAppointment %}
               <h3 class="govuk-heading-s" id="next-appointment-heading">{{ t('overview-next-appointment') }}</h3>
 
-              <p class="govuk-body-m govuk-!-margin-0">{{ nextAppointment.date | formatDate(queryParams.lang) }}</p>
+              <p class="govuk-body-m govuk-!-margin-0">{{ nextAppointment.date | formatLongDate(queryParams.lang) }}</p>
               <p class="govuk-body-m govuk-!-margin-0">
                 {{ nextAppointment.time | formatTime(0, queryParams.lang) }}
                 {% if nextAppointment.duration %}

@@ -16,7 +16,7 @@ export default class TodoController {
       return res.redirect(verificationData)
     }
     const todoList = await this.todoService.getList(verificationData.nomsId, req.sessionID)
-    return res.render('pages/todo-list', { todoList })
+    return res.render('pages/todo-list', { queryParams: req.query, todoList })
   }
 
   viewAddPage: RequestHandler = async (req, res, _) => {

@@ -1,7 +1,7 @@
 import { addMinutes, compareAsc, format, isBefore, isFuture, isSameDay, isValid, parse } from 'date-fns'
 import { cy, enGB } from 'date-fns/locale'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
-import { FeatureFlags, FeatureFlagKey } from '../services/featureFlags'
+import { FeatureFlagKey, FeatureFlags } from '../services/featureFlags'
 
 const properCase = (word: string): string =>
   word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
@@ -60,11 +60,18 @@ export const formatLicenceDate = (dateString: string, lang?: string): string => 
   return date.toLocaleDateString(getLocaleForLang(lang).code, options)
 }
 
-export const formatDate = (dateString: string, lang?: string): string => {
+export const formatDate = (dateString: string, lang: string, options: Intl.DateTimeFormatOptions): string => {
   if (!dateString || dateString?.length < 1) return null
   const date = new Date(dateString)
-  const options: Intl.DateTimeFormatOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }
   return date.toLocaleDateString(getLocaleForLang(lang).code, options)?.replace(',', '')
+}
+
+export const formatLongDate = (dateString: string, lang?: string): string => {
+  return formatDate(dateString, lang, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+}
+
+export const formatShortDate = (dateString: string, lang?: string): string => {
+  return formatDate(dateString, lang, { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
 export function getDobDate(day?: string, month?: string, year?: string): Date {

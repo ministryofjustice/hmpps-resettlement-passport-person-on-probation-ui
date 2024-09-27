@@ -4,7 +4,7 @@ import {
   convertToTitleCase,
   formatTime,
   initialiseName,
-  formatDate,
+  formatLongDate,
   formatAppointmentLocation,
   mapsLinkFromAppointmentLocation,
   pluraliseAppointments,
@@ -18,6 +18,7 @@ import {
   appendLanguage,
   isDateInPast,
   toProperCase,
+  formatShortDate,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -79,7 +80,7 @@ describe('formatTime', () => {
   })
 })
 
-describe('formatDate', () => {
+describe('formatLongDate', () => {
   it.each([
     ['2023-09-02', null, 'Saturday 2 September 2023'],
     ['2023-1-1', null, 'Sunday 1 January 2023'],
@@ -89,8 +90,23 @@ describe('formatDate', () => {
     ['2023-1-1', 'cy', 'Dydd Sul 1 Ionawr 2023'],
     [null, null, null],
     ['', null, null],
-  ])('formatDate(%s, %s)', (input: string, lang: string, expected: string) => {
-    expect(formatDate(input, lang)).toEqual(expected)
+  ])('formatLongDate(%s, %s)', (input: string, lang: string, expected: string) => {
+    expect(formatLongDate(input, lang)).toEqual(expected)
+  })
+})
+
+describe('formatShortDate', () => {
+  it.each([
+    ['2023-09-02', null, '2 Sept 2023'],
+    ['2023-1-1', null, '1 Jan 2023'],
+    ['2023-09-02', 'en', '2 Sept 2023'],
+    ['2023-1-1', 'en', '1 Jan 2023'],
+    ['2023-09-02', 'cy', '2 Medi 2023'],
+    ['2023-1-1', 'cy', '1 Ion 2023'],
+    [null, null, null],
+    ['', null, null],
+  ])('formatShortDate(%s, %s)', (input: string, lang: string, expected: string) => {
+    expect(formatShortDate(input, lang)).toEqual(expected)
   })
 })
 

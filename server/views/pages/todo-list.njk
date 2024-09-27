@@ -41,7 +41,9 @@
                                                         id="task-{{ item.id }}"
                                                         name="task-status"
                                                         type="checkbox"
-                                                        checked="{{ item.completed }}"
+                                                        {% if item.completed %}
+                                                            checked
+                                                        {% endif %}
                                                         onchange="this.form.submit()"
                                                 />
                                                 <label class="govuk-label govuk-checkboxes__label" for="task-{{ item.id }}"></label>
@@ -53,7 +55,10 @@
                                     <label class="govuk-label">{{ item.title }}</label>
                                 </td>
                                 <td class="govuk-table__cell">
-                                    <p class="govuk-body-m">-</p>
+                                    {% if item.dueDate %}
+                                        <p class="govuk-body-m">{{ item.dueDate | formatShortDate(queryParams.lang) }}</p>
+                                    {% endif %}
+
                                 </td>
                                 <td class="govuk-table__cell">
                                     {% if item.notes %}
@@ -65,7 +70,7 @@
                                     <p class="govuk-body-s">
                                         <a href="/todo/item/{{ item.id }}/edit">Edit</a>
                                     </p>
-                                    <p class="govuk-body-s" style="color: #d4351c;">Delete</p>
+                                    <p class="govuk-body-s">Delete</p>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -96,14 +101,5 @@
                 </div>
             </details>
         </div>
-        <!--
-
-        <form action="" method="POST">
-            <input type="hidden" id="showdone" name="showdone" value="yes">
-            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                Show completed
-            </button>
-        </form>
-
-    --></div>
+    </div>
 {% endblock %}

@@ -4,7 +4,7 @@ import express from 'express'
 import type { I18n } from 'i18n'
 import {
   initialiseName,
-  formatDate,
+  formatLongDate,
   formatTime,
   formatAppointmentLocation,
   formatAppointmentNote,
@@ -16,6 +16,7 @@ import {
   hiddenClassOnFlag,
   appendLang,
   toProperCase,
+  formatShortDate,
 } from './utils'
 import { ApplicationInfo } from '../applicationInfo'
 import config from '../config'
@@ -71,7 +72,8 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   })
 
   njkEnv.addFilter('initialiseName', initialiseName)
-  njkEnv.addFilter('formatDate', formatDate)
+  njkEnv.addFilter('formatLongDate', formatLongDate)
+  njkEnv.addFilter('formatShortDate', formatShortDate)
   njkEnv.addFilter('formatLicenceDate', formatLicenceDate)
   njkEnv.addFilter('formatTime', formatTime)
   njkEnv.addFilter('formatAppointmentLocation', formatAppointmentLocation)
