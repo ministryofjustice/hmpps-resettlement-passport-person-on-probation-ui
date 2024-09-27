@@ -49,6 +49,7 @@ export type TodoItem = {
   notes?: string
   dueDate?: string
   completed: boolean
+  updatedAt: string
 }
 
 export type TodoRequest = {
