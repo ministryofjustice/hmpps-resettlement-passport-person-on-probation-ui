@@ -12,19 +12,21 @@ import timeoutRoutes from './timeout'
 import analyticsRoutes from './analytics'
 import pagesRoutes from './pages'
 import documentsRoute from './documents/documentsRoute'
+import todoRoutes from './todo/todoRoutes'
 
-export default function routes(service: Services): Router {
+export default function routes(services: Services): Router {
   const router = Router()
-  signUpRoutes(router, service)
-  overviewRoutes(router, service)
-  appointmentRoutes(router, service)
-  licenceConditionsRoutes(router, service)
-  profileRoutes(router, service)
-  settingsRoutes(router, service)
-  feedbackRoutes(router, service)
-  timeoutRoutes(router, service)
-  analyticsRoutes(router, service)
+  signUpRoutes(router, services)
+  overviewRoutes(router, services)
+  appointmentRoutes(router, services)
+  licenceConditionsRoutes(router, services)
+  profileRoutes(router, services)
+  settingsRoutes(router, services)
+  feedbackRoutes(router, services)
+  timeoutRoutes(router, services)
+  analyticsRoutes(router, services)
   pagesRoutes(router)
-  documentsRoute(router, service)
+  documentsRoute(router, services)
+  todoRoutes(router, services)
   return router
 }

@@ -1,0 +1,65 @@
+{% extends "../partials/layout.njk" %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageTitle = "To-do list" + titleHeading %}
+
+{% block beforeContent %}
+  {% set activePage = 'todo' %}
+  {% include "../partials/subnavigation.njk" %}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row govuk-!-margin-bottom-4">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="/todo/add" method="POST" class="govuk-form-group">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading">Add a to-do list item</h1>
+          </legend>
+
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="title">Title</label>
+            <input
+              class="govuk-input govuk-!-width-two-thirds"
+              id="title"
+              name="title"
+              type="text"
+              required="required"
+            />
+          </div>
+
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="notes">Notes (optional)</label>
+            <textarea class="govuk-textarea govuk-!-width-two-thirds" id="notes" name="notes" rows="5"></textarea>
+          </div>
+
+          {{
+            govukDateInput({
+                id: "due-date",
+                namePrefix: "date",
+                fieldset: {
+                    legend: {
+                        text: "Due date (optional)",
+                        classes: "govuk-fieldset__legend--m"
+                    }
+                },
+                hint: {
+                    text: "For example, 31 03 2025"
+                }
+            })
+          }}
+          <div class="govuk-form-group">
+            {{
+              govukButton({
+                  type: submit,
+                  text: "Add task",
+                  preventDoubleClick: true
+              })
+            }}
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+{% endblock %}

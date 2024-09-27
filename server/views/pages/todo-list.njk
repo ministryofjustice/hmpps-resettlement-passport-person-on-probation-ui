@@ -1,0 +1,109 @@
+{% extends "../partials/layout.njk" %}
+{% set pageTitle = "To-do list" + titleHeading %}
+
+{% block beforeContent %}
+    {% set activePage = 'todo' %}
+    {% include "../partials/subnavigation.njk" %}
+{% endblock %}
+
+{% block content %}
+    <div class="govuk-grid-row govuk-!-padding-bottom-4">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-xl">To-do list</h2>
+            <p>Set yourself tasks and check your progress as you plan your future.</p>
+        </div>
+    </div>
+
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+        <div class="govuk-grid-column-full">
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <table class="govuk-table">
+                        <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                            <th class="govuk-table__header">Done</th>
+                            <th class="govuk-table__header">Task</th>
+                            <th class="govuk-table__header">Due date</th>
+                            <th class="govuk-table__header">Notes</th>
+                            <th class="govuk-table__header">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                        {% for item in todoList %}
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">
+                                    <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                                        <div class="govuk-checkboxes__item">
+                                            <form action="/todo/item/{{ item.id }}/complete">
+                                                <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+                                                <input
+                                                        class="govuk-checkboxes__input"
+                                                        id="task-{{ item.id }}"
+                                                        name="task-status"
+                                                        type="checkbox"
+                                                        checked="{{ item.completed }}"
+                                                        onchange="this.form.submit()"
+                                                />
+                                                <label class="govuk-label govuk-checkboxes__label" for="task-{{ item.id }}"></label>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="govuk-table__cell">
+                                    <label class="govuk-label">{{ item.title }}</label>
+                                </td>
+                                <td class="govuk-table__cell">
+                                    <p class="govuk-body-m">-</p>
+                                </td>
+                                <td class="govuk-table__cell">
+                                    {% if item.notes %}
+                                    <p class="govuk-body-s">{{ item.notes }}</p>
+                                    {% endif %}
+                                </td>
+                                <td class="govuk-table__cell">
+                                    <!-- Button Menu -->
+                                    <p class="govuk-body-s">
+                                        <a href="/todo/item/{{ item.id }}/edit">Edit</a>
+                                    </p>
+                                    <p class="govuk-body-s" style="color: #d4351c;">Delete</p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+
+            <a href="/todo/add" class="govuk-button">Add a new item</a>
+
+            <br /><br />
+            <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text"> Completed tasks </span>
+                </summary>
+                <div class="govuk-details__text">
+                    <h2 class="govuk-heading-l">Completed tasks</h2>
+                    <table class="govuk-table">
+                        <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                            <th class="govuk-table__header">Task</th>
+                            <th class="govuk-table__header">Completed Date</th>
+                            <th class="govuk-table__header">Notes</th>
+                        </tr>
+                        </thead>
+                        <tbody class="govuk-table__body"></tbody>
+                    </table>
+                </div>
+            </details>
+        </div>
+        <!--
+
+        <form action="" method="POST">
+            <input type="hidden" id="showdone" name="showdone" value="yes">
+            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                Show completed
+            </button>
+        </form>
+
+    --></div>
+{% endblock %}
