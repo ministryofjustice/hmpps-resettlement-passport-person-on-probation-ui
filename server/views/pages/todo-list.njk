@@ -34,7 +34,7 @@
                                 <td class="govuk-table__cell">
                                     <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
                                         <div class="govuk-checkboxes__item">
-                                            <form action="/todo/item/{{ item.id }}/complete">
+                                            <form action="/todo/item/{{ item.id }}/complete" method="POST">
                                                 <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
                                                 <input
                                                         class="govuk-checkboxes__input"
@@ -44,7 +44,6 @@
                                                         {% if item.completed %}
                                                             checked
                                                         {% endif %}
-                                                        onchange="this.form.submit()"
                                                 />
                                                 <label class="govuk-label govuk-checkboxes__label" for="task-{{ item.id }}"></label>
                                             </form>
@@ -103,3 +102,8 @@
         </div>
     </div>
 {% endblock %}
+{% block bodyEnd %}
+    <script src="/assets/sessionMonitor.js"></script>
+    <script src="/assets/todo.js"></script>
+{% endblock %}
+

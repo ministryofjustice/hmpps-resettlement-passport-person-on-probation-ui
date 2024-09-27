@@ -35,12 +35,27 @@ export default class TodoController {
     // TODO: Validate
     const submission: FormBody = req.body
     await this.todoService.createItem(verificationData.nomsId, req.sessionID, {
-      urn: req.user.sub,
+      urn: verificationData.oneLoginUrn,
       title: submission.title,
       notes: submission.notes,
       dueDate: getDobDateString(submission['date-day'], submission['date-month'], submission['date-year']),
     })
     return res.redirect('/todo')
+  }
+
+  completeItem: RequestHandler = async (req, res, _) => {
+    const verificationData = await requireUser(req.user?.sub, this.userService, req.sessionID)
+    if (typeof verificationData === 'string') {
+      return res.redirect(verificationData)
+    }
+    const { itemId } = req.params
+    if (!itemId) {
+      return res.status(400).send()
+    }
+
+    await this.todoService.completeItem(verificationData.nomsId, verificationData.oneLoginUrn, itemId, req.sessionID)
+
+    return res.status(200).send()
   }
 }
 
