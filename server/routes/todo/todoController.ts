@@ -15,7 +15,7 @@ export default class TodoController {
     if (typeof verificationData === 'string') {
       return res.redirect(verificationData)
     }
-    const allItems = await this.todoService.getList(verificationData.nomsId, req.sessionID)
+    const allItems = await this.todoService.getList(verificationData.crn, req.sessionID)
     const todoList = allItems.filter(item => !item.completed)
     const completedList = allItems.filter(item => item.completed)
     return res.render('pages/todo-list', { queryParams: req.query, todoList, completedList })
@@ -26,7 +26,7 @@ export default class TodoController {
     if (typeof verificationData === 'string') {
       return res.redirect(verificationData)
     }
-    return res.render('pages/todo-add')
+    return res.render('pages/todo-add', { action: 'Add' })
   }
 
   postItem: RequestHandler = async (req, res, _) => {
@@ -36,7 +36,7 @@ export default class TodoController {
     }
     // TODO: Validate
     const submission: FormBody = req.body
-    await this.todoService.createItem(verificationData.nomsId, req.sessionID, {
+    await this.todoService.createItem(verificationData.crn, req.sessionID, {
       urn: verificationData.oneLoginUrn,
       title: submission.title,
       notes: submission.notes,
@@ -55,7 +55,7 @@ export default class TodoController {
       return res.status(400).send()
     }
 
-    await this.todoService.completeItem(verificationData.nomsId, verificationData.oneLoginUrn, itemId, req.sessionID)
+    await this.todoService.completeItem(verificationData.crn, verificationData.oneLoginUrn, itemId, req.sessionID)
 
     return res.status(200).send()
   }

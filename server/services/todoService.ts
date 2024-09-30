@@ -9,10 +9,10 @@ export default class TodoService {
     this.restClient = new RestClient('Resettlement Passport Api Client', config.apis.resettlementPassportApi)
   }
 
-  async createItem(nomsId: string, sessionId: string, request: TodoRequest): Promise<TodoItem> {
+  async createItem(crn: string, sessionId: string, request: TodoRequest): Promise<TodoItem> {
     logger.debug(`SessionId: ${sessionId}. create todoItem()`)
     return await this.restClient.post<TodoItem>({
-      path: `/person/${nomsId}/todo`,
+      path: `/person/${crn}/todo`,
       data: request,
       headers: {
         SessionID: sessionId,
@@ -20,19 +20,19 @@ export default class TodoService {
     })
   }
 
-  async getList(nomsId: string, sessionId: string): Promise<TodoItem[]> {
+  async getList(crn: string, sessionId: string): Promise<TodoItem[]> {
     return await this.restClient.get<TodoItem[]>({
-      path: `/person/${nomsId}/todo`,
+      path: `/person/${crn}/todo`,
       headers: {
         SessionID: sessionId,
       },
     })
   }
 
-  async completeItem(nomsId: string, urn: string, itemId: string, sessionId: string): Promise<TodoItem> {
+  async completeItem(crn: string, urn: string, itemId: string, sessionId: string): Promise<TodoItem> {
     logger.debug(`SessionId: ${sessionId}. complete todoItem()`)
     return await this.restClient.patch<TodoItem>({
-      path: `/person/${nomsId}/todo/${itemId}`,
+      path: `/person/${crn}/todo/${itemId}`,
       data: {
         urn,
         completed: true,

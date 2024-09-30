@@ -7,7 +7,7 @@ for (const form of document.querySelectorAll('form')) {
     if (e.target.checked) {
       const res = await fetch(form.action, { method: 'POST', headers: { 'X-CSRF-Token': csrfToken } })
       if(res.status === 200) {
-        const row = completedTable.insertRow(0)
+        const row = completedTable.insertRow(-1)
 
         const formData = new FormData(document.getElementById(form.id))
         const itemId = formData.get('itemId')

@@ -15,7 +15,7 @@
         <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
         <fieldset class="govuk-fieldset">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-            <h1 class="govuk-fieldset__heading">Add a to-do list item</h1>
+            <h1 class="govuk-fieldset__heading">{{ action }} a to-do list item</h1>
           </legend>
 
           <div class="govuk-form-group">
@@ -53,7 +53,7 @@
             {{
               govukButton({
                   type: submit,
-                  text: "Add task",
+                  text: action + " task",
                   preventDoubleClick: true
               })
             }}
