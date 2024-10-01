@@ -19,6 +19,9 @@ import {
   isDateInPast,
   toProperCase,
   formatShortDate,
+  dayOfMonth,
+  monthOfYear,
+  yearOf,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -353,5 +356,47 @@ describe('toProperCase', () => {
     ['name middlename surname', 'Name Middlename Surname'],
   ])('toProperCase(%s)', (input: string, expected: string) => {
     expect(toProperCase(input)).toBe(expected)
+  })
+})
+
+describe('dayOfMonth', () => {
+  it.each([
+    ['2024-09-01', 1],
+    ['2023-09-02', 2],
+    ['2022-09-03', 3],
+    ['2021-07-11', 11],
+    ['abc', undefined],
+    [undefined, undefined],
+    [null, undefined],
+  ])('dayOfMonth(%s)', (input: string, expected: number) => {
+    expect(dayOfMonth(input)).toBe(expected)
+  })
+})
+
+describe('monthOfYear', () => {
+  it.each([
+    ['2024-09-01', 9],
+    ['2023-11-02', 11],
+    ['2022-01-03', 1],
+    ['2021-02-11', 2],
+    ['abc', undefined],
+    [undefined, undefined],
+    [null, undefined],
+  ])('monthOfYear(%s)', (input: string, expected: number) => {
+    expect(monthOfYear(input)).toBe(expected)
+  })
+})
+
+describe('yearOf', () => {
+  it.each([
+    ['2024-09-01', 2024],
+    ['2022-11-02', 2022],
+    ['2022-01-03', 2022],
+    ['1931-02-11', 1931],
+    ['abc', undefined],
+    [undefined, undefined],
+    [null, undefined],
+  ])('yearOf(%s)', (input: string, expected: number) => {
+    expect(yearOf(input)).toBe(expected)
   })
 })

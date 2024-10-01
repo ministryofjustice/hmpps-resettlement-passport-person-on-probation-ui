@@ -11,7 +11,12 @@
 {% block content %}
   <div class="govuk-grid-row govuk-!-margin-bottom-4">
     <div class="govuk-grid-column-two-thirds">
-      <form action="/todo/add" method="POST" class="govuk-form-group">
+      {% if action === 'Edit' %}
+        {% set submitUrl = '/todo/item/' + editItem.id + '/edit' %}
+      {% else %}
+        {% set submitUrl = '/todo/add' %}
+      {% endif %}
+      <form action="{{ submitUrl }}" method="POST" class="govuk-form-group">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
         <fieldset class="govuk-fieldset">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
@@ -26,13 +31,22 @@
               name="title"
               type="text"
               required="required"
+              value="{{ editItem.title }}"
             />
           </div>
 
           <div class="govuk-form-group">
             <label class="govuk-label" for="notes">Notes (optional)</label>
-            <textarea class="govuk-textarea govuk-!-width-two-thirds" id="notes" name="notes" rows="5"></textarea>
+            <textarea class="govuk-textarea govuk-!-width-two-thirds" id="notes" name="notes" rows="5">
+{{ editItem.notes }}</textarea
+            >
           </div>
+
+          {% if editItem.dueDate %}
+            {% set dueDateDay = editItem.dueDate | dayOfMonth %}
+            {% set dueDateMonth = editItem.dueDate | monthOfYear %}
+            {% set dueDateYear = editItem.dueDate | yearOf %}
+          {% endif %}
 
           {{
             govukDateInput({
@@ -46,7 +60,21 @@
                 },
                 hint: {
                     text: "For example, 31 03 2025"
-                }
+                },
+                items: [
+                  {
+                    name: 'day',
+                    value: dueDateDay
+                  },
+                  {
+                    name: 'month',
+                    value: dueDateMonth
+                  },
+                  {
+                    name: 'year',
+                    value: dueDateYear
+                  }
+                ] if editItem.dueDate
             })
           }}
           <div class="govuk-form-group">

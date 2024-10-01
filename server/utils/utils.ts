@@ -1,4 +1,4 @@
-import { addMinutes, compareAsc, format, isBefore, isFuture, isSameDay, isValid, parse } from 'date-fns'
+import { addMinutes, compareAsc, format, isBefore, isFuture, isSameDay, isValid, parse, parseISO } from 'date-fns'
 import { cy, enGB } from 'date-fns/locale'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
 import { FeatureFlagKey, FeatureFlags } from '../services/featureFlags'
@@ -83,6 +83,27 @@ export function getDobDate(day?: string, month?: string, year?: string): Date {
     return null
   }
   return parsedDate
+}
+
+export function dayOfMonth(dateString: string): number {
+  return parseIsoDate(dateString)?.getDate()
+}
+
+export function monthOfYear(dateString: string): number {
+  const date = parseIsoDate(dateString)
+  return date ? date.getMonth() + 1 : undefined
+}
+
+export function yearOf(dateString: string): number {
+  return parseIsoDate(dateString)?.getFullYear()
+}
+
+function parseIsoDate(dateString: string): Date | undefined {
+  const date = parseISO(dateString)
+  if (!isValid(date)) {
+    return undefined
+  }
+  return date
 }
 
 export function getDobDateString(day?: string, month?: string, year?: string): string {

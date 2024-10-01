@@ -42,6 +42,26 @@ export default class TodoService {
       },
     })
   }
+
+  async getItem(crn: string, itemId: string, sessionID: string) {
+    return await this.restClient.get<TodoItem>({
+      path: `/person/${crn}/todo/${itemId}`,
+      headers: {
+        SessionID: sessionID,
+      },
+    })
+  }
+
+  async updateItem(crn: string, itemId: string, sessionID: string, request: TodoRequest) {
+    logger.debug(`SessionId: ${sessionID}. update todoItem()`)
+    return await this.restClient.put<TodoItem>({
+      path: `/person/${crn}/todo/${itemId}`,
+      data: request,
+      headers: {
+        SessionID: sessionID,
+      },
+    })
+  }
 }
 
 export type TodoItem = {

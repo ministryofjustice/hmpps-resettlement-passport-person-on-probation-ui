@@ -17,6 +17,9 @@ import {
   appendLang,
   toProperCase,
   formatShortDate,
+  dayOfMonth,
+  monthOfYear,
+  yearOf,
 } from './utils'
 import { ApplicationInfo } from '../applicationInfo'
 import config from '../config'
@@ -75,6 +78,9 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   njkEnv.addFilter('formatLongDate', formatLongDate)
   njkEnv.addFilter('formatShortDate', formatShortDate)
   njkEnv.addFilter('formatLicenceDate', formatLicenceDate)
+  njkEnv.addFilter('dayOfMonth', dayOfMonth)
+  njkEnv.addFilter('monthOfYear', monthOfYear)
+  njkEnv.addFilter('yearOf', yearOf)
   njkEnv.addFilter('formatTime', formatTime)
   njkEnv.addFilter('formatAppointmentLocation', formatAppointmentLocation)
   njkEnv.addFilter('formatAppointmentNote', formatAppointmentNote)

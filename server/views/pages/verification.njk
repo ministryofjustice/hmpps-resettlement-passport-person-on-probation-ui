@@ -3,7 +3,6 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-
 {% set pageTitle = "Complete your account setup securely" + titleHeading %}
 
 {% macro errorClass(field) -%}
@@ -152,11 +151,13 @@
           </div>
         </div>
 
-        {{ govukButton({
-          id: 'submit',
-          text: t('verification-btn'),
-          preventDoubleClick: true
-        }) }}
+        {{
+          govukButton({
+            id: 'submit',
+            text: t('verification-btn'),
+            preventDoubleClick: true
+          })
+        }}
       </form>
     </div>
   </div>

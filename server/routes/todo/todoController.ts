@@ -26,7 +26,23 @@ export default class TodoController {
     if (typeof verificationData === 'string') {
       return res.redirect(verificationData)
     }
-    return res.render('pages/todo-add', { action: 'Add' })
+    return res.render('pages/todo-add-edit', { action: 'Add' })
+  }
+
+  viewEditPage: RequestHandler = async (req, res, _) => {
+    const verificationData = await requireUser(req.user?.sub, this.userService, req.sessionID)
+    if (typeof verificationData === 'string') {
+      return res.redirect(verificationData)
+    }
+
+    const { itemId } = req.params
+    if (!itemId) {
+      return res.status(400).send()
+    }
+
+    const editItem = await this.todoService.getItem(verificationData.crn, itemId, req.sessionID)
+
+    return res.render('pages/todo-add-edit', { action: 'Edit', editItem })
   }
 
   postItem: RequestHandler = async (req, res, _) => {
@@ -37,6 +53,26 @@ export default class TodoController {
     // TODO: Validate
     const submission: FormBody = req.body
     await this.todoService.createItem(verificationData.crn, req.sessionID, {
+      urn: verificationData.oneLoginUrn,
+      title: submission.title,
+      notes: submission.notes,
+      dueDate: getDobDateString(submission['date-day'], submission['date-month'], submission['date-year']),
+    })
+    return res.redirect('/todo')
+  }
+
+  postEdit: RequestHandler = async (req, res, _) => {
+    const verificationData = await requireUser(req.user?.sub, this.userService, req.sessionID)
+    if (typeof verificationData === 'string') {
+      return res.redirect(verificationData)
+    }
+    // TODO: Validate
+    const { itemId } = req.params
+    if (!itemId) {
+      return res.status(400).send()
+    }
+    const submission: FormBody = req.body
+    await this.todoService.updateItem(verificationData.crn, itemId, req.sessionID, {
       urn: verificationData.oneLoginUrn,
       title: submission.title,
       notes: submission.notes,
