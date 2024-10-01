@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import TodoService from '../../services/todoService'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
-import { getDobDateString } from '../../utils/utils'
+import { getDateFromDayMonthYear, getDobDateString } from '../../utils/utils'
 
 export default class TodoController {
   constructor(
@@ -50,8 +50,12 @@ export default class TodoController {
     if (typeof verificationData === 'string') {
       return res.redirect(verificationData)
     }
-    // TODO: Validate
-    const submission: FormBody = req.body
+    const validationResult = validateSubmission(req)
+    if (validationResult.errors.length > 0) {
+      return res.render('pages/todo-add-edit', { action: 'Add', editItem: req.body, validationResult })
+    }
+
+    const submission: TodoFormBody = req.body
     await this.todoService.createItem(verificationData.crn, req.sessionID, {
       urn: verificationData.oneLoginUrn,
       title: submission.title,
@@ -66,12 +70,17 @@ export default class TodoController {
     if (typeof verificationData === 'string') {
       return res.redirect(verificationData)
     }
-    // TODO: Validate
+
     const { itemId } = req.params
     if (!itemId) {
       return res.status(400).send()
     }
-    const submission: FormBody = req.body
+    const validationResult = validateSubmission(req)
+    if (validationResult.errors.length > 0) {
+      return res.render('pages/todo-add-edit', { action: 'Edit', editItem: req.body, validationResult })
+    }
+
+    const submission: TodoFormBody = req.body
     await this.todoService.updateItem(verificationData.crn, itemId, req.sessionID, {
       urn: verificationData.oneLoginUrn,
       title: submission.title,
@@ -97,10 +106,48 @@ export default class TodoController {
   }
 }
 
-type FormBody = {
-  title: string
+export type TodoFormBody = {
+  title?: string
   notes?: string
   'date-day'?: string
   'date-month'?: string
   'date-year'?: string
+}
+
+type ValidationResult = {
+  errors: Express.ValidationError[]
+  title?: string
+  dueDate?: string
+}
+
+export function validateSubmission(req: Express.Request): ValidationResult {
+  const errors: Express.ValidationError[] = []
+  const body: TodoFormBody = req.body
+  const result: ValidationResult = {
+    errors,
+  }
+
+  if (!body.title) {
+    const message = req.t('todo-error-title')
+    errors.push({
+      text: message,
+      href: '#title',
+    })
+    result.title = message
+  }
+
+  // Only validate if has been set
+  if (body['date-day'] || body['date-month'] || body['date-year']) {
+    const dueDate = getDateFromDayMonthYear(body['date-day'], body['date-month'], body['date-year'])
+    if (!dueDate) {
+      const message = req.t('todo-error-invalid-date')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+    }
+  }
+
+  return result
 }

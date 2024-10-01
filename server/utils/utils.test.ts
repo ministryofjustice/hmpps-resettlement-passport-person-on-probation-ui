@@ -10,7 +10,7 @@ import {
   pluraliseAppointments,
   isFutureDate,
   formatLicenceDate,
-  getDobDate,
+  getDateFromDayMonthYear,
   getDobDateString,
   isValidOtp,
   isValidEmail,
@@ -266,7 +266,7 @@ describe('getDobDate', () => {
     ['02', '09', '2023', '2023-09-02'],
     ['2', '9', '2023', '2023-09-02'],
   ])('getDobDate(%s)', (day: string, month: string, year: string, expected: string) => {
-    const result = getDobDate(day, month, year)
+    const result = getDateFromDayMonthYear(day, month, year)
     expect(format(result, 'yyyy-MM-dd')).toBe(expected)
   })
 })

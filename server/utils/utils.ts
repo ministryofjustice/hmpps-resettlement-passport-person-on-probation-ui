@@ -74,7 +74,7 @@ export const formatShortDate = (dateString: string, lang?: string): string => {
   return formatDate(dateString, lang, { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
-export function getDobDate(day?: string, month?: string, year?: string): Date {
+export function getDateFromDayMonthYear(day?: string, month?: string, year?: string): Date {
   if (!day || !month || !year) return null
   if (Number.isNaN(Number(day)) || Number.isNaN(Number(month)) || Number.isNaN(Number(year))) return null
   const parsedDate = parse(`${day}/${month}/${year}`, 'dd/MM/yyyy', new Date())
@@ -108,7 +108,7 @@ function parseIsoDate(dateString: string): Date | undefined {
 
 export function getDobDateString(day?: string, month?: string, year?: string): string {
   if (!day || !month || !year) return null
-  const dobDate = getDobDate(day, month, year)
+  const dobDate = getDateFromDayMonthYear(day, month, year)
   if (!dobDate) return null
   return format(dobDate, 'yyyy-MM-dd')
 }
