@@ -22,23 +22,25 @@
         }}
       {% endif %}
 
-      {% if action === 'Edit' %}
+      {% if edit %}
         {% set submitUrl = '/todo/item/' + editItem.id + '/edit' %}
+        {% set labelPrefix = 'todo-edit-' %}
       {% else %}
         {% set submitUrl = '/todo/add' %}
+        {% set labelPrefix = 'todo-add-' %}
       {% endif %}
       <form action="{{ submitUrl }}" method="POST" class="govuk-form-group">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
         <fieldset class="govuk-fieldset">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-            <h1 class="govuk-fieldset__heading">{{ action }} a to-do list item</h1>
+            <h1 class="govuk-fieldset__heading">{{ t(labelPrefix + 'h1') }}</h1>
           </legend>
 
           {{
             govukInput({
               inputmode: "text",
               label: {
-                text: 'Title'
+                text: t('todo-title-label')
               },
               errorMessage: {
                 text: validationResult.title
@@ -72,12 +74,12 @@
               } if validationResult.dueDate,
                 fieldset: {
                     legend: {
-                        text: "Due date (optional)",
+                        text: t('todo-date-label'),
                         classes: "govuk-fieldset__legend--m"
                     }
                 },
                 hint: {
-                    text: "For example, 31 03 2025"
+                    text: t('todo-date-hint')
                 },
                 items: [
                   {
@@ -98,8 +100,8 @@
           <div class="govuk-form-group">
             {{
               govukButton({
-                  type: submit,
-                  text: action + " task",
+                  type: 'submit',
+                  text: t(labelPrefix + 'submit'),
                   preventDoubleClick: true
               })
             }}

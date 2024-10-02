@@ -193,5 +193,14 @@
   "verification-error-first-name": "Enter your first name",
   "verification-error-last-name": "Enter your last name",
   "verification-error-prisoner-number": "Enter your prison number",
-  "verification-error-prisoner-number-2": "Prison number must only include letters A to Z and digits"
+  "verification-error-prisoner-number-2": "Prison number must only include letters A to Z and digits",
+  "todo-error-title": "Enter a title",
+  "todo-error-invalid-date": "Due date must be a real date",
+  "todo-date-label": "Due date (optional)",
+  "todo-date-hint": "For example, 31 03 2025",
+  "todo-edit-h1": "Edit a to-do list item",
+  "todo-add-h1": "Add a to-do list item",
+  "todo-edit-submit": "Edit task",
+  "todo-add-submit": "Add task",
+  "todo-title-label": "Title"
 }
