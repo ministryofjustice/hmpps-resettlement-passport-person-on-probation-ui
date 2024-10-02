@@ -102,12 +102,25 @@
               govukButton({
                   type: 'submit',
                   text: t(labelPrefix + 'submit'),
-                  preventDoubleClick: true
+                  preventDoubleClick: true,
+                  classes: "govuk-!-margin-bottom-0"
               })
             }}
           </div>
         </fieldset>
       </form>
+      {% if edit %}
+        <form action="/todo/item/{{ editItem.id }}/delete" method="POST">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+          {{
+            govukButton({
+              type: 'submit',
+              text: t('todo-delete-item'),
+              classes: "govuk-button--warning"
+            })
+          }}
+        </form>
+      {% endif %}
     </div>
   </div>
 {% endblock %}

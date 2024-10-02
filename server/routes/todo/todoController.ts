@@ -104,6 +104,21 @@ export default class TodoController {
 
     return res.status(200).send()
   }
+
+  deleteItem: RequestHandler = async (req, res, _) => {
+    const verificationData = await requireUser(req.user?.sub, this.userService, req.sessionID)
+    if (typeof verificationData === 'string') {
+      return res.redirect(verificationData)
+    }
+    const { itemId } = req.params
+    if (!itemId) {
+      return res.status(400).send()
+    }
+
+    await this.todoService.deleteItem(verificationData.crn, itemId, req.sessionID)
+
+    return res.redirect('/todo')
+  }
 }
 
 export type TodoFormBody = {

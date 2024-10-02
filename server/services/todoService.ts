@@ -43,7 +43,7 @@ export default class TodoService {
     })
   }
 
-  async getItem(crn: string, itemId: string, sessionID: string) {
+  async getItem(crn: string, itemId: string, sessionID: string): Promise<TodoItem> {
     return await this.restClient.get<TodoItem>({
       path: `/person/${crn}/todo/${itemId}`,
       headers: {
@@ -52,11 +52,21 @@ export default class TodoService {
     })
   }
 
-  async updateItem(crn: string, itemId: string, sessionID: string, request: TodoRequest) {
+  async updateItem(crn: string, itemId: string, sessionID: string, request: TodoRequest): Promise<TodoItem> {
     logger.debug(`SessionId: ${sessionID}. update todoItem()`)
     return await this.restClient.put<TodoItem>({
       path: `/person/${crn}/todo/${itemId}`,
       data: request,
+      headers: {
+        SessionID: sessionID,
+      },
+    })
+  }
+
+  async deleteItem(crn: string, itemId: string, sessionID: string): Promise<void> {
+    logger.debug(`SessionId: ${sessionID}. delete todoItem()`)
+    return await this.restClient.delete({
+      path: `/person/${crn}/todo/${itemId}`,
       headers: {
         SessionID: sessionID,
       },

@@ -11,4 +11,5 @@ export default (router: Router, services: Services) => {
   router.post('/todo/item/:itemId/complete', [asyncWrapper(controller.completeItem)])
   router.get('/todo/item/:itemId/edit', [asyncWrapper(controller.viewEditPage)])
   router.post('/todo/item/:itemId/edit', [asyncWrapper(controller.postEdit)])
+  router.post('/todo/item/:itemId/delete', [asyncWrapper(controller.deleteItem)])
 }

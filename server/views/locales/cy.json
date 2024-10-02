@@ -213,5 +213,6 @@
   "todo-list-column-heading-completed-date": "Completed date",
   "todo-list-completed-heading": "Completed tasks",
   "todo-list-edit-action": "Edit",
-  "todo-list-add-action": "Add a new item"
+  "todo-list-add-action": "Add a new item",
+  "todo-delete-item": "Delete task"
 }
