@@ -202,5 +202,16 @@
   "todo-add-h1": "Add a to-do list item",
   "todo-edit-submit": "Edit task",
   "todo-add-submit": "Add task",
-  "todo-title-label": "Title"
+  "todo-title-label": "Title",
+  "todo-list-h1": "To-do list",
+  "todo-list-intro": "Set yourself tasks and check your progress as you plan your future.",
+  "todo-list-column-heading-done": "Done",
+  "todo-list-column-heading-task": "Task",
+  "todo-list-column-heading-date": "Due date",
+  "todo-list-column-heading-notes": "Notes",
+  "todo-list-column-heading-actions": "Actions",
+  "todo-list-column-heading-completed-date": "Completed date",
+  "todo-list-completed-heading": "Completed tasks",
+  "todo-list-edit-action": "Edit",
+  "todo-list-add-action": "Add a new item"
 }

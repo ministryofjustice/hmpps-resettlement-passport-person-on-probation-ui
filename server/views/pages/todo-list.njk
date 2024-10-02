@@ -9,8 +9,8 @@
 {% block content %}
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-xl">To-do list</h2>
-      <p>Set yourself tasks and check your progress as you plan your future.</p>
+      <h1 class="govuk-heading-xl">{{ t('todo-list-h1') }}</h1>
+      <p>{{ t('todo-list-intro') }}</p>
     </div>
   </div>
 
@@ -21,11 +21,11 @@
           <table class="govuk-table">
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th class="govuk-table__header">Done</th>
-                <th class="govuk-table__header">Task</th>
-                <th class="govuk-table__header">Due date</th>
-                <th class="govuk-table__header">Notes</th>
-                <th class="govuk-table__header">Actions</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-done') }}</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-task') }}</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-date') }}</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-notes') }}</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-actions') }}</th>
               </tr>
             </thead>
             <tbody class="govuk-table__body">
@@ -68,7 +68,7 @@
                   </td>
                   <td class="govuk-table__cell">
                     <p class="govuk-body-s">
-                      <a href="/todo/item/{{ item.id }}/edit">Edit</a>
+                      <a href="/todo/item/{{ item.id }}/edit">{{ t('todo-list-edit-action') }}</a>
                     </p>
                   </td>
                 </tr>
@@ -78,21 +78,20 @@
         </fieldset>
       </div>
 
-      <a href="/todo/add" class="govuk-button">Add a new item</a>
+      <a href="/todo/add" class="govuk-button">{{ t('todo-list-add-action') }}</a>
 
-      <br /><br />
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text"> Completed tasks </span>
+          <span class="govuk-details__summary-text">{{ t('todo-list-completed-heading') }}</span>
         </summary>
         <div class="govuk-details__text">
-          <h2 class="govuk-heading-l">Completed tasks</h2>
+          <h2 class="govuk-heading-l">{{ t('todo-list-completed-heading') }}</h2>
           <table class="govuk-table" id="completed-table">
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th class="govuk-table__header">Task</th>
-                <th class="govuk-table__header">Completed Date</th>
-                <th class="govuk-table__header">Notes</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-task') }}</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-completed-date') }}</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-notes') }}</th>
               </tr>
             </thead>
             <tbody class="govuk-table__body">
