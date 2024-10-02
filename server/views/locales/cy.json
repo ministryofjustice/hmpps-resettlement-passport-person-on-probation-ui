@@ -214,5 +214,8 @@
   "todo-list-completed-heading": "Completed tasks",
   "todo-list-edit-action": "Edit",
   "todo-list-add-action": "Add a new item",
-  "todo-delete-item": "Delete task"
+  "todo-delete-item": "Delete task",
+  "subnav-todo": "To-do list",
+  "overview-todo-p1": "Create, edit and manage your tasks."
+
 }

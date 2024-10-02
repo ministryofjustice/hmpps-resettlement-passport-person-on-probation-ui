@@ -10,5 +10,9 @@
   {
     "feature": "knowledgeVerification",
     "enabled": true
+  },
+  {
+    "feature": "todoList",
+    "enabled": true
   }
 ]

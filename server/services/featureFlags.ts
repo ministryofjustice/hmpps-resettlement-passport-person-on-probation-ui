@@ -7,6 +7,7 @@ export const enum FeatureFlagKey {
   VIEW_APPOINTMENTS = 'viewAppointmentsEndUser',
   DOCUMENTS = 'viewDocuments',
   KNOWLEDGE_VERIFICATION = 'knowledgeVerification',
+  TODO_LIST = 'todoList',
 }
 
 export class FeatureFlags {
