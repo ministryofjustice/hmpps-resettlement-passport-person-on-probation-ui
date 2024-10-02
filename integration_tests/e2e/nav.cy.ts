@@ -75,4 +75,15 @@ context('Nav', () => {
     cy.get('[data-qa="settings-nav-link"]').click()
     cy.get('[data-qa="documents-nav-link"]').should('be.visible')
   })
+
+  it('Should see nav link for todo list on when todo list enabled', () => {
+    cy.signIn()
+    cy.get('[data-qa="todo-nav-link"]').should('be.visible')
+  })
+
+  it('Should not see nav link for todo list on when todo list disabled', () => {
+    cy.task('disableFlag', FeatureFlagKey.TODO_LIST)
+    cy.signIn()
+    cy.get('[data-qa="todo-nav-link"]').should('not.visible')
+  })
 })
