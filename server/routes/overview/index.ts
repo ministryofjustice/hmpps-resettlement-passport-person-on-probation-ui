@@ -9,6 +9,7 @@ export default (router: Router, services: Services) => {
     services.userService,
     services.licenceConditionService,
     services.featureFlagsService,
+    services.todoService,
   )
   router.get('/overview', [asyncWrapper(controller.index)])
 }
