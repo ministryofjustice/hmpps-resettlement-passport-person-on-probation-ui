@@ -151,6 +151,24 @@ context('Overview', () => {
     cy.get('#documents-tile').should('not.exist')
   })
 
+  it('Should see the todo tile on overview when todo flag is enabled', () => {
+    cy.task('stubGetAppointments')
+    cy.task('stubGetTodoTasks')
+    cy.signIn()
+    Page.verifyOnPage(OverviewPage)
+    cy.get('#todo-tile p')
+      .eq(1)
+      .should(tile => expect(tile.text().trim()).to.match(/You have\s*2 tasks on your list\./))
+  })
+
+  it('Should not see the todo tile on overview when todo flag is disabled', () => {
+    cy.task('stubGetAppointments')
+    cy.task('disableFlag', FeatureFlagKey.TODO_LIST)
+    cy.signIn()
+    Page.verifyOnPage(OverviewPage)
+    cy.get('#todo-tile').should('not.exist')
+  })
+
   it('Shows personalised content block', () => {
     cy.task('stubGetAppointments')
     cy.signIn()
