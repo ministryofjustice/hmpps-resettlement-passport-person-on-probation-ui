@@ -1,7 +1,7 @@
 [
   {
-   "feature": "viewAppointmentsEndUser",
-   "enabled": true
+    "feature": "viewAppointmentsEndUser",
+    "enabled": true
   },
   {
     "feature": "viewDocuments",

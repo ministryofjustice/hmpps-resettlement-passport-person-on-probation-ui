@@ -10,7 +10,7 @@
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-full">
-      {% if todayAppointments | length > 0 or tomorrowAppointments | length > 0 or licenceExpiredFormatted or isLicenceChanged %}
+      {% if todayAppointments | length > 0 or tomorrowAppointments | length > 0 or isLicenceExpired or isLicenceChanged %}
         <div class="govuk-!-margin-bottom-4" data-qa="overview-alert-box">
           <div
             class="govuk-notification-banner"
@@ -39,10 +39,10 @@
                   {{ t('overview-alert-tomorrow') }}.
                 </p>
               {% endif %}
-              {% if licenceExpiredFormatted %}
+              {% if isLicenceExpired %}
                 <p class="govuk-notification-banner__heading" data-qa="alert-box-licence-expired-msg">
                   {{ t('licence-conditions-expired') }}
-                  {{ licenceExpiredFormatted }}.
+                  {{ licenceExpiryDateFormatted }}.
                 </p>
               {% elif isLicenceChanged %}
                 <p class="govuk-notification-banner__heading" data-qa="alert-box-licence-changed-msg">
@@ -141,7 +141,7 @@
     <!-- todo tile -->
     {% if flags.isEnabled('todoList') %}
       <div class="govuk-grid-column-one-third">
-        <div class="card" id="documents-tile">
+        <div class="card" id="todo-tile">
           <div class="card-body active">
             <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
               <a

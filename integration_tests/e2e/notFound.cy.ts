@@ -10,13 +10,13 @@ context('NotFound', () => {
   it('Should render page not found when logged in', () => {
     cy.signIn()
     Page.verifyOnPage(OverviewPage)
-    cy.visit('/doesnotexist')
+    cy.visit('/doesnotexist', { failOnStatusCode: false })
     cy.get('h1').contains('Page not found')
     cy.visit('/sign-out')
   })
 
   it('Should render page not found when not logged in', () => {
-    cy.visit('/doesnotexist')
+    cy.visit('/doesnotexist', { failOnStatusCode: false })
     cy.get('h1').contains('Page not found')
   })
 })
