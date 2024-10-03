@@ -1,5 +1,7 @@
 import Page, { TodoListAddPage, TodoListEditPage, TodoListPage } from '../pages/page'
 import 'cypress-map'
+import { FeatureFlagKey } from '../../server/services/featureFlags'
+import OverviewPage from '../pages/overview'
 
 context('To-do list', () => {
   beforeEach(() => {
@@ -153,5 +155,24 @@ context('Edit a todo-list item', () => {
     cy.get('#delete-button').click()
     // Should be back on list page after delete
     Page.verifyOnPage(TodoListPage)
+  })
+})
+
+context('Todo feature flag', () => {
+  before(() => {
+    cy.task('reset')
+    cy.task('stubForDefaultLoggedInUser')
+    cy.task('disableFlag', FeatureFlagKey.TODO_LIST)
+  })
+  ;['/todo', '/todo/add', '/todo/item/id/edit'].forEach(page =>
+    it(`Should redirect to overview from ${page} when flag is disabled`, () => {
+      cy.signIn()
+      cy.visit(page)
+      Page.verifyOnPage(OverviewPage)
+    }),
+  )
+
+  after(() => {
+    cy.task('restoreFlags')
   })
 })

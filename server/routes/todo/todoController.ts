@@ -1,20 +1,23 @@
-import { RequestHandler } from 'express'
+import { RequestHandler, Response, Request } from 'express'
 import TodoService from '../../services/todoService'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
 import { getDateFromDayMonthYear, getDobDateString } from '../../utils/utils'
+import FeatureFlagsService from '../../services/featureFlagsService'
+import { FeatureFlagKey } from '../../services/featureFlags'
+import { UserDetailsResponse } from '../../data/personOnProbationApiClient'
 
 export default class TodoController {
   constructor(
     private readonly todoService: TodoService,
     private readonly userService: UserService,
+    private readonly featureFlagsService: FeatureFlagsService,
   ) {}
 
   viewList: RequestHandler = async (req, res, _) => {
-    const verificationData = await requireUser(req.user?.sub, this.userService, req.sessionID)
-    if (typeof verificationData === 'string') {
-      return res.redirect(verificationData)
-    }
+    const verificationData = await this.requireUserAndFlag(req, res)
+    if (!verificationData) return
+
     const allItems = await this.todoService.getList(verificationData.crn, req.sessionID)
     const todoList = allItems.filter(item => !item.completed)
     const completedList = allItems.filter(item => item.completed)
@@ -22,18 +25,14 @@ export default class TodoController {
   }
 
   viewAddPage: RequestHandler = async (req, res, _) => {
-    const verificationData = await requireUser(req.user?.sub, this.userService, req.sessionID)
-    if (typeof verificationData === 'string') {
-      return res.redirect(verificationData)
-    }
+    const verificationData = await this.requireUserAndFlag(req, res)
+    if (!verificationData) return
     return res.render('pages/todo-add-edit')
   }
 
   viewEditPage: RequestHandler = async (req, res, _) => {
-    const verificationData = await requireUser(req.user?.sub, this.userService, req.sessionID)
-    if (typeof verificationData === 'string') {
-      return res.redirect(verificationData)
-    }
+    const verificationData = await this.requireUserAndFlag(req, res)
+    if (!verificationData) return
 
     const { itemId } = req.params
     if (!itemId) {
@@ -46,10 +45,9 @@ export default class TodoController {
   }
 
   postItem: RequestHandler = async (req, res, _) => {
-    const verificationData = await requireUser(req.user?.sub, this.userService, req.sessionID)
-    if (typeof verificationData === 'string') {
-      return res.redirect(verificationData)
-    }
+    const verificationData = await this.requireUserAndFlag(req, res)
+    if (!verificationData) return
+
     const validationResult = validateSubmission(req)
     if (validationResult.errors.length > 0) {
       return res.render('pages/todo-add-edit', { editItem: req.body, validationResult })
@@ -66,10 +64,8 @@ export default class TodoController {
   }
 
   postEdit: RequestHandler = async (req, res, _) => {
-    const verificationData = await requireUser(req.user?.sub, this.userService, req.sessionID)
-    if (typeof verificationData === 'string') {
-      return res.redirect(verificationData)
-    }
+    const verificationData = await this.requireUserAndFlag(req, res)
+    if (!verificationData) return
 
     const { itemId } = req.params
     if (!itemId) {
@@ -91,10 +87,9 @@ export default class TodoController {
   }
 
   completeItem: RequestHandler = async (req, res, _) => {
-    const verificationData = await requireUser(req.user?.sub, this.userService, req.sessionID)
-    if (typeof verificationData === 'string') {
-      return res.redirect(verificationData)
-    }
+    const verificationData = await this.requireUserAndFlag(req, res)
+    if (!verificationData) return
+
     const { itemId } = req.params
     if (!itemId) {
       return res.status(400).send()
@@ -106,10 +101,9 @@ export default class TodoController {
   }
 
   deleteItem: RequestHandler = async (req, res, _) => {
-    const verificationData = await requireUser(req.user?.sub, this.userService, req.sessionID)
-    if (typeof verificationData === 'string') {
-      return res.redirect(verificationData)
-    }
+    const verificationData = await this.requireUserAndFlag(req, res)
+    if (!verificationData) return
+
     const { itemId } = req.params
     if (!itemId) {
       return res.status(400).send()
@@ -118,6 +112,20 @@ export default class TodoController {
     await this.todoService.deleteItem(verificationData.crn, itemId, req.sessionID)
 
     return res.redirect('/todo')
+  }
+
+  private async requireUserAndFlag(req: Request, res: Response): Promise<UserDetailsResponse> {
+    const flags = await this.featureFlagsService.getFeatureFlags(res)
+    if (!flags.isEnabled(FeatureFlagKey.TODO_LIST)) {
+      res.redirect('/overview')
+      return null
+    }
+    const verificationData = await requireUser(req.user?.sub, this.userService, req.sessionID)
+    if (typeof verificationData === 'string') {
+      res.redirect(verificationData)
+      return null
+    }
+    return verificationData
   }
 }
 

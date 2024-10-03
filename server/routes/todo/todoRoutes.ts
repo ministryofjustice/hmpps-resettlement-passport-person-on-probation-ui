@@ -4,7 +4,7 @@ import asyncWrapper from '../../middleware/asyncWrapper'
 import TodoController from './todoController'
 
 export default (router: Router, services: Services) => {
-  const controller = new TodoController(services.todoService, services.userService)
+  const controller = new TodoController(services.todoService, services.userService, services.featureFlagsService)
   router.get('/todo', [asyncWrapper(controller.viewList)])
   router.get('/todo/add', [asyncWrapper(controller.viewAddPage)])
   router.post('/todo/add', [asyncWrapper(controller.postItem)])
