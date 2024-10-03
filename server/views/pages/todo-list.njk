@@ -18,7 +18,7 @@
     <div class="govuk-grid-column-full">
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
-          <table class="govuk-table">
+          <table id="todo-list-table" class="govuk-table">
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
                 <th class="govuk-table__header">{{ t('todo-list-column-heading-done') }}</th>
@@ -47,14 +47,17 @@
                             {% if item.completed %}
                               checked
                             {% endif %}
+                            aria-label="complete task {{ item.title }}"
                           />
-                          <label class="govuk-label govuk-checkboxes__label" for="task-{{ item.id }}"></label>
+                          <label id="label-cb-{{ item.id }}" class="govuk-label govuk-checkboxes__label" for="task-{{ item.id }}"></label>
                         </form>
                       </div>
                     </div>
                   </td>
                   <td class="govuk-table__cell">
-                    <label class="govuk-label">{{ item.title }}</label>
+                    <p class="govuk-body-m">
+                    {{ item.title }}
+                    </p>
                   </td>
                   <td class="govuk-table__cell">
                     {% if item.dueDate %}
@@ -78,7 +81,7 @@
         </fieldset>
       </div>
 
-      <a href="/todo/add" class="govuk-button">{{ t('todo-list-add-action') }}</a>
+      <a id="add-new-button" href="/todo/add" class="govuk-button">{{ t('todo-list-add-action') }}</a>
 
       <details class="govuk-details" data-module="govuk-details">
         <summary class="govuk-details__summary">

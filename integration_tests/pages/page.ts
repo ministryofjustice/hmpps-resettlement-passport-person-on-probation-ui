@@ -69,3 +69,9 @@ export class VerificationPage extends Page {
     super('Sample text')
   }
 }
+
+export class TodoListPage extends Page {
+  constructor() {
+    super('To-do list')
+  }
+}
