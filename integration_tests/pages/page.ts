@@ -75,3 +75,15 @@ export class TodoListPage extends Page {
     super('To-do list')
   }
 }
+
+export class TodoListAddPage extends Page {
+  constructor() {
+    super('Add a to-do list item')
+  }
+}
+
+export class TodoListEditPage extends Page {
+  constructor() {
+    super('Edit a to-do list item')
+  }
+}
