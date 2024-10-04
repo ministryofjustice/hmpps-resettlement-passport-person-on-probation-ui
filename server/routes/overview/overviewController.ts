@@ -11,7 +11,7 @@ import { FeatureFlagKey, FeatureFlags } from '../../services/featureFlags'
 import { findPersonalisedContent } from '../../services/personalisationService'
 import TodoService from '../../services/todoService'
 import { UserDetailsResponse } from '../../data/personOnProbationApiClient'
-import { logger } from 'bs-logger'
+import logger from '../../../logger'
 
 export default class OverviewController {
   constructor(
