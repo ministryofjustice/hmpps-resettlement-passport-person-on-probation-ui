@@ -28,6 +28,12 @@
       active: activePage == 'licence-conditions',
       attributes: {'data-qa': 'licence-conditions-nav-link', 'track-tag-id': "navBarLicenceLink", "track-event-name": "NavBarClick"}
     }, {
+      text: t('subnav-todo'),
+      href: '/todo' + appendLanguage(queryParams),
+      active: activePage == 'todo',
+      attributes: {'data-qa': 'todo-nav-link', 'track-tag-id': "navBarTodoLink", "track-event-name": "NavBarClick"},
+      classes: hiddenClassOnFlag('todoList', flags)
+    }, {
       text: t('subnav-documents'),
       href: '/documents' + appendLanguage(queryParams),
       active: activePage == 'documents',

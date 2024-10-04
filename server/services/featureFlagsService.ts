@@ -4,11 +4,15 @@ import config from '../config'
 import logger from '../../logger'
 import { tokenStoreFactory } from '../data/tokenStore/tokenStore'
 import { FeatureFlags, Feature } from './featureFlags'
+import { Response } from 'express'
 
 export default class FeatureFlagsService {
   private s3 = new S3({ region: config.s3.featureFlag.region, forcePathStyle: true })
 
-  async getFeatureFlags(): Promise<FeatureFlags> {
+  async getFeatureFlags(res: Response = undefined): Promise<FeatureFlags> {
+    if (res?.locals?.flags) {
+      return res.locals.flags
+    }
     const flags = await this.loadFeatureFlags()
     return new FeatureFlags(flags)
   }

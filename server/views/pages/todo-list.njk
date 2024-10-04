@@ -1,0 +1,126 @@
+{% extends "../partials/layout.njk" %}
+{% set pageTitle = "To-do list" + titleHeading %}
+
+{% block beforeContent %}
+  {% set activePage = 'todo' %}
+  {% include "../partials/subnavigation.njk" %}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row govuk-!-padding-bottom-4">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">{{ t('todo-list-h1') }}</h1>
+      <p>{{ t('todo-list-intro') }}</p>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row govuk-!-margin-bottom-4">
+    <div class="govuk-grid-column-full">
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+          <table id="todo-list-table" class="govuk-table">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-done') }}</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-task') }}</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-date') }}</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-notes') }}</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-actions') }}</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              {% for item in todoList %}
+                <tr id="todo-row-{{ item.id }}" class="govuk-table__row">
+                  <td class="govuk-table__cell">
+                    <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                      <div class="govuk-checkboxes__item">
+                        <form id="form-${{ item.id }}" action="/todo/item/{{ item.id }}/complete" method="POST">
+                          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+                          <input type="hidden" name="itemId" value="{{ item.id }}" />
+                          <input type="hidden" name="title" value="{{ item.title }}" />
+                          <input type="hidden" name="note" value="{{ item.note }}" />
+                          <input
+                            class="govuk-checkboxes__input"
+                            id="task-{{ item.id }}"
+                            name="task-status"
+                            type="checkbox"
+                            {% if item.completed %}
+                              checked
+                            {% endif %}
+                            aria-label="complete task {{ item.title }}"
+                          />
+                          <label id="label-cb-{{ item.id }}" class="govuk-label govuk-checkboxes__label" for="task-{{ item.id }}"></label>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="govuk-table__cell">
+                    <p class="govuk-body-m">
+                    {{ item.title }}
+                    </p>
+                  </td>
+                  <td class="govuk-table__cell">
+                    {% if item.dueDate %}
+                      <p class="govuk-body-m">{{ item.dueDate | formatShortDate(queryParams.lang) }}</p>
+                    {% endif %}
+                  </td>
+                  <td class="govuk-table__cell">
+                    {% if item.notes %}
+                      <p class="govuk-body-s">{{ item.notes }}</p>
+                    {% endif %}
+                  </td>
+                  <td class="govuk-table__cell">
+                    <p class="govuk-body-s">
+                      <a href="/todo/item/{{ item.id }}/edit">{{ t('todo-list-edit-action') }}</a>
+                    </p>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </fieldset>
+      </div>
+
+      <a id="add-new-button" href="/todo/add" class="govuk-button">{{ t('todo-list-add-action') }}</a>
+
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">{{ t('todo-list-completed-heading') }}</span>
+        </summary>
+        <div class="govuk-details__text">
+          <h2 class="govuk-heading-l">{{ t('todo-list-completed-heading') }}</h2>
+          <table class="govuk-table" id="completed-table">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-task') }}</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-completed-date') }}</th>
+                <th class="govuk-table__header">{{ t('todo-list-column-heading-notes') }}</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              {% for item in completedList %}
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell">
+                    <label class="govuk-label">{{ item.title }}</label>
+                  </td>
+                  <td class="govuk-table__cell">
+                    <p class="govuk-body-m">{{ item.updatedAt | formatShortDate(queryParams.lang) }}</p>
+                  </td>
+                  <td class="govuk-table__cell">
+                    {% if item.notes %}
+                      <p class="govuk-body-s">{{ item.notes }}</p>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+  </div>
+{% endblock %}
+{% block bodyEnd %}
+  <script src="/assets/sessionMonitor.js"></script>
+  <script src="/assets/todo.js"></script>
+{% endblock %}

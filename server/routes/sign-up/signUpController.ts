@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { isPast } from 'date-fns'
 import { TelemetryClient } from 'applicationinsights'
 import UserService from '../../services/userService'
-import { getDobDate, getDobDateString, isValidOtp } from '../../utils/utils'
+import { getDateFromDayMonthYear, getDobDateString, isValidOtp } from '../../utils/utils'
 import { errorProperties, PyfEvent, trackEvent } from '../../utils/analytics'
 import FeatureFlagsService from '../../services/featureFlagsService'
 import { FeatureFlagKey } from '../../services/featureFlags'
@@ -39,7 +39,7 @@ export default class SignupController {
     try {
       const { otp, 'dob-dobDay': dobDay, 'dob-dobMonth': dobMonth, 'dob-dobYear': dobYear } = req.body
       const errors: Array<Express.ValidationError> = []
-      const dobDate = getDobDate(dobDay, dobMonth, dobYear)
+      const dobDate = getDateFromDayMonthYear(dobDay, dobMonth, dobYear)
 
       if (!isValidOtp(otp)) {
         errors.push({
@@ -205,7 +205,7 @@ export function validateSubmission(req: Express.Request): ValidationResult {
     result.lastName = message
   }
 
-  const dateOfBirth = getDobDate(body['dob-day'], body['dob-month'], body['dob-year'])
+  const dateOfBirth = getDateFromDayMonthYear(body['dob-day'], body['dob-month'], body['dob-year'])
   if (!dateOfBirth) {
     const message = req.t('verification-error-date-1')
     errors.push({

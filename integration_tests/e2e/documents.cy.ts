@@ -38,7 +38,7 @@ context('Documents', () => {
     cy.signIn()
     cy.task('stubGetDocumentError')
 
-    cy.visit('/documents/licence-conditions.pdf')
+    cy.visit('/documents/licence-conditions.pdf', { failOnStatusCode: false })
     Page.verifyOnPage(ErrorPage)
   })
 

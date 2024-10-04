@@ -1,5 +1,4 @@
 {% extends "../partials/layout.njk" %}
-{% import "../partials/alertBoxMacro.njk" as alertBox %}
 {% set pageTitle = "Overview" + titleHeading %}
 {% block beforeContent %}
   {% set activePage = 'overview' %}
@@ -11,7 +10,50 @@
 
   <div class="govuk-grid-row govuk-!-padding-bottom-4">
     <div class="govuk-grid-column-full">
-      {{ alertBox.render(tomorrowAppointments, todayAppointments, licenceExpiryDateFormatted if isLicenceExpired, isLicenceChanged) }}
+      {% if todayAppointments | length > 0 or tomorrowAppointments | length > 0 or isLicenceExpired or isLicenceChanged %}
+        <div class="govuk-!-margin-bottom-4" data-qa="overview-alert-box">
+          <div
+            class="govuk-notification-banner"
+            role="region"
+            aria-labelledby="govuk-notification-banner-title"
+            data-module="govuk-notification-banner"
+          >
+            <div class="govuk-notification-banner__header">
+              <p class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                {{ t('overview-alert-important') }}
+              </p>
+            </div>
+            <div class="govuk-notification-banner__content">
+              {% if todayAppointments | length > 0 %}
+                <p class="govuk-notification-banner__heading" data-qa="alert-box-today-msg">
+                  {{ t('overview-alert-you-have') }}
+                  <a href="/appointments">{{ todayAppointments.length }}</a>&nbsp;
+                  {{ todayAppointments | pluraliseAppointments }}
+                  {{ t('overview-alert-today') }}.
+                </p>
+              {% elif tomorrowAppointments | length > 0 %}
+                <p class="govuk-notification-banner__heading" data-qa="alert-box-tomorrow-msg">
+                  {{ t('overview-alert-you-have') }}
+                  <a href="/appointments">{{ tomorrowAppointments.length }}</a>&nbsp;
+                  {{ tomorrowAppointments | pluraliseAppointments }}
+                  {{ t('overview-alert-tomorrow') }}.
+                </p>
+              {% endif %}
+              {% if isLicenceExpired %}
+                <p class="govuk-notification-banner__heading" data-qa="alert-box-licence-expired-msg">
+                  {{ t('licence-conditions-expired') }}
+                  {{ licenceExpiryDateFormatted }}.
+                </p>
+              {% elif isLicenceChanged %}
+                <p class="govuk-notification-banner__heading" data-qa="alert-box-licence-changed-msg">
+                  {{ t('licence-conditions-changed-1') }}
+                  <a href="/licence-conditions">{{ t('licence-conditions-changed-2') }}</a>
+                </p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
       <p class="hmrc-caption govuk-caption-xl">
         <span class="govuk-visually-hidden">{{ t('overview-hidden-content') }} </span
         ><span data-qa="pyf-overview-title">{{ applicationName }}</span>
@@ -38,7 +80,7 @@
             {% if nextAppointment %}
               <h3 class="govuk-heading-s" id="next-appointment-heading">{{ t('overview-next-appointment') }}</h3>
 
-              <p class="govuk-body-m govuk-!-margin-0">{{ nextAppointment.date | formatDate(queryParams.lang) }}</p>
+              <p class="govuk-body-m govuk-!-margin-0">{{ nextAppointment.date | formatLongDate(queryParams.lang) }}</p>
               <p class="govuk-body-m govuk-!-margin-0">
                 {{ nextAppointment.time | formatTime(0, queryParams.lang) }}
                 {% if nextAppointment.duration %}
@@ -95,6 +137,34 @@
         </div>
       </div>
     </div>
+
+    <!-- todo tile -->
+    {% if flags.isEnabled('todoList') %}
+      <div class="govuk-grid-column-one-third">
+        <div class="card" id="todo-tile">
+          <div class="card-body active">
+            <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
+              <a
+                class="govuk-link card-link"
+                href="/todo{{ appendLanguage(queryParams) }}"
+                track-tag-id="todoTileLink"
+                track-event-name="TodoTileLink"
+                data-qa="todo-tile-title"
+              >
+                {{ t('todo-list-h1') }}
+              </a>
+            </h2>
+            <p class="govuk-body">{{ t('overview-todo-p1') }}</p>
+            {% if todoCounts %}
+              <p class="govuk-body">
+                {{ t('overview-todo-p2-part-1') }}
+                <strong>{{ todoCounts.pending }}</strong> {{ t('overview-todo-p2-part-2') }}
+              </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
 
     <!-- Documents tile -->
     {% if flags.isEnabled('viewDocuments') %}

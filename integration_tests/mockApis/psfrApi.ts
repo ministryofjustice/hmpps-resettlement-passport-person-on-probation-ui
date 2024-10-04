@@ -1,6 +1,7 @@
 import { SuperAgentRequest } from 'superagent'
 import { stubFor } from './wiremock'
 import { oneLoginUrn } from './govukOneLogin'
+import { randomUUID } from 'node:crypto'
 
 const getTomorrowsDate = () => {
   const tomorrow = new Date()
@@ -489,6 +490,189 @@ export default {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
         jsonBody: mockedOtpResponse,
+      },
+    }),
+  stubGetTodoTasksEmpty: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/person/U416100/todo`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: [],
+      },
+    }),
+  stubGetTodoTasks: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: `/rpApi/person/U416100/todo`,
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: [
+          {
+            id: '81fce0af-845e-4753-871b-3809d04c888a',
+            prisonerId: 1,
+            title: 'Make tea',
+            notes: '1 sugar',
+            dueDate: null,
+            completed: false,
+            createdByUrn: oneLoginUrn,
+            updatedByUrn: oneLoginUrn,
+            creationDate: '2024-10-02T15:38:15.979258',
+            updatedAt: '2024-10-02T15:38:15.979269',
+          },
+          {
+            id: '848de9ca-773c-44b3-8152-333299ad79b3',
+            prisonerId: 1,
+            title: 'Write CV',
+            notes: '',
+            dueDate: '2026-10-30',
+            completed: false,
+            createdByUrn: oneLoginUrn,
+            updatedByUrn: oneLoginUrn,
+            creationDate: '2024-10-02T15:38:44.200459',
+            updatedAt: '2024-10-02T15:38:44.200481',
+          },
+          {
+            id: '634eacc9-86da-4c9c-963b-3d24359ca38b',
+            prisonerId: 1,
+            title: 'Make toast',
+            notes: '',
+            dueDate: null,
+            completed: true,
+            createdByUrn: oneLoginUrn,
+            updatedByUrn: oneLoginUrn,
+            creationDate: '2024-10-02T15:39:16.118321',
+            updatedAt: '2024-10-02T15:39:20.106478',
+          },
+        ],
+      },
+    }),
+  stubPatchTodoTask: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'PATCH',
+        url: '/rpApi/person/U416100/todo/81fce0af-845e-4753-871b-3809d04c888a',
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: {
+          id: '81fce0af-845e-4753-871b-3809d04c888a',
+          prisonerId: 1,
+          title: 'Make tea',
+          notes: '1 sugar',
+          dueDate: null,
+          completed: true,
+          createdByUrn: oneLoginUrn,
+          updatedByUrn: oneLoginUrn,
+          creationDate: '2024-10-02T15:38:15.979258',
+          updatedAt: '2024-10-02T15:38:15.979269',
+        },
+      },
+    }),
+  stubPostNewTask: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'POST',
+        url: '/rpApi/person/U416100/todo',
+        bodyPatterns: [
+          {
+            equalToJson: JSON.stringify({
+              urn: oneLoginUrn,
+              title: 'Fish for trout',
+              notes: 'Use bait',
+              dueDate: null,
+            }),
+          },
+        ],
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: {
+          id: randomUUID(),
+          prisonerId: 1,
+          title: 'Fish for trout',
+          notes: 'Use bait',
+          dueDate: null,
+          completed: false,
+          createdByUrn: oneLoginUrn,
+          updatedByUrn: oneLoginUrn,
+          creationDate: '2024-10-02T15:38:15.979258',
+          updatedAt: '2024-10-02T15:38:15.979269',
+        },
+      },
+    }),
+  stubGetOneTask: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        url: '/rpApi/person/U416100/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: {
+          id: '9951967c-f7e0-4f54-945a-aa0abe376536',
+          prisonerId: 1,
+          title: 'Fish for trout',
+          notes: 'Use bait',
+          dueDate: null,
+          completed: false,
+          createdByUrn: oneLoginUrn,
+          updatedByUrn: oneLoginUrn,
+          creationDate: '2024-10-02T15:38:15.979258',
+          updatedAt: '2024-10-02T15:38:15.979269',
+        },
+      },
+    }),
+  stubPutTask: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'PUT',
+        url: '/rpApi/person/U416100/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
+        bodyPatterns: [
+          {
+            equalToJson: JSON.stringify({
+              urn: oneLoginUrn,
+              title: 'Fish for trout',
+              notes: 'Use bait',
+              dueDate: '2025-01-01',
+            }),
+          },
+        ],
+      },
+      response: {
+        status: 200,
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        jsonBody: {
+          id: randomUUID(),
+          prisonerId: 1,
+          title: 'Fish for trout',
+          notes: 'Use bait',
+          dueDate: '9951967c-f7e0-4f54-945a-aa0abe376536',
+          completed: false,
+          createdByUrn: oneLoginUrn,
+          updatedByUrn: oneLoginUrn,
+          creationDate: '2024-10-02T15:38:15.979258',
+          updatedAt: '2024-10-02T15:38:15.979269',
+        },
+      },
+    }),
+  stubDeleteTask: (): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'DELETE',
+        url: '/rpApi/person/U416100/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
+      },
+      response: {
+        status: 204,
       },
     }),
 }

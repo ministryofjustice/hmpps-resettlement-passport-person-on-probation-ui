@@ -43,6 +43,7 @@ function stubForDefaultLoggedInUser(): Promise<unknown> {
     psfrApi.stubGetPopUserDetails(),
     psfrApi.stubGetLicenceConditions(),
     psfrApi.stubGetAppointmentsMissing(),
+    psfrApi.stubGetTodoTasksEmpty(),
     popApi.stubGetPopUserByUrn(),
   ])
 }

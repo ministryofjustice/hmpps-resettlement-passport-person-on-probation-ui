@@ -1,7 +1,7 @@
-import { addMinutes, compareAsc, format, isBefore, isFuture, isSameDay, isValid, parse } from 'date-fns'
+import { addMinutes, compareAsc, format, isBefore, isFuture, isSameDay, isValid, parse, parseISO } from 'date-fns'
 import { cy, enGB } from 'date-fns/locale'
 import type { Appointment, AppointmentLocation } from '../data/resettlementPassportData'
-import { FeatureFlags, FeatureFlagKey } from '../services/featureFlags'
+import { FeatureFlagKey, FeatureFlags } from '../services/featureFlags'
 
 const properCase = (word: string): string =>
   word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
@@ -60,14 +60,21 @@ export const formatLicenceDate = (dateString: string, lang?: string): string => 
   return date.toLocaleDateString(getLocaleForLang(lang).code, options)
 }
 
-export const formatDate = (dateString: string, lang?: string): string => {
+export const formatDate = (dateString: string, lang: string, options: Intl.DateTimeFormatOptions): string => {
   if (!dateString || dateString?.length < 1) return null
   const date = new Date(dateString)
-  const options: Intl.DateTimeFormatOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }
   return date.toLocaleDateString(getLocaleForLang(lang).code, options)?.replace(',', '')
 }
 
-export function getDobDate(day?: string, month?: string, year?: string): Date {
+export const formatLongDate = (dateString: string, lang?: string): string => {
+  return formatDate(dateString, lang, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+}
+
+export const formatShortDate = (dateString: string, lang?: string): string => {
+  return formatDate(dateString, lang, { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+export function getDateFromDayMonthYear(day?: string, month?: string, year?: string): Date {
   if (!day || !month || !year) return null
   if (Number.isNaN(Number(day)) || Number.isNaN(Number(month)) || Number.isNaN(Number(year))) return null
   const parsedDate = parse(`${day}/${month}/${year}`, 'dd/MM/yyyy', new Date())
@@ -78,9 +85,30 @@ export function getDobDate(day?: string, month?: string, year?: string): Date {
   return parsedDate
 }
 
+export function dayOfMonth(dateString: string): number {
+  return parseIsoDate(dateString)?.getDate()
+}
+
+export function monthOfYear(dateString: string): number {
+  const date = parseIsoDate(dateString)
+  return date ? date.getMonth() + 1 : undefined
+}
+
+export function yearOf(dateString: string): number {
+  return parseIsoDate(dateString)?.getFullYear()
+}
+
+function parseIsoDate(dateString: string): Date | undefined {
+  const date = parseISO(dateString)
+  if (!isValid(date)) {
+    return undefined
+  }
+  return date
+}
+
 export function getDobDateString(day?: string, month?: string, year?: string): string {
   if (!day || !month || !year) return null
-  const dobDate = getDobDate(day, month, year)
+  const dobDate = getDateFromDayMonthYear(day, month, year)
   if (!dobDate) return null
   return format(dobDate, 'yyyy-MM-dd')
 }

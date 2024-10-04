@@ -1,0 +1,128 @@
+{% extends "../partials/layout.njk" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set pageTitle = "To-do list" + titleHeading %}
+
+{% block beforeContent %}
+  {% set activePage = 'todo' %}
+  {% include "../partials/subnavigation.njk" %}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row govuk-!-margin-bottom-4">
+    <div class="govuk-grid-column-two-thirds">
+      {% if validationResult.errors | length > 0 %}
+        {{
+          govukErrorSummary({
+            titleText: t('generic-error-summary'),
+            errorList: validationResult.errors
+          })
+        }}
+      {% endif %}
+
+      {% if edit %}
+        {% set submitUrl = '/todo/item/' + editItem.id + '/edit' %}
+        {% set labelPrefix = 'todo-edit-' %}
+      {% else %}
+        {% set submitUrl = '/todo/add' %}
+        {% set labelPrefix = 'todo-add-' %}
+      {% endif %}
+      <form action="{{ submitUrl }}" method="POST" class="govuk-form-group">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading">{{ t(labelPrefix + 'h1') }}</h1>
+          </legend>
+
+          {{
+            govukInput({
+              inputmode: "text",
+              label: {
+                text: t('todo-title-label')
+              },
+              errorMessage: {
+                text: validationResult.title
+              } if validationResult.title,
+              classes: "govuk-input--width-20",
+              name: "title",
+              id: "title",
+              value: editItem.title
+            })
+          }}
+
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="notes">Notes (optional)</label>
+            <textarea class="govuk-textarea govuk-!-width-two-thirds" id="notes" name="notes" rows="5">
+{{ editItem.notes }}</textarea
+            >
+          </div>
+
+          {% if editItem.dueDate %}
+            {% set dueDateDay = editItem.dueDate | dayOfMonth %}
+            {% set dueDateMonth = editItem.dueDate | monthOfYear %}
+            {% set dueDateYear = editItem.dueDate | yearOf %}
+          {% endif %}
+
+          {{
+            govukDateInput({
+                id: "due-date",
+                namePrefix: "date",
+              errorMessage: {
+                text: validationResult.dueDate
+              } if validationResult.dueDate,
+                fieldset: {
+                    legend: {
+                        text: t('todo-date-label'),
+                        classes: "govuk-fieldset__legend--m"
+                    }
+                },
+                hint: {
+                    text: t('todo-date-hint')
+                },
+                items: [
+                  {
+                    name: 'day',
+                    value: dueDateDay
+                  },
+                  {
+                    name: 'month',
+                    value: dueDateMonth
+                  },
+                  {
+                    name: 'year',
+                    value: dueDateYear
+                  }
+                ] if editItem.dueDate
+            })
+          }}
+          <div class="govuk-form-group">
+            {{
+              govukButton({
+                  id: 'submit-button',
+                  type: 'submit',
+                  text: t(labelPrefix + 'submit'),
+                  preventDoubleClick: true,
+                  classes: "govuk-!-margin-bottom-0"
+              })
+            }}
+          </div>
+        </fieldset>
+      </form>
+      {% if edit %}
+        <form action="/todo/item/{{ editItem.id }}/delete" method="POST">
+          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+          {{
+            govukButton({
+              id: 'delete-button',
+              type: 'submit',
+              text: t('todo-delete-item'),
+              classes: "govuk-button--warning"
+            })
+          }}
+        </form>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

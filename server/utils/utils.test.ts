@@ -4,13 +4,13 @@ import {
   convertToTitleCase,
   formatTime,
   initialiseName,
-  formatDate,
+  formatLongDate,
   formatAppointmentLocation,
   mapsLinkFromAppointmentLocation,
   pluraliseAppointments,
   isFutureDate,
   formatLicenceDate,
-  getDobDate,
+  getDateFromDayMonthYear,
   getDobDateString,
   isValidOtp,
   isValidEmail,
@@ -18,6 +18,10 @@ import {
   appendLanguage,
   isDateInPast,
   toProperCase,
+  formatShortDate,
+  dayOfMonth,
+  monthOfYear,
+  yearOf,
 } from './utils'
 
 describe('convert to title case', () => {
@@ -79,7 +83,7 @@ describe('formatTime', () => {
   })
 })
 
-describe('formatDate', () => {
+describe('formatLongDate', () => {
   it.each([
     ['2023-09-02', null, 'Saturday 2 September 2023'],
     ['2023-1-1', null, 'Sunday 1 January 2023'],
@@ -89,8 +93,23 @@ describe('formatDate', () => {
     ['2023-1-1', 'cy', 'Dydd Sul 1 Ionawr 2023'],
     [null, null, null],
     ['', null, null],
-  ])('formatDate(%s, %s)', (input: string, lang: string, expected: string) => {
-    expect(formatDate(input, lang)).toEqual(expected)
+  ])('formatLongDate(%s, %s)', (input: string, lang: string, expected: string) => {
+    expect(formatLongDate(input, lang)).toEqual(expected)
+  })
+})
+
+describe('formatShortDate', () => {
+  it.each([
+    ['2023-09-02', null, '2 Sept 2023'],
+    ['2023-1-1', null, '1 Jan 2023'],
+    ['2023-09-02', 'en', '2 Sept 2023'],
+    ['2023-1-1', 'en', '1 Jan 2023'],
+    ['2023-09-02', 'cy', '2 Medi 2023'],
+    ['2023-1-1', 'cy', '1 Ion 2023'],
+    [null, null, null],
+    ['', null, null],
+  ])('formatShortDate(%s, %s)', (input: string, lang: string, expected: string) => {
+    expect(formatShortDate(input, lang)).toEqual(expected)
   })
 })
 
@@ -247,7 +266,7 @@ describe('getDobDate', () => {
     ['02', '09', '2023', '2023-09-02'],
     ['2', '9', '2023', '2023-09-02'],
   ])('getDobDate(%s)', (day: string, month: string, year: string, expected: string) => {
-    const result = getDobDate(day, month, year)
+    const result = getDateFromDayMonthYear(day, month, year)
     expect(format(result, 'yyyy-MM-dd')).toBe(expected)
   })
 })
@@ -337,5 +356,47 @@ describe('toProperCase', () => {
     ['name middlename surname', 'Name Middlename Surname'],
   ])('toProperCase(%s)', (input: string, expected: string) => {
     expect(toProperCase(input)).toBe(expected)
+  })
+})
+
+describe('dayOfMonth', () => {
+  it.each([
+    ['2024-09-01', 1],
+    ['2023-09-02', 2],
+    ['2022-09-03', 3],
+    ['2021-07-11', 11],
+    ['abc', undefined],
+    [undefined, undefined],
+    [null, undefined],
+  ])('dayOfMonth(%s)', (input: string, expected: number) => {
+    expect(dayOfMonth(input)).toBe(expected)
+  })
+})
+
+describe('monthOfYear', () => {
+  it.each([
+    ['2024-09-01', 9],
+    ['2023-11-02', 11],
+    ['2022-01-03', 1],
+    ['2021-02-11', 2],
+    ['abc', undefined],
+    [undefined, undefined],
+    [null, undefined],
+  ])('monthOfYear(%s)', (input: string, expected: number) => {
+    expect(monthOfYear(input)).toBe(expected)
+  })
+})
+
+describe('yearOf', () => {
+  it.each([
+    ['2024-09-01', 2024],
+    ['2022-11-02', 2022],
+    ['2022-01-03', 2022],
+    ['1931-02-11', 1931],
+    ['abc', undefined],
+    [undefined, undefined],
+    [null, undefined],
+  ])('yearOf(%s)', (input: string, expected: number) => {
+    expect(yearOf(input)).toBe(expected)
   })
 })
