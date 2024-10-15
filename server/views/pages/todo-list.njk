@@ -42,7 +42,7 @@
                           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
                           <input type="hidden" name="itemId" value="{{ item.id }}" />
                           <input type="hidden" name="title" value="{{ item.title }}" />
-                          <input type="hidden" name="note" value="{{ item.note }}" />
+                          <input type="hidden" name="note" value="{{ item.notes }}" />
                           <input
                             class="govuk-checkboxes__input"
                             id="task-{{ item.id }}"
@@ -93,11 +93,11 @@
         </summary>
         <div class="govuk-details__text">
           <h2 class="govuk-heading-l">{{ t('todo-list-completed-heading') }}</h2>
-          <table class="govuk-table" id="completed-table">
+          <table class="govuk-table todo-table" id="completed-table">
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
                 <th class="govuk-table__header">{{ t('todo-list-column-heading-task') }}</th>
-                <th class="govuk-table__header">{{ t('todo-list-column-heading-completed-date') }}</th>
+                <th class="govuk-table__header todo-table-completed-date-column">{{ t('todo-list-column-heading-completed-date') }}</th>
                 <th class="govuk-table__header">{{ t('todo-list-column-heading-notes') }}</th>
               </tr>
             </thead>

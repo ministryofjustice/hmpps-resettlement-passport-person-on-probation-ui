@@ -269,3 +269,10 @@
 .todo-table-action-column {
   width: 10%;
 }
+
+.todo-table-completed-date-column {
+  width: 14%;
+  @media screen and (max-width:500px) {
+    width: 21%;
+  }
+}
