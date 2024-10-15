@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { isPast } from 'date-fns'
 import { TelemetryClient } from 'applicationinsights'
 import UserService from '../../services/userService'
-import { getDateFromDayMonthYear, getDobDateString, isValidOtp } from '../../utils/utils'
+import { getDateFromDayMonthYear, dateFromStrings, isValidOtp } from '../../utils/utils'
 import { errorProperties, PyfEvent, trackEvent } from '../../utils/analytics'
 import FeatureFlagsService from '../../services/featureFlagsService'
 import { FeatureFlagKey } from '../../services/featureFlags'
@@ -61,7 +61,7 @@ export default class SignupController {
       }
 
       if (dobDate) {
-        const dobDateString = getDobDateString(dobDay, dobMonth, dobYear)
+        const dobDateString = dateFromStrings(dobDay, dobMonth, dobYear)
 
         if (isValidOtp(otp)) {
           const isAccepted = await this.userService.checkOtp(
@@ -128,7 +128,7 @@ export default class SignupController {
       lastName: req.body.lastName,
       urn: req.user.sub,
       email: req.user.email,
-      dateOfBirth: getDobDateString(req.body['dob-day'], req.body['dob-month'], req.body['dob-year']),
+      dateOfBirth: dateFromStrings(req.body['dob-day'], req.body['dob-month'], req.body['dob-year']),
       nomsId: req.body.prisonerNumber,
     }
 

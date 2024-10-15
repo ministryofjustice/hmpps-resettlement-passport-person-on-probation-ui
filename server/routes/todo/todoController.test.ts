@@ -1,12 +1,15 @@
-import { validateSubmission, TodoFormBody } from './todoController'
+import { TodoFormBody, validateSubmission } from './todoController'
+import { startOfToday, startOfYesterday } from 'date-fns'
+
+const today = startOfToday()
 
 describe('todo validation', () => {
   const validInput: TodoFormBody = {
     title: 'Title',
     notes: 'A note',
-    'date-day': '1',
-    'date-month': '1',
-    'date-year': '2024',
+    'date-day': `${today.getDate()}`,
+    'date-month': `${today.getMonth() + 1}`,
+    'date-year': `${today.getFullYear()}`,
   }
 
   it('should give no errors with valid minimal input', () => {
@@ -69,6 +72,25 @@ describe('todo validation', () => {
       },
     ])
     expect(validationResult.dueDate).toEqual('todo-error-invalid-date')
+  })
+
+  it('Should give error if due date is in the past', () => {
+    const yesterday = startOfYesterday()
+    const missingYear = {
+      ...validInput,
+      'date-day': `${yesterday.getDate()}`,
+      'date-month': `${yesterday.getMonth() + 1}`,
+      'date-year': `${yesterday.getFullYear()}`,
+    }
+
+    const validationResult = validateSubmission(request(missingYear))
+    expect(validationResult.errors).toEqual([
+      {
+        text: 'todo-error-past-date',
+        href: '#due-date',
+      },
+    ])
+    expect(validationResult.dueDate).toEqual('todo-error-past-date')
   })
 })
 

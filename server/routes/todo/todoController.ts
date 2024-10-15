@@ -1,11 +1,12 @@
-import { RequestHandler, Response, Request } from 'express'
+import { Request, RequestHandler, Response } from 'express'
 import TodoService from '../../services/todoService'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
-import { getDateFromDayMonthYear, getDobDateString } from '../../utils/utils'
+import { dateFromStrings, getDateFromDayMonthYear } from '../../utils/utils'
 import FeatureFlagsService from '../../services/featureFlagsService'
 import { FeatureFlagKey } from '../../services/featureFlags'
 import { UserDetailsResponse } from '../../data/personOnProbationApiClient'
+import { isBefore, startOfToday } from 'date-fns'
 
 export default class TodoController {
   constructor(
@@ -58,7 +59,7 @@ export default class TodoController {
       urn: verificationData.oneLoginUrn,
       title: submission.title,
       notes: submission.notes,
-      dueDate: getDobDateString(submission['date-day'], submission['date-month'], submission['date-year']),
+      dueDate: dateFromStrings(submission['date-day'], submission['date-month'], submission['date-year']),
     })
     return res.redirect('/todo')
   }
@@ -81,7 +82,7 @@ export default class TodoController {
       urn: verificationData.oneLoginUrn,
       title: submission.title,
       notes: submission.notes,
-      dueDate: getDobDateString(submission['date-day'], submission['date-month'], submission['date-year']),
+      dueDate: dateFromStrings(submission['date-day'], submission['date-month'], submission['date-year']),
     })
     return res.redirect('/todo')
   }
@@ -164,6 +165,13 @@ export function validateSubmission(req: Express.Request): ValidationResult {
     const dueDate = getDateFromDayMonthYear(body['date-day'], body['date-month'], body['date-year'])
     if (!dueDate) {
       const message = req.t('todo-error-invalid-date')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+    } else if (isBefore(dueDate, startOfToday())) {
+      const message = req.t('todo-error-past-date')
       errors.push({
         text: message,
         href: '#due-date',
