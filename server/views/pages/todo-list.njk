@@ -18,14 +18,18 @@
     <div class="govuk-grid-column-full">
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
-          <table id="todo-list-table" class="govuk-table">
+          <table id="todo-list-table" class="govuk-table todo-table">
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th class="govuk-table__header">{{ t('todo-list-column-heading-done') }}</th>
-                <th class="govuk-table__header">{{ t('todo-list-column-heading-task') }}</th>
-                <th class="govuk-table__header">{{ t('todo-list-column-heading-date') }}</th>
-                <th class="govuk-table__header">{{ t('todo-list-column-heading-notes') }}</th>
-                <th class="govuk-table__header">{{ t('todo-list-column-heading-actions') }}</th>
+                <th scope="col" class="govuk-table__header todo-table-done-column">
+                  {{ t('todo-list-column-heading-done') }}
+                </th>
+                <th scope="col" class="govuk-table__header">{{ t('todo-list-column-heading-task') }}</th>
+                <th scope="col" class="govuk-table__header todo-table-due-date-column">
+                  {{ t('todo-list-column-heading-date') }}
+                </th>
+                <th scope="col" class="govuk-table__header">{{ t('todo-list-column-heading-notes') }}</th>
+                <th scope="col" class="govuk-table__header todo-table-action-column">{{ t('todo-list-column-heading-actions') }}</th>
               </tr>
             </thead>
             <tbody class="govuk-table__body">
@@ -49,30 +53,30 @@
                             {% endif %}
                             aria-label="complete task {{ item.title }}"
                           />
-                          <label id="label-cb-{{ item.id }}" class="govuk-label govuk-checkboxes__label" for="task-{{ item.id }}"></label>
+                          <label
+                            id="label-cb-{{ item.id }}"
+                            class="govuk-label govuk-checkboxes__label"
+                            for="task-{{ item.id }}"
+                          ></label>
                         </form>
                       </div>
                     </div>
                   </td>
                   <td class="govuk-table__cell">
-                    <p class="govuk-body-m">
-                    {{ item.title }}
-                    </p>
+                    <p class="govuk-body-m">{{ item.title }}</p>
                   </td>
                   <td class="govuk-table__cell">
                     {% if item.dueDate %}
                       <p class="govuk-body-m">{{ item.dueDate | formatShortDate(queryParams.lang) }}</p>
                     {% endif %}
                   </td>
-                  <td class="govuk-table__cell">
+                  <td class="govuk-table__cell govuk-body-s">
                     {% if item.notes %}
-                      <p class="govuk-body-s">{{ item.notes }}</p>
+                      {{ item.notes }}
                     {% endif %}
                   </td>
-                  <td class="govuk-table__cell">
-                    <p class="govuk-body-s">
-                      <a href="/todo/item/{{ item.id }}/edit">{{ t('todo-list-edit-action') }}</a>
-                    </p>
+                  <td class="govuk-table__cell govuk-body-s">
+                    <a href="/todo/item/{{ item.id }}/edit">{{ t('todo-list-edit-action') }}</a>
                   </td>
                 </tr>
               {% endfor %}
