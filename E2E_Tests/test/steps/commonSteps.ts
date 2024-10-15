@@ -58,6 +58,7 @@ const password = process.env.USERPASSWORD;
 const firstName = "John";
 const lastName = "Smith";
 const prisonerNumber = "A8731DY";
+export const todoItemTitle = "test automation";
 
 function sleep(ms: number | undefined) {
   console.log('waiting')
