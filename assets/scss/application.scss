@@ -9,5 +9,5 @@ $govuk-suppressed-warnings: ["govuk-typography-scale-14"];
 @import 'moj/all';
 
 @import './components/header-bar';
-@import 'assets/scss/local';
-@import 'assets/scss/fonts';
+@import 'local';
+@import 'fonts';

@@ -5,6 +5,11 @@
   {% include "../partials/subnavigation.njk" %}
 {% endblock %}
 
+{% block head %}
+  {{ super() }}
+  <link href="/assets/stylesheets/overview.css?{{ version }}" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
   {% set licenceExpiryDateFormatted = licenceExpiryDate | formatLicenceDate(queryParams.lang) %}
 
