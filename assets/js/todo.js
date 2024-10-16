@@ -16,7 +16,7 @@ for (const form of document.querySelectorAll('form')) {
 
         const titleCell  = row.insertCell(0)
         titleCell.innerHTML = formData.get('title')
-        titleCell.className = cellStyle
+        titleCell.className = `${cellStyle} todo-table-completed-title`
         const completedAtCell = row.insertCell(1)
         completedAtCell.innerHTML = new Date().toLocaleDateString(undefined,  { day: 'numeric', month: 'short', year: 'numeric' })
         completedAtCell.className = cellStyle
