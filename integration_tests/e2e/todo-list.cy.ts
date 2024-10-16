@@ -22,8 +22,8 @@ context('To-do list', () => {
         expect(table).to.have.length(2)
         const [row1, row2] = table
 
-        expect(row1).to.be.eql(['', 'Make tea', '', '1 sugar', 'Edit'])
-        expect(row2).to.be.eql(['', 'Write CV', '30 Oct 2026', '', 'Edit'])
+        expect(row1).to.be.eql(['', 'Make tea', '', '1 sugar', 'Update'])
+        expect(row2).to.be.eql(['', 'Write CV', '30 Oct 2026', '', 'Update'])
       })
 
     cy.get('details').should('not.have.attr', 'open')
@@ -47,12 +47,12 @@ context('To-do list', () => {
 
     cy.get('#todo-list-table tbody a')
       .eq(0)
-      .should('have.text', 'Edit')
+      .should('have.text', 'Update')
       .should('have.attr', 'href', '/todo/item/81fce0af-845e-4753-871b-3809d04c888a/edit')
 
     cy.get('#todo-list-table tbody a')
       .eq(1)
-      .should('have.text', 'Edit')
+      .should('have.text', 'Update')
       .should('have.attr', 'href', '/todo/item/848de9ca-773c-44b3-8152-333299ad79b3/edit')
 
     cy.get('#add-new-button').should('have.text', 'Add a new item').should('have.attr', 'href', '/todo/add')
