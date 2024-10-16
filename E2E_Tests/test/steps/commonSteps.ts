@@ -22,6 +22,8 @@ import GovOneChangedOTP from '../../pageObjects/govOne/govOneChangedOTP'
 import PyfFooter from '../../pageObjects/pyfFooter'
 import GovOneSecurityDetails from '../../pageObjects/govOne/govOneYourDetailsSecuityPage'
 import { getFirstTimeIdCode, getDobArray } from '../helpers/firstTimeIdCode'
+import ToDoListPage from '../../pageObjects/toDoListPage'
+import AddToDoListItemPage from '../../pageObjects/addToDoListItemPage'
 
 
 
@@ -52,6 +54,8 @@ let dashboardPage: DashboardPage;
 let navigationPage: NavigationPage;
 let settingsPage: SettingsPage;
 let documentsPage: DocumentsPage;
+let toDoListPage: ToDoListPage;
+let addToDoListItemPage: AddToDoListItemPage;
 
 const email = process.env.USEREMAIL;
 const password = process.env.USERPASSWORD;
