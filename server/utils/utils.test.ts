@@ -11,7 +11,7 @@ import {
   isFutureDate,
   formatLicenceDate,
   getDateFromDayMonthYear,
-  getDobDateString,
+  dateFromStrings,
   isValidOtp,
   isValidEmail,
   appendLang,
@@ -280,7 +280,7 @@ describe('getDobDateString', () => {
     [null, null, null, null],
     ['1', '1', 'abc', null],
   ])('getDobDateString(%s)', (day: string, month: string, year: string, expected: string) => {
-    expect(getDobDateString(day, month, year)).toBe(expected)
+    expect(dateFromStrings(day, month, year)).toBe(expected)
   })
 })
 

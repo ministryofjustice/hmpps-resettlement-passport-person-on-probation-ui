@@ -106,7 +106,7 @@ function parseIsoDate(dateString: string): Date | undefined {
   return date
 }
 
-export function getDobDateString(day?: string, month?: string, year?: string): string {
+export function dateFromStrings(day?: string, month?: string, year?: string): string {
   if (!day || !month || !year) return null
   const dobDate = getDateFromDayMonthYear(day, month, year)
   if (!dobDate) return null

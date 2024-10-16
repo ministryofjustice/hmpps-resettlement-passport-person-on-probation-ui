@@ -246,3 +246,37 @@
 .hidden {
   display: none;
 }
+
+.todo-table {
+  table-layout: fixed;
+  td {
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+}
+
+.todo-table-done-column {
+  width: 5%;
+  @media screen and (max-width:500px) {
+    width: 8%;
+  }
+}
+
+.todo-table-due-date-column {
+  width: 10%;
+}
+
+.todo-table-action-column {
+  width: 10%;
+}
+
+.todo-table-completed-date-column {
+  width: 14%;
+  @media screen and (max-width:500px) {
+    width: 21%;
+  }
+}
+
+.todo-table-completed-title {
+  text-decoration: line-through;
+}
