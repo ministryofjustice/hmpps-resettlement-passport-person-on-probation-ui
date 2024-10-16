@@ -42,7 +42,7 @@ export default class TodoController {
 
     const editItem = await this.todoService.getItem(verificationData.crn, itemId, req.sessionID)
 
-    return res.render('pages/todo-add-edit', { edit: true, editItem })
+    return res.render('pages/todo-add-edit', { itemId, edit: true, editItem })
   }
 
   postItem: RequestHandler = async (req, res, _) => {
@@ -74,7 +74,7 @@ export default class TodoController {
     }
     const validationResult = validateSubmission(req)
     if (validationResult.errors.length > 0) {
-      return res.render('pages/todo-add-edit', { edit: true, editItem: req.body, validationResult })
+      return res.render('pages/todo-add-edit', { itemId, edit: true, editItem: req.body, validationResult })
     }
 
     const submission: TodoFormBody = req.body

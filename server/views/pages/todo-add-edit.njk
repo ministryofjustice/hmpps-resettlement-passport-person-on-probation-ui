@@ -23,7 +23,7 @@
       {% endif %}
 
       {% if edit %}
-        {% set submitUrl = '/todo/item/' + editItem.id + '/edit' %}
+        {% set submitUrl = '/todo/item/' + itemId + '/edit' %}
         {% set labelPrefix = 'todo-edit-' %}
       {% else %}
         {% set submitUrl = '/todo/add' %}
@@ -111,7 +111,7 @@
         </fieldset>
       </form>
       {% if edit %}
-        <form action="/todo/item/{{ editItem.id }}/delete" method="POST">
+        <form action="/todo/item/{{ itemId }}/delete" method="POST">
           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
           {{
             govukButton({
