@@ -15,11 +15,12 @@ Feature: Home
 
 
 @test
-  Scenario: 4) Full E2E registration Gov One then completed PYF then delete account
+  Scenario: 4) Full E2E registration Gov One then completed PYF then add and complete a to do item then delete account 
     Given the user has access to their first-time ID code
     When the user visit plan your future
     Then they create an account with Gov One Login email "+130@gmail.com"
     Then the user completes the account setup with first-time ID code
+    Then the user adds and completes a to do item
     Then the user deletes their Gov One Account
 
 @test

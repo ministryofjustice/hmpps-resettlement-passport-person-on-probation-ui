@@ -24,6 +24,8 @@ import GovOneSecurityDetails from '../../pageObjects/govOne/govOneYourDetailsSec
 import { getFirstTimeIdCode, getDobArray } from '../helpers/firstTimeIdCode'
 import ToDoListPage from '../../pageObjects/toDoListPage'
 import AddToDoListItemPage from '../../pageObjects/addToDoListItemPage'
+import { dueDate } from '../helpers/dueDateGenerator'
+import { add } from 'date-fns'
 
 
 
@@ -63,6 +65,7 @@ const firstName = "John";
 const lastName = "Smith";
 const prisonerNumber = "A8731DY";
 export const todoItemTitle = "test automation";
+const todoItemNotes = "test notes";
 
 function sleep(ms: number | undefined) {
   console.log('waiting')
@@ -266,6 +269,35 @@ Then('the user completes the account setup with expired first-time ID code', asy
   await completeAccountPage.submitMonth(getDobArray[1]);
   await completeAccountPage.submitYear(getDobArray[2]);
   await expect(completeAccountPage.warning).toHaveText('The First-time ID code entered is not associated with the date of birth provided');
+})
+
+Then('the user adds and completes a to do item', async function () {
+  dashboardPage = new DashboardPage(pageFixture.page);
+  toDoListPage = new ToDoListPage(pageFixture.page);
+  addToDoListItemPage = new AddToDoListItemPage(pageFixture.page);
+  await sleep(500)
+  await dashboardPage.clickToDolistTopLink();
+  await toDoListPage.shouldFindTitle();
+  await toDoListPage.clickAddNewItemButton();
+  await addToDoListItemPage.shouldFindTitle();
+  await addToDoListItemPage.clickAddTaskButton();
+  await addToDoListItemPage.warningHeaderShouldDisplay();
+  await addToDoListItemPage.warningTitleErrorShouldDisplay();
+  await addToDoListItemPage.warningTitleShouldDisplay();
+  await addToDoListItemPage.submitTitle(todoItemTitle);
+  await addToDoListItemPage.submitNotes(todoItemNotes);
+  const date = new dueDate();
+  await addToDoListItemPage.submitDay(dueDate[0]);
+  await addToDoListItemPage.submitMonth(dueDate[1]);
+  await addToDoListItemPage.submitYear(dueDate[2]);
+  await addToDoListItemPage.clickAddTaskButton();
+  await dashboardPage.clickOverviewTopLink();
+  await dashboardPage.shouldDisplayCorrectNumberOfToDoItems();
+  await dashboardPage.clickToDolistTopLink();
+  await toDoListPage.clickDoneTickbox();
+  await toDoListPage.completedTaskShouldDisplay();
+  await dashboardPage.clickOverviewTopLink();
+  await dashboardPage.shouldDisplayNoMoreToDoItems();
 })
 
 Then('the user deletes their Gov One Account', async function () {
