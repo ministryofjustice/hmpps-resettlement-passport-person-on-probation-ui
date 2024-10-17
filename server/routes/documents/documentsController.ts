@@ -15,9 +15,7 @@ export default class DocumentsController {
     private readonly featureFlagsService: FeatureFlagsService,
     private readonly documentService: DocumentService,
     private readonly userService: UserService,
-  ) {
-    // no-op
-  }
+  ) {}
 
   index: RequestHandler = async (req, res, _) => {
     const sessionId = req.sessionID
@@ -43,7 +41,7 @@ export default class DocumentsController {
     })
   }
 
-  viewDocument: RequestHandler = async (req, res, next) => {
+  viewDocument: RequestHandler = async (req, res, _): Promise<void> => {
     const flags = await this.featureFlagsService.getFeatureFlags()
     if (!flags.isEnabled(FeatureFlagKey.DOCUMENTS)) {
       return res.redirect('overview')
@@ -66,6 +64,6 @@ export default class DocumentsController {
     for await (const chunk of docResponse) {
       res.write(chunk)
     }
-    return res.end()
+    res.end()
   }
 }

@@ -31,13 +31,14 @@ export default class TodoController {
     return res.render('pages/todo-add-edit')
   }
 
-  viewEditPage: RequestHandler = async (req, res, _) => {
+  viewEditPage: RequestHandler = async (req, res, _): Promise<void> => {
     const verificationData = await this.requireUserAndFlag(req, res)
     if (!verificationData) return
 
     const { itemId } = req.params
     if (!itemId) {
-      return res.status(400).send()
+      res.status(400).send()
+      return
     }
 
     const editItem = await this.todoService.getItem(verificationData.crn, itemId, req.sessionID)
@@ -64,13 +65,14 @@ export default class TodoController {
     return res.redirect('/todo')
   }
 
-  postEdit: RequestHandler = async (req, res, _) => {
+  postEdit: RequestHandler = async (req, res, _): Promise<void> => {
     const verificationData = await this.requireUserAndFlag(req, res)
     if (!verificationData) return
 
     const { itemId } = req.params
     if (!itemId) {
-      return res.status(400).send()
+      res.status(400).send()
+      return
     }
     const validationResult = validateSubmission(req)
     if (validationResult.errors.length > 0) {
@@ -87,27 +89,29 @@ export default class TodoController {
     return res.redirect('/todo')
   }
 
-  completeItem: RequestHandler = async (req, res, _) => {
+  completeItem: RequestHandler = async (req, res, _): Promise<void> => {
     const verificationData = await this.requireUserAndFlag(req, res)
     if (!verificationData) return
 
     const { itemId } = req.params
     if (!itemId) {
-      return res.status(400).send()
+      res.status(400).send()
+      return
     }
 
     await this.todoService.completeItem(verificationData.crn, verificationData.oneLoginUrn, itemId, req.sessionID)
 
-    return res.status(200).send()
+    res.status(200).send()
   }
 
-  deleteItem: RequestHandler = async (req, res, _) => {
+  deleteItem: RequestHandler = async (req, res, _): Promise<void> => {
     const verificationData = await this.requireUserAndFlag(req, res)
     if (!verificationData) return
 
     const { itemId } = req.params
     if (!itemId) {
-      return res.status(400).send()
+      res.status(400).send()
+      return
     }
 
     await this.todoService.deleteItem(verificationData.crn, itemId, req.sessionID)
