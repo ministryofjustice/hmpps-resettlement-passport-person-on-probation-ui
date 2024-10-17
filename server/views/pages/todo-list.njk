@@ -1,6 +1,11 @@
 {% extends "../partials/layout.njk" %}
 {% set pageTitle = "To-do list" + titleHeading %}
 
+{% block head %}
+  {{ super() }}
+  <link href="/assets/stylesheets/todo-list.css?{{ version }}" rel="stylesheet" />
+{% endblock %}
+
 {% block beforeContent %}
   {% set activePage = 'todo' %}
   {% include "../partials/subnavigation.njk" %}
