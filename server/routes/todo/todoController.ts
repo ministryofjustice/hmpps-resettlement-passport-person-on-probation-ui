@@ -166,8 +166,14 @@ export function validateSubmission(req: Express.Request): ValidationResult {
 
   // Only validate if has been set
   if (body['date-day'] || body['date-month'] || body['date-year']) {
-    const dueDate = getDateFromDayMonthYear(body['date-day'], body['date-month'], body['date-year'])
-    if (!isValidDay(body['date-day']) && isValidYear(body['date-year']) && !isValidMonth(body['date-month'])) {
+    if (!isValidDay(body['date-day']) && !isValidMonth(body['date-month']) && !isValidYear(body['date-year'])) {
+      const message = req.t('todo-error-invalid-date')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+    } else if (!isValidDay(body['date-day']) && isValidYear(body['date-year']) && !isValidMonth(body['date-month'])) {
       const message = req.t('todo-error-invalid-day-month')
       errors.push({
         text: message,
@@ -209,20 +215,23 @@ export function validateSubmission(req: Express.Request): ValidationResult {
         href: '#due-date',
       })
       result.dueDate = message
-    } else if (!dueDate) {
-      const message = req.t('todo-error-invalid-date')
-      errors.push({
-        text: message,
-        href: '#due-date',
-      })
-      result.dueDate = message
-    } else if (isBefore(dueDate, startOfToday())) {
-      const message = req.t('todo-error-past-date')
-      errors.push({
-        text: message,
-        href: '#due-date',
-      })
-      result.dueDate = message
+    } else {
+      const dueDate = getDateFromDayMonthYear(body['date-day'], body['date-month'], body['date-year'])
+      if (!dueDate) {
+        const message = req.t('todo-error-invalid-date')
+        errors.push({
+          text: message,
+          href: '#due-date',
+        })
+        result.dueDate = message
+      } else if (isBefore(dueDate, startOfToday())) {
+        const message = req.t('todo-error-past-date')
+        errors.push({
+          text: message,
+          href: '#due-date',
+        })
+        result.dueDate = message
+      }
     }
   }
 

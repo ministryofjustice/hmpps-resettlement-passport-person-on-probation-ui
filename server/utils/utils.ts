@@ -216,7 +216,7 @@ export function isValidMonth(month?: string): boolean {
 }
 
 export function isValidYear(year?: string): boolean {
-  if (year.length == 4) return true
   if (!year || Number.isNaN(Number(year))) return false
+  if (year.length == 4) return true
   return false
 }

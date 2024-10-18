@@ -4,6 +4,7 @@ import { startOfToday, startOfYesterday } from 'date-fns'
 const today = startOfToday()
 
 describe('todo validation', () => {
+  const yesterday = startOfYesterday()
   const validInput: TodoFormBody = {
     title: 'Title',
     notes: 'A note',
@@ -43,11 +44,11 @@ describe('todo validation', () => {
     const validationResult = validateSubmission(request(missingDay))
     expect(validationResult.errors).toEqual([
       {
-        text: 'todo-error-invalid-date',
+        text: 'todo-error-invalid-day',
         href: '#due-date',
       },
     ])
-    expect(validationResult.dueDate).toEqual('todo-error-invalid-date')
+    expect(validationResult.dueDate).toEqual('todo-error-invalid-day')
   })
 
   it.each(['', '13', 'fish'])('Should give error if due date month is invalid ("%s")', input => {
@@ -55,27 +56,27 @@ describe('todo validation', () => {
     const validationResult = validateSubmission(request(missingMonth))
     expect(validationResult.errors).toEqual([
       {
-        text: 'todo-error-invalid-date',
+        text: 'todo-error-invalid-month',
         href: '#due-date',
       },
     ])
-    expect(validationResult.dueDate).toEqual('todo-error-invalid-date')
+    expect(validationResult.dueDate).toEqual('todo-error-invalid-month')
   })
 
-  it.each(['', '-1', 'fish'])('Should give error if due date year is invalid(%s)', input => {
+  it.each(['3', '10', '97'])('Should give error if due date year is invalid(%s)', input => {
     const missingYear = { ...validInput, 'date-year': input }
     const validationResult = validateSubmission(request(missingYear))
     expect(validationResult.errors).toEqual([
       {
-        text: 'todo-error-invalid-date',
+        text: 'todo-error-invalid-year',
         href: '#due-date',
       },
     ])
-    expect(validationResult.dueDate).toEqual('todo-error-invalid-date')
+    expect(validationResult.dueDate).toEqual('todo-error-invalid-year')
   })
 
   it('Should give error if due date is in the past', () => {
-    const yesterday = startOfYesterday()
+    //const yesterday = startOfYesterday()
     const missingYear = {
       ...validInput,
       'date-day': `${yesterday.getDate()}`,
@@ -91,6 +92,39 @@ describe('todo validation', () => {
       },
     ])
     expect(validationResult.dueDate).toEqual('todo-error-past-date')
+  })
+  it('Should give error if due date is invalid', () => {
+    const missingDay = {
+      ...validInput,
+      'date-day': '32',
+      'date-month': '13',
+      'date-year': 'fish',
+    }
+    const validationResult = validateSubmission(request(missingDay))
+    expect(validationResult.errors).toEqual([
+      {
+        text: 'todo-error-invalid-date',
+        href: '#due-date',
+      },
+    ])
+    expect(validationResult.dueDate).toEqual('todo-error-invalid-date')
+  })
+
+  it('Should give error if due date day is missing', () => {
+    const missingDay = {
+      ...validInput,
+      'date-day': '',
+      'date-month': `${yesterday.getMonth() + 1}`,
+      'date-year': `${yesterday.getFullYear()}`,
+    }
+    const validationResult = validateSubmission(request(missingDay))
+    expect(validationResult.errors).toEqual([
+      {
+        text: 'todo-error-invalid-day',
+        href: '#due-date',
+      },
+    ])
+    expect(validationResult.dueDate).toEqual('todo-error-invalid-day')
   })
 })
 
