@@ -67,7 +67,7 @@ Scenario: 8) Full E2E registration Gov One without one time password then comple
     Then the user deletes their Gov One Account  
 
 @test
-  Scenario: 0) User logs into PYF in pre-existing account then adds and completes a to do item
+  Scenario: 9) User logs into PYF in pre-existing account then adds and completes a to do item
     Given the user visit plan your future
     Then the user logs into their account who has completed account setup email "+1@gmail.com"
     Then the user adds and completes a to do item
