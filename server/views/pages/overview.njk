@@ -5,6 +5,11 @@
   {% include "../partials/subnavigation.njk" %}
 {% endblock %}
 
+{% block head %}
+  {{ super() }}
+  <link href="/assets/stylesheets/overview.css?{{ version }}" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
   {% set licenceExpiryDateFormatted = licenceExpiryDate | formatLicenceDate(queryParams.lang) %}
 
@@ -62,11 +67,11 @@
       <h1 class="govuk-heading-xl govuk-!-margin-bottom-8" data-qa="pyf-overview-h1">{{ t('overview-h1') }}</h1>
     </div>
 
-    <!-- appointment tile -->
-    {% if flags.isEnabled('viewAppointmentsEndUser') %}
-      <div class="govuk-grid-column-one-third">
+    <div class="govuk-grid-column-full overview-cards-grid">
+      <!-- appointment tile -->
+      {% if flags.isEnabled('viewAppointmentsEndUser') %}
         <div id="appointments-tile" class="card">
-          <div class="card-body active govuk-!-padding-bottom-6">
+          <div class="active govuk-!-padding-bottom-6">
             <h2 class="govuk-heading-m card-heading govuk-!-padding-bottom-2">
               <a
                 href="/appointments{{ appendLanguage(queryParams) }}"
@@ -78,22 +83,23 @@
             </h2>
 
             {% if nextAppointment %}
-              <h3 class="govuk-heading-s" id="next-appointment-heading">{{ t('overview-next-appointment') }}</h3>
+              <p class="govuk-body-s" id="next-appointment-heading">{{ t('overview-next-appointment') }}:</p>
 
-              <p class="govuk-body-m govuk-!-margin-0">{{ nextAppointment.date | formatLongDate(queryParams.lang) }}</p>
-              <p class="govuk-body-m govuk-!-margin-0">
+              <p class="govuk-body-s">
+                <span class="govuk-!-font-weight-bold">
+                  {{ nextAppointment.date | formatLongDate(queryParams.lang) }}<br>
+                </span>
+
                 {{ nextAppointment.time | formatTime(0, queryParams.lang) }}
                 {% if nextAppointment.duration %}
                   - {{ nextAppointment.time | formatTime(nextAppointment.duration, queryParams.lang) }}
                 {% endif %}
+
+                <span id="next-appointment-title" class="govuk-heading-s govuk-!-margin-0">
+                  {{ nextAppointment.title }}
+                </span>
               </p>
-
-              <h3 class="govuk-heading-s govuk-!-margin-top-6">{{ t('overview-next-appointment-type') }}</h3>
-
-              <p id="next-appointment-title" class="govuk-!-margin-0">{{ nextAppointment.title }}</p>
-
-              <h3 class="govuk-heading-s govuk-!-margin-top-6">{{ t('overview-next-appointment-location') }}</h3>
-              <p class="govuk-body-m govuk-!-margin-0" data-qa="appointments-tile-location">
+              <p class="govuk-body-s govuk-!-margin-0" data-qa="appointments-tile-location">
                 {% if nextAppointment.location | formatAppointmentLocation %}
                   {{ nextAppointment.location | formatAppointmentLocation }}
                 {% else %}
@@ -108,13 +114,11 @@
             {% endif %}
           </div>
         </div>
-      </div>
-    {% endif %}
+      {% endif %}
 
-    <!-- licence condition tile -->
-    <div class="govuk-grid-column-one-third">
+      <!-- licence condition tile -->
       <div class="card" id="licence-conditions-tile">
-        <div id="licence-conditions-tile-body" class="card-body active govuk-!-padding-bottom-6">
+        <div id="licence-conditions-tile-body" class="active govuk-!-padding-bottom-6">
           <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
             <a
               class="govuk-link card-link"
@@ -136,13 +140,11 @@
           {% endif %}
         </div>
       </div>
-    </div>
 
-    <!-- todo tile -->
-    {% if flags.isEnabled('todoList') %}
-      <div class="govuk-grid-column-one-third">
+      <!-- todo tile -->
+      {% if flags.isEnabled('todoList') %}
         <div class="card" id="todo-tile">
-          <div class="card-body active">
+          <div class="active">
             <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
               <a
                 class="govuk-link card-link"
@@ -163,14 +165,12 @@
             {% endif %}
           </div>
         </div>
-      </div>
-    {% endif %}
+      {% endif %}
 
-    <!-- Documents tile -->
-    {% if flags.isEnabled('viewDocuments') %}
-      <div class="govuk-grid-column-one-third">
+      <!-- Documents tile -->
+      {% if flags.isEnabled('viewDocuments') %}
         <div class="card" id="documents-tile">
-          <div class="card-body active">
+          <div class="active">
             <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
               <a
                 class="govuk-link card-link"
@@ -186,12 +186,10 @@
             <br />
           </div>
         </div>
-      </div>
-    {% endif %}
-    <!-- profile tile -->
-    <div class="govuk-grid-column-one-third">
+      {% endif %}
+      <!-- profile tile -->
       <div class="card" id="profile-tile">
-        <div class="card-body active">
+        <div class="active">
           <h2 class="govuk-heading-m card-heading  govuk-!-padding-bottom-2">
             <a
               class="govuk-link card-link"
@@ -209,6 +207,7 @@
       </div>
     </div>
   </div>
+
   {% if personalLinks.length > 0 %}
     <section id="personalised-links">
       <div class="govuk-grid-row govuk-!-padding-top-4">

@@ -1,63 +1,6 @@
-.govuk-main-wrapper {
-  min-height: 400px;
-  padding-top: 0px;
-}
-
-.govuk-phase-banner {
-  margin-left: 0px;
-  margin-right: 0px;
-}
-
-
-.card {
-  flex-basis: 100%;
-  flex-grow: 0;
-  margin-bottom: 2em;
-}
-
-@media screen and (min-width:600px) and (max-width:900px) {
-  .card {
-      flex-basis: 45.99%;
-
-      // Every card in the first row needs horizontal margin
-      &:nth-child(2n-1) {
-          margin-right: 3%;
-      }
-
-      // Every card in the second row needs horizontal margin
-      &:nth-child(2n-2) {
-          margin-left: 3%;
-      }
-  }
-}
-
-@media screen and (min-width:900px) {
-  .card {
-      flex-basis: 31%;
-
-      &:nth-child(3n-1) {
-          margin-left: 3%;
-          margin-right: 3%;
-      }
-  }
-}
-
-.card {
-  border: 1px solid #dee0e2;
-  font-size: 16px !important;
-}
-
-.card-body {
-  background: #f8f8f8;
-  padding: 12px;
-
-  *:last-child {
-      margin-bottom: 0;
-  }
-}
 /* ==========================================================================
    https://docs.publishing.service.gov.uk/repos/govspeak.html
-   ========================================================================== 
+   ==========================================================================
 */
 
 .gem-c-contents-list {
@@ -82,28 +25,28 @@
 
 @media print {
   .gem-c-contents-list__title {
-      color: #000
+    color: #000
   }
 }
 
 @media print {
   .gem-c-contents-list__title {
-      font-family: sans-serif
+    font-family: sans-serif
   }
 }
 
 @media (min-width: 40.0625em) {
   .gem-c-contents-list__title {
-      font-size: 16px;
-      font-size: 1rem;
-      line-height: 1.5
+    font-size: 16px;
+    font-size: 1rem;
+    line-height: 1.5
   }
 }
 
 @media print {
   .gem-c-contents-list__title {
-      font-size: 14pt;
-      line-height: 1.5
+    font-size: 14pt;
+    line-height: 1.5
   }
 }
 
@@ -126,7 +69,7 @@
 
   .gem-c-contents-list__list,
   .gem-c-contents-list__nested-list {
-      color: #000
+    color: #000
   }
 }
 
@@ -134,7 +77,7 @@
 
   .gem-c-contents-list__list,
   .gem-c-contents-list__nested-list {
-      font-family: sans-serif
+    font-family: sans-serif
   }
 }
 
@@ -142,9 +85,9 @@
 
   .gem-c-contents-list__list,
   .gem-c-contents-list__nested-list {
-      font-size: 16px;
-      font-size: 1rem;
-      line-height: 1.25
+    font-size: 16px;
+    font-size: 1rem;
+    line-height: 1.25
   }
 }
 
@@ -152,8 +95,8 @@
 
   .gem-c-contents-list__list,
   .gem-c-contents-list__nested-list {
-      font-size: 14pt;
-      line-height: 1.2
+    font-size: 14pt;
+    line-height: 1.2
   }
 }
 
@@ -183,7 +126,7 @@
 
 @media (min-width: 40.0625em) {
   .gem-c-contents-list__list-item {
-      padding-top: 7.5px
+    padding-top: 7.5px
   }
 }
 
@@ -215,18 +158,18 @@
 
   .gem-c-contents-list__list,
   .gem-c-contents-list__nested-list {
-      padding-left: 0;
-      margin-left: 0
+    padding-left: 0;
+    margin-left: 0
   }
 
   .gem-c-contents-list__list-item--dashed {
-      margin-left: 15px;
-      list-style-type: disc
+    margin-left: 15px;
+    list-style-type: disc
   }
 
   .gem-c-contents-list__list-item--numbered,
   .gem-c-contents-list__list-item--parent {
-      list-style-type: none
+    list-style-type: none
   }
 }
 
@@ -234,15 +177,4 @@
   color: #0b0c0c;
   border-top: 2px solid #1d70b8;
   margin-bottom: 60px
-}
-
-
-.govuk-table__header, .govuk-table__cell {
-  p {
-    margin-bottom: 0 !important;
-  }
-}
-
-.hidden {
-  display: none;
 }

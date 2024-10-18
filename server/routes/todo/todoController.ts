@@ -1,11 +1,12 @@
-import { RequestHandler, Response, Request } from 'express'
+import { Request, RequestHandler, Response } from 'express'
 import TodoService from '../../services/todoService'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
-import { getDateFromDayMonthYear, getDobDateString } from '../../utils/utils'
+import { dateFromStrings, getDateFromDayMonthYear } from '../../utils/utils'
 import FeatureFlagsService from '../../services/featureFlagsService'
 import { FeatureFlagKey } from '../../services/featureFlags'
 import { UserDetailsResponse } from '../../data/personOnProbationApiClient'
+import { isBefore, startOfToday } from 'date-fns'
 
 export default class TodoController {
   constructor(
@@ -30,18 +31,19 @@ export default class TodoController {
     return res.render('pages/todo-add-edit')
   }
 
-  viewEditPage: RequestHandler = async (req, res, _) => {
+  viewEditPage: RequestHandler = async (req, res, _): Promise<void> => {
     const verificationData = await this.requireUserAndFlag(req, res)
     if (!verificationData) return
 
     const { itemId } = req.params
     if (!itemId) {
-      return res.status(400).send()
+      res.status(400).send()
+      return
     }
 
     const editItem = await this.todoService.getItem(verificationData.crn, itemId, req.sessionID)
 
-    return res.render('pages/todo-add-edit', { edit: true, editItem })
+    return res.render('pages/todo-add-edit', { itemId, edit: true, editItem })
   }
 
   postItem: RequestHandler = async (req, res, _) => {
@@ -58,22 +60,23 @@ export default class TodoController {
       urn: verificationData.oneLoginUrn,
       title: submission.title,
       notes: submission.notes,
-      dueDate: getDobDateString(submission['date-day'], submission['date-month'], submission['date-year']),
+      dueDate: dateFromStrings(submission['date-day'], submission['date-month'], submission['date-year']),
     })
     return res.redirect('/todo')
   }
 
-  postEdit: RequestHandler = async (req, res, _) => {
+  postEdit: RequestHandler = async (req, res, _): Promise<void> => {
     const verificationData = await this.requireUserAndFlag(req, res)
     if (!verificationData) return
 
     const { itemId } = req.params
     if (!itemId) {
-      return res.status(400).send()
+      res.status(400).send()
+      return
     }
     const validationResult = validateSubmission(req)
     if (validationResult.errors.length > 0) {
-      return res.render('pages/todo-add-edit', { edit: true, editItem: req.body, validationResult })
+      return res.render('pages/todo-add-edit', { itemId, edit: true, editItem: req.body, validationResult })
     }
 
     const submission: TodoFormBody = req.body
@@ -81,32 +84,34 @@ export default class TodoController {
       urn: verificationData.oneLoginUrn,
       title: submission.title,
       notes: submission.notes,
-      dueDate: getDobDateString(submission['date-day'], submission['date-month'], submission['date-year']),
+      dueDate: dateFromStrings(submission['date-day'], submission['date-month'], submission['date-year']),
     })
     return res.redirect('/todo')
   }
 
-  completeItem: RequestHandler = async (req, res, _) => {
+  completeItem: RequestHandler = async (req, res, _): Promise<void> => {
     const verificationData = await this.requireUserAndFlag(req, res)
     if (!verificationData) return
 
     const { itemId } = req.params
     if (!itemId) {
-      return res.status(400).send()
+      res.status(400).send()
+      return
     }
 
     await this.todoService.completeItem(verificationData.crn, verificationData.oneLoginUrn, itemId, req.sessionID)
 
-    return res.status(200).send()
+    res.status(200).send()
   }
 
-  deleteItem: RequestHandler = async (req, res, _) => {
+  deleteItem: RequestHandler = async (req, res, _): Promise<void> => {
     const verificationData = await this.requireUserAndFlag(req, res)
     if (!verificationData) return
 
     const { itemId } = req.params
     if (!itemId) {
-      return res.status(400).send()
+      res.status(400).send()
+      return
     }
 
     await this.todoService.deleteItem(verificationData.crn, itemId, req.sessionID)
@@ -164,6 +169,13 @@ export function validateSubmission(req: Express.Request): ValidationResult {
     const dueDate = getDateFromDayMonthYear(body['date-day'], body['date-month'], body['date-year'])
     if (!dueDate) {
       const message = req.t('todo-error-invalid-date')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+    } else if (isBefore(dueDate, startOfToday())) {
+      const message = req.t('todo-error-past-date')
       errors.push({
         text: message,
         href: '#due-date',

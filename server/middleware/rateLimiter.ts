@@ -17,7 +17,7 @@ const windowLengthMs = config.rateLimit.windowMinutes * 60000 // convert to mill
 
 const isWindowLapsed = (now: number, windowStart: number) => now - windowStart >= windowLengthMs
 
-export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   if (rateLimitedPaths.indexOf(req.path) < 0) {
     return next()
   }
@@ -41,7 +41,8 @@ export const rateLimiterMiddleware = (req: Request, res: Response, next: NextFun
 
   // deny
   if (requestHistory.count > config.rateLimit.maxRequests) {
-    return res.status(429).send('Too Many Requests')
+    res.status(429).send('Too Many Requests')
+    return
   }
 
   // continue

@@ -5,7 +5,7 @@ import { trackEvent } from '../../utils/analytics'
 export default class AnalyticsController {
   constructor(private readonly appInsightClient: TelemetryClient) {}
 
-  track: RequestHandler = async (req, res) => {
+  track: RequestHandler = async (req, res): Promise<void> => {
     const { eventName, type, identifier } = req.body
     if (eventName) {
       trackEvent(
@@ -19,6 +19,6 @@ export default class AnalyticsController {
         req.sessionID,
       )
     }
-    return res.status(200)
+    res.status(200)
   }
 }
