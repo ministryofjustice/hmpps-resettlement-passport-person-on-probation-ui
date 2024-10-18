@@ -24,12 +24,12 @@ export default class TimeoutController {
     res.render('pages/timedOut', { queryParams })
   }
 
-  config: RequestHandler = async (req, res) => {
+  config: RequestHandler = async (_, res): Promise<void> => {
     res.setHeader('Content-Type', 'application/json')
-    return res.json({ timeout: config.session.inactivityMinutes * 60000 })
+    res.json({ timeout: config.session.inactivityMinutes * 60000 })
   }
 
-  status: RequestHandler = async (req, res, next) => {
+  status: RequestHandler = async (req, res, next): Promise<void> => {
     try {
       const sessionId = req.sessionID
       const verificationData = await requireUser(req.user?.sub, this.userService, sessionId)
@@ -38,7 +38,7 @@ export default class TimeoutController {
         isActive = false
       }
       res.setHeader('Content-Type', 'application/json')
-      return res.json({ isActive })
+      res.json({ isActive })
     } catch (err) {
       return next(err)
     }
