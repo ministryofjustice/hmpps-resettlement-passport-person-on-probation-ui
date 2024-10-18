@@ -130,7 +130,7 @@ context('Edit a todo-list item', () => {
     Page.verifyOnPage(TodoListPage)
   })
 
-  it('validates the item', () => {
+  it('validates month and year', () => {
     cy.signIn()
     cy.task('stubGetOneTask')
     cy.visit('/todo/item/9951967c-f7e0-4f54-945a-aa0abe376536/edit')
@@ -138,6 +138,22 @@ context('Edit a todo-list item', () => {
     Page.verifyOnPage(TodoListEditPage)
 
     cy.get('#due-date-day').type('1')
+    cy.get('#submit-button').click()
+
+    cy.get('.govuk-error-summary').should('include.text', 'Due date must include a month and year')
+    cy.get('#due-date-error').should('contain.text', 'Due date must include a month and year')
+  })
+
+  it('validates the item', () => {
+    cy.signIn()
+    cy.task('stubGetOneTask')
+    cy.visit('/todo/item/9951967c-f7e0-4f54-945a-aa0abe376536/edit')
+
+    Page.verifyOnPage(TodoListEditPage)
+
+    cy.get('#due-date-day').type('32')
+    cy.get('#due-date-month').type('13')
+    cy.get('#due-date-year').type('87')
     cy.get('#submit-button').click()
 
     cy.get('.govuk-error-summary').should('include.text', 'Due date must be a real date')
