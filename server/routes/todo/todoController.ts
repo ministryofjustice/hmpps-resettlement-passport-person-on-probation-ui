@@ -2,7 +2,7 @@ import { Request, RequestHandler, Response } from 'express'
 import TodoService from '../../services/todoService'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
-import { dateFromStrings, getDateFromDayMonthYear } from '../../utils/utils'
+import { dateFromStrings, getDateFromDayMonthYear, isValidDay, isValidMonth, isValidYear } from '../../utils/utils'
 import FeatureFlagsService from '../../services/featureFlagsService'
 import { FeatureFlagKey } from '../../services/featureFlags'
 import { UserDetailsResponse } from '../../data/personOnProbationApiClient'
@@ -163,7 +163,49 @@ export function validateSubmission(req: Express.Request): ValidationResult {
   // Only validate if has been set
   if (body['date-day'] || body['date-month'] || body['date-year']) {
     const dueDate = getDateFromDayMonthYear(body['date-day'], body['date-month'], body['date-year'])
-    if (!dueDate) {
+    if (!isValidDay(body['date-day']) && isValidYear(body['date-year']) && !isValidMonth(body['date-month'])) {
+      const message = req.t('todo-error-invalid-day-month')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+    } else if (!isValidDay(body['date-day']) && isValidMonth(body['date-month']) && !isValidYear(body['date-year'])) {
+      const message = req.t('todo-error-invalid-day-year')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+    } else if (!isValidMonth(body['date-month']) && isValidDay(body['date-day']) && !isValidYear(body['date-year'])) {
+      const message = req.t('todo-error-invalid-month-year')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+    } else if (isValidMonth(body['date-month']) && isValidYear(body['date-year']) && !isValidDay(body['date-day'])) {
+      const message = req.t('todo-error-invalid-day')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+    } else if (isValidDay(body['date-day']) && isValidYear(body['date-year']) && !isValidMonth(body['date-month'])) {
+      const message = req.t('todo-error-invalid-month')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+    } else if (isValidDay(body['date-day']) && isValidMonth(body['date-month']) && !isValidYear(body['date-year'])) {
+      const message = req.t('todo-error-invalid-year')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+    } else if (!dueDate) {
       const message = req.t('todo-error-invalid-date')
       errors.push({
         text: message,
