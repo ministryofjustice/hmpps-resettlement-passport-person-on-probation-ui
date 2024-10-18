@@ -84,17 +84,21 @@
                 items: [
                   {
                     name: 'day',
-                    value: dueDateDay
+                    value: dueDateDay,
+                    classes: 'govuk-input--width-2'
+
                   },
                   {
                     name: 'month',
-                    value: dueDateMonth
+                    value: dueDateMonth,
+                    classes: 'govuk-input--width-2'
                   },
                   {
                     name: 'year',
-                    value: dueDateYear
+                    value: dueDateYear,
+                    classes: 'govuk-input--width-4'
                   }
-                ] if editItem.dueDate
+                ]
             })
           }}
           <div class="govuk-form-group">
