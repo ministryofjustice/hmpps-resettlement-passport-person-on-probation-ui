@@ -26,9 +26,9 @@ export default class DashboardPage {
       this.overviewTopLink.click();
     }
     async shouldDisplayCorrectNumberOfToDoItems() {
-      await expect(this.numberOfToDoItems).toContainText('1');
-    }
-    async shouldDisplayNoMoreToDoItems() {
       await expect(this.numberOfToDoItems).toContainText('0');
+    }
+    async shouldDisplayOneMoreToDoItem() {
+      await expect(this.numberOfToDoItems).toContainText('1');
     }
 }

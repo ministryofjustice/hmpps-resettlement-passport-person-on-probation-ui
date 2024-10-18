@@ -1,5 +1,4 @@
 import { expect, type Locator, type Page } from '@playwright/test'
-import { dueDate } from '../test/helpers/dueDateGenerator';
 
 export default class AddToDoListItemPage {
   private page: Page

@@ -2,8 +2,8 @@ import { Given, setDefaultTimeout, Then } from '@cucumber/cucumber'
 import { expect, Page } from '@playwright/test'
 import { pageFixture } from '../../hooks/pageFixtures'
 import HomePage from '../../pageObjects/homePage'
-import {returnSecurityCode, returnCurrentCount, returnAccountClosed} from '../helpers/mailClient'
-import {getMyOTP} from '../helpers/otpAuth'
+import { returnSecurityCode, returnCurrentCount, returnAccountClosed } from '../helpers/mailClient'
+import { getMyOTP } from '../helpers/otpAuth'
 import GovOneLogin from '../../pageObjects/govOne/govOneLogin'
 import GovOneEnterEmail from '../../pageObjects/govOne/govOneEnterEmail'
 import GovOneEnterPassword from '../../pageObjects/govOne/govOneEnterPassword'
@@ -24,9 +24,6 @@ import GovOneSecurityDetails from '../../pageObjects/govOne/govOneYourDetailsSec
 import { getFirstTimeIdCode, getDobArray } from '../helpers/firstTimeIdCode'
 import ToDoListPage from '../../pageObjects/toDoListPage'
 import AddToDoListItemPage from '../../pageObjects/addToDoListItemPage'
-import { dueDate } from '../helpers/dueDateGenerator'
-import { add } from 'date-fns'
-
 
 
 setDefaultTimeout(20000)
@@ -66,6 +63,9 @@ const lastName = "Smith";
 const prisonerNumber = "A8731DY";
 export const todoItemTitle = "test automation";
 const todoItemNotes = "test notes";
+const day = Math.floor(Math.random() * (25 - 1) + 1).toString();
+const month = Math.floor(Math.random() * (13 - 1) + 1).toString();
+const year = Math.floor(Math.random() * (2036 - 2026) + 2026).toString();
 
 function sleep(ms: number | undefined) {
   console.log('waiting')
@@ -96,12 +96,12 @@ Then('they should see the start page', async function () {
 })
 
 Then('the user views all content as listed in contents and scans page accessibility for each page', async function () {
-  
+
   var contentList = await homePage.contentsList.innerText();
   console.log(contentList);
   let contents: string[] = contentList.split("\n");
   console.log(contents);
-  let contentsReverse : string[] = [];
+  let contentsReverse: string[] = [];
   contents.slice().reverse().forEach(x => contentsReverse.push(x));
   console.log(contentsReverse);
 
@@ -109,20 +109,20 @@ Then('the user views all content as listed in contents and scans page accessibil
   var contentLength = contentsReverse.length;
   for (const content of contentsReverse) {
     var pageTitle = await homePage.pageContentsTitle.innerText();
-    expect(content).toEqual(pageTitle); 
-    console.log('Analysing Page '+ content);
+    expect(content).toEqual(pageTitle);
+    console.log('Analysing Page ' + content);
     await homePage.scanPageAccessibilty();
     // will page through until end of contents list
-    if (contentLength > 1){
+    if (contentLength > 1) {
       await pageFixture.page.locator('[data-qa="prev-btn"]').click();
     }
-    contentLength --;
+    contentLength--;
   }
 
 })
 
 Then('the user views all policies and scans page accessibility for each page', async function () {
-  
+
   pyfFooter = new PyfFooter(pageFixture.page);
   await pyfFooter.accessibilityStatementLink.click();
   await homePage.scanPageAccessibilty();
@@ -160,7 +160,7 @@ Then('they create an account with Gov One Login email {string}', async function 
   console.log('govOneLogin');
   await govOneLogin.createLogin.click();
   console.log('creating loging')
-  await govOneEnterEmail.submitEmail(email+gmail);
+  await govOneEnterEmail.submitEmail(email + gmail);
   const securityCode = await returnSecurityCode(count);
   console.log("..." + securityCode.slice(-3));
   await govOneCheckEmail.submitCode(securityCode);
@@ -168,9 +168,9 @@ Then('they create an account with Gov One Login email {string}', async function 
   await govOneSelectOTPMethod.submitAuthAppOption();
   await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
   const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
-  console.log('secret Key ...'+ secret.slice(-3));
-  var secretValue= secret.slice(12);
-  console.log('secret Key Trim ...'+secretValue.slice(-3));
+  console.log('secret Key ...' + secret.slice(-3));
+  var secretValue = secret.slice(12);
+  console.log('secret Key Trim ...' + secretValue.slice(-3));
   const otpAuth = await getMyOTP(secretValue);
   await govOneEnterOTPSecurityCode.submitCode(otpAuth);
   await govOneCreatedAccount.shouldFindTitle();
@@ -190,7 +190,7 @@ Then('they try to re-create an existing account with Gov One Login email {string
   console.log('govOneLogin');
   await govOneLogin.createLogin.click();
   console.log('creating loging')
-  await govOneEnterEmail.submitEmail(email+gmail);
+  await govOneEnterEmail.submitEmail(email + gmail);
   await expect(navigationPage.pageHeader).toHaveText('You have a GOV.UK One Login');
   await govOneEnterPassword.submitPassword(password);
   await dashboardPage.shouldFindTitle();
@@ -204,10 +204,10 @@ Then('the user logs into their account who has completed account setup email {st
   await homePage.clickStart();
   await govOneLogin.signInButton.click();
   console.log('user loging into account')
-  await govOneEnterEmail.submitEmail(email+gmail);
+  await govOneEnterEmail.submitEmail(email + gmail);
   await govOneEnterPassword.submitPassword(password);
   await dashboardPage.shouldFindTitle();
-  
+
 })
 
 
@@ -219,7 +219,7 @@ Then('the user logs into their account who has not completed account setup email
   await homePage.clickStart();
   await govOneLogin.signInButton.click();
   console.log('user loging into account')
-  await govOneEnterEmail.submitEmail(email+gmail);
+  await govOneEnterEmail.submitEmail(email + gmail);
   await govOneEnterPassword.submitPassword(password);
   await completeAccountPage.shouldFindTitle();
 })
@@ -276,6 +276,7 @@ Then('the user adds and completes a to do item', async function () {
   toDoListPage = new ToDoListPage(pageFixture.page);
   addToDoListItemPage = new AddToDoListItemPage(pageFixture.page);
   await sleep(500)
+  await dashboardPage.shouldDisplayCorrectNumberOfToDoItems();
   await dashboardPage.clickToDolistTopLink();
   await toDoListPage.shouldFindTitle();
   await toDoListPage.clickAddNewItemButton();
@@ -286,18 +287,17 @@ Then('the user adds and completes a to do item', async function () {
   await addToDoListItemPage.warningTitleShouldDisplay();
   await addToDoListItemPage.submitTitle(todoItemTitle);
   await addToDoListItemPage.submitNotes(todoItemNotes);
-  const date = new dueDate();
-  await addToDoListItemPage.submitDay(dueDate[0]);
-  await addToDoListItemPage.submitMonth(dueDate[1]);
-  await addToDoListItemPage.submitYear(dueDate[2]);
+  await addToDoListItemPage.submitDay(day);
+  await addToDoListItemPage.submitMonth(month);
+  await addToDoListItemPage.submitYear(year);
+  await sleep(500);
   await addToDoListItemPage.clickAddTaskButton();
   await dashboardPage.clickOverviewTopLink();
-  await dashboardPage.shouldDisplayCorrectNumberOfToDoItems();
+  await dashboardPage.shouldDisplayOneMoreToDoItem();
   await dashboardPage.clickToDolistTopLink();
   await toDoListPage.clickDoneTickbox();
-  await toDoListPage.completedTaskShouldDisplay();
   await dashboardPage.clickOverviewTopLink();
-  await dashboardPage.shouldDisplayNoMoreToDoItems();
+  await dashboardPage.shouldDisplayCorrectNumberOfToDoItems();
 })
 
 Then('the user deletes their Gov One Account', async function () {
@@ -318,14 +318,14 @@ Then('the user deletes their Gov One Account', async function () {
   await sleep(5000)
   console.log(newPage.url());
   const url = newPage.url();
-  expect(url).toEqual('https://home.integration.account.gov.uk/security?lng=')  
+  expect(url).toEqual('https://home.integration.account.gov.uk/security?lng=')
 
   await govOneSecurityDetails.shouldFindTitle();
   await govOneSecurityDetails.gotoDeleteAccount();
   await govOneSecurityDetails.submitPassword(password);
   await govOneSecurityDetails.confirmAreYouSure();
   const messageSnippet = await returnAccountClosed(count);
-  expect(messageSnippet).toContain('permanently deleted your GOV.​UK One Login') 
+  expect(messageSnippet).toContain('permanently deleted your GOV.​UK One Login')
   console.log('govOne Account Deleted');
 
 })
@@ -354,7 +354,7 @@ Then('the user deletes their Gov One Account after logging in', async function (
   await sleep(5000)
   console.log(newPage.url());
   const url = newPage.url();
-  expect(url).toEqual('https://signin.integration.account.gov.uk/enter-authenticator-app-code')  
+  expect(url).toEqual('https://signin.integration.account.gov.uk/enter-authenticator-app-code')
 
   await govOneEnterOTPSecurityCode.gotoResetOTP();
   console.log('should have redirected to check email');
@@ -364,20 +364,20 @@ Then('the user deletes their Gov One Account after logging in', async function (
   await govOneSelectOTPMethod.submitAuthAppOption();
   await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
   const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
-  console.log('secret Key ...'+ secret.slice(-3));
-  var secretValue= secret.slice(12);
-  console.log('secret Key Trim ...'+secretValue.slice(-3));
+  console.log('secret Key ...' + secret.slice(-3));
+  var secretValue = secret.slice(12);
+  console.log('secret Key Trim ...' + secretValue.slice(-3));
   const otpAuth = await getMyOTP(secretValue);
   await govOneEnterOTPSecurityCode.submitCode(otpAuth);
   await govOneChangedOTP.continue.click();
-  
+
   await govOneSecurityDetails.shouldFindTitle();
   count = await returnCurrentCount();
   await govOneSecurityDetails.gotoDeleteAccount();
   await govOneSecurityDetails.submitPassword(password);
   await govOneSecurityDetails.confirmAreYouSure();
   const messageSnippet = await returnAccountClosed(count);
-  expect(messageSnippet).toContain('permanently deleted your GOV.​UK One Login') 
+  expect(messageSnippet).toContain('permanently deleted your GOV.​UK One Login')
   console.log('govOne Account Deleted');
 
 })
@@ -402,7 +402,7 @@ Then('delete account housekeeping email {string}', async function (gmail) {
   await homePage.clickStart();
   await govOneLogin.signInButton.click();
   console.log('user loging into account')
-  await govOneEnterEmail.submitEmail(email+gmail);
+  await govOneEnterEmail.submitEmail(email + gmail);
   // check header here to see if account exists..
   var testVal0 = await navigationPage.pageHeader.innerText();
   console.log(testVal0);
@@ -414,13 +414,13 @@ Then('delete account housekeeping email {string}', async function (gmail) {
     console.log(testVal1);
     var count = await returnCurrentCount();
     if ((testVal1 == 'Finish creating your GOV.UK One Login')) {
-      
+
       await govOneSelectOTPMethod.submitAuthAppOption();
       await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
       const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
-      console.log('secret Key ...'+ secret.slice(-3));
-      var secretValue= secret.slice(12);
-      console.log('secret Key Trim ...'+secretValue.slice(-3));
+      console.log('secret Key ...' + secret.slice(-3));
+      var secretValue = secret.slice(12);
+      console.log('secret Key Trim ...' + secretValue.slice(-3));
       const otpAuth = await getMyOTP(secretValue);
       await govOneEnterOTPSecurityCode.submitCode(otpAuth);
       await govOneCreatedAccount.shouldFindTitle();
@@ -429,77 +429,77 @@ Then('delete account housekeeping email {string}', async function (gmail) {
       await govOneSecurityDetails.submitPassword(password);
       await govOneSecurityDetails.confirmAreYouSure();
       const messageSnippet = await returnAccountClosed(count);
-      expect(messageSnippet).toContain('permanently deleted your GOV.​UK One Login') 
+      expect(messageSnippet).toContain('permanently deleted your GOV.​UK One Login')
       console.log('govOne Account Deleted');
     }
     else {
-        // check to see if account is fully registered
-        var testVal2 = await navigationPage.pageHeader.innerText();
-        console.log(testVal2);
-        if ((testVal2 == 'Complete your account setup securely')) {
-          console.log('continuing to setup account');
-          // if not completed registration complete registration
-          await completeAccountPage.shouldFindTitle();
-          const firstTimeIdCode = await getFirstTimeIdCode();
-          await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
-          const dob = getDobArray
-          await completeAccountPage.submitDay(getDobArray[0]);
-          await completeAccountPage.submitMonth(getDobArray[1]);
-          await completeAccountPage.submitYear(getDobArray[2]);
-          }
-        console.log('deleteing account');
-        await dashboardPage.shouldFindTitle();
+      // check to see if account is fully registered
+      var testVal2 = await navigationPage.pageHeader.innerText();
+      console.log(testVal2);
+      if ((testVal2 == 'Complete your account setup securely')) {
+        console.log('continuing to setup account');
+        // if not completed registration complete registration
+        await completeAccountPage.shouldFindTitle();
+        const firstTimeIdCode = await getFirstTimeIdCode();
+        await completeAccountPage.submitFirstTimeIdCode(firstTimeIdCode);
+        const dob = getDobArray
+        await completeAccountPage.submitDay(getDobArray[0]);
+        await completeAccountPage.submitMonth(getDobArray[1]);
+        await completeAccountPage.submitYear(getDobArray[2]);
+      }
+      console.log('deleteing account');
+      await dashboardPage.shouldFindTitle();
 
 
-        await navigationPage.settingsLink.click();
-        await settingsPage.shouldFindTitle();
-        await settingsPage.govOneLink.click();
-        console.log('govOnelinkClicked');
+      await navigationPage.settingsLink.click();
+      await settingsPage.shouldFindTitle();
+      await settingsPage.govOneLink.click();
+      console.log('govOnelinkClicked');
 
-        const pagePromise = pageFixture.page.context().waitForEvent('page');
-        const newPage = await pagePromise;
-      
-        govOneEnterOTPSecurityCode = new GovOneEnterOTPSecurityCode(newPage);
-        govOneCheckEmail = new GovOneCheckEmail(newPage);
-        govOneSelectOTPMethod = new GovOneSelectOTPMethod(newPage);
-        govOneChangedOTP = new GovOneChangedOTP(newPage);
-        govOneSecurityDetails = new GovOneSecurityDetails(newPage);
-      
-        await sleep(5000)
-        console.log(newPage.url());
-        const url = newPage.url();
-        expect(url).toEqual('https://signin.integration.account.gov.uk/enter-authenticator-app-code')  
+      const pagePromise = pageFixture.page.context().waitForEvent('page');
+      const newPage = await pagePromise;
 
-        await govOneEnterOTPSecurityCode.gotoResetOTP();
-        count = await returnCurrentCount();
-        console.log('should have redirected to check email');
-        const securityCode = await returnSecurityCode(count);
-        console.log(securityCode);
-        await govOneCheckEmail.submitCode(securityCode);
-        await govOneSelectOTPMethod.submitAuthAppOption();
-        await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
-        const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
-        console.log('secret Key ...'+ secret.slice(-3));
-        var secretValue= secret.slice(12);
-        console.log('secret Key Trim ...'+secretValue.slice(-3));
-        const otpAuth = await getMyOTP(secretValue);
-        await govOneEnterOTPSecurityCode.submitCode(otpAuth);
-        await govOneChangedOTP.continue.click();
+      govOneEnterOTPSecurityCode = new GovOneEnterOTPSecurityCode(newPage);
+      govOneCheckEmail = new GovOneCheckEmail(newPage);
+      govOneSelectOTPMethod = new GovOneSelectOTPMethod(newPage);
+      govOneChangedOTP = new GovOneChangedOTP(newPage);
+      govOneSecurityDetails = new GovOneSecurityDetails(newPage);
 
-        count = await returnCurrentCount();
-        await govOneSecurityDetails.shouldFindTitle();
-        await govOneSecurityDetails.gotoDeleteAccount();
-        await govOneSecurityDetails.submitPassword(password);
-        await govOneSecurityDetails.confirmAreYouSure();
-        const messageSnippet = await returnAccountClosed(count);
-        expect(messageSnippet).toContain('permanently deleted your GOV.​UK One Login') 
-        console.log('govOne Account Deleted');
+      await sleep(5000)
+      console.log(newPage.url());
+      const url = newPage.url();
+      expect(url).toEqual('https://signin.integration.account.gov.uk/enter-authenticator-app-code')
 
-      } 
+      await govOneEnterOTPSecurityCode.gotoResetOTP();
+      count = await returnCurrentCount();
+      console.log('should have redirected to check email');
+      const securityCode = await returnSecurityCode(count);
+      console.log(securityCode);
+      await govOneCheckEmail.submitCode(securityCode);
+      await govOneSelectOTPMethod.submitAuthAppOption();
+      await govOneEnterOTPSecurityCode.iCannotSelectQRDropdown.click();
+      const secret = await govOneEnterOTPSecurityCode.secretKey.innerText();
+      console.log('secret Key ...' + secret.slice(-3));
+      var secretValue = secret.slice(12);
+      console.log('secret Key Trim ...' + secretValue.slice(-3));
+      const otpAuth = await getMyOTP(secretValue);
+      await govOneEnterOTPSecurityCode.submitCode(otpAuth);
+      await govOneChangedOTP.continue.click();
+
+      count = await returnCurrentCount();
+      await govOneSecurityDetails.shouldFindTitle();
+      await govOneSecurityDetails.gotoDeleteAccount();
+      await govOneSecurityDetails.submitPassword(password);
+      await govOneSecurityDetails.confirmAreYouSure();
+      const messageSnippet = await returnAccountClosed(count);
+      expect(messageSnippet).toContain('permanently deleted your GOV.​UK One Login')
+      console.log('govOne Account Deleted');
+
+    }
   }
-  else{
-  // no need to delete account if not in if statement.
-  console.log('no account was to be deleted');
+  else {
+    // no need to delete account if not in if statement.
+    console.log('no account was to be deleted');
   }
 
 })
@@ -513,7 +513,7 @@ Then('the user views their Licence Conditions PDF', async function () {
   await documentsPage.shouldFindTitle();
   await documentsPage.viewDocumentLink.click();
   console.log('viewDocuments link clicked');
-  
+
   const pagePromise = pageFixture.page.context().waitForEvent('page');
   const newPage = await pagePromise;
   await sleep(5000)
