@@ -39,42 +39,29 @@ describe('todo validation', () => {
     expect(validationResult.title).toEqual('todo-error-title')
   })
 
-  it.each(['', '41', 'fish'])('Should give error if due date day is invalid (%s)', input => {
+  it.each(['41', 'fish'])('Should give error if due date day is invalid (%s)', input => {
     const missingDay = { ...validInput, 'date-day': input }
     const validationResult = validateSubmission(request(missingDay))
     expect(validationResult.errors).toEqual([
       {
-        text: 'todo-error-invalid-day',
+        text: 'todo-error-invalid-date',
         href: '#due-date',
       },
     ])
-    expect(validationResult.dueDate).toEqual('todo-error-invalid-day')
+    expect(validationResult.dueDate).toEqual('todo-error-invalid-date')
   })
 
-  it.each(['', '13', 'fish'])('Should give error if due date month is invalid ("%s")', input => {
+  it.each(['13', 'fish'])('Should give error if due date month is invalid ("%s")', input => {
     const missingMonth = { ...validInput, 'date-month': input }
     const validationResult = validateSubmission(request(missingMonth))
     expect(validationResult.errors).toEqual([
       {
-        text: 'todo-error-invalid-month',
+        text: 'todo-error-invalid-date',
         href: '#due-date',
       },
     ])
-    expect(validationResult.dueDate).toEqual('todo-error-invalid-month')
+    expect(validationResult.dueDate).toEqual('todo-error-invalid-date')
   })
-
-  it.each(['3', '10', '97'])('Should give error if due date year is invalid(%s)', input => {
-    const missingYear = { ...validInput, 'date-year': input }
-    const validationResult = validateSubmission(request(missingYear))
-    expect(validationResult.errors).toEqual([
-      {
-        text: 'todo-error-invalid-year',
-        href: '#due-date',
-      },
-    ])
-    expect(validationResult.dueDate).toEqual('todo-error-invalid-year')
-  })
-
   it('Should give error if due date is in the past', () => {
     //const yesterday = startOfYesterday()
     const missingYear = {
@@ -125,6 +112,71 @@ describe('todo validation', () => {
       },
     ])
     expect(validationResult.dueDate).toEqual('todo-error-invalid-day')
+  })
+
+  it('Should give error if due date month is missing', () => {
+    const missingDay = {
+      ...validInput,
+      'date-day': '10',
+      'date-month': '',
+      'date-year': `${yesterday.getFullYear()}`,
+    }
+    const validationResult = validateSubmission(request(missingDay))
+    expect(validationResult.errors).toEqual([
+      {
+        text: 'todo-error-invalid-month',
+        href: '#due-date',
+      },
+    ])
+    expect(validationResult.dueDate).toEqual('todo-error-invalid-month')
+  })
+  it('Should give error if due date year is missing', () => {
+    const missingDay = {
+      ...validInput,
+      'date-day': '10',
+      'date-month': `${yesterday.getMonth() + 1}`,
+      'date-year': '',
+    }
+    const validationResult = validateSubmission(request(missingDay))
+    expect(validationResult.errors).toEqual([
+      {
+        text: 'todo-error-invalid-year',
+        href: '#due-date',
+      },
+    ])
+    expect(validationResult.dueDate).toEqual('todo-error-invalid-year')
+  })
+  it('Should give error if due date month and year is missing', () => {
+    const missingDay = {
+      ...validInput,
+      'date-day': '10',
+      'date-month': '',
+      'date-year': '',
+    }
+    const validationResult = validateSubmission(request(missingDay))
+    expect(validationResult.errors).toEqual([
+      {
+        text: 'todo-error-invalid-month-year',
+        href: '#due-date',
+      },
+    ])
+    expect(validationResult.dueDate).toEqual('todo-error-invalid-month-year')
+  })
+  it('Should give error if due date year is invalid', () => {
+    const missingDay = {
+      ...validInput,
+      'date-day': '10',
+      'date-month': `${yesterday.getMonth() + 1}`,
+      'date-year': '97',
+    }
+    const validationResult = validateSubmission(request(missingDay))
+    expect(validationResult.errors).toEqual([
+      {
+        text: 'todo-error-invalid-year',
+        href: '#due-date',
+      },
+    ])
+    expect(validationResult.dueDate).toEqual('todo-error-invalid-year')
   })
 })
 

@@ -203,20 +203,9 @@ export const isDateInPast = (input: string): boolean => {
 export const toProperCase = (input: string): string =>
   input.replace(/\w\S*/g, txt => `${txt.charAt(0).toUpperCase()}${txt.slice(1).toLowerCase()}`)
 
-export function isValidDay(day?: string): boolean {
-  if (day.length != 0 && Number(day) >= 1 && Number(day) <= 31) return true
-  if (!day || Number.isNaN(Number(day))) return false
-  return false
+export function isNotEmpty(value?: string): boolean {
+  return value && value.length > 0
 }
-
-export function isValidMonth(month?: string): boolean {
-  if (month.length != 0 && Number(month) >= 1 && Number(month) <= 12) return true
-  if (!month || Number.isNaN(Number(month))) return false
-  return false
-}
-
-export function isValidYear(year?: string): boolean {
-  if (!year || Number.isNaN(Number(year))) return false
-  if (year.length == 4) return true
-  return false
+export function isValidYear(value?: string): boolean {
+  return value && value.length == 4
 }
