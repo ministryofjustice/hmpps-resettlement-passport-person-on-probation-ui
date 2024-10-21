@@ -66,6 +66,7 @@ const todoItemNotes = "test notes";
 const day = Math.floor(Math.random() * (25 - 1) + 1).toString();
 const month = Math.floor(Math.random() * (13 - 1) + 1).toString();
 const year = Math.floor(Math.random() * (2036 - 2026) + 2026).toString();
+const yearInThePast = "1998";
 
 function sleep(ms: number | undefined) {
   console.log('waiting')
@@ -285,6 +286,11 @@ Then('the user adds and completes a to do item', async function () {
   await addToDoListItemPage.warningHeaderShouldDisplay();
   await addToDoListItemPage.warningTitleErrorShouldDisplay();
   await addToDoListItemPage.warningTitleShouldDisplay();
+  await addToDoListItemPage.submitDay(day);
+  await addToDoListItemPage.submitMonth(month);
+  await addToDoListItemPage.submitYear(yearInThePast);
+  await addToDoListItemPage.clickAddTaskButton();
+  await addToDoListItemPage.dueDateErrorShouldDisplay();
   await addToDoListItemPage.submitTitle(todoItemTitle);
   await addToDoListItemPage.submitNotes(todoItemNotes);
   await addToDoListItemPage.submitDay(day);

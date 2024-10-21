@@ -13,6 +13,7 @@ export default class AddToDoListItemPage {
   readonly warningHeader: Locator;
   readonly warningTitle: Locator;
   readonly warningTitleError: Locator;
+  readonly dueDateError: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -26,6 +27,7 @@ export default class AddToDoListItemPage {
     this.warningHeader = page.locator('#main-content > div > div > div > div > h2');
     this.warningTitle = page.locator('#main-content > div > div > div > div > div');
     this.warningTitleError = page.locator('#title-error');
+    this.dueDateError = page.locator('#due-date-error');
   }
 
   async shouldFindTitle() {
@@ -57,5 +59,8 @@ export default class AddToDoListItemPage {
   }
   async warningTitleErrorShouldDisplay() {
     await expect(this.warningTitleError).toBeVisible();
+  }
+  async dueDateErrorShouldDisplay() {
+    await expect(this.dueDateError).toBeVisible();
   }
 }
