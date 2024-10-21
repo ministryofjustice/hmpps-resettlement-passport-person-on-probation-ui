@@ -5,6 +5,10 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% set pageTitle = "To-do list" + titleHeading %}
 
+{% macro errorClass(field) -%}
+  {{ ' govuk-input--error' if validationResult.missingDateField and validationResult.missingDateField.includes(field)  else '' }}
+{%- endmacro %}
+
 {% block beforeContent %}
   {% set activePage = 'todo' %}
   {% include "../partials/subnavigation.njk" %}
@@ -63,6 +67,10 @@
             {% set dueDateDay = editItem.dueDate | dayOfMonth %}
             {% set dueDateMonth = editItem.dueDate | monthOfYear %}
             {% set dueDateYear = editItem.dueDate | yearOf %}
+          {% else %}
+            {% set dueDateDay = editItem['date-day'] %}
+            {% set dueDateMonth = editItem['date-month'] %}
+            {% set dueDateYear = editItem['date-year'] %}
           {% endif %}
 
           {{
@@ -85,18 +93,18 @@
                   {
                     name: 'day',
                     value: dueDateDay,
-                    classes: 'govuk-input--width-2'
+                    classes: 'govuk-input--width-2' + errorClass('day')
 
                   },
                   {
                     name: 'month',
                     value: dueDateMonth,
-                    classes: 'govuk-input--width-2'
+                    classes: 'govuk-input--width-2' + errorClass('month')
                   },
                   {
                     name: 'year',
                     value: dueDateYear,
-                    classes: 'govuk-input--width-4'
+                    classes: 'govuk-input--width-4' + errorClass('year')
                   }
                 ]
             })
