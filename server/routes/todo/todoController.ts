@@ -89,7 +89,11 @@ export default class TodoController {
     return res.redirect('/todo')
   }
 
-  completeItem: RequestHandler = async (req, res, _): Promise<void> => {
+  itemCompleted: RequestHandler = async (req, res, _): Promise<void> => {
+    return this.changeStatus(req, res, true)
+  }
+
+  private async changeStatus(req: Request, res: Response, status: boolean): Promise<void> {
     const verificationData = await this.requireUserAndFlag(req, res)
     if (!verificationData) return
 
@@ -99,9 +103,19 @@ export default class TodoController {
       return
     }
 
-    await this.todoService.completeItem(verificationData.crn, verificationData.oneLoginUrn, itemId, req.sessionID)
+    await this.todoService.changeItemCompleteFlag(
+      verificationData.crn,
+      verificationData.oneLoginUrn,
+      itemId,
+      status,
+      req.sessionID,
+    )
 
     res.status(200).send()
+  }
+
+  itemNotCompeted: RequestHandler = async (req, res, _): Promise<void> => {
+    return this.changeStatus(req, res, false)
   }
 
   deleteItem: RequestHandler = async (req, res, _): Promise<void> => {

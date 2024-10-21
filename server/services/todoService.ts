@@ -29,13 +29,19 @@ export default class TodoService {
     })
   }
 
-  async completeItem(crn: string, urn: string, itemId: string, sessionId: string): Promise<TodoItem> {
+  async changeItemCompleteFlag(
+    crn: string,
+    urn: string,
+    itemId: string,
+    completed: boolean,
+    sessionId: string,
+  ): Promise<TodoItem> {
     logger.debug(`SessionId: ${sessionId}. complete todoItem()`)
     return await this.restClient.patch<TodoItem>({
       path: `/person/${crn}/todo/${itemId}`,
       data: {
         urn,
-        completed: true,
+        completed: completed,
       },
       headers: {
         SessionID: sessionId,
