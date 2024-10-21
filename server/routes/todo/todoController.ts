@@ -176,7 +176,15 @@ export function validateSubmission(req: Express.Request): ValidationResult {
       result.dueDate = message
       result.missingDateField = ['day', 'month', 'year']
     } else if (!isNotEmpty(body['date-day']) && isNotEmpty(body['date-year']) && !isNotEmpty(body['date-month'])) {
-      const message = req.t('todo-error-past-date')
+      const message = req.t('todo-error-invalid-day-month')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+      result.missingDateField = ['day', 'month']
+    } else if (!isNotEmpty(body['date-day']) && isNotEmpty(body['date-month']) && !isNotEmpty(body['date-year'])) {
+      const message = req.t('todo-error-invalid-day-year')
       errors.push({
         text: message,
         href: '#due-date',
@@ -207,10 +215,19 @@ export function validateSubmission(req: Express.Request): ValidationResult {
       })
       result.dueDate = message
       result.missingDateField = ['month']
+    } else if (isNotEmpty(body['date-day']) && isNotEmpty(body['date-month']) && !isNotEmpty(body['date-year'])) {
+      const message = req.t('todo-error-invalid-year')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+      result.missingDateField = ['year']
     } else if (
       isNotEmpty(body['date-day']) &&
       isNotEmpty(body['date-month']) &&
-      (!isNotEmpty(body['date-year']) || !isValidYear(body['date-year']))
+      isNotEmpty(body['date-year']) &&
+      !isValidYear(body['date-year'])
     ) {
       const message = req.t('todo-error-invalid-year')
       errors.push({

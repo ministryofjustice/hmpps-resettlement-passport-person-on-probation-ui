@@ -160,16 +160,44 @@ context('Edit a todo-list item', () => {
     cy.get('.govuk-error-summary').should('include.text', 'Due date must include a year with 4 numbers')
     cy.get('#due-date-error').should('contain.text', 'Due date must include a year with 4 numbers')
   })
-  it('validates month and year', () => {
+  it('validates only day given', () => {
     cy.signIn()
     cy.task('stubGetOneTask')
     cy.visit('/todo/item/9951967c-f7e0-4f54-945a-aa0abe376536/edit')
     Page.verifyOnPage(TodoListEditPage)
-    cy.get('#due-date-day').type('1')
+    cy.get('#due-date-day').type('31')
     cy.get('#submit-button').click()
 
     cy.get('.govuk-error-summary').should('include.text', 'Due date must include a month and year')
     cy.get('#due-date-error').should('contain.text', 'Due date must include a month and year')
+  })
+  it('validates only year given', () => {
+    cy.signIn()
+    cy.task('stubGetOneTask')
+    cy.visit('/todo/item/9951967c-f7e0-4f54-945a-aa0abe376536/edit')
+
+    Page.verifyOnPage(TodoListEditPage)
+    cy.get('#due-date-day').clear()
+    cy.get('#due-date-month').clear()
+    cy.get('#due-date-year').type('2029')
+    cy.get('#submit-button').click()
+
+    cy.get('.govuk-error-summary').should('include.text', 'Due date must include a day and month')
+    cy.get('#due-date-error').should('contain.text', 'Due date must include a day and month')
+  })
+  it('validates only month given', () => {
+    cy.signIn()
+    cy.task('stubGetOneTask')
+    cy.visit('/todo/item/9951967c-f7e0-4f54-945a-aa0abe376536/edit')
+
+    Page.verifyOnPage(TodoListEditPage)
+    cy.get('#due-date-day').clear()
+    cy.get('#due-date-month').type('12')
+    cy.get('#due-date-year').clear()
+    cy.get('#submit-button').click()
+
+    cy.get('.govuk-error-summary').should('include.text', 'Due date must include a day and year')
+    cy.get('#due-date-error').should('contain.text', 'Due date must include a day and year')
   })
 
   it('deletes the item', () => {
