@@ -111,7 +111,10 @@ export default class TodoController {
       req.sessionID,
     )
 
-    res.status(200).send()
+    const allItems = await this.todoService.getList(verificationData.crn, req.sessionID)
+    const todoList = allItems.filter(item => !item.completed)
+    const completedList = allItems.filter(item => item.completed)
+    return res.render('pages/todo-list', { queryParams: req.query, todoList, completedList })
   }
 
   itemNotCompeted: RequestHandler = async (req, res, _): Promise<void> => {

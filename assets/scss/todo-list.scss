@@ -32,3 +32,6 @@
   text-decoration: line-through;
 }
 
+.todo-table-checked::after {
+  opacity: 1;
+}
