@@ -123,7 +123,7 @@ context('Edit a todo-list item', () => {
     cy.get('#notes').should('have.value', 'Use bait')
     cy.get('#due-date-day').type('1')
     cy.get('#due-date-month').type('1')
-    cy.get('#due-date-year').type('2025')
+    cy.get('#due-date-year').type('2030')
     cy.get('#submit-button').click()
 
     // Should be back on list page after submit
@@ -144,6 +144,38 @@ context('Edit a todo-list item', () => {
     cy.get('#due-date-error').should('contain.text', 'Due date must include a month and year')
   })
 
+  it('validates the year length', () => {
+    cy.signIn()
+    cy.task('stubGetOneTask')
+    cy.visit('/todo/item/9951967c-f7e0-4f54-945a-aa0abe376536/edit')
+
+    Page.verifyOnPage(TodoListEditPage)
+
+    cy.get('#due-date-day').type('31')
+    cy.get('#due-date-month').type('12')
+    cy.get('#due-date-year').type('20879')
+    cy.get('#submit-button').click()
+
+    cy.get('.govuk-error-summary').should('include.text', 'Due date must include a year with 4 numbers')
+    cy.get('#due-date-error').should('contain.text', 'Due date must include a year with 4 numbers')
+  })
+
+  it('validates item', () => {
+    cy.signIn()
+    cy.task('stubGetOneTask')
+    cy.visit('/todo/item/9951967c-f7e0-4f54-945a-aa0abe376536/edit')
+
+    Page.verifyOnPage(TodoListEditPage)
+
+    cy.get('#due-date-day').type('32')
+    cy.get('#due-date-month').type('13')
+    cy.get('#due-date-year').type('2087')
+    cy.get('#submit-button').click()
+
+    cy.get('.govuk-error-summary').should('include.text', 'Due date must be a real date')
+    cy.get('#due-date-error').should('contain.text', 'Due date must be a real date')
+  })
+
   it('validates the item', () => {
     cy.signIn()
     cy.task('stubGetOneTask')
@@ -153,11 +185,11 @@ context('Edit a todo-list item', () => {
 
     cy.get('#due-date-day').type('32')
     cy.get('#due-date-month').type('13')
-    cy.get('#due-date-year').type('87')
+    cy.get('#due-date-year').type('20879')
     cy.get('#submit-button').click()
 
-    cy.get('.govuk-error-summary').should('include.text', 'Due date must be a real date')
-    cy.get('#due-date-error').should('contain.text', 'Due date must be a real date')
+    cy.get('.govuk-error-summary').should('include.text', 'Due date must include a year with 4 numbers')
+    cy.get('#due-date-error').should('contain.text', 'Due date must include a year with 4 numbers')
   })
 
   it('deletes the item', () => {
