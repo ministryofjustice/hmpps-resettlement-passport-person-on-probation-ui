@@ -24,8 +24,8 @@ export default class AddToDoListItemPage {
     this.enterMonth = page.locator('#due-date-month');
     this.enterYear = page.locator('#due-date-year');
     this.addTaskButton = page.locator('#submit-button');
-    this.warningHeader = page.locator('#main-content > div > div > div > div > h2');
-    this.warningTitle = page.locator('#main-content > div > div > div > div > div');
+    this.warningHeader = page.locator('.govuk-error-summary h2');
+    this.warningTitle = page.locator('.govuk-error-summary a');
     this.warningTitleError = page.locator('#title-error');
     this.dueDateError = page.locator('#due-date-error');
   }
