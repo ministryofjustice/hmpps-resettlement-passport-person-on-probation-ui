@@ -219,6 +219,13 @@
   "subnav-todo": "To-do list",
   "overview-todo-p1": "Create, update and manage your tasks.",
   "overview-todo-p2-part-1": "You have",
-  "overview-todo-p2-part-2": "tasks on your list."
+  "overview-todo-p2-part-2": "tasks on your list.",
+  "overview-todo-p2-part-2": "tasks on your list.",
+  "todo-error-invalid-day-month": "Due date must include a day and month",
+  "todo-error-invalid-day-year" : "Due date must include a day and year",
+  "todo-error-invalid-month-year": "Due date must include a month and year",
+  "todo-error-invalid-day": "Due date must include a day",
+  "todo-error-invalid-month" : "Due date must include a month",
+  "todo-error-invalid-year": "Due date must include a year with 4 numbers"
 
 }
