@@ -34,7 +34,9 @@
                   {{ t('todo-list-column-heading-date') }}
                 </th>
                 <th scope="col" class="govuk-table__header">{{ t('todo-list-column-heading-notes') }}</th>
-                <th scope="col" class="govuk-table__header todo-table-action-column">{{ t('todo-list-column-heading-actions') }}</th>
+                <th scope="col" class="govuk-table__header todo-table-action-column">
+                  {{ t('todo-list-column-heading-actions') }}
+                </th>
               </tr>
             </thead>
             <tbody class="govuk-table__body">
@@ -67,19 +69,9 @@
                       </div>
                     </div>
                   </td>
-                  <td class="govuk-table__cell">
-                    <p class="govuk-body-m">{{ item.title }}</p>
-                  </td>
-                  <td class="govuk-table__cell">
-                    {% if item.dueDate %}
-                      <p class="govuk-body-m">{{ item.dueDate | formatShortDate(queryParams.lang) }}</p>
-                    {% endif %}
-                  </td>
-                  <td class="govuk-table__cell govuk-body-s">
-                    {% if item.notes %}
-                      {{ item.notes }}
-                    {% endif %}
-                  </td>
+                  <td class="govuk-table__cell">{{ item.title }}</td>
+                  <td class="govuk-table__cell">{{ item.dueDate | formatShortDate(queryParams.lang) }}</td>
+                  <td class="govuk-table__cell govuk-body-s">{{ item.notes }}</td>
                   <td class="govuk-table__cell govuk-body-s">
                     <a href="/todo/item/{{ item.id }}/edit">{{ t('todo-list-edit-action') }}</a>
                   </td>
@@ -102,7 +94,9 @@
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
                 <th class="govuk-table__header">{{ t('todo-list-column-heading-task') }}</th>
-                <th class="govuk-table__header todo-table-completed-date-column">{{ t('todo-list-column-heading-completed-date') }}</th>
+                <th class="govuk-table__header todo-table-completed-date-column">
+                  {{ t('todo-list-column-heading-completed-date') }}
+                </th>
                 <th class="govuk-table__header">{{ t('todo-list-column-heading-notes') }}</th>
               </tr>
             </thead>
@@ -112,14 +106,8 @@
                   <td class="govuk-table__cell todo-table-completed-title">
                     <label class="govuk-label">{{ item.title }}</label>
                   </td>
-                  <td class="govuk-table__cell">
-                    <p class="govuk-body-m">{{ item.updatedAt | formatShortDate(queryParams.lang) }}</p>
-                  </td>
-                  <td class="govuk-table__cell">
-                    {% if item.notes %}
-                      <p class="govuk-body-s">{{ item.notes }}</p>
-                    {% endif %}
-                  </td>
+                  <td class="govuk-table__cell">{{ item.updatedAt | formatShortDate(queryParams.lang) }}</td>
+                  <td class="govuk-table__cell govuk-body-s">{{ item.notes }}</td>
                 </tr>
               {% endfor %}
             </tbody>
