@@ -94,6 +94,7 @@ export default class TodoController {
   }
 
   private async changeStatus(req: Request, res: Response, status: boolean): Promise<void> {
+    const ajaxMode = req.headers['ajax-mode'] === 'true'
     const verificationData = await this.requireUserAndFlag(req, res)
     if (!verificationData) return
 
@@ -111,6 +112,10 @@ export default class TodoController {
       req.sessionID,
     )
 
+    if (!ajaxMode) {
+      // if javascript is disabled in frontend, redirect back to the to-do page to keep the url sane
+      return res.redirect('/todo')
+    }
     const allItems = await this.todoService.getList(verificationData.crn, req.sessionID)
     const todoList = allItems.filter(item => !item.completed)
     const completedList = allItems.filter(item => item.completed)

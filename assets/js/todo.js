@@ -5,7 +5,10 @@ const completedTable = document.getElementById('completed-table')
 function handleToggleResponse(form) {
   return async e => {
     e.preventDefault()
-    const res = await fetch(form.action, { method: 'POST', headers: { 'X-CSRF-Token': csrfToken } })
+    const res = await fetch(form.action, {
+      method: 'POST',
+      headers: { 'X-CSRF-Token': csrfToken, 'ajax-mode': 'true' },
+    })
     if (res.status === 200) {
       const responseText = await res.text()
       const parser = new DOMParser()
