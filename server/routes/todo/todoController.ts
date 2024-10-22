@@ -2,7 +2,7 @@ import { Request, RequestHandler, Response } from 'express'
 import TodoService from '../../services/todoService'
 import UserService from '../../services/userService'
 import requireUser from '../requireUser'
-import { dateFromStrings, getDateFromDayMonthYear } from '../../utils/utils'
+import { dateFromStrings, getDateFromDayMonthYear, isNotEmpty, isValidYear } from '../../utils/utils'
 import FeatureFlagsService from '../../services/featureFlagsService'
 import { FeatureFlagKey } from '../../services/featureFlags'
 import { UserDetailsResponse } from '../../data/personOnProbationApiClient'
@@ -146,6 +146,7 @@ type ValidationResult = {
   errors: Express.ValidationError[]
   title?: string
   dueDate?: string
+  missingDateField?: string[]
 }
 
 export function validateSubmission(req: Express.Request): ValidationResult {
@@ -166,21 +167,94 @@ export function validateSubmission(req: Express.Request): ValidationResult {
 
   // Only validate if has been set
   if (body['date-day'] || body['date-month'] || body['date-year']) {
-    const dueDate = getDateFromDayMonthYear(body['date-day'], body['date-month'], body['date-year'])
-    if (!dueDate) {
+    if (!body['date-day'] && !body['date-month'] && !body['date-year']) {
       const message = req.t('todo-error-invalid-date')
       errors.push({
         text: message,
         href: '#due-date',
       })
       result.dueDate = message
-    } else if (isBefore(dueDate, startOfToday())) {
-      const message = req.t('todo-error-past-date')
+      result.missingDateField = ['day', 'month', 'year']
+    } else if (!isNotEmpty(body['date-day']) && isNotEmpty(body['date-year']) && !isNotEmpty(body['date-month'])) {
+      const message = req.t('todo-error-invalid-day-month')
       errors.push({
         text: message,
         href: '#due-date',
       })
       result.dueDate = message
+      result.missingDateField = ['day', 'month']
+    } else if (!isNotEmpty(body['date-day']) && isNotEmpty(body['date-month']) && !isNotEmpty(body['date-year'])) {
+      const message = req.t('todo-error-invalid-day-year')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+      result.missingDateField = ['day', 'year']
+    } else if (!isNotEmpty(body['date-month']) && isNotEmpty(body['date-day']) && !isNotEmpty(body['date-year'])) {
+      const message = req.t('todo-error-invalid-month-year')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+      result.missingDateField = ['month', 'year']
+    } else if (isNotEmpty(body['date-month']) && isNotEmpty(body['date-year']) && !isNotEmpty(body['date-day'])) {
+      const message = req.t('todo-error-invalid-day')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+      result.missingDateField = ['day']
+    } else if (isNotEmpty(body['date-day']) && isNotEmpty(body['date-year']) && !isNotEmpty(body['date-month'])) {
+      const message = req.t('todo-error-invalid-month')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+      result.missingDateField = ['month']
+    } else if (isNotEmpty(body['date-day']) && isNotEmpty(body['date-month']) && !isNotEmpty(body['date-year'])) {
+      const message = req.t('todo-error-invalid-year')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+      result.missingDateField = ['year']
+    } else if (
+      isNotEmpty(body['date-day']) &&
+      isNotEmpty(body['date-month']) &&
+      isNotEmpty(body['date-year']) &&
+      !isValidYear(body['date-year'])
+    ) {
+      const message = req.t('todo-error-invalid-year')
+      errors.push({
+        text: message,
+        href: '#due-date',
+      })
+      result.dueDate = message
+      result.missingDateField = ['year']
+    } else {
+      const dueDate = getDateFromDayMonthYear(body['date-day'], body['date-month'], body['date-year'])
+      if (!dueDate) {
+        const message = req.t('todo-error-invalid-date')
+        errors.push({
+          text: message,
+          href: '#due-date',
+        })
+        result.dueDate = message
+        result.missingDateField = ['day', 'month', 'year']
+      } else if (isBefore(dueDate, startOfToday())) {
+        const message = req.t('todo-error-past-date')
+        errors.push({
+          text: message,
+          href: '#due-date',
+        })
+        result.dueDate = message
+        result.missingDateField = ['day', 'month', 'year']
+      }
     }
   }
 
