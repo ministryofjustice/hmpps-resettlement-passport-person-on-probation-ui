@@ -89,7 +89,12 @@ export default class TodoController {
     return res.redirect('/todo')
   }
 
-  completeItem: RequestHandler = async (req, res, _): Promise<void> => {
+  itemCompleted: RequestHandler = async (req, res, _): Promise<void> => {
+    return this.changeStatus(req, res, true)
+  }
+
+  private async changeStatus(req: Request, res: Response, status: boolean): Promise<void> {
+    const ajaxMode = req.headers['ajax-mode'] === 'true'
     const verificationData = await this.requireUserAndFlag(req, res)
     if (!verificationData) return
 
@@ -99,9 +104,26 @@ export default class TodoController {
       return
     }
 
-    await this.todoService.completeItem(verificationData.crn, verificationData.oneLoginUrn, itemId, req.sessionID)
+    await this.todoService.changeItemCompleteFlag(
+      verificationData.crn,
+      verificationData.oneLoginUrn,
+      itemId,
+      status,
+      req.sessionID,
+    )
 
-    res.status(200).send()
+    if (!ajaxMode) {
+      // if javascript is disabled in frontend, redirect back to the to-do page to keep the url sane
+      return res.redirect('/todo')
+    }
+    const allItems = await this.todoService.getList(verificationData.crn, req.sessionID)
+    const todoList = allItems.filter(item => !item.completed)
+    const completedList = allItems.filter(item => item.completed)
+    return res.render('pages/todo-list', { queryParams: req.query, todoList, completedList })
+  }
+
+  itemNotCompeted: RequestHandler = async (req, res, _): Promise<void> => {
+    return this.changeStatus(req, res, false)
   }
 
   deleteItem: RequestHandler = async (req, res, _): Promise<void> => {

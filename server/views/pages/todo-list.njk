@@ -43,7 +43,7 @@
               {% for item in todoList %}
                 <tr id="todo-row-{{ item.id }}" class="govuk-table__row">
                   <td class="govuk-table__cell">
-                    <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes govuk-checkboxes--small">
                       <div class="govuk-checkboxes__item">
                         <form id="form-${{ item.id }}" action="/todo/item/{{ item.id }}/complete" method="POST">
                           <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
@@ -54,10 +54,7 @@
                             class="govuk-checkboxes__input"
                             id="task-{{ item.id }}"
                             name="task-status"
-                            type="checkbox"
-                            {% if item.completed %}
-                              checked
-                            {% endif %}
+                            type="submit"
                             aria-label="complete task {{ item.title }}"
                           />
                           <label
@@ -69,19 +66,9 @@
                       </div>
                     </div>
                   </td>
-                  <td class="govuk-table__cell">
-                    <p class="govuk-body-m">{{ item.title }}</p>
-                  </td>
-                  <td class="govuk-table__cell">
-                    {% if item.dueDate %}
-                      <p class="govuk-body-m">{{ item.dueDate | formatShortDate(queryParams.lang) }}</p>
-                    {% endif %}
-                  </td>
-                  <td class="govuk-table__cell govuk-body-s">
-                    {% if item.notes %}
-                      {{ item.notes }}
-                    {% endif %}
-                  </td>
+                  <td class="govuk-table__cell">{{ item.title }}</td>
+                  <td class="govuk-table__cell">{{ item.dueDate | formatShortDate(queryParams.lang) }}</td>
+                  <td class="govuk-table__cell govuk-body-s">{{ item.notes }}</td>
                   <td class="govuk-table__cell govuk-body-s">
                     <a href="/todo/item/{{ item.id }}/edit">{{ t('todo-list-edit-action') }}</a>
                   </td>
@@ -103,6 +90,9 @@
           <table class="govuk-table todo-table" id="completed-table">
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header todo-table-done-column">
+                  {{ t('todo-list-column-heading-done') }}
+                </th>
                 <th class="govuk-table__header">{{ t('todo-list-column-heading-task') }}</th>
                 <th class="govuk-table__header todo-table-completed-date-column">
                   {{ t('todo-list-column-heading-completed-date') }}
@@ -113,17 +103,35 @@
             <tbody class="govuk-table__body">
               {% for item in completedList %}
                 <tr class="govuk-table__row">
+                  <td class="govuk-table__cell">
+                    <div class="govuk-checkboxes govuk-checkboxes--small">
+                      <div class="govuk-checkboxes__item">
+                        <form id="form-${{ item.id }}" action="/todo/item/{{ item.id }}/not-completed" method="POST">
+                          <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+                          <input type="hidden" name="itemId" value="{{ item.id }}" />
+                          <input type="hidden" name="title" value="{{ item.title }}" />
+                          <input type="hidden" name="note" value="{{ item.notes }}" />
+                          <input
+                                  class="govuk-checkboxes__input"
+                                  id="task-{{ item.id }}"
+                                  name="task-status"
+                                  type="submit"
+                                  aria-label="mark task {{ item.title }} as not completed"
+                          />
+                          <label
+                                  id="label-cb-{{ item.id }}"
+                                  class="govuk-label govuk-checkboxes__label todo-table-checked"
+                                  for="task-{{ item.id }}"
+                          ></label>
+                        </form>
+                      </div>
+                    </div>
+                  </td>
                   <td class="govuk-table__cell todo-table-completed-title">
                     <label class="govuk-label">{{ item.title }}</label>
                   </td>
-                  <td class="govuk-table__cell">
-                    <p class="govuk-body-m">{{ item.updatedAt | formatShortDate(queryParams.lang) }}</p>
-                  </td>
-                  <td class="govuk-table__cell">
-                    {% if item.notes %}
-                      <p class="govuk-body-s">{{ item.notes }}</p>
-                    {% endif %}
-                  </td>
+                  <td class="govuk-table__cell">{{ item.updatedAt | formatShortDate(queryParams.lang) }}</td>
+                  <td class="govuk-table__cell govuk-body-s">{{ item.notes }}</td>
                 </tr>
               {% endfor %}
             </tbody>
