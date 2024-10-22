@@ -3,6 +3,31 @@ import 'cypress-map'
 import { FeatureFlagKey } from '../../server/services/featureFlags'
 import OverviewPage from '../pages/overview'
 
+const teaTask = {
+  id: '81fce0af-845e-4753-871b-3809d04c888a',
+  prisonerId: 1,
+  title: 'Make tea',
+  notes: '1 sugar',
+  dueDate: null,
+  completed: false,
+  createdByUrn: 'urn:fdc:gov.uk:2022:user1',
+  updatedByUrn: 'urn:fdc:gov.uk:2022:user1',
+  creationDate: '2024-10-02T15:38:15.979258',
+  updatedAt: '2024-10-02T15:38:15.979269',
+}
+const toastTask = {
+  id: '634eacc9-86da-4c9c-963b-3d24359ca38b',
+  prisonerId: 1,
+  title: 'Make toast',
+  notes: '',
+  dueDate: null,
+  completed: false,
+  createdByUrn: 'urn:fdc:gov.uk:2022:user1',
+  updatedByUrn: 'urn:fdc:gov.uk:2022:user1',
+  creationDate: '2024-10-02T15:39:16.118321',
+  updatedAt: '2024-10-02T15:39:20.106478',
+}
+
 context('To-do list', () => {
   beforeEach(() => {
     cy.task('reset')
@@ -34,7 +59,7 @@ context('To-do list', () => {
       .table()
       .should(table => {
         expect(table).to.have.length(1)
-        expect(table[0]).to.be.eql(['Make toast', '2 Oct 2024', ''])
+        expect(table[0]).to.be.eql(['', 'Make toast', '2 Oct 2024', ''])
       })
   })
 
@@ -59,15 +84,54 @@ context('To-do list', () => {
   })
 
   it('can complete an item', () => {
-    cy.task('stubGetTodoTasks')
+    cy.task('stubGetTodoTasks', { tasks: [teaTask, toastTask] })
     cy.task('stubPatchTodoTask')
     cy.signIn()
     cy.visit('/todo')
 
-    cy.get('#task-81fce0af-845e-4753-871b-3809d04c888a').click({ force: true })
+    cy.get('summary').should('contain.text', 'Completed tasks').click()
 
-    cy.get('#todo-list-table tbody tr').eq(0).should('be.hidden')
-    cy.get('#completed-table tbody').table().should('have.length', 2)
+    cy.get('#todo-list-table tbody').table().should('have.length', 2)
+    cy.get('#completed-table tbody').table().should('have.length', 0)
+
+    cy.task('stubGetTodoTasks', { tasks: [{ ...teaTask, completed: true }, toastTask] })
+    cy.intercept('/todo/item/81fce0af-845e-4753-871b-3809d04c888a/complete').as('complete')
+
+    cy.get('#task-81fce0af-845e-4753-871b-3809d04c888a').parent().click()
+
+    cy.wait('@complete')
+    cy.get('#todo-list-table tbody')
+      .table()
+      .should('have.length', 1)
+      .its(0)
+      .should('eql', ['', 'Make toast', '', '', 'Update'])
+
+    cy.get('#completed-table tbody')
+      .table()
+      .should('have.length', 1)
+      .its(0)
+      .should('eql', ['', 'Make tea', '2 Oct 2024', '1 sugar'])
+  })
+
+  it('can mark an item not completed an item', () => {
+    cy.task('stubGetTodoTasks', { tasks: [{ ...teaTask, completed: true }, toastTask] })
+    cy.task('stubPatchTodoTask')
+    cy.signIn()
+    cy.visit('/todo')
+
+    cy.get('summary').should('contain.text', 'Completed tasks').click()
+
+    cy.get('#todo-list-table tbody').table().should('have.length', 1)
+    cy.get('#completed-table tbody').table().should('have.length', 1)
+
+    cy.task('stubGetTodoTasks', { tasks: [teaTask, toastTask] })
+    cy.intercept('/todo/item/81fce0af-845e-4753-871b-3809d04c888a/not-completed').as('not-completed')
+
+    cy.get('#task-81fce0af-845e-4753-871b-3809d04c888a').parent().click()
+
+    cy.wait('@not-completed')
+    cy.get('#completed-table tbody').table().should('have.length', 0)
+    cy.get('#todo-list-table tbody').table().should('have.length', 2)
   })
 })
 
@@ -111,7 +175,7 @@ context('Edit a todo-list item', () => {
     cy.task('stubForDefaultLoggedInUser')
   })
 
-  it('can add an item to list', () => {
+  it('can edit an item in the list', () => {
     cy.signIn()
     cy.task('stubGetOneTask')
     cy.task('stubPutTask')

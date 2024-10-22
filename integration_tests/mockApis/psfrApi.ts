@@ -177,6 +177,45 @@ const mockedUserDetailsResponse = {
   },
 }
 
+const defaultTodoGetResponse = [
+  {
+    id: '81fce0af-845e-4753-871b-3809d04c888a',
+    prisonerId: 1,
+    title: 'Make tea',
+    notes: '1 sugar',
+    dueDate: null,
+    completed: false,
+    createdByUrn: oneLoginUrn,
+    updatedByUrn: oneLoginUrn,
+    creationDate: '2024-10-02T15:38:15.979258',
+    updatedAt: '2024-10-02T15:38:15.979269',
+  },
+  {
+    id: '848de9ca-773c-44b3-8152-333299ad79b3',
+    prisonerId: 1,
+    title: 'Write CV',
+    notes: '',
+    dueDate: '2026-10-30',
+    completed: false,
+    createdByUrn: oneLoginUrn,
+    updatedByUrn: oneLoginUrn,
+    creationDate: '2024-10-02T15:38:44.200459',
+    updatedAt: '2024-10-02T15:38:44.200481',
+  },
+  {
+    id: '634eacc9-86da-4c9c-963b-3d24359ca38b',
+    prisonerId: 1,
+    title: 'Make toast',
+    notes: '',
+    dueDate: null,
+    completed: true,
+    createdByUrn: oneLoginUrn,
+    updatedByUrn: oneLoginUrn,
+    creationDate: '2024-10-02T15:39:16.118321',
+    updatedAt: '2024-10-02T15:39:20.106478',
+  },
+]
+
 const getBinaryResponse = (base64Image: string) => {
   return Buffer.from(base64Image, 'base64')
 }
@@ -504,7 +543,7 @@ export default {
         jsonBody: [],
       },
     }),
-  stubGetTodoTasks: (): SuperAgentRequest =>
+  stubGetTodoTasks: ({ tasks = defaultTodoGetResponse }: TodoGetStubArgs = {}) =>
     stubFor({
       request: {
         method: 'GET',
@@ -513,44 +552,7 @@ export default {
       response: {
         status: 200,
         headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-        jsonBody: [
-          {
-            id: '81fce0af-845e-4753-871b-3809d04c888a',
-            prisonerId: 1,
-            title: 'Make tea',
-            notes: '1 sugar',
-            dueDate: null,
-            completed: false,
-            createdByUrn: oneLoginUrn,
-            updatedByUrn: oneLoginUrn,
-            creationDate: '2024-10-02T15:38:15.979258',
-            updatedAt: '2024-10-02T15:38:15.979269',
-          },
-          {
-            id: '848de9ca-773c-44b3-8152-333299ad79b3',
-            prisonerId: 1,
-            title: 'Write CV',
-            notes: '',
-            dueDate: '2026-10-30',
-            completed: false,
-            createdByUrn: oneLoginUrn,
-            updatedByUrn: oneLoginUrn,
-            creationDate: '2024-10-02T15:38:44.200459',
-            updatedAt: '2024-10-02T15:38:44.200481',
-          },
-          {
-            id: '634eacc9-86da-4c9c-963b-3d24359ca38b',
-            prisonerId: 1,
-            title: 'Make toast',
-            notes: '',
-            dueDate: null,
-            completed: true,
-            createdByUrn: oneLoginUrn,
-            updatedByUrn: oneLoginUrn,
-            creationDate: '2024-10-02T15:39:16.118321',
-            updatedAt: '2024-10-02T15:39:20.106478',
-          },
-        ],
+        jsonBody: tasks,
       },
     }),
   stubPatchTodoTask: (): SuperAgentRequest =>
@@ -675,4 +677,8 @@ export default {
         status: 204,
       },
     }),
+}
+
+type TodoGetStubArgs = {
+  tasks?: Record<string, unknown>[]
 }
