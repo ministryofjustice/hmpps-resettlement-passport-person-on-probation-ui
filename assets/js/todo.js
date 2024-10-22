@@ -2,7 +2,7 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute
 const todoTable = document.getElementById('todo-list-table')
 const completedTable = document.getElementById('completed-table')
 
-function handleCompleteResponse(form) {
+function handleToggleResponse(form) {
   return async e => {
     e.preventDefault()
     const res = await fetch(form.action, { method: 'POST', headers: { 'X-CSRF-Token': csrfToken } })
@@ -19,7 +19,7 @@ function handleCompleteResponse(form) {
 
 function registerListeners() {
   for (const form of document.querySelectorAll('form')) {
-    form.addEventListener('submit', handleCompleteResponse(form))
+    form.addEventListener('submit', handleToggleResponse(form))
   }
 }
 
