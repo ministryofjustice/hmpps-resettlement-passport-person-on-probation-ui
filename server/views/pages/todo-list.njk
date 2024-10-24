@@ -53,6 +53,8 @@
                           <input
                             class="govuk-checkboxes__input"
                             id="task-{{ item.id }}"
+                            role="checkbox"
+                            aria-checked="false"
                             name="task-status"
                             type="submit"
                             aria-label="complete task {{ item.title }}"
@@ -116,6 +118,8 @@
                                   id="task-{{ item.id }}"
                                   name="task-status"
                                   type="submit"
+                                  role="checkbox"
+                                  aria-checked="true"
                                   aria-label="mark task {{ item.title }} as not completed"
                           />
                           <label
