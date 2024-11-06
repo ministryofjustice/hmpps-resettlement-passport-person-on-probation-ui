@@ -31,12 +31,6 @@ generic-service:
     FEATURE_FLAG_ENABLED: "true"
 
   allowlist:
-    custom-1: 54.37.241.156/30
-    custom-2: 167.71.136.237/32
-    custom-3: 2001:41d0:800:715::/64
-    custom-4: 76.103.36.202/32
-    custom-5: 50.236.248.230/32
-    custom-6: 52.3.146.242/32
     groups:
       - internal
       - prisons
