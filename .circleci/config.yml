@@ -33,7 +33,7 @@ executors:
       - image: 'zaproxy/zap-stable'
         entrypoint: ["/bin/sh", "-c"]
         command: ["zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config api.disablekey=true"]
-    resource_class: medium
+    resource_class: large
     working_directory: ~/app
 
 jobs:
@@ -464,4 +464,4 @@ workflows:
           filters:
             branches:
               only:
-                - main    
+                - main
