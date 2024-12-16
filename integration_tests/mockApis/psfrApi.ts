@@ -535,7 +535,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/person/U416100/todo`,
+        url: `/rpApi/person/G4161UF/todo`,
       },
       response: {
         status: 200,
@@ -547,7 +547,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/person/U416100/todo`,
+        url: `/rpApi/person/G4161UF/todo`,
       },
       response: {
         status: 200,
@@ -559,7 +559,7 @@ export default {
     stubFor({
       request: {
         method: 'PATCH',
-        url: '/rpApi/person/U416100/todo/81fce0af-845e-4753-871b-3809d04c888a',
+        url: '/rpApi/person/G4161UF/todo/81fce0af-845e-4753-871b-3809d04c888a',
       },
       response: {
         status: 200,
@@ -582,7 +582,7 @@ export default {
     stubFor({
       request: {
         method: 'POST',
-        url: '/rpApi/person/U416100/todo',
+        url: '/rpApi/person/G4161UF/todo',
         bodyPatterns: [
           {
             equalToJson: JSON.stringify({
@@ -615,7 +615,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: '/rpApi/person/U416100/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
+        url: '/rpApi/person/G4161UF/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
       },
       response: {
         status: 200,
@@ -638,7 +638,7 @@ export default {
     stubFor({
       request: {
         method: 'PUT',
-        url: '/rpApi/person/U416100/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
+        url: '/rpApi/person/G4161UF/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
         bodyPatterns: [
           {
             equalToJson: JSON.stringify({
@@ -671,7 +671,7 @@ export default {
     stubFor({
       request: {
         method: 'DELETE',
-        url: '/rpApi/person/U416100/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
+        url: '/rpApi/person/G4161UF/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
       },
       response: {
         status: 204,
