@@ -85,7 +85,7 @@ export default class OverviewController {
       return null
     }
     try {
-      const todoItems = await this.todoService.getList(userDetails.crn, sessionId)
+      const todoItems = await this.todoService.getList(userDetails.nomsId, sessionId)
       let pending = 0
 
       for (const item of todoItems) {
