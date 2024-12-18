@@ -19,7 +19,7 @@ export default class TodoController {
     const verificationData = await this.requireUserAndFlag(req, res)
     if (!verificationData) return
 
-    const allItems = await this.todoService.getList(verificationData.crn, req.sessionID)
+    const allItems = await this.todoService.getList(verificationData.nomsId, req.sessionID)
     const todoList = allItems.filter(item => !item.completed)
     const completedList = allItems.filter(item => item.completed)
     return res.render('pages/todo-list', { queryParams: req.query, todoList, completedList })
@@ -41,7 +41,7 @@ export default class TodoController {
       return
     }
 
-    const editItem = await this.todoService.getItem(verificationData.crn, itemId, req.sessionID)
+    const editItem = await this.todoService.getItem(verificationData.nomsId, itemId, req.sessionID)
 
     return res.render('pages/todo-add-edit', { itemId, edit: true, editItem })
   }
@@ -56,7 +56,7 @@ export default class TodoController {
     }
 
     const submission: TodoFormBody = req.body
-    await this.todoService.createItem(verificationData.crn, req.sessionID, {
+    await this.todoService.createItem(verificationData.nomsId, req.sessionID, {
       urn: verificationData.oneLoginUrn,
       title: submission.title,
       notes: submission.notes,
@@ -80,7 +80,7 @@ export default class TodoController {
     }
 
     const submission: TodoFormBody = req.body
-    await this.todoService.updateItem(verificationData.crn, itemId, req.sessionID, {
+    await this.todoService.updateItem(verificationData.nomsId, itemId, req.sessionID, {
       urn: verificationData.oneLoginUrn,
       title: submission.title,
       notes: submission.notes,
@@ -105,7 +105,7 @@ export default class TodoController {
     }
 
     await this.todoService.changeItemCompleteFlag(
-      verificationData.crn,
+      verificationData.nomsId,
       verificationData.oneLoginUrn,
       itemId,
       status,
@@ -116,7 +116,7 @@ export default class TodoController {
       // if javascript is disabled in frontend, redirect back to the to-do page to keep the url sane
       return res.redirect('/todo')
     }
-    const allItems = await this.todoService.getList(verificationData.crn, req.sessionID)
+    const allItems = await this.todoService.getList(verificationData.nomsId, req.sessionID)
     const todoList = allItems.filter(item => !item.completed)
     const completedList = allItems.filter(item => item.completed)
     return res.render('pages/todo-list', { queryParams: req.query, todoList, completedList })
@@ -136,7 +136,7 @@ export default class TodoController {
       return
     }
 
-    await this.todoService.deleteItem(verificationData.crn, itemId, req.sessionID)
+    await this.todoService.deleteItem(verificationData.nomsId, itemId, req.sessionID)
 
     return res.redirect('/todo')
   }
