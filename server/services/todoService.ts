@@ -9,10 +9,10 @@ export default class TodoService {
     this.restClient = new RestClient('Resettlement Passport Api Client', config.apis.resettlementPassportApi)
   }
 
-  async createItem(crn: string, sessionId: string, request: TodoRequest): Promise<TodoItem> {
+  async createItem(nomsId: string, sessionId: string, request: TodoRequest): Promise<TodoItem> {
     logger.debug(`SessionId: ${sessionId}. create todoItem()`)
     return await this.restClient.post<TodoItem>({
-      path: `/person/${crn}/todo`,
+      path: `/person/${nomsId}/todo`,
       data: request,
       headers: {
         SessionID: sessionId,
@@ -20,9 +20,9 @@ export default class TodoService {
     })
   }
 
-  async getList(crn: string, sessionId: string): Promise<TodoItem[]> {
+  async getList(nomsId: string, sessionId: string): Promise<TodoItem[]> {
     return await this.restClient.get<TodoItem[]>({
-      path: `/person/${crn}/todo`,
+      path: `/person/${nomsId}/todo`,
       headers: {
         SessionID: sessionId,
       },
@@ -30,7 +30,7 @@ export default class TodoService {
   }
 
   async changeItemCompleteFlag(
-    crn: string,
+    nomsId: string,
     urn: string,
     itemId: string,
     completed: boolean,
@@ -38,7 +38,7 @@ export default class TodoService {
   ): Promise<TodoItem> {
     logger.debug(`SessionId: ${sessionId}. complete todoItem()`)
     return await this.restClient.patch<TodoItem>({
-      path: `/person/${crn}/todo/${itemId}`,
+      path: `/person/${nomsId}/todo/${itemId}`,
       data: {
         urn,
         completed: completed,
@@ -49,19 +49,19 @@ export default class TodoService {
     })
   }
 
-  async getItem(crn: string, itemId: string, sessionID: string): Promise<TodoItem> {
+  async getItem(nomsId: string, itemId: string, sessionID: string): Promise<TodoItem> {
     return await this.restClient.get<TodoItem>({
-      path: `/person/${crn}/todo/${itemId}`,
+      path: `/person/${nomsId}/todo/${itemId}`,
       headers: {
         SessionID: sessionID,
       },
     })
   }
 
-  async updateItem(crn: string, itemId: string, sessionID: string, request: TodoRequest): Promise<TodoItem> {
+  async updateItem(nomsId: string, itemId: string, sessionID: string, request: TodoRequest): Promise<TodoItem> {
     logger.debug(`SessionId: ${sessionID}. update todoItem()`)
     return await this.restClient.put<TodoItem>({
-      path: `/person/${crn}/todo/${itemId}`,
+      path: `/person/${nomsId}/todo/${itemId}`,
       data: request,
       headers: {
         SessionID: sessionID,
@@ -69,10 +69,10 @@ export default class TodoService {
     })
   }
 
-  async deleteItem(crn: string, itemId: string, sessionID: string): Promise<void> {
+  async deleteItem(nomsId: string, itemId: string, sessionID: string): Promise<void> {
     logger.debug(`SessionId: ${sessionID}. delete todoItem()`)
     return await this.restClient.delete({
-      path: `/person/${crn}/todo/${itemId}`,
+      path: `/person/${nomsId}/todo/${itemId}`,
       headers: {
         SessionID: sessionID,
       },
