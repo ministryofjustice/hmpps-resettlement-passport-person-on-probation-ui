@@ -187,7 +187,7 @@ context('Edit a todo-list item', () => {
     cy.get('#notes').should('have.value', 'Use bait')
     cy.get('#due-date-day').type('1')
     cy.get('#due-date-month').type('1')
-    cy.get('#due-date-year').type('2025')
+    cy.get('#due-date-year').type('2030')
     cy.get('#submit-button').click()
 
     // Should be back on list page after submit
