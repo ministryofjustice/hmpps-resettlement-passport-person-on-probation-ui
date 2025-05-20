@@ -173,7 +173,7 @@ const mockedUserDetailsResponse = {
     email: 'john@test.com',
   },
   profile: {
-    tags: ['NO_FIXED_ABODE'],
+    tags: ['NO_FIXED_ABODE', 'HOME_ADAPTION_POST_RELEASE', 'MEET_CHILDREN'],
   },
 }
 
@@ -645,7 +645,7 @@ export default {
               urn: oneLoginUrn,
               title: 'Fish for trout',
               notes: 'Use bait',
-              dueDate: '2025-01-01',
+              dueDate: '2030-01-01',
             }),
           },
         ],
