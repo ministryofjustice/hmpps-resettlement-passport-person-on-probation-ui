@@ -128,7 +128,7 @@ const mockedAppointmentsResponse = (apptDate: Date) => {
       },
       {
         title: 'This is another past appointment',
-        contact: 'Dr X',
+        contact: 'Mr Smith',
         date: '2020-01-23',
         time: '10:45:00',
         dateTime: new Date('2020-01-23'),
