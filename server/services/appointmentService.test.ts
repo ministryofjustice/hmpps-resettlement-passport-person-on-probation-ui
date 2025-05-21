@@ -51,7 +51,7 @@ describe('AppointmentService', () => {
   })
 
   it('should fetch the appointment details with a new identifier', async () => {
-    const nomsId = 'A8731DY'
+    const nomsId = 'A1234BC'
     resettlementPassportApiClient.getAppointments.mockResolvedValue(mockedAppointmentResponse)
     const appointments = await appointmentService.getAllByNomsId(nomsId, 'session')
     expect(appointments.results.length).toBe(1)

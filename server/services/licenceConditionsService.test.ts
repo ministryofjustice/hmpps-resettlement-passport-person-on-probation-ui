@@ -53,7 +53,7 @@ describe('LicenceConditionsService', () => {
   })
 
   it('should fetch the licenceConditions details with a new identifier', async () => {
-    const nomsId = 'A8731DY'
+    const nomsId = 'A1234BC'
     resettlementPassportApiClient.getLicenceConditionsByNomsId.mockResolvedValue(mockedLicenceConditions)
     const result = await licenceConditionsService.getLicenceConditionsByNomsId(nomsId, 'session')
     expect(result).toBe(mockedLicenceConditions)
@@ -62,7 +62,7 @@ describe('LicenceConditionsService', () => {
   })
 
   it('should confirm a licence condition update has been seen and remove the cached data', async () => {
-    const nomsId = 'A8731DY'
+    const nomsId = 'A1234BC'
     resettlementPassportApiClient.confirmLicenceConditions.mockResolvedValue()
     await licenceConditionsService.confirmLicenceConditions(nomsId, 1, 'session')
     expect(loggerSpy).toHaveBeenCalledWith(`confirm licence conditions seen`)

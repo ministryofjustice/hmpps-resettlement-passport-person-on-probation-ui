@@ -9,7 +9,7 @@ const mockedResponse = {
   verified: true,
   creationDate: '2021-07-05T10:35:17',
   modifiedDate: '2021-07-05T10:35:17',
-  nomsId: 'G4161UF',
+  nomsId: 'G1234BC',
   oneLoginUrn,
 }
 

@@ -43,7 +43,7 @@ context('Knowledge verification', () => {
     cy.get('#dob-day').type('24')
     cy.get('#dob-month').type('10')
     cy.get('#dob-year').type('1982')
-    cy.get('#prisoner-number').type('G4161UF')
+    cy.get('#prisoner-number').type('G1234BC')
   }
 
   it('Should show error for future date of birth', () => {
@@ -58,7 +58,7 @@ context('Knowledge verification', () => {
     cy.get('#dob-day').type(String(today.getDate() + 1))
     cy.get('#dob-month').type(String(today.getMonth() + 1))
     cy.get('#dob-year').type(String(today.getFullYear()))
-    cy.get('#prisoner-number').type('G4161UF')
+    cy.get('#prisoner-number').type('G1234BC')
     cy.get('#submit').click()
     cy.get('.govuk-error-summary').should('contain.text', 'The date of birth must be in the past')
     cy.get('#dob-error').should('be.visible')

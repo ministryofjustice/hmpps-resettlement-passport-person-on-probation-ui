@@ -156,7 +156,7 @@ const mockedOtpResponse = {
   verified: true,
   creationDate: '2024-02-26T11:58:17.812884699',
   modifiedDate: '2024-02-26T11:58:17.812884699',
-  nomsId: 'G4161UF',
+  nomsId: 'G1234BC',
   oneLoginUrn: 'urn:fdc:gov.asdasdasd',
 }
 
@@ -237,7 +237,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF?includeProfileTags=true`,
+        url: `/rpApi/prisoner/G1234BC?includeProfileTags=true`,
       },
       response: {
         status: 200,
@@ -249,7 +249,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF?includeProfileTags=true`,
+        url: `/rpApi/prisoner/G1234BC?includeProfileTags=true`,
       },
       response: {
         status: 200,
@@ -266,7 +266,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF?includeProfileTags=true`,
+        url: `/rpApi/prisoner/G1234BC?includeProfileTags=true`,
       },
       response: {
         status: 200,
@@ -283,7 +283,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false&includePreRelease=false`,
+        url: `/rpApi/prisoner/G1234BC/appointments?futureOnly=false&includePreRelease=false`,
       },
       response: {
         status: 404,
@@ -295,7 +295,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false&includePreRelease=false`,
+        url: `/rpApi/prisoner/G1234BC/appointments?futureOnly=false&includePreRelease=false`,
       },
       response: {
         status: 200,
@@ -307,7 +307,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false&includePreRelease=false`,
+        url: `/rpApi/prisoner/G1234BC/appointments?futureOnly=false&includePreRelease=false`,
       },
       response: {
         status: 500,
@@ -319,7 +319,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false&includePreRelease=false`,
+        url: `/rpApi/prisoner/G1234BC/appointments?futureOnly=false&includePreRelease=false`,
       },
       response: {
         status: 200,
@@ -331,7 +331,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/appointments?futureOnly=false&includePreRelease=false`,
+        url: `/rpApi/prisoner/G1234BC/appointments?futureOnly=false&includePreRelease=false`,
       },
       response: {
         status: 200,
@@ -343,7 +343,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
+        url: `/rpApi/prisoner/G1234BC/licence-condition?includeChangeNotify=true`,
       },
       response: {
         status: 200,
@@ -355,7 +355,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
+        url: `/rpApi/prisoner/G1234BC/licence-condition?includeChangeNotify=true`,
       },
       response: {
         status: 200,
@@ -367,7 +367,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
+        url: `/rpApi/prisoner/G1234BC/licence-condition?includeChangeNotify=true`,
       },
       response: {
         status: 200,
@@ -379,7 +379,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
+        url: `/rpApi/prisoner/G1234BC/licence-condition?includeChangeNotify=true`,
       },
       response: {
         status: 200,
@@ -391,7 +391,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
+        url: `/rpApi/prisoner/G1234BC/licence-condition?includeChangeNotify=true`,
       },
       response: {
         status: 200,
@@ -403,7 +403,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition?includeChangeNotify=true`,
+        url: `/rpApi/prisoner/G1234BC/licence-condition?includeChangeNotify=true`,
       },
       response: {
         status: 404,
@@ -415,7 +415,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/prisoner/G4161UF/licence-condition/id/101/condition/1008/image`,
+        url: `/rpApi/prisoner/G1234BC/licence-condition/id/101/condition/1008/image`,
       },
       response: {
         status: 200,
@@ -427,7 +427,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: '/rpApi/prisoner/G4161UF/documents?category=LICENCE_CONDITIONS',
+        url: '/rpApi/prisoner/G1234BC/documents?category=LICENCE_CONDITIONS',
       },
       response: {
         status: 200,
@@ -444,7 +444,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: '/rpApi/prisoner/G4161UF/documents?category=LICENCE_CONDITIONS',
+        url: '/rpApi/prisoner/G1234BC/documents?category=LICENCE_CONDITIONS',
       },
       response: {
         status: 200,
@@ -456,7 +456,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: '/rpApi/prisoner/G4161UF/documents/latest/download?category=LICENCE_CONDITIONS',
+        url: '/rpApi/prisoner/G1234BC/documents/latest/download?category=LICENCE_CONDITIONS',
       },
       response: {
         status: 500,
@@ -471,7 +471,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: '/rpApi/prisoner/G4161UF/documents/latest/download?category=LICENCE_CONDITIONS',
+        url: '/rpApi/prisoner/G1234BC/documents/latest/download?category=LICENCE_CONDITIONS',
       },
       response: {
         status: 200,
@@ -493,7 +493,7 @@ export default {
               urn: oneLoginUrn,
               email: 'user1@example.com',
               dateOfBirth: '1982-10-24',
-              nomsId: 'G4161UF',
+              nomsId: 'G1234BC',
             }),
             ignoreArrayOrder: true,
           },
@@ -519,7 +519,7 @@ export default {
               urn: oneLoginUrn,
               email: 'user1@example.com',
               dateOfBirth: '1982-10-24',
-              nomsId: 'G4161UF',
+              nomsId: 'G1234BC',
             }),
             ignoreArrayOrder: true,
           },
@@ -535,7 +535,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/person/G4161UF/todo`,
+        url: `/rpApi/person/G1234BC/todo`,
       },
       response: {
         status: 200,
@@ -547,7 +547,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: `/rpApi/person/G4161UF/todo`,
+        url: `/rpApi/person/G1234BC/todo`,
       },
       response: {
         status: 200,
@@ -559,7 +559,7 @@ export default {
     stubFor({
       request: {
         method: 'PATCH',
-        url: '/rpApi/person/G4161UF/todo/81fce0af-845e-4753-871b-3809d04c888a',
+        url: '/rpApi/person/G1234BC/todo/81fce0af-845e-4753-871b-3809d04c888a',
       },
       response: {
         status: 200,
@@ -582,7 +582,7 @@ export default {
     stubFor({
       request: {
         method: 'POST',
-        url: '/rpApi/person/G4161UF/todo',
+        url: '/rpApi/person/G1234BC/todo',
         bodyPatterns: [
           {
             equalToJson: JSON.stringify({
@@ -615,7 +615,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        url: '/rpApi/person/G4161UF/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
+        url: '/rpApi/person/G1234BC/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
       },
       response: {
         status: 200,
@@ -638,7 +638,7 @@ export default {
     stubFor({
       request: {
         method: 'PUT',
-        url: '/rpApi/person/G4161UF/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
+        url: '/rpApi/person/G1234BC/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
         bodyPatterns: [
           {
             equalToJson: JSON.stringify({
@@ -671,7 +671,7 @@ export default {
     stubFor({
       request: {
         method: 'DELETE',
-        url: '/rpApi/person/G4161UF/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
+        url: '/rpApi/person/G1234BC/todo/9951967c-f7e0-4f54-945a-aa0abe376536',
       },
       response: {
         status: 204,
