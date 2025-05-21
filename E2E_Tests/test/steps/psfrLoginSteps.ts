@@ -13,7 +13,7 @@ Given('the user has access to their first-time ID code', async function () {
   const url = process.env.PSFRURL || ''
   await pageFixture.page.goto(url)
   await commonPage.logIn()
-  await pageFixture.page.goto(`${url}/prisoner-overview/?prisonerNumber=A8731DY`)
+  await pageFixture.page.goto(`${url}/prisoner-overview/?prisonerNumber=A1234BC`)
   await pageFixture.page.getByText("Generate First-time ID code").click()
   const otpCode = await (await pageFixture.page.waitForSelector('#otp-code')).innerText()
   fs.writeFile('./otp.txt', otpCode, (err) => {
@@ -27,7 +27,7 @@ Given('the user has access to their first-time ID code', async function () {
 Then('the user requests for their first-time ID code', async function () {
   commonPage = new CommonPage(pageFixture.page)
   const url = process.env.PSFRURL || ''
-  await pageFixture.page.goto(`${url}/prisoner-overview/?prisonerNumber=A8731DY`)
+  await pageFixture.page.goto(`${url}/prisoner-overview/?prisonerNumber=A1234BC`)
   await pageFixture.page.getByText("Generate First-time ID code").click()
   const otpCode = await (await pageFixture.page.waitForSelector('#otp-code')).innerText()
   fs.writeFile('./otp.txt', otpCode, (err) => {

@@ -1,7 +1,7 @@
 import { describe, expect } from 'https://jslib.k6.io/k6chaijs/4.3.4.3/index.js'
 import { Httpx } from 'https://jslib.k6.io/httpx/0.1.0/index.js'
 
-const nomdId2 = 'A8731DY'
+const nomdId2 = 'A1234BC'
 
 const authSession = new Httpx({ baseURL: 'https://sign-in-dev.hmpps.service.justice.gov.uk/' })
 const session = new Httpx({

@@ -21,7 +21,7 @@ const mockedOtpResponse = {
   verified: true,
   creationDate: '2024-02-26T11:58:17.812884699',
   modifiedDate: '2024-02-26T11:58:17.812884699',
-  nomsId: 'G4161UF',
+  nomsId: 'G1234BC',
   oneLoginUrn: 'urn:fdc:gov.asdasdasd',
 }
 

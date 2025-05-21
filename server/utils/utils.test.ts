@@ -147,14 +147,14 @@ describe('formatAppointmentLocation', () => {
       {
         buildingName: 'The health centre',
         buildingNumber: '123',
-        streetName: 'Main Street',
-        district: 'Headingley',
+        streetName: 'Fake Street',
+        district: 'None',
         town: 'Leeds',
         county: 'West Yorkshire',
         postcode: 'LS1 2AB',
         description: null,
       },
-      'The health centre, 123, Main Street, Headingley, Leeds, West Yorkshire, LS1 2AB',
+      'The health centre, 123, Fake Street, None, Leeds, West Yorkshire, LS1 2AB',
     ],
     [
       {
@@ -187,14 +187,14 @@ describe('mapsLinkFromAppointmentLocation', () => {
       {
         buildingName: 'The health centre',
         buildingNumber: '123',
-        streetName: 'Main Street',
-        district: 'Headingley',
+        streetName: 'Fake Street',
+        district: 'None',
         town: 'Leeds',
         county: 'West Yorkshire',
         postcode: 'LS1 2AB',
         description: null,
       },
-      'https://www.google.com/maps/?q=123+Main Street+Leeds+LS1 2AB',
+      'https://www.google.com/maps/?q=123+Fake Street+Leeds+LS1 2AB',
     ],
     [
       {
