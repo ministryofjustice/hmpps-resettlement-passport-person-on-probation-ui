@@ -1,5 +1,3 @@
-import encoding from 'k6/encoding'
-
 export class GovOneLogin {
   constructor(page) {
     this.page = page;
@@ -19,11 +17,6 @@ export class GovOneLogin {
   }
 
   async gotoIntegrationLogin() {
-    await this.page.goto('https://integration-user:winter2021@signin.integration.account.gov.uk/');
-  }
-
-  async submitLogin() {
-    await this.passwordField.type('rp123#');
-    await this.continue0.click();
+    await this.page.goto('https://signin.integration.account.gov.uk/');
   }
 }
