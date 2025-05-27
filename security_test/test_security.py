@@ -23,7 +23,6 @@ def run(playwright: Playwright):
     browser = chromium.launch(headless=True, proxy={"server": proxy_url})
     context = browser.new_context(ignore_https_errors=True)
     page = context.new_page()
-    page.goto("https://integration-user:winter2021@signin.integration.account.gov.uk/")
     page.goto("https://person-on-probation-user-ui-dev.hmpps.service.justice.gov.uk/")
     page.locator('[data-qa="start-btn"]').click()
     page.locator('//*[@id="sign-in-button"]').click()

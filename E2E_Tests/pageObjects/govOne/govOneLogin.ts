@@ -24,7 +24,7 @@ export default class GovOneLogin {
   }
 
   async gotoIntegrationLogin() {
-    await this.page.goto('https://integration-user:winter2021@signin.integration.account.gov.uk/');
+    await this.page.goto('https://signin.integration.account.gov.uk/');
     await this.page.waitForLoadState();
   }
   async shouldFindTitle() {
