@@ -67,6 +67,11 @@ async function init(): Promise<Client> {
         ui_locales: 'en',
       },
       usePKCE: false,
+      extras: {
+        clientAssertionPayload: {
+          aud: [...new Set([issuer.issuer, issuer.token_endpoint].filter(Boolean))],
+        },
+      },
     },
     verify,
   )
