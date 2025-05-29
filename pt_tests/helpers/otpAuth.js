@@ -1,5 +1,3 @@
-import { crypto } from 'k6/experimental/webcrypto';
-
 export async function totp(key, secs = 30, digits = 6){
 	return hotp(unbase32(key), pack64bu(Date.now() / 1000 / secs), digits);
 }
@@ -32,11 +30,3 @@ function pack64bu(v){
 	d.setUint32(4, v);
 	return b;
 }
-
-
-async function test(){
-    const testOTP = await totp("HEWGKXC2TUG4SI32C3NPQMPIBRHGC43E");
-    console.log(testOTP);
-}
-
-test();
