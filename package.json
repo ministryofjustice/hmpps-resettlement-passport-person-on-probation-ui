@@ -150,7 +150,7 @@
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.9.1",
     "@google-cloud/local-auth": "^3.0.1",
-    "@ministryofjustice/hmpps-precommit-hooks": "^0.0.2",
+    "@ministryofjustice/hmpps-precommit-hooks": "^0.0.1",
     "@playwright/test": "^1.52.0",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.9",
