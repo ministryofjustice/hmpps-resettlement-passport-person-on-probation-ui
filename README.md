@@ -4,70 +4,32 @@
 
 Template github repo used for new Typescript based projects.
 
+## Requirements
+
+* Node 20
+* Docker
+* kubectl
+
 ## Dev setup
 
-Install dependencies using `npm install`, ensuring you are using v20.11.0 (npm v10.4.0)
-Note: If using `nvm` run `nvm use`
+* Install dependencies using `npm install`, ensuring you are using node 20 (if using `nvm` run `nvm use`)
+* Create a `.env` file at the root of the project and copy the contents from `.env.example` into it
+* Populate all the redacted variables in `.env` using the matching values from the kubernetes dev environment
 
-### One Login credentials
-```
-GOVUK_ONE_LOGIN_URL=https://oidc.integration.account.gov.uk
-GOVUK_ONE_LOGIN_VTR=LOW # LOW will skip the OTP verification during sign-in
-GOVUK_ONE_LOGIN_CLIENT_ID="<govuk_one_login_client_id>"
-GOVUK_ONE_LOGIN_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----
-<private key contents>
------END PRIVATE KEY-----"
-GOVUK_ONE_LOGIN_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----
-<public key contents>
------END PUBLIC KEY-----"
-```
+You can get these variables from kubernetes by running:
 
-You can grab these values from the namespace like so
-`kubectl -n hmpps-resettlement-passport-<env> get secrets govuk-one-login -o json | jq '.data | map_values(@base64d)'`
+`kubectl -n hmpps-resettlement-passport-dev get secrets <name> -o json | jq '.data | map_values(@base64d)'`
 
-If the credentials above are lost, you can re-enroll the service here https://admin.sign-in.service.gov.uk
-Recreate the secret in the k8s namespace:
-`kubectl -n hmpps-resettlement-passport-<env> create secret generic govuk-one-login --from-file=GOVUK_ONE_LOGIN_CLIENT_ID=client-id.txt --from-file=GOVUK_ONE_LOGIN_PRIVATE_KEY=private_key.pem --from-file=GOVUK_ONE_LOGIN_PUBLIC_KEY=public_key.pem`
+e.g.:
 
-### ZenDesk credentials
-```
-ZENDESK_USER
-ZENDESK_TOKEN
-```
-You can grab these values from the namespace like so
-`kubectl -n hmpps-resettlement-passport-<env> get secrets zendesk -o json | jq '.data | map_values(@base64d)'`
+`kubectl -n hmpps-resettlement-passport-dev get secrets govuk-one-login -o json | jq '.data | map_values(@base64d)'`
 
-Set the values with:
-`kubectl -n hmpps-resettlement-passport-<env> create secret generic zendesk --from-literal=ZENDESK_USER=<user>  --from-literal=ZENDESK_TOKEN=<token>`
+**Important**: You must replace \n with a line break for the PRIVATE and PUBLIC keys
 
-
-### Contentful credentials
-```
-CONTENTFUL_ACCESS_TOKEN
-CONTENTFUL_PREVIEW_TOKEN
-CONTENTFUL_SPACE_ID
-```
-You can grab these values from the namespace like so
-`kubectl -n hmpps-resettlement-passport-<env> get secrets contentful -o json | jq '.data | map_values(@base64d)'`
-
-Set the values with:
-`kubectl -n hmpps-resettlement-passport-<env> create secret generic contentful --from-literal=CONTENTFUL_ACCESS_TOKEN=<token1>  --from-literal=CONTENTFUL_PREVIEW_TOKEN=<token2>  --from-literal=CONTENTFUL_SPACE_ID=<spaceid>`
-
-
-### Running the app for development
+## Running locally
 Run `./dev`
 
-### Run linter
-
-`npm run lint`
-
-### Run prettier format
-
-`npm run format`
-
-### Run required deps ugprade check
-
-`npm run outdated-required`
+## Testing
 
 ### Run tests
 
@@ -79,9 +41,23 @@ Run: `./int-test`
 
 Integration tests (Cypress) instructions [here](./integration_tests/README.md)
 
-## Performance tests
+### Performance tests
 
 Performance tests (k6) instructions [here](./pt_tests/README.md)
+
+## Other useful commands
+
+### Run linter
+
+`npm run lint`
+
+### Run prettier format
+
+`npm run format`
+
+### Run required deps upgrade check
+
+`npm run outdated-required`
 
 ## Change log
 
@@ -114,7 +90,8 @@ This app makes use of feature flags stored in an S3 bucket. It can default to a 
 There is another file called `integration_tests/flags.restore.json`, which is used by integration tests to change and restore the flag values for testing. For example, you can change the appointments feature flag and test the service with the flag turned on or off.
 
 To amend flags in the S3 bucket, make use of the `k_exec_cp` utility. You can set this in you `.bashrc` or `.zshrc`
-```
+
+```bash
 function k_exec_cp() {
   echo "##### You are on $(kubectl config view --minify -o jsonpath='{..namespace}' | sed "s/.*-//") #####"
   echo "Useful commands:"
@@ -123,4 +100,14 @@ function k_exec_cp() {
   PODNAME=$(kubectl get pods | grep "cloud-platform-" | cut -d " " -f1 2>&1)
   kubectl exec --stdin --tty ${PODNAME} -- /bin/sh -c "cd /tmp && /bin/sh"
 }
+```
+
+## One login
+
+If the one login credentials are ever lost, you can re-enroll the service here https://admin.sign-in.service.gov.uk
+
+And recreate the secret in the k8s namespace:
+
+```bash
+kubectl -n hmpps-resettlement-passport-<env> create secret generic govuk-one-login --from-file=GOVUK_ONE_LOGIN_CLIENT_ID=client-id.txt --from-file=GOVUK_ONE_LOGIN_PRIVATE_KEY=private_key.pem --from-file=GOVUK_ONE_LOGIN_PUBLIC_KEY=public_key.pem 
 ```
