@@ -10,23 +10,14 @@ Template github repo used for new Typescript based projects.
 * Docker
 * kubectl
 
-## Dev setup
+## Initial setup
 
 * Install dependencies using `npm install`, ensuring you are using node 20 (if using `nvm` run `nvm use`)
 * Create a `.env` file at the root of the project and copy the contents from `.env.example` into it
-* Populate all the redacted variables in `.env` using the matching values from the kubernetes dev environment
-
-You can get these variables from kubernetes by running:
-
-`kubectl -n hmpps-resettlement-passport-dev get secrets <name> -o json | jq '.data | map_values(@base64d)'`
-
-e.g.:
-
-`kubectl -n hmpps-resettlement-passport-dev get secrets govuk-one-login -o json | jq '.data | map_values(@base64d)'`
-
-**Important**: You must replace \n with a line break for the PRIVATE and PUBLIC keys
+* Populate all the redacted variables in `.env` using the matching values from the kubernetes dev environment (instructions included in comments)
 
 ## Running locally
+
 Run `./dev`
 
 ## Testing
