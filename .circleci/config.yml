@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@8
+  hmpps: ministryofjustice/hmpps@11
   slack: circleci/slack@4.12.5
   python: circleci/python@2.0.3
 
