@@ -1,30 +1,23 @@
 version: 2.1
-
 orbs:
   hmpps: ministryofjustice/hmpps@11
   slack: circleci/slack@4.12.5
   python: circleci/python@2.0.3
-
-
 parameters:
   alerts-slack-channel:
     type: string
     # Normally team specific alert channel e.g. hmpps_tech_alerts, syscon-alerts, dps_sed_alerts
     # This is to avoid a general alert dumping ground that no-one then monitors
     default: dps_alerts_security
-
   releases-slack-channel:
     type: string
     default: resettlement_passport_releases
-
   node-version:
     type: string
     default: 20.12-browsers
-
   redis-version:
     type: string
     default: '7.0'
-
 executors:
   # same as hmpps/node_redis executor with the addition of gotenberg container
   zap-tests-executor:
@@ -35,7 +28,6 @@ executors:
         command: ["zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config api.disablekey=true"]
     resource_class: large
     working_directory: ~/app
-
 jobs:
   build:
     executor:
@@ -69,7 +61,6 @@ jobs:
             - build
             - dist
             - assets/stylesheets
-
   unit_test:
     executor:
       name: hmpps/node
@@ -85,7 +76,6 @@ jobs:
           path: test_results
       - store_artifacts:
           path: test_results/unit-test-reports.html
-
   zap_test:
     circleci_ip_ranges: true
     executor: zap-tests-executor
@@ -102,7 +92,6 @@ jobs:
             pip install -r ./security_test/requirements.txt
             playwright install --with-deps
             python3 ./security_test/test_security.py
-
   e2e_test:
     circleci_ip_ranges: true
     executor:
@@ -134,7 +123,6 @@ jobs:
             npm run end-to-end-test
       - store_artifacts:
           path: test_results
-
   cms_test:
     circleci_ip_ranges: true
     executor:
@@ -165,8 +153,7 @@ jobs:
             mkdir -p test_results
             npm run cms-test
       - store_artifacts:
-          path: test_results          
-
+          path: test_results
   api_smoke_test:
     circleci_ip_ranges: true
     docker:
@@ -180,7 +167,6 @@ jobs:
             EXECUTION_TYPE: apiSmoke
             PROCESS: dev
             APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
-  
   api_test:
     circleci_ip_ranges: true
     docker:
@@ -193,8 +179,7 @@ jobs:
           environment:
             EXECUTION_TYPE: api
             PROCESS: dev
-            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG} 
-
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
   browser_smoke_test:
     circleci_ip_ranges: true
     docker:
@@ -208,7 +193,6 @@ jobs:
             EXECUTION_TYPE: smoke
             PROCESS: dev
             APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
-
   browser_smoke_test_preprod:
     circleci_ip_ranges: true
     docker:
@@ -221,8 +205,7 @@ jobs:
           environment:
             EXECUTION_TYPE: smokePreProd
             PROCESS: preprod
-            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}        
-
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
   browser_stress_test:
     circleci_ip_ranges: true
     docker:
@@ -236,7 +219,6 @@ jobs:
             EXECUTION_TYPE: stress
             PROCESS: dev
             APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
-
   browser_load_test:
     circleci_ip_ranges: true
     docker:
@@ -250,7 +232,6 @@ jobs:
             EXECUTION_TYPE: load
             PROCESS: dev
             APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
-
   browser_soak_test:
     circleci_ip_ranges: true
     docker:
@@ -264,7 +245,6 @@ jobs:
             EXECUTION_TYPE: soak
             PROCESS: dev
             APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
-
   integration_test:
     executor:
       name: hmpps/node_redis
@@ -309,7 +289,6 @@ jobs:
           path: integration_tests/videos
       - store_artifacts:
           path: integration_tests/screenshots
-
 workflows:
   version: 2
   build-test-and-deploy:
@@ -379,7 +358,7 @@ workflows:
               only:
                 - main
           requires:
-            - deploy_preprod    
+            - deploy_preprod
       - request-prod-approval:
           type: approval
           requires:
@@ -395,47 +374,6 @@ workflows:
           requires:
             - request-prod-approval
           helm_timeout: 5m
-
-  security:
-    triggers:
-      - schedule:
-          cron: "24 9 * * 1-5"
-          filters:
-            branches:
-              only:
-                - main
-    jobs:
-      - hmpps/npm_outdated:
-          slack_channel: << pipeline.parameters.alerts-slack-channel >>
-          context:
-            - hmpps-common-vars
-      - hmpps/npm_security_audit:
-          slack_channel: << pipeline.parameters.alerts-slack-channel >>
-          context:
-            - hmpps-common-vars
-      - hmpps/trivy_latest_scan:
-          slack_channel: << pipeline.parameters.alerts-slack-channel >>
-          context:
-            - hmpps-common-vars
-      - hmpps/veracode_pipeline_scan:
-          slack_channel: << pipeline.parameters.alerts-slack-channel >>
-          context:
-            - veracode-credentials
-            - hmpps-common-vars
-  security-weekly:
-    triggers:
-      - schedule:
-          cron: "24 9 * * 1"
-          filters:
-            branches:
-              only:
-                - main
-    jobs:
-      - hmpps/veracode_policy_scan:
-          slack_channel: << pipeline.parameters.alerts-slack-channel >>
-          context:
-            - veracode-credentials
-            - hmpps-common-vars
   cms-accessibility:
     triggers:
       - schedule:
@@ -449,8 +387,7 @@ workflows:
           filters:
             branches:
               only:
-                - main    
-
+                - main
   security-daily:
     triggers:
       - schedule:
