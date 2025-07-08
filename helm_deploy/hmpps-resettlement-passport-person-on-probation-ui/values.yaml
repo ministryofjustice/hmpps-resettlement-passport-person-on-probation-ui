@@ -5,7 +5,7 @@ generic-service:
   replicaCount: 4
 
   image:
-    repository: quay.io/hmpps/hmpps-resettlement-passport-person-on-probation-ui
+    repository: ghcr.io/ministryofjustice/hmpps-resettlement-passport-person-on-probation-ui
     tag: app_version # override at deployment time
     port: 3000
 
@@ -34,13 +34,13 @@ generic-service:
     REDIS_ENABLED: "true"
     REDIS_TLS_ENABLED: "true"
     TOKEN_VERIFICATION_ENABLED: "false"
-    APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY);IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
     ZENDESK_API_URL: "https://ministryofjustice.zendesk.com"
     CONTENTFUL_ENABLED: "true"
     CONTENTFUL_SHOW_PREVIEW: "false"
     CONTENTFUL_REFRESH_SECONDS: 60
     RATE_LIMIT_MAX_REQUESTS: 5
     RATE_LIMIT_WINDOW_MINUTES: 10
+    APPLICATIONINSIGHTS_CONFIGURATION_FILE: applicationinsights.json
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
@@ -49,10 +49,11 @@ generic-service:
 
   namespace_secrets:
     hmpps-resettlement-passport-person-on-probation-ui:
-      APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
       SESSION_SECRET: "SESSION_SECRET"
       USER_API_CLIENT_ID: "USER_API_CLIENT_ID"
       USER_API_CLIENT_SECRET: "USER_API_CLIENT_SECRET"
+    hmpps-resettlement-passport-person-on-probation-ui-application-insights:
+      APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
     govuk-one-login:
       GOVUK_ONE_LOGIN_CLIENT_ID: "GOVUK_ONE_LOGIN_CLIENT_ID"
       GOVUK_ONE_LOGIN_PRIVATE_KEY: "GOVUK_ONE_LOGIN_PRIVATE_KEY"

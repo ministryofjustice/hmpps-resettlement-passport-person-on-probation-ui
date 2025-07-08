@@ -154,45 +154,45 @@ jobs:
             npm run cms-test
       - store_artifacts:
           path: test_results
-#  api_smoke_test:
-#    circleci_ip_ranges: true
-#    docker:
-#      - image: grafana/k6:latest
-#    steps:
-#      - checkout
-#      - run:
-#          command: |
-#            k6 run -e CLIENT_ID=${API_CLIENT_ID} -e CLIENT_SECRET=${API_CLIENT_SECRET} pt_tests/tests/run.js
-#          environment:
-#            EXECUTION_TYPE: apiSmoke
-#            PROCESS: dev
-#            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
-#  api_test:
-#    circleci_ip_ranges: true
-#    docker:
-#      - image: grafana/k6:latest
-#    steps:
-#      - checkout
-#      - run:
-#          command: |
-#            k6 run -e CLIENT_ID=${API_CLIENT_ID} -e CLIENT_SECRET=${API_CLIENT_SECRET} pt_tests/tests/run.js
-#          environment:
-#            EXECUTION_TYPE: api
-#            PROCESS: dev
-#            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
-#  browser_smoke_test:
-#    circleci_ip_ranges: true
-#    docker:
-#      - image: grafana/k6:latest-with-browser
-#    steps:
-#      - checkout
-#      - run:
-#          command: |
-#            k6 run pt_tests/tests/run.js --no-setup
-#          environment:
-#            EXECUTION_TYPE: smoke
-#            PROCESS: dev
-#            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
+  api_smoke_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run -e CLIENT_ID=${API_CLIENT_ID} -e CLIENT_SECRET=${API_CLIENT_SECRET} pt_tests/tests/run.js
+          environment:
+            EXECUTION_TYPE: apiSmoke
+            PROCESS: dev
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
+  api_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run -e CLIENT_ID=${API_CLIENT_ID} -e CLIENT_SECRET=${API_CLIENT_SECRET} pt_tests/tests/run.js
+          environment:
+            EXECUTION_TYPE: api
+            PROCESS: dev
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
+  browser_smoke_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest-with-browser
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run pt_tests/tests/run.js --no-setup
+          environment:
+            EXECUTION_TYPE: smoke
+            PROCESS: dev
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
   browser_smoke_test_preprod:
     circleci_ip_ranges: true
     docker:
@@ -206,19 +206,19 @@ jobs:
             EXECUTION_TYPE: smokePreProd
             PROCESS: preprod
             APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
-#  browser_stress_test:
-#    circleci_ip_ranges: true
-#    docker:
-#      - image: grafana/k6:latest-with-browser
-#    steps:
-#      - checkout
-#      - run:
-#          command: |
-#            k6 run pt_tests/tests/run.js --no-setup
-#          environment:
-#            EXECUTION_TYPE: stress
-#            PROCESS: dev
-#            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
+  browser_stress_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest-with-browser
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run pt_tests/tests/run.js --no-setup
+          environment:
+            EXECUTION_TYPE: stress
+            PROCESS: dev
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
   browser_load_test:
     circleci_ip_ranges: true
     docker:
@@ -232,19 +232,19 @@ jobs:
             EXECUTION_TYPE: load
             PROCESS: dev
             APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
-#  browser_soak_test:
-#    circleci_ip_ranges: true
-#    docker:
-#      - image: grafana/k6:latest-with-browser
-#    steps:
-#      - checkout
-#      - run:
-#          command: |
-#            k6 run pt_tests/tests/run.js --no-setup
-#          environment:
-#            EXECUTION_TYPE: soak
-#            PROCESS: dev
-#            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
+  browser_soak_test:
+    circleci_ip_ranges: true
+    docker:
+      - image: grafana/k6:latest-with-browser
+    steps:
+      - checkout
+      - run:
+          command: |
+            k6 run pt_tests/tests/run.js --no-setup
+          environment:
+            EXECUTION_TYPE: soak
+            PROCESS: dev
+            APPOINTMENT_FLAG: ${APPOINTMENT_FLAG}
   integration_test:
     executor:
       name: hmpps/node_redis
@@ -291,31 +291,114 @@ jobs:
           path: integration_tests/screenshots
 workflows:
   version: 2
-#  cms-accessibility:
-#    triggers:
-#      - schedule:
-#          cron: "1 0,6,12,18 * * *"
-#          filters:
-#            branches:
-#              only:
-#                - main
-#    jobs:
-#      - cms_test:
-#          filters:
-#            branches:
-#              only:
-#                - main
-#  security-daily:
-#    triggers:
-#      - schedule:
-#          cron: "1 12 * * 1-5"
-#          filters:
-#            branches:
-#              only:
-#                - main
-#    jobs:
-#      - zap_test:
-#          filters:
-#            branches:
-#              only:
-#                - main
+  build-test-and-deploy:
+    jobs:
+      - build:
+          filters:
+            tags:
+              ignore: /.*/
+      - unit_test:
+          requires:
+            - build
+      - integration_test:
+          requires:
+            - build
+      - e2e_test:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - deploy_dev
+      - browser_load_test:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - e2e_test
+      - hmpps/helm_lint:
+          name: helm_lint
+      - hmpps/build_docker:
+          name: build_docker
+          filters:
+            branches:
+              only:
+                - main
+      - hmpps/deploy_env:
+          name: deploy_dev
+          env: "dev"
+          context: hmpps-common-vars
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - helm_lint
+            - unit_test
+            - integration_test
+            - build_docker
+          helm_timeout: 5m
+      - request-preprod-approval:
+          type: approval
+          requires:
+            - deploy_dev
+      - hmpps/deploy_env:
+          name: deploy_preprod
+          env: "preprod"
+          context:
+            - hmpps-common-vars
+            - hmpps-resettlement-passport-person-on-probation-ui-preprod
+          requires:
+            - request-preprod-approval
+          helm_timeout: 5m
+      - browser_smoke_test_preprod:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - deploy_preprod
+      - request-prod-approval:
+          type: approval
+          requires:
+            - deploy_preprod
+      - hmpps/deploy_env:
+          name: deploy_prod
+          env: "prod"
+          slack_notification: true
+          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
+          context:
+            - hmpps-common-vars
+            - hmpps-resettlement-passport-person-on-probation-ui-prod
+          requires:
+            - request-prod-approval
+          helm_timeout: 5m
+  cms-accessibility:
+    triggers:
+      - schedule:
+          cron: "1 0,6,12,18 * * *"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - cms_test:
+          filters:
+            branches:
+              only:
+                - main
+  security-daily:
+    triggers:
+      - schedule:
+          cron: "1 12 * * 1-5"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - zap_test:
+          filters:
+            branches:
+              only:
+                - main
