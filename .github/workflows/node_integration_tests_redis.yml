@@ -43,11 +43,6 @@ jobs:
         shell: bash
         run: |
           curl -o wiremock.jar https://repo1.maven.org/maven2/org/wiremock/wiremock-standalone/3.9.1/wiremock-standalone-3.9.1.jar
-#      - name: Set Contentful environment variables
-#        shell: bash
-#        run: |
-#          export CONTENTFUL_ACCESS_TOKEN=${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
-#          export CONTENTFUL_SPACE_ID=${{ secrets.CONTENTFUL_SPACE_ID }}
       - name: Prepare and run integration tests
         id: integration-tests
         shell: bash
@@ -56,8 +51,6 @@ jobs:
           sleep 5
           export CONTENTFUL_ACCESS_TOKEN=${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
           export CONTENTFUL_SPACE_ID=${{ secrets.CONTENTFUL_SPACE_ID }}
-          echo $CONTENTFUL_ACCESS_TOKEN
-          echo $CONTENTFUL_SPACE_ID
           nohup npm run start-feature &
           sleep 5
           npm run int-test
