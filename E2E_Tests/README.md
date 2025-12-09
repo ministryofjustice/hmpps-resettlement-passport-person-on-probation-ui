@@ -35,5 +35,5 @@ This is a Cucumber BDD Typescript Project using Playwright.
      - PSFRURL = https://resettlement-passport-ui-dev.hmpps.service.justice.gov.uk/
      - USERNAME = DPS Username
      - PASSWORD = DPS Password
-- Install Dependencies : npm i 
+- Install Dependencies : npm run setup 
 - Run Tests : npm run end-to-end-test
