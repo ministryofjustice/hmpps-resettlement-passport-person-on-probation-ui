@@ -11,7 +11,7 @@ Template github repo used for new Typescript based projects.
 
 ## Initial setup
 
-* Install dependencies using `npm install`, ensuring you are using node 20 (if using `nvm` run `nvm use`)
+* Install dependencies using `npm run setup`, ensuring you are using node 20 (if using `nvm` run `nvm use`)
 * Create a `.env` file at the root of the project and copy the contents from `.env.example` into it
 * Populate all the redacted variables in `.env` using the matching values from the kubernetes dev environment (instructions included in comments)
 
