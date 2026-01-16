@@ -110,7 +110,7 @@
     "@contentful/rich-text-html-renderer": "^16.6.10",
     "@contentful/rich-text-types": "^16.8.5",
     "@ministryofjustice/frontend": "^2.2.5",
-    "@types/jsonwebtoken": "^9.0.9",
+    "@types/jsonwebtoken": "^9.0.10",
     "agentkeepalive": "^4.6.0",
     "applicationinsights": "^2.9.7",
     "body-parser": "^1.20.2",
