@@ -5,6 +5,8 @@ ARG BUILD_NUMBER
 ARG GIT_REF
 ARG GIT_BRANCH
 
+LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
+
 # Cache breaking and ensure required build / git args defined
 RUN test -n "$BUILD_NUMBER" || (echo "BUILD_NUMBER not set" && false)
 RUN test -n "$GIT_REF" || (echo "GIT_REF not set" && false)
@@ -18,12 +20,9 @@ ENV GIT_BRANCH=${GIT_BRANCH}
 # Stage: build assets
 FROM base as build
 
-ARG BUILD_NUMBER
-ARG GIT_REF
-ARG GIT_BRANCH
-
 COPY package*.json ./
 RUN CYPRESS_INSTALL_BINARY=0 npm run setup --no-audit
+RUN npm run setup
 ENV NODE_ENV='production'
 
 COPY . .
