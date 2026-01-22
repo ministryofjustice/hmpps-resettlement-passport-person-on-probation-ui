@@ -43,8 +43,8 @@
     "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
   "engines": {
-    "node": "^20",
-    "npm": "^10"
+    "node": "^24",
+    "npm": "^11"
   },
   "jest": {
     "transform": {
@@ -216,6 +216,18 @@
     "nise": {
       "path-to-regexp": "^8.1.0"
     },
-    "cookie": "0.7.2"
+    "cookie": "0.7.2",
+    "assertion-error-formatter": {
+      "diff": "8.0.3"
+    },
+    "sinon": {
+      "diff": "8.0.3"
+    },
+    "mocha": {
+      "diff": "8.0.3"
+    },
+    "ts-node": {
+      "diff": "8.0.3"
+    }
   }
 }

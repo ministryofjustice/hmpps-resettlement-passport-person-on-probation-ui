@@ -25,6 +25,7 @@ describe('FeatureFlagsService', () => {
   beforeEach(() => {
     config.redis.enabled = true
     jest.mocked(createRedisClient).mockReturnValue(redisClient)
+    jest.mocked(readFile).mockResolvedValue('[]')
     service = new FeatureFlagsService()
   })
 
