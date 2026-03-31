@@ -46,23 +46,30 @@ context('Knowledge verification', () => {
     cy.get('#prisoner-number').type('G1234BC')
   }
 
-  it('Should show error for future date of birth', () => {
-    cy.signIn()
-    cy.visit('/sign-up/verify')
-    Page.verifyOnPage(VerificationPage)
+  it(
+    'Should show error for future date of birth',
+    {
+      viewportHeight: 1200,
+    },
+    () => {
+      cy.signIn()
+      cy.visit('/sign-up/verify')
+      Page.verifyOnPage(VerificationPage)
 
-    const today = new Date()
+      const dob = new Date()
+      dob.setDate(dob.getDate() + 31)
 
-    cy.get('#first-name').type('John')
-    cy.get('#last-name').type('Smith')
-    cy.get('#dob-day').type(String(today.getDate() + 1))
-    cy.get('#dob-month').type(String(today.getMonth() + 1))
-    cy.get('#dob-year').type(String(today.getFullYear()))
-    cy.get('#prisoner-number').type('G1234BC')
-    cy.get('#submit').click()
-    cy.get('.govuk-error-summary').should('contain.text', 'The date of birth must be in the past')
-    cy.get('#dob-error').should('be.visible')
-  })
+      cy.get('#first-name').type('John')
+      cy.get('#last-name').type('Smith')
+      cy.get('#dob-day').type(String(dob.getDate()))
+      cy.get('#dob-month').type(String(dob.getMonth()))
+      cy.get('#dob-year').type(String(dob.getFullYear()))
+      cy.get('#prisoner-number').type('G1234BC')
+      cy.get('#submit').click()
+      cy.get('.govuk-error-summary').should('contain.text', 'The date of birth must be in the past')
+      cy.get('#dob-error').should('be.visible')
+    },
+  )
 
   it('Should show error when user not matched', () => {
     cy.signIn()
